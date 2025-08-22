@@ -27,7 +27,6 @@ type AuthResponse {
 type Ticket {
   id: ID!
   number: String!
-  raffleId: String
   status: String
 }
 

@@ -9,8 +9,5 @@ export class Ticket {
   number: string;
 
   @Field({ nullable: true })
-  raffleId?: string;
-
-  @Field({ nullable: true })
   status?: string;
 }

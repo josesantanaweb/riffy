@@ -50,7 +50,19 @@ export class RafflesService {
    * @returns La rifa creada
    */
   async create(data: CreateRaffleInput): Promise<Raffle> {
-    return await this.prisma.raffle.create({ data });
+    const { totalTickets } = data;
+    const raffle = await this.prisma.raffle.create({ data });
+
+    const maxLength = totalTickets.toString().length;
+
+    const tickets = Array.from({ length: totalTickets }, (_, i) => ({
+      number: `${i + 1}`.padStart(maxLength, '0'),
+      raffleId: raffle.id,
+    }));
+
+    await this.prisma.ticket.createMany({ data: tickets });
+
+    return raffle;
   }
 
   /**
