@@ -22,26 +22,16 @@ export class AuthService {
       {
         id: user.id,
         email: user.email,
-        username: user.username,
         name: user.name,
-        image: user.image,
       },
       { expiresIn: process.env.JWT_EXPIRES_IN },
-    );
-  }
-
-  private getRefreshToken(userId: string): string {
-    return this.jwtService.sign(
-      { id: userId },
-      { expiresIn: process.env.REFRESH_JWT_EXPIRES_IN },
     );
   }
 
   async register(input: RegisterInput): Promise<AuthResponse> {
     const user = await this.usersService.create(input);
     const accessToken = this.getAccessToken(user);
-    const refreshToken = this.getRefreshToken(user.id);
-    return { user, accessToken, refreshToken };
+    return { user, accessToken };
   }
 
   async login(input: LoginInput): Promise<AuthResponse> {
@@ -58,41 +48,13 @@ export class AuthService {
     }
 
     const accessToken = this.getAccessToken(user);
-    const refreshToken = this.getRefreshToken(user.id);
 
-    await this.usersService.update(user.id, {
-      refreshToken,
-    });
-
-    return { user, accessToken, refreshToken };
+    return { user, accessToken };
   }
 
   async validateUser(id: string): Promise<User> {
     const user = await this.usersService.findOne(id);
-    // if (!user.isActive)
-    //   throw new UnauthorizedException('El usuario no está activo');
     delete user.password;
     return user;
-  }
-
-  async refreshToken(id: string, refreshToken: string): Promise<AuthResponse> {
-    const user = await this.usersService.findOne(id);
-
-    if (!user || user.refreshToken !== refreshToken) {
-      throw new UnauthorizedException('Refresh token inválido');
-    }
-
-    const newAccessToken = this.getAccessToken(user);
-    const newRefreshToken = this.getRefreshToken(user.id);
-
-    await this.usersService.update(user.id, {
-      refreshToken: newRefreshToken,
-    });
-
-    return {
-      user,
-      accessToken: newAccessToken,
-      refreshToken: newRefreshToken,
-    };
   }
 }

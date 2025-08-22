@@ -1,17 +1,12 @@
 import { Role } from '@prisma/client';
-import { IsEmail, IsNumber, IsOptional, IsString } from 'class-validator';
+import { IsEmail, IsOptional, IsString } from 'class-validator';
 import { InputType, Field } from '@nestjs/graphql';
 
 @InputType()
 export class CreateUserInput {
-  @IsOptional()
   @IsString()
   @Field()
-  name?: string;
-
-  @IsString()
-  @Field()
-  username: string;
+  name: string;
 
   @IsString()
   @IsEmail()
@@ -25,15 +20,15 @@ export class CreateUserInput {
   @IsString()
   @IsOptional()
   @Field()
-  role?: Role;
+  phone?: string;
 
-  @IsOptional()
   @IsString()
-  @Field()
-  refreshToken?: string;
-
   @IsOptional()
-  @IsNumber()
   @Field()
-  balance?: number;
+  state?: string;
+
+  @IsString()
+  @IsOptional()
+  @Field()
+  role?: Role;
 }

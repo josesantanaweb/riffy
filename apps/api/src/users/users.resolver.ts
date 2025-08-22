@@ -12,32 +12,49 @@ import { UpdateUserInput } from './inputs/update-user.input';
 export class UsersResolver {
   constructor(private readonly usersService: UsersService) {}
 
+  /**
+   * Obtiene todos los usuarios registrados.
+   * Requiere autenticación y rol de usuario.
+   */
   @Roles(Role.User)
   @UseGuards(RolesGuard)
   @UseGuards(GqlAuthGuard)
   @Query(() => [User], { name: 'users' })
-  users() {
+  users(): Promise<User[]> {
     return this.usersService.findAll();
   }
 
+  /**
+   * Obtiene un usuario por su ID.
+   * @param id ID del usuario a buscar
+   */
   @Query(() => User, { name: 'user' })
-  user(@Args('id', { type: () => String }) id: string) {
+  user(@Args('id', { type: () => String }) id: string): Promise<User> {
     return this.usersService.findOne(id);
   }
 
+  /**
+   * Obtiene el perfil del usuario autenticado.
+   * @param context Contexto de la petición con el usuario autenticado
+   */
   @UseGuards(GqlAuthGuard)
   @Query(() => User, { name: 'profile' })
-  profile(@Context() context) {
+  profile(@Context() context: { req: { user: User } }): User {
     const user = context.req.user;
     return user;
   }
 
-  // @UseGuards(GqlAuthGuard)
+  /**
+   * Actualiza los datos de un usuario.
+   * @param id ID del usuario a actualizar
+   * @param input Datos nuevos para el usuario
+   */
+  @UseGuards(GqlAuthGuard)
   @Mutation(() => User, { name: 'updateUser' })
   update(
     @Args('id', { type: () => String }) id: string,
     @Args('input', { type: () => UpdateUserInput }) input: UpdateUserInput,
-  ) {
+  ): Promise<User> {
     return this.usersService.update(id, input);
   }
 }

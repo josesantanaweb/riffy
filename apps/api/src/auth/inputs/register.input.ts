@@ -13,5 +13,5 @@ export class RegisterInput {
 
   @Field(() => String)
   @IsNotEmpty()
-  username: string;
+  name: string;
 }

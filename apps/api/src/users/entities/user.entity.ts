@@ -5,29 +5,20 @@ export class User {
   @Field(() => ID)
   id: string;
 
-  @Field({ nullable: true })
-  name?: string;
-
   @Field()
-  username: string;
+  name?: string;
 
   @Field({ nullable: true })
   password?: string;
 
   @Field()
-  balance: number;
-
-  @Field()
-  raking: number;
-
-  @Field()
   email: string;
 
   @Field({ nullable: true })
-  image?: string;
+  phone?: string;
 
   @Field({ nullable: true })
-  refreshToken?: string;
+  state?: string;
 
   @Field({ nullable: true })
   role?: string;
