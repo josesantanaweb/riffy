@@ -1,0 +1,40 @@
+{
+  "games": [
+    {
+      "id": "1",
+      "name": "Bingo",
+      "logo": "/images/minigames/bingo/logo.png",
+      "colors": { "from": "#506E00", "to": "#A9E40B" }
+    },
+    {
+      "id": "2",
+      "name": "Limbo",
+      "logo": "/images/minigames/limbo/logo.png",
+      "colors": { "from": "#A40326", "to": "#FF2353" }
+    },
+    {
+      "id": "3",
+      "name": "Cara o Sello",
+      "logo": "/images/minigames/coinflip/logo.png",
+      "colors": { "from": "#5E0616", "to": "#D80027" }
+    },
+    {
+      "id": "4",
+      "name": "Slides",
+      "logo": "/images/minigames/slides/logo.png",
+      "colors": { "from": "#6FD0FF", "to": "#0091D7" }
+    },
+    {
+      "id": "5",
+      "name": "Minas",
+      "logo": "/images/minigames/mines/logo.svg",
+      "colors": { "from": "#FF9000", "to": "#FFB800" }
+    },
+    {
+      "id": "6",
+      "name": "Dice",
+      "logo": "/images/minigames/dice/logo.png",
+      "colors": { "from": "#FF9000", "to": "#FFB800" }
+    }
+  ]
+}

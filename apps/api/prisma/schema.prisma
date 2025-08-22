@@ -1,0 +1,76 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  name      String
+  phone     String
+  state     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  role   Role     @default(USER)
+  raffle Raffle[]
+}
+
+model Raffle {
+  id             String   @id @default(cuid())
+  title          String
+  description    String?
+  banner         String?
+  logo           String?
+  primaryColor   String?
+  secondaryColor String?
+  totalTickets   Int
+  price          Float
+  drawDate       DateTime
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  ownerId String
+  owner   User     @relation(fields: [ownerId], references: [id])
+  tickets Ticket[]
+}
+
+model Ticket {
+  id     String       @id @default(cuid())
+  number Int
+  status TicketStatus @default(AVAILABLE)
+
+  raffleId       String
+  raffle         Raffle           @relation(fields: [raffleId], references: [id])
+  ticketPurchase TicketPurchase[]
+}
+
+model TicketPurchase {
+  id        String   @id @default(cuid())
+  buyerName String
+  buyerId   String
+  phone     String
+  state      String
+  proofUrl  String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  ticketId String
+  ticket   Ticket @relation(fields: [ticketId], references: [id])
+}
+
+enum TicketStatus {
+  AVAILABLE
+  RESERVED
+  SOLD
+}
+
+enum Role {
+  ADMIN
+  USER
+}
