@@ -24,6 +24,13 @@ type AuthResponse {
   user: User!
 }
 
+type Ticket {
+  id: ID!
+  number: String!
+  raffleId: String
+  status: String
+}
+
 type Raffle {
   id: ID!
   title: String!
@@ -37,6 +44,7 @@ type Raffle {
   drawDate: DateTime
   createdAt: DateTime
   updatedAt: DateTime
+  tickets: [Ticket!]
 }
 
 type Query {
@@ -45,6 +53,8 @@ type Query {
   profile: User!
   raffles: [Raffle!]!
   raffle(id: String!): Raffle!
+  tickets: [Ticket!]!
+  ticket(id: String!): Ticket!
 }
 
 type Mutation {
@@ -56,15 +66,18 @@ type Mutation {
   createRaffle(input: CreateRaffleInput!): Raffle!
   updateRaffle(id: String!, input: UpdateRaffleInput!): Raffle!
   deleteRaffle(id: String!): Raffle!
+  createTicket(input: CreateTicketInput!): Ticket!
+  updateTicket(id: String!, input: UpdateTicketInput!): Ticket!
+  deleteTicket(id: String!): Ticket!
 }
 
 input CreateUserInput {
   name: String!
   email: String!
   password: String!
-  phone: String!
-  state: String!
-  role: String!
+  phone: String
+  state: String
+  role: String
 }
 
 input UpdateUserInput {
@@ -94,8 +107,8 @@ input CreateRaffleInput {
   logo: String!
   primaryColor: String!
   secondaryColor: String
-  totalTickets: Float!
-  price: Float!
+  totalTickets: Int!
+  price: Int!
   drawDate: DateTime!
   ownerId: String!
 }
@@ -107,8 +120,18 @@ input UpdateRaffleInput {
   logo: String
   primaryColor: String
   secondaryColor: String
-  totalTickets: Float
-  price: Float
+  totalTickets: Int
+  price: Int
   drawDate: DateTime
   ownerId: String
+}
+
+input CreateTicketInput {
+  number: String!
+  raffleId: String!
+}
+
+input UpdateTicketInput {
+  number: String
+  raffleId: String
 }

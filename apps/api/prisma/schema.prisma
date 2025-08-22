@@ -42,7 +42,7 @@ model Raffle {
 
 model Ticket {
   id     String       @id @default(cuid())
-  number Int
+  number String
   status TicketStatus @default(AVAILABLE)
 
   raffleId       String

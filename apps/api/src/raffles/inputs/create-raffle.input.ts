@@ -1,40 +1,40 @@
 import { IsDate, IsInt, IsOptional, IsString } from 'class-validator';
-import { InputType, Field } from '@nestjs/graphql';
+import { InputType, Field, Int } from '@nestjs/graphql';
 
 @InputType()
 export class CreateRaffleInput {
   @IsString()
-  @Field()
+  @Field(() => String)
   title: string;
 
   @IsOptional()
   @IsString()
-  @Field({ nullable: true })
+  @Field(() => String, { nullable: true })
   description?: string;
 
   @IsString()
-  @Field()
+  @Field(() => String)
   banner: string;
 
   @IsString()
-  @Field()
+  @Field(() => String)
   logo: string;
 
   @IsString()
-  @Field()
+  @Field(() => String)
   primaryColor: string;
 
   @IsOptional()
   @IsString()
-  @Field({ nullable: true })
+  @Field(() => String, { nullable: true })
   secondaryColor?: string;
 
   @IsInt()
-  @Field()
+  @Field(() => Int)
   totalTickets: number;
 
   @IsInt()
-  @Field()
+  @Field(() => Int)
   price: number;
 
   @Field()

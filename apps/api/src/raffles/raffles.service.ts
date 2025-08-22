@@ -13,7 +13,11 @@ export class RafflesService {
    * @returns Arreglo de rifas
    */
   async findAll(): Promise<Raffle[]> {
-    const raffles = await this.prisma.raffle.findMany();
+    const raffles = await this.prisma.raffle.findMany({
+      include: {
+        tickets: true,
+      },
+    });
     return raffles;
   }
 
@@ -27,6 +31,9 @@ export class RafflesService {
     const raffle = await this.prisma.raffle.findUnique({
       where: {
         id,
+      },
+      include: {
+        tickets: true,
       },
     });
 
