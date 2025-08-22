@@ -25,13 +25,13 @@ model Raffle {
   id             String   @id @default(cuid())
   title          String
   description    String?
-  banner         String?
-  logo           String?
-  primaryColor   String?
+  banner         String
+  logo           String
+  primaryColor   String   @default("00D4FF")
   secondaryColor String?
-  totalTickets   Int
+  totalTickets   Int      @default(100)
   price          Float
-  drawDate       DateTime
+  drawDate       DateTime @default(dbgenerated("(now() + interval '15 days')"))
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
 
@@ -55,7 +55,7 @@ model TicketPurchase {
   buyerName String
   buyerId   String
   phone     String
-  state      String
+  state     String
   proofUrl  String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

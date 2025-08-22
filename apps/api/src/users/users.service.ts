@@ -81,4 +81,19 @@ export class UsersService {
       data,
     });
   }
+
+  /**
+   * Elimina los datos de un usuario existente.
+   * @param id ID del usuario a eliminar
+   * @returns El usuario eliminado
+   */
+  async delete(id: string): Promise<User> {
+    const user = await this.findOne(id);
+    await this.prisma.user.delete({
+      where: {
+        id,
+      },
+    });
+    return user;
+  }
 }

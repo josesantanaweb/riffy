@@ -4,14 +4,11 @@
 
 type User {
   id: ID!
-  name: String
-  username: String!
+  name: String!
   password: String
-  balance: Float!
-  raking: Float!
   email: String!
-  image: String
-  refreshToken: String
+  phone: String
+  state: String
   role: String
   createdAt: DateTime
   updatedAt: DateTime
@@ -22,181 +19,67 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
-type Card {
-  id: ID!
-  number: Float!
-  numbers: JSON!
-  status: Boolean!
-  createdAt: DateTime
-  updatedAt: DateTime
-}
-
-"""
-The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
-"""
-scalar JSON
-
-type Room {
-  id: ID!
-  name: String!
-  award: Float!
-  price: Float!
-  status: Boolean!
-  drawnNumbers: JSON!
-  time: DateTime!
-  createdAt: DateTime
-  updatedAt: DateTime
-  winnerUser: User
-  winnerCard: Card
-  users: [User!]!
-  cards: [Card!]!
-  userCards(userId: String!): [Card!]!
-}
-
-type RoomStarted {
-  roomId: String!
-  message: String!
-}
-
-type RoomWinner {
-  roomId: String!
-  winnerUser: User!
-  winnerCard: Card!
-}
-
 type AuthResponse {
   accessToken: String!
-  refreshToken: String!
   user: User!
 }
 
-type Team {
+type Raffle {
   id: ID!
-  name: String!
+  title: String!
+  description: String
+  banner: String!
   logo: String!
-  status: Boolean
+  primaryColor: String!
+  secondaryColor: String
+  totalTickets: Float!
+  price: Float!
+  drawDate: DateTime
   createdAt: DateTime
   updatedAt: DateTime
-}
-
-type League {
-  id: ID!
-  name: String!
-  country: String!
-  logo: String!
-  status: Boolean
-  createdAt: DateTime
-  updatedAt: DateTime
-  teams: [Team!]
-}
-
-type Match {
-  id: ID!
-  name: String!
-  dateAt: DateTime!
-  totalAmount: Float!
-  isLive: Boolean
-  status: Boolean
-  createdAt: DateTime
-  updatedAt: DateTime
-  homeTeam: Team!
-  awayTeam: Team!
-  league: League!
-}
-
-type MarketOption {
-  id: ID!
-  name: String!
-  odds: Float!
-  totalAmount: Float!
-}
-
-type MarketType {
-  id: ID!
-  name: String!
-  description: String!
-  icon: String!
-  status: Boolean!
-}
-
-type Market {
-  id: ID!
-  matchId: String!
-  createdAt: DateTime
-  updatedAt: DateTime
-  marketType: MarketType
-  marketOptions: [MarketOption!]
-}
-
-type Bet {
-  id: ID!
-  amount: Float!
-  odds: Float!
-  status: String!
-  createdAt: DateTime
-  updatedAt: DateTime
-  market: Market
-  match: Match
-  marketOption: MarketOption!
 }
 
 type Query {
   users: [User!]!
   user(id: String!): User!
   profile: User!
-  rooms: [Room!]!
-  room(id: String!): Room!
-  cards: [Card!]!
-  card(id: String!): Card!
-  refreshToken(id: String!, refreshToken: String!): AuthResponse!
-  leagues: [League!]!
-  teams: [Team!]!
-  matches: [Match!]!
-  bets: [Bet!]!
-  markets: [Market!]!
-  marketOptions: [MarketOption!]!
+  raffles: [Raffle!]!
+  raffle(id: String!): Raffle!
 }
 
 type Mutation {
+  createUser(input: CreateUserInput!): User!
   updateUser(id: String!, input: UpdateUserInput!): User!
-  createRoom(input: CreateRoomInput!): Room!
-  addUserToRoom(input: AddUserToRoomInput!): String!
-  announceNumber(roomId: String!): Float
-  createCard: Card!
+  deleteUser(id: String!): User!
   register(input: RegisterInput!): AuthResponse!
   login(input: LoginInput!): AuthResponse!
-  logout(id: String!): Boolean!
-  createBet(input: CreateBetInput!): Bet!
-  executeSeed: Boolean!
+  createRaffle(input: CreateRaffleInput!): Raffle!
+  updateRaffle(id: String!, input: UpdateRaffleInput!): Raffle!
+  deleteRaffle(id: String!): Raffle!
+}
+
+input CreateUserInput {
+  name: String!
+  email: String!
+  password: String!
+  phone: String!
+  state: String!
+  role: String!
 }
 
 input UpdateUserInput {
   name: String
-  username: String
   email: String
   password: String
+  phone: String
+  state: String
   role: String
-  refreshToken: String
-  balance: Float
-}
-
-input CreateRoomInput {
-  name: String!
-  award: Int!
-  status: Boolean
-  price: Int!
-}
-
-input AddUserToRoomInput {
-  userId: String!
-  roomId: String!
-  numberOfCards: Int!
 }
 
 input RegisterInput {
   email: String!
   password: String!
-  username: String!
+  name: String!
 }
 
 input LoginInput {
@@ -204,17 +87,28 @@ input LoginInput {
   password: String!
 }
 
-input CreateBetInput {
-  amount: Int!
-  odds: Int!
-  userId: String!
-  matchId: String!
-  marketId: String!
-  marketOptionId: String!
+input CreateRaffleInput {
+  title: String!
+  description: String
+  banner: String!
+  logo: String!
+  primaryColor: String!
+  secondaryColor: String
+  totalTickets: Float!
+  price: Float!
+  drawDate: DateTime!
+  ownerId: String!
 }
 
-type Subscription {
-  announceNumber: Float!
-  roomStarted(roomId: String!): RoomStarted!
-  roomWinner(roomId: String!): RoomWinner!
+input UpdateRaffleInput {
+  title: String
+  description: String
+  banner: String
+  logo: String
+  primaryColor: String
+  secondaryColor: String
+  totalTickets: Float
+  price: Float
+  drawDate: DateTime
+  ownerId: String
 }
