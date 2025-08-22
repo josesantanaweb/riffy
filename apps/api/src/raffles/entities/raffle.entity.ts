@@ -30,6 +30,15 @@ export class Raffle {
   @Field()
   price: number;
 
+  @Field({ nullable: true })
+  available?: number;
+
+  @Field({ nullable: true })
+  sold?: number;
+
+  @Field({ nullable: true })
+  progress?: number;
+
   @Field(() => GraphQLISODateTime, { nullable: true })
   drawDate?: Date;
 

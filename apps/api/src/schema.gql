@@ -40,6 +40,9 @@ type Raffle {
   secondaryColor: String
   totalTickets: Float!
   price: Float!
+  available: Float
+  sold: Float
+  progress: Float
   drawDate: DateTime
   createdAt: DateTime
   updatedAt: DateTime
