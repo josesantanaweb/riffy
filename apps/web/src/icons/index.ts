@@ -4,6 +4,8 @@
 export { IconArrowBack } from "./IconArrowBack";
 export { IconCalendar } from "./IconCalendar";
 export { IconChevronDown } from "./IconChevronDown";
+export { IconChevronLeft } from "./IconChevronLeft";
+export { IconChevronRight } from "./IconChevronRight";
 export { IconCopy } from "./IconCopy";
 export { IconFilter } from "./IconFilter";
 export { IconGift } from "./IconGift";
