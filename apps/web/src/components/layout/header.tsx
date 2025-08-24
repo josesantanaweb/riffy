@@ -3,7 +3,7 @@ import Image from 'next/image';
 export const Header = () => {
   return (
     <header className="bg-[#06090E] w-screen px-4 h-20 flex items-center justify-center">
-      <div className="flex justify-between items-center h-full w-full max-w-[500px]">
+      <div className="flex justify-between items-center h-full w-full max-w-[440px]">
         <Image
           src="/static/images/riffy.svg"
           alt="Riffy"

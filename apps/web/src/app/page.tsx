@@ -1,8 +1,15 @@
+'use client';
 import Image from 'next/image';
-import { IconCalendar, IconFilter } from '@/icons';
+import { IconCalendar, IconFilter, IconGift, IconSearch } from '@/icons';
 import TicketGrid from '@/components/TicketGrid';
+import { Button } from '@/components/ui/button';
+import { useRouter } from 'next/navigation';
 
 export default function Home() {
+  const router = useRouter();
+  const handleNext = () => {
+    router.push('/pay');
+  };
   return (
     <div className="h-full w-full">
       <Image
@@ -15,7 +22,7 @@ export default function Home() {
         className="w-full max-h-[400px] max-w-[440px] mx-auto"
       />
       <div className="w-full max-w-[440px] flex flex-col items-center gap-4 px-4 py-4 mx-auto">
-        <div className="text-white font-bold text-[22px] w-full">
+        <div className="text-white font-bold text-[22px] w-full border-b border-tertiary-1 mb-2 pb-4">
           Rifa del dia del padre
         </div>
         <div className="bg-gradient-to-r from-primary-1/10 to-primary-2/10 w-full h-[50px] rounded-[10px] flex items-center gap-2 text-primary-1 text-sm font-medium px-4">
@@ -64,6 +71,23 @@ export default function Home() {
         </div>
         {/* Ticket Grid with Pagination */}
         <TicketGrid />
+        <div className="flex items-center justify-between gap-2 w-full">
+          <div className="flex items-center gap-2 text-white text-base font-medium">
+            <IconGift size={20} />
+            Ver Premios
+          </div>
+          <div className="flex items-center gap-2 text-white text-base font-medium">
+            <IconSearch size={20} />
+            Mis Boletos
+          </div>
+        </div>
+        <Button
+          variant="filled"
+          size="md"
+          className="w-full !mb-14"
+          label="Siguiente"
+          onClick={handleNext}
+        />
       </div>
     </div>
   );

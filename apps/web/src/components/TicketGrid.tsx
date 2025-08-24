@@ -1,6 +1,6 @@
 'use client';
 import React, { useMemo, useState } from 'react';
-import { Button } from '@/components/ui/button';
+import { IconChevronLeft, IconChevronRight } from '@/icons';
 
 type TicketStatus = 'available' | 'sold out' | 'selected';
 
@@ -88,20 +88,20 @@ export default function TicketGrid() {
           {selected.size} Tickets seleccionados
         </span>
         <div className="flex gap-2">
-          <Button
-            // className="bg-gray-800 text-white rounded-md px-2 py-1 disabled:opacity-50"
+          <button
+            className="bg-tertiary-1 text-white rounded-[5px] px-3 py-2 disabled:opacity-50"
             onClick={() => setPage(p => Math.max(0, p - 1))}
             disabled={page === 0}
           >
-            &#60;
-          </Button>
-          <Button
-            // className="bg-gray-800 text-white rounded-md px-2 py-1 disabled:opacity-50"
+            <IconChevronLeft size={16} />
+          </button>
+          <button
+            className="bg-tertiary-1 text-white rounded-[5px] px-2 py-1 disabled:opacity-50"
             onClick={() => setPage(p => Math.min(pageCount - 1, p + 1))}
             disabled={page === pageCount - 1}
           >
-            &#62;
-          </Button>
+            <IconChevronRight size={16} />
+          </button>
         </div>
       </div>
     </div>
