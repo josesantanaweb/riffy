@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
 import type { ReactElement } from 'react';
-import Icon from '@/components/common/icon';
+import { Icon } from '@riffy/components';
 
 const NavNotification = (): ReactElement => {
   return (

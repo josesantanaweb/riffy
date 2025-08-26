@@ -5,7 +5,7 @@ import clsx from 'clsx';
 import { Tooltip } from 'react-tooltip';
 
 import SidebarSubmenu from './SidebarSubmenu';
-import Icon from '../icon';
+import { Icon } from '@riffy/components';
 import { Item } from './types';
 
 interface SidebarItemProps {

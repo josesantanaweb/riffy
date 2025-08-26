@@ -1,11 +1,11 @@
 'use client';
 import React from 'react';
 import type { ReactElement } from 'react';
-import Icon from '@/components/common/icon';
-import { useStore } from '@/store';
+import { Icon } from '@riffy/components';
 import NavUser from '../nav-user';
 import NavNotification from '../nav-notifications';
 import NavBrand from '../nav-brand';
+import { useStore } from '@/store';
 
 const Navbar = (): ReactElement => {
   const { setCollapseSidebar, collapseSidebar } = useStore();
