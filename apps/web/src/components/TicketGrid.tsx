@@ -1,6 +1,6 @@
 'use client';
 import React, { useMemo, useState } from 'react';
-import { IconChevronLeft, IconChevronRight } from '@/icons';
+import { IconChevronLeft, IconChevronRight, IconFilter } from '@/icons';
 
 type TicketStatus = 'available' | 'sold out' | 'selected';
 
@@ -65,6 +65,17 @@ export default function TicketGrid() {
 
   return (
     <div className="w-full flex flex-col items-center">
+      <div className="flex items-center gap-2 justify-between w-full">
+        <div className="text-white font-semibold text-sm">
+          Filtra por: <span className="text-gray-2">Todos</span>
+        </div>
+        <div className="text-success-1 font-medium text-sm flex items-center gap-2">
+          Ordenar por:{' '}
+          <span className="text-gray-2">
+            <IconFilter size={20} />
+          </span>
+        </div>
+      </div>
       <div className="grid grid-cols-6 gap-2 w-full mb-2">
         {pageTickets.map(ticket => (
           <div

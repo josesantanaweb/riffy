@@ -2,11 +2,14 @@
 import Image from 'next/image';
 import { IconCalendar, IconFilter, IconGift, IconSearch } from '@/icons';
 import TicketGrid from '@/components/TicketGrid';
+import TicketSelector from '@/components/TicketSelector';
 import { Button } from '@/components/ui/button';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 
 export default function Home() {
   const router = useRouter();
+  const [isSelectedTicket, setIsSelectedTicket] = useState(false);
   const handleNext = () => {
     router.push('/pay');
   };
@@ -21,7 +24,7 @@ export default function Home() {
         objectFit="cover"
         className="w-full max-h-[400px] max-w-[440px] mx-auto"
       />
-      <div className="w-full max-w-[440px] flex flex-col items-center gap-4 px-4 py-4 mx-auto">
+      <div className="w-full max-w-[440px] flex flex-col items-center gap-5 px-4 py-4 mx-auto">
         <div className="text-white font-bold text-[22px] w-full border-b border-tertiary-1 mb-2 pb-4">
           Rifa del dia del padre
         </div>
@@ -42,7 +45,7 @@ export default function Home() {
             <div className="h-6 w-6 rounded-full bg-primary-1 absolute -translate-y-1/2 top-1/2 right-0"></div>
           </div>
         </div>
-        <div className="flex items-center gap-2 justify-between w-full">
+        <div className="flex items-center gap-2 justify-between w-full mt-4">
           <div className="flex flex-col gap-2">
             <div className="text-white font-semibold text-base">
               Lista de Tickets
@@ -51,27 +54,15 @@ export default function Home() {
               Numeros en gris no disponibles
             </div>
           </div>
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col items-end gap-2">
             <div className="text-white font-semibold text-base">
               Precio del ticket
             </div>
-            <div className="text-gray-2 font-bold text-sm">BS 100,00</div>
+            <div className="text-primary-1 font-bold text-sm">BS 100,00</div>
           </div>
         </div>
-        <div className="flex items-center gap-2 justify-between w-full">
-          <div className="text-white font-semibold text-sm">
-            Filtra por: <span className="text-gray-2">Todos</span>
-          </div>
-          <div className="text-success-1 font-medium text-sm flex items-center gap-2">
-            Ordenar por:{' '}
-            <span className="text-gray-2">
-              <IconFilter size={20} />
-            </span>
-          </div>
-        </div>
-        {/* Ticket Grid with Pagination */}
-        <TicketGrid />
-        <div className="flex items-center justify-between gap-2 w-full">
+        {isSelectedTicket ? <TicketGrid /> : <TicketSelector />}
+        <div className="flex items-center justify-between gap-2 w-full my-4">
           <div className="flex items-center gap-2 text-white text-base font-medium">
             <IconGift size={20} />
             Ver Premios
