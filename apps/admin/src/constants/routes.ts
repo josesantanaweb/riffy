@@ -4,17 +4,28 @@ export const ROUTES = {
   REGISTER: '/register',
   RAFFLES: '/raffles',
   CUSTOMERS: '/customers',
+  TICKETS: '/tickets',
 };
 
 export const MENU = [
   {
+    label: 'Dashboard',
+    icon: 'home',
+    path: ROUTES.HOME,
+  },
+  {
     label: 'Rifas',
-    icon: 'soccer',
+    icon: 'gift',
     path: ROUTES.RAFFLES,
   },
   {
     label: 'Clientes',
-    icon: 'soccer',
+    icon: 'user',
     path: ROUTES.CUSTOMERS,
+  },
+  {
+    label: 'Boletos',
+    icon: 'ticket',
+    path: ROUTES.TICKETS,
   },
 ] ;

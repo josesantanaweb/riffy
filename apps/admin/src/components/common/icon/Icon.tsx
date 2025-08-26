@@ -1,8 +1,9 @@
 'use client';
 import React from 'react';
 import type { ReactElement } from 'react';
+import { cn } from '@/utils/cn';
 
-type IconName =
+export type IconName =
   | 'credit-card'
   | 'menu'
   | 'chevron-down'
@@ -22,13 +23,11 @@ interface IconProps {
   className?: string;
   name: IconName;
   onClick?: () => void;
-  size?: 'small' | 'medium' | 'large';
 }
 
-const Icon = ({ className, name, onClick, size = "large" }: IconProps): ReactElement => {
-
-  const sizeClass = size === 'small' ? 'text-xs' : size === 'large' ? 'text-lg' : 'text-sm';
-  return <span className={`icon-${name} ${className} cursor-pointer ${sizeClass}`} onClick={onClick} />;
+const Icon = ({ className, name, onClick }: IconProps): ReactElement => {
+  const iconClass = cn(`icon-${name}`, 'cursor-pointer text-lg', className);
+  return <span className={iconClass} onClick={onClick} />;
 };
 
 export default Icon;

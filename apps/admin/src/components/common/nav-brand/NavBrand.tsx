@@ -3,14 +3,15 @@ import React from 'react';
 import Image from 'next/image';
 import type { ReactElement } from 'react';
 import { clsx } from 'clsx';
-import { useStore } from '@/store';
+import { ASSETS } from '@/constants';
 
 interface NavBrandProps {
   collapseSidebar: boolean;
 }
 
 const NavBrand = ({ collapseSidebar }: NavBrandProps): ReactElement => {
-  const collapseClass = collapseSidebar ? 'max-w-[80px]' : 'max-w-[260px]';
+  const collapseClass = collapseSidebar ? 'max-w-[80px]' : 'max-w-[230px]';
+  const logoSrc = collapseSidebar ? ASSETS.IMAGES.LOGO_SMALL : ASSETS.IMAGES.LOGO;
 
   return (
     <div
@@ -20,7 +21,7 @@ const NavBrand = ({ collapseSidebar }: NavBrandProps): ReactElement => {
       )}
     >
       <Image
-        src={`/images/${collapseSidebar ? 'logo-small' : 'logo'}.svg`}
+        src={logoSrc}
         alt="logo"
         width={117}
         height={30}

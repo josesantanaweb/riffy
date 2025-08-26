@@ -2,13 +2,13 @@
 import React, { useState } from 'react';
 import clsx from 'clsx';
 
-import { ROUTES } from '@/constants/routes';
+import { MENU } from '@/constants/routes';
 import { useStore } from '@/store';
 import SidebarItem from './SidebarItem';
+import { IconName } from '../icon';
 
-const Sidebar = () => {
+const Sidebar: React.FC = () => {
   const { collapseSidebar } = useStore();
-
   const [openDropdowns, setOpenDropdowns] = useState<Set<string>>(new Set());
 
   const toggleDropdown = (label: string) => {
@@ -23,23 +23,26 @@ const Sidebar = () => {
     });
   };
 
-  const collapseClass = collapseSidebar ? 'max-w-[80px]' : 'max-w-[260px]';
+  const sidebarClasses = clsx(
+    'w-full bg-base-700 h-screen transition-all pt-10',
+    collapseSidebar ? 'max-w-[80px]' : 'max-w-[230px]',
+  );
 
   return (
-    <div
-      className={clsx(
-        'w-full bg-base-700 h-screen transition-all',
-        collapseClass,
-      )}
-    >
-      <div className="flex flex-col py-6 justify-center items-center">
-        <span className="mb-2 px-4 h-20 uppercase text-sm text-base-300 font-medium text-left w-full">Menu</span>
+    <div className={sidebarClasses}>
+      <div className="flex flex-col justify-center items-center">
+        {!collapseSidebar && (
+          <span className="mb-2 px-4 uppercase text-sm text-base-300 font-medium text-left w-full">
+            Menu
+          </span>
+        )}
+
         <div className="flex flex-col w-full items-center">
-          {Object.values(ROUTES).map((item: any) => (
+          {MENU.map(item => (
             <SidebarItem
-              key={item.label || item.ROOT || item}
-              item={item}
-              isOpen={openDropdowns.has(item.label || item.ROOT || item)}
+              key={item.label}
+              item={{ ...item, icon: item.icon as IconName }}
+              isOpen={openDropdowns.has(item.label)}
               toggleDropdown={toggleDropdown}
               isCollapse={collapseSidebar}
             />
