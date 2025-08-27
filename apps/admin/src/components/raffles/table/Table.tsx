@@ -5,6 +5,7 @@ import {
   getCoreRowModel,
   flexRender,
   ColumnDef,
+  getPaginationRowModel,
 } from '@tanstack/react-table';
 
 import {
@@ -15,7 +16,7 @@ import {
   mapStatusToStatusType,
   mapStatusToLabel,
 } from '../utils';
-import { Badge, Checkbox, Button, Icon, Input } from '@riffy/components';
+import { Badge, Checkbox, Button, Icon, Input, Select } from '@riffy/components';
 import MediaDisplay from '@/components/common/media-display';
 import ActionMenu from '@/components/common/action-menu';
 
@@ -101,9 +102,17 @@ const data: Raffles[] = [
   },
 ];
 
+const pageSizeOptions = [
+  { value: '1', label: '1' },
+  { value: '20', label: '20' },
+  { value: '50', label: '50' },
+  { value: '100', label: '100' },
+];
+
 const Table = () => {
   const [selected, setSelected] = useState<Set<string>>(new Set());
   const [openMenuId, setOpenMenuId] = useState<string | null>(null);
+  const [pageSize, setPageSize] = useState<number>(20);
 
   const toggleMenu = (id: string) => {
     setOpenMenuId(openMenuId === id ? null : id);
@@ -121,6 +130,10 @@ const Table = () => {
   const handleDelete = (row: Raffles) => {
     alert(`Eliminar ${row.id}`);
     closeMenu();
+  };
+
+  const handlePageSizeChange = (value: number) => {
+    setPageSize(value);
   };
 
   useEffect(() => {
@@ -201,6 +214,22 @@ const Table = () => {
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    state: {
+      pagination: {
+        pageSize: pageSize,
+        pageIndex: 0,
+      },
+    },
+    onPaginationChange: updater => {
+      if (typeof updater === 'function') {
+        const newState = updater({
+          pageSize: pageSize,
+          pageIndex: 0,
+        });
+        setPageSize(newState.pageSize);
+      }
+    },
   });
 
   const handleSelectAll = (checked: boolean) => {
@@ -231,13 +260,23 @@ const Table = () => {
   return (
     <div className="flex flex-col gap-6">
       <div className="flex items-center justify-between">
-        <div className="w-[240px]">
-          <Input
-            icon="search"
-            iconPosition="left"
-            placeholder="Buscar"
-            inputSize="md"
-          />
+        <div className="flex items-center gap-3">
+          <div className="w-[130px]">
+            <Select
+              options={pageSizeOptions}
+              value={pageSize}
+              onChange={handlePageSizeChange}
+              size="md"
+            />
+          </div>
+          <div className="w-[240px]">
+            <Input
+              icon="search"
+              iconPosition="left"
+              placeholder="Buscar"
+              inputSize="md"
+            />
+          </div>
         </div>
         <div className="flex items-center gap-3">
           {selected.size > 0 && (
@@ -299,13 +338,33 @@ const Table = () => {
         </tbody>
       </table>
       <div className="flex w-full justify-between items-center">
-        <p className="text-white text-sm">Mostrando 10 de 26 Resultados</p>
+        <p className="text-white text-sm">
+          Mostrando{' '}
+          {table.getState().pagination.pageIndex *
+            table.getState().pagination.pageSize +
+            1}{' '}
+          a{' '}
+          {Math.min(
+            (table.getState().pagination.pageIndex + 1) *
+              table.getState().pagination.pageSize,
+            table.getFilteredRowModel().rows.length,
+          )}{' '}
+          de {table.getFilteredRowModel().rows.length} Resultados
+        </p>
         <div className="flex items-center gap-3">
-          <button className="text-base-200 bg-base-600 w-9 h-9 rounded-lg flex items-center justify-center text-sm">
-            1
+          <button
+            className="text-base-200 bg-base-600 w-9 h-9 rounded-lg flex items-center justify-center text-sm disabled:opacity-50 disabled:cursor-not-allowed"
+            disabled={!table.getCanPreviousPage()}
+            onClick={() => table.previousPage()}
+          >
+            <Icon name="chevron-down" className="rotate-90 text-sm" />
           </button>
-          <button className="text-base-200 bg-base-600 w-9 h-9 rounded-lg flex items-center justify-center text-sm">
-            2
+          <button
+            className="text-base-200 bg-base-600 w-9 h-9 rounded-lg flex items-center justify-center text-sm disabled:opacity-50 disabled:cursor-not-allowed"
+            disabled={!table.getCanNextPage()}
+            onClick={() => table.nextPage()}
+          >
+            <Icon name="chevron-down" className="-rotate-90 text-sm" />
           </button>
         </div>
       </div>
