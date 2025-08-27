@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   useReactTable,
   getCoreRowModel,
@@ -17,6 +17,7 @@ import {
 } from '../utils';
 import { Badge, Checkbox, Button, Icon } from '@riffy/components';
 import MediaDisplay from '@/components/common/media-display';
+import ActionMenu from '@/components/common/action-menu';
 
 type Raffles = {
   id: string;
@@ -100,79 +101,102 @@ const data: Raffles[] = [
   },
 ];
 
-const handleEdit = (row: Raffles) => {
-  alert(`Editar ${row.id}`);
-};
-
-const handleDelete = (row: Raffles) => {
-  alert(`Eliminar ${row.id}`);
-};
-
-const columns: ColumnDef<Raffles>[] = [
-  createColumn('id', 'ID'),
-  {
-    accessorKey: 'title',
-    header: 'Titulo',
-    cell: info => {
-      const row = info.row.original;
-      return <MediaDisplay label={row.title} image={row.image} />;
-    },
-    meta: {
-      className: TABLE_CLASSES.cell,
-      headerClassName: TABLE_CLASSES.header,
-    },
-  },
-  {
-    accessorKey: 'customer',
-    header: 'Cliente',
-    cell: info => {
-      const customer = info.getValue() as { name: string; image: string };
-      return <MediaDisplay label={customer.name} image={customer.image} />;
-    },
-    meta: {
-      className: TABLE_CLASSES.cell,
-      headerClassName: TABLE_CLASSES.header,
-    },
-  },
-  createCurrencyColumn('award', 'Premio'),
-  createCurrencyColumn('price', 'Precio'),
-  createDateColumn('date', 'Fecha del sorteo'),
-  {
-    accessorKey: 'status',
-    header: 'Estado',
-    cell: info => (
-      <Badge
-        status={mapStatusToStatusType(info.getValue() as string)}
-        label={mapStatusToLabel(info.getValue() as string)}
-      />
-    ),
-    meta: {
-      className: TABLE_CLASSES.cell,
-      headerClassName: TABLE_CLASSES.header,
-    },
-  },
-  {
-    id: 'actions',
-    header: 'Acciones',
-    cell: ({ row }) => (
-      <div className="flex gap-2">
-        <button onClick={() => handleEdit(row.original)}>
-          <span className="text-base-300 hover:text-primary-600">Editar</span>
-        </button>
-        <button onClick={() => handleDelete(row.original)}>
-          <span className="text-base-300 hover:text-red-500">Eliminar</span>
-        </button>
-      </div>
-    ),
-    meta: {
-      className: TABLE_CLASSES.actionsCell,
-      headerClassName: TABLE_CLASSES.header,
-    },
-  },
-];
-
 const Table = () => {
   const [selected, setSelected] = useState<Set<string>>(new Set());
+  const [openMenuId, setOpenMenuId] = useState<string | null>(null);
+
+
+  const toggleMenu = (id: string) => {
+    setOpenMenuId(openMenuId === id ? null : id);
+  };
+
+  const closeMenu = () => {
+    setOpenMenuId(null);
+  };
+
+  const handleEdit = (row: Raffles) => {
+    alert(`Editar ${row.id}`);
+    closeMenu()
+  };
+
+  const handleDelete = (row: Raffles) => {
+    alert(`Eliminar ${row.id}`);
+    closeMenu()
+  };
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (openMenuId && !(event.target as Element).closest('.menu-container')) {
+        closeMenu();
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [openMenuId]);
+
+  const columns: ColumnDef<Raffles>[] = [
+    createColumn('id', 'ID'),
+    {
+      accessorKey: 'title',
+      header: 'Titulo',
+      cell: info => {
+        const row = info.row.original;
+        return <MediaDisplay label={row.title} image={row.image} />;
+      },
+      meta: {
+        className: TABLE_CLASSES.cell,
+        headerClassName: TABLE_CLASSES.header,
+      },
+    },
+    {
+      accessorKey: 'customer',
+      header: 'Cliente',
+      cell: info => {
+        const customer = info.getValue() as { name: string; image: string };
+        return <MediaDisplay label={customer.name} image={customer.image} />;
+      },
+      meta: {
+        className: TABLE_CLASSES.cell,
+        headerClassName: TABLE_CLASSES.header,
+      },
+    },
+    createCurrencyColumn('award', 'Premio'),
+    createCurrencyColumn('price', 'Precio'),
+    createDateColumn('date', 'Fecha del sorteo'),
+    {
+      accessorKey: 'status',
+      header: 'Estado',
+      cell: info => (
+        <Badge
+          status={mapStatusToStatusType(info.getValue() as string)}
+          label={mapStatusToLabel(info.getValue() as string)}
+        />
+      ),
+      meta: {
+        className: TABLE_CLASSES.cell,
+        headerClassName: TABLE_CLASSES.header,
+      },
+    },
+    {
+      id: 'actions',
+      header: 'Acciones',
+      cell: ({ row }) => (
+        <div className="w-full relative menu-container">
+          <ActionMenu
+            isOpen={openMenuId === row.original.id}
+            onToggle={() => toggleMenu(row.original.id)}
+            onEdit={() => handleEdit(row.original)}
+            onDelete={() => handleDelete(row.original)}
+          />
+        </div>
+      ),
+      meta: {
+        className: TABLE_CLASSES.actionsCell,
+        headerClassName: TABLE_CLASSES.header,
+      },
+    },
+  ];
 
   const table = useReactTable({
     data,
@@ -203,7 +227,7 @@ const Table = () => {
 
   const allSelected = selected.size === data.length && data.length > 0;
 
-  const deleleRowsLabel = `Eliminar ${selected.size} ${selected.size === 1 ? 'Seleccionado' : 'Seleccionados'}`
+  const deleleRowsLabel = `Eliminar ${selected.size} ${selected.size === 1 ? 'Seleccionado' : 'Seleccionados'}`;
 
   return (
     <div className="flex flex-col gap-6">
