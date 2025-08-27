@@ -1,5 +1,5 @@
 'use client';
-import React, { useState, useCallback } from 'react';
+import React, { useState } from 'react';
 import {
   useReactTable,
   getCoreRowModel,
@@ -15,8 +15,8 @@ import {
   mapStatusToStatusType,
   mapStatusToLabel,
 } from '../utils';
-import Badge from '../../common/badge';
-import MediaDisplay from '../../common/media-display';
+import { Badge, Checkbox, Button, Icon } from '@riffy/components';
+import MediaDisplay from '@/components/common/media-display';
 
 type Raffles = {
   id: string;
@@ -180,47 +180,60 @@ const Table = () => {
     getCoreRowModel: getCoreRowModel(),
   });
 
-  const handleSelectAll = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      if (e.target.checked) {
-        const allIds = new Set(data.map(d => d.id));
-        setSelected(allIds);
-      } else {
-        setSelected(new Set());
-      }
-    },
-    [data],
-  );
+  const handleSelectAll = (checked: boolean) => {
+    if (checked) {
+      const allIds = new Set(data.map(d => d.id));
+      setSelected(allIds);
+    } else {
+      setSelected(new Set());
+    }
+  };
 
-  const handleSelectRow = useCallback(
-    (id: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
-      if (e.target.checked) {
-        setSelected(prev => new Set([...prev, id]));
-      } else {
-        setSelected(prev => {
-          const newSet = new Set(prev);
-          newSet.delete(id);
-          return newSet;
-        });
-      }
-    },
-    [],
-  );
+  const handleSelectRow = (id: string) => (checked: boolean) => {
+    if (checked) {
+      setSelected(prev => new Set([...prev, id]));
+    } else {
+      setSelected(prev => {
+        const newSet = new Set(prev);
+        newSet.delete(id);
+        return newSet;
+      });
+    }
+  };
 
   const allSelected = selected.size === data.length && data.length > 0;
 
+  const deleleRowsLabel = `Eliminar ${selected.size} ${selected.size === 1 ? 'Seleccionado' : 'Seleccionados'}`
+
   return (
     <div className="flex flex-col gap-6">
+      <div className="flex items-center justify-between">
+        <Button variant="primary" size="md" className="gap-1">
+          <Icon name="plus" />
+          Agregar
+        </Button>
+        <div className="flex items-center gap-3">
+          {selected.size > 0 && (
+            <Button variant="danger" size="md" className="gap-1">
+              <Icon name="trash" className="text-sm" />
+              {deleleRowsLabel}
+            </Button>
+          )}
+          <Button variant="default" size="md" className="gap-1">
+            <Icon name="download" className="text-sm" />
+            Descargar
+          </Button>
+          <Button variant="primary" size="md" className="gap-1">
+            <Icon name="plus" />
+            Agregar
+          </Button>
+        </div>
+      </div>
       <table className="min-w-full rounded-lg">
         <thead className="bg-base-600 rounded-lg">
           <tr>
             <th className="px-4 py-3 text-left">
-              <input
-                type="checkbox"
-                checked={allSelected}
-                onChange={handleSelectAll}
-                aria-label="Seleccionar todos"
-              />
+              <Checkbox checked={allSelected} onChange={handleSelectAll} />
             </th>
             {table.getHeaderGroups()[0].headers.map(header => (
               <th
@@ -241,11 +254,9 @@ const Table = () => {
           {table.getRowModel().rows.map(row => (
             <tr key={row.id} className="border-b border-gray-700">
               <td className="px-4 h-14">
-                <input
-                  type="checkbox"
+                <Checkbox
                   checked={selected.has(row.original.id)}
                   onChange={handleSelectRow(row.original.id)}
-                  aria-label={`Seleccionar ${row.original.id}`}
                 />
               </td>
               {row.getVisibleCells().map(cell => (
@@ -261,12 +272,12 @@ const Table = () => {
         </tbody>
       </table>
       <div className="flex w-full justify-between items-center">
-        <p className="text-white text-sm">Mostrando 10 de 26 Resultados</p>
+        <p className="text-white text-sm">Mostrando 10 de 26 Resultados</p>
         <div className="flex items-center gap-3">
-          <button className="text-base-200 bg-base-600 w-10 h-10 rounded-lg flex items-center justify-center text-sm">
+          <button className="text-base-200 bg-base-600 w-9 h-9 rounded-lg flex items-center justify-center text-sm">
             1
           </button>
-          <button className="text-base-200 bg-base-600 w-10 h-10 rounded-lg flex items-center justify-center text-sm">
+          <button className="text-base-200 bg-base-600 w-9 h-9 rounded-lg flex items-center justify-center text-sm">
             2
           </button>
         </div>

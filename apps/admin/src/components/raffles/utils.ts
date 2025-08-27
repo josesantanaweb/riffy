@@ -1,7 +1,7 @@
 import { ColumnDef } from '@tanstack/react-table';
 import { formatCurrency } from '@/utils/formatCurrency';
 import { formatDate } from '@/utils/formatDate';
-import { BadgeStatus } from '../common/badge';
+import { BadgeStatus } from '@riffy/components';
 import { RaffleStatus } from '@/types';
 
 export const TABLE_CLASSES = {

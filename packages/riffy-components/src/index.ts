@@ -2,3 +2,7 @@ export { default as Icon } from './components/icon';
 export { default as Button } from './components/button';
 export { default as Input } from './components/input';
 export { default as Avatar } from './components/avatar';
+export { default as Breadcrumb } from './components/breadcrumb';
+export { default as Badge } from './components/badge';
+export { BadgeStatus } from './components/badge';
+export { default as Checkbox } from './components/checkbox';
