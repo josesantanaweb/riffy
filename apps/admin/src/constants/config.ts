@@ -1,2 +1,2 @@
-// General
-export const ANIMATION_DURATION = 1500;
+// Pagination
+export const PAGINATION_PAGE_SIZE = 5;

@@ -16,9 +16,18 @@ import {
   mapStatusToStatusType,
   mapStatusToLabel,
 } from '../utils';
-import { Badge, Checkbox, Button, Icon, Input, Select } from '@riffy/components';
+import {
+  Badge,
+  Checkbox,
+  Button,
+  Icon,
+  Input,
+  Select,
+} from '@riffy/components';
 import MediaDisplay from '@/components/common/media-display';
 import ActionMenu from '@/components/common/action-menu';
+import Pagination from '@/components/common/pagination';
+import { PAGINATION_PAGE_SIZE } from '@/constants';
 
 type Raffles = {
   id: string;
@@ -39,10 +48,7 @@ const data: Raffles[] = [
     id: '2BA12213',
     title: 'Dia del padre',
     image: '/images/banner.png',
-    customer: {
-      name: 'Ganaconriffy',
-      image: '/images/customer.png',
-    },
+    customer: { name: 'Ganaconriffy', image: '/images/customer.png' },
     award: 100.5,
     price: 10.0,
     date: '2025-08-22',
@@ -52,10 +58,7 @@ const data: Raffles[] = [
     id: '2BA12214',
     title: 'Dia de la madre',
     image: '/images/banner.png',
-    customer: {
-      name: 'Ganaconriffy',
-      image: '/images/customer.png',
-    },
+    customer: { name: 'Ganaconriffy', image: '/images/customer.png' },
     award: 250.75,
     price: 15.5,
     date: '2025-05-14',
@@ -65,10 +68,7 @@ const data: Raffles[] = [
     id: '2BA12215',
     title: 'Dia del niño',
     image: '/images/banner.png',
-    customer: {
-      name: 'Ganaconriffy',
-      image: '/images/customer.png',
-    },
+    customer: { name: 'Ganaconriffy', image: '/images/customer.png' },
     award: 75.25,
     price: 5.25,
     date: '2025-04-30',
@@ -78,10 +78,7 @@ const data: Raffles[] = [
     id: '2BA12216',
     title: 'Navidad',
     image: '/images/banner.png',
-    customer: {
-      name: 'Ganaconriffy',
-      image: '/images/customer.png',
-    },
+    customer: { name: 'Ganaconriffy', image: '/images/customer.png' },
     award: 500.0,
     price: 25.0,
     date: '2025-12-25',
@@ -91,10 +88,7 @@ const data: Raffles[] = [
     id: '2BA12217',
     title: 'Año Nuevo',
     image: '/images/banner.png',
-    customer: {
-      name: 'Ganaconriffy',
-      image: '/images/customer.png',
-    },
+    customer: { name: 'Ganaconriffy', image: '/images/customer.png' },
     award: 1000.0,
     price: 50.0,
     date: '2025-12-31',
@@ -104,15 +98,14 @@ const data: Raffles[] = [
 
 const pageSizeOptions = [
   { value: '1', label: '1' },
-  { value: '20', label: '20' },
-  { value: '50', label: '50' },
-  { value: '100', label: '100' },
+  { value: '2', label: '2' },
+  { value: '3', label: '3' },
+  { value: '4', label: '4' },
 ];
 
 const Table = () => {
   const [selected, setSelected] = useState<Set<string>>(new Set());
   const [openMenuId, setOpenMenuId] = useState<string | null>(null);
-  const [pageSize, setPageSize] = useState<number>(20);
 
   const toggleMenu = (id: string) => {
     setOpenMenuId(openMenuId === id ? null : id);
@@ -132,17 +125,12 @@ const Table = () => {
     closeMenu();
   };
 
-  const handlePageSizeChange = (value: number) => {
-    setPageSize(value);
-  };
-
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (openMenuId && !(event.target as Element).closest('.menu-container')) {
         closeMenu();
       }
     };
-
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [openMenuId]);
@@ -215,22 +203,16 @@ const Table = () => {
     columns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
-    state: {
+    initialState: {
       pagination: {
-        pageSize: pageSize,
-        pageIndex: 0,
+        pageSize: PAGINATION_PAGE_SIZE,
       },
     },
-    onPaginationChange: updater => {
-      if (typeof updater === 'function') {
-        const newState = updater({
-          pageSize: pageSize,
-          pageIndex: 0,
-        });
-        setPageSize(newState.pageSize);
-      }
-    },
   });
+
+  const handlePageSizeChange = (value: number) => {
+    table.setPageSize(value);
+  };
 
   const handleSelectAll = (checked: boolean) => {
     if (checked) {
@@ -255,7 +237,9 @@ const Table = () => {
 
   const allSelected = selected.size === data.length && data.length > 0;
 
-  const deleleRowsLabel = `Eliminar ${selected.size} ${selected.size === 1 ? 'Seleccionado' : 'Seleccionados'}`;
+  const deleleRowsLabel = `Eliminar ${selected.size} ${
+    selected.size === 1 ? 'Seleccionado' : 'Seleccionados'
+  }`;
 
   return (
     <div className="flex flex-col gap-6">
@@ -264,7 +248,7 @@ const Table = () => {
           <div className="w-[130px]">
             <Select
               options={pageSizeOptions}
-              value={pageSize}
+              value={String(table.getState().pagination.pageSize)}
               onChange={handlePageSizeChange}
               size="md"
             />
@@ -295,6 +279,7 @@ const Table = () => {
           </Button>
         </div>
       </div>
+
       <table className="min-w-full rounded-lg">
         <thead className="bg-base-600 rounded-lg">
           <tr>
@@ -337,37 +322,18 @@ const Table = () => {
           ))}
         </tbody>
       </table>
-      <div className="flex w-full justify-between items-center">
-        <p className="text-white text-sm">
-          Mostrando{' '}
-          {table.getState().pagination.pageIndex *
-            table.getState().pagination.pageSize +
-            1}{' '}
-          a{' '}
-          {Math.min(
-            (table.getState().pagination.pageIndex + 1) *
-              table.getState().pagination.pageSize,
-            table.getFilteredRowModel().rows.length,
-          )}{' '}
-          de {table.getFilteredRowModel().rows.length} Resultados
-        </p>
-        <div className="flex items-center gap-3">
-          <button
-            className="text-base-200 bg-base-600 w-9 h-9 rounded-lg flex items-center justify-center text-sm disabled:opacity-50 disabled:cursor-not-allowed"
-            disabled={!table.getCanPreviousPage()}
-            onClick={() => table.previousPage()}
-          >
-            <Icon name="chevron-down" className="rotate-90 text-sm" />
-          </button>
-          <button
-            className="text-base-200 bg-base-600 w-9 h-9 rounded-lg flex items-center justify-center text-sm disabled:opacity-50 disabled:cursor-not-allowed"
-            disabled={!table.getCanNextPage()}
-            onClick={() => table.nextPage()}
-          >
-            <Icon name="chevron-down" className="-rotate-90 text-sm" />
-          </button>
-        </div>
-      </div>
+
+      <Pagination
+        pageIndex={table.getState().pagination.pageIndex}
+        pageSize={table.getState().pagination.pageSize}
+        rows={table.getFilteredRowModel().rows.length}
+        pageCount={table.getPageCount()}
+        canPreviousPage={table.getCanPreviousPage()}
+        canNextPage={table.getCanNextPage()}
+        gotoPage={table.setPageIndex}
+        previousPage={table.previousPage}
+        nextPage={table.nextPage}
+      />
     </div>
   );
 };
