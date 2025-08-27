@@ -21,6 +21,7 @@ export type IconName =
   | 'edit'
   | 'trash'
   | 'download'
+  | 'seach'
   | 'dots';
 
 interface IconProps {

@@ -15,7 +15,7 @@ import {
   mapStatusToStatusType,
   mapStatusToLabel,
 } from '../utils';
-import { Badge, Checkbox, Button, Icon } from '@riffy/components';
+import { Badge, Checkbox, Button, Icon, Input } from '@riffy/components';
 import MediaDisplay from '@/components/common/media-display';
 import ActionMenu from '@/components/common/action-menu';
 
@@ -105,7 +105,6 @@ const Table = () => {
   const [selected, setSelected] = useState<Set<string>>(new Set());
   const [openMenuId, setOpenMenuId] = useState<string | null>(null);
 
-
   const toggleMenu = (id: string) => {
     setOpenMenuId(openMenuId === id ? null : id);
   };
@@ -116,12 +115,12 @@ const Table = () => {
 
   const handleEdit = (row: Raffles) => {
     alert(`Editar ${row.id}`);
-    closeMenu()
+    closeMenu();
   };
 
   const handleDelete = (row: Raffles) => {
     alert(`Eliminar ${row.id}`);
-    closeMenu()
+    closeMenu();
   };
 
   useEffect(() => {
@@ -232,10 +231,14 @@ const Table = () => {
   return (
     <div className="flex flex-col gap-6">
       <div className="flex items-center justify-between">
-        <Button variant="primary" size="md" className="gap-1">
-          <Icon name="plus" />
-          Agregar
-        </Button>
+        <div className="w-[240px]">
+          <Input
+            icon="search"
+            iconPosition="left"
+            placeholder="Buscar"
+            inputSize="md"
+          />
+        </div>
         <div className="flex items-center gap-3">
           {selected.size > 0 && (
             <Button variant="danger" size="md" className="gap-1">
