@@ -149,3 +149,8 @@ input[type='number'] {
 .icon-user:before { content: '\e838'; } /* '' */
 .icon-ticket:before { content: '\e839'; } /* '' */
 .icon-confetti:before { content: '\e83a'; } /* '' */
+.icon-trash:before { content: '\e83b'; } /* '' */
+.icon-download:before { content: '\e83c'; } /* '' */
+.icon-edit:before { content: '\e83d'; } /* '' */
+.icon-dots:before { content: '\e83e'; } /* '' */
+.icon-search:before { content: '\e801'; } /* '' */

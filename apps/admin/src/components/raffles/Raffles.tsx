@@ -1,6 +1,6 @@
 'use client';
 import Table from './table';
-import Breadcrumb from "@/components/common/breadcrumb"
+import { Breadcrumb } from '@riffy/components';
 
 const Raffles = () => {
   return (

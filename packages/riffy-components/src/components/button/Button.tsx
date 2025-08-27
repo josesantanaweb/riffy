@@ -16,18 +16,46 @@ interface ButtonProps {
   'data-testid'?: string;
 }
 
-const variants = {
-  default: 'bg-base-700 text-white',
-  primary: 'bg-primary-600 text-white',
-  danger: 'bg-red-600 text-white',
-  success: 'bg-green-600 text-white',
-};
+const BUTTON_VARIANTS = {
+  default: 'bg-base-600 text-white hover:bg-base-600/90',
+  primary: 'bg-primary-600 text-white hover:bg-primary-600/90',
+  danger: 'bg-red-600/30 text-red-500 hover:bg-red-600/20',
+  success: 'bg-green-600 text-white hover:bg-green-600/90',
+} as const;
 
-const sizes = {
-  sm: 'h-9 px-4 text-xs',
-  md: 'h-11 px-5 text-sm',
-  lg: 'h-12 px-6 text-base',
-};
+const BUTTON_SIZES = {
+  sm: {
+    height: 'h-9',
+    padding: 'px-4',
+    textSize: 'text-xs',
+    textTransform: 'capitalize',
+  },
+  md: {
+    height: 'h-10',
+    padding: 'px-5',
+    textSize: 'text-sm',
+    textTransform: 'capitalize',
+  },
+  lg: {
+    height: 'h-12',
+    padding: 'px-6',
+    textSize: 'text-base',
+    textTransform: 'uppercase',
+  },
+} as const;
+
+const BASE_BUTTON_CLASSES = [
+  'rounded-lg',
+  'font-medium',
+  'transition-all',
+  'flex',
+  'gap-2',
+  'items-center',
+  'justify-center',
+  'whitespace-nowrap',
+].join(' ');
+
+const DISABLED_CLASSES = 'opacity-50 cursor-not-allowed pointer-events-none';
 
 const Button = ({
   type = 'button',
@@ -40,21 +68,17 @@ const Button = ({
   isFull = false,
   'data-testid': dataTestId,
 }: ButtonProps): ReactElement => {
-  const baseClass =
-    'rounded-lg font-semibold transition-all flex gap-2 items-center justify-center uppercase whitespace-nowrap';
+  const sizeConfig = BUTTON_SIZES[size];
 
-  const fullClass = isFull ? 'w-full' : 'auto';
-
-  const disabledClass = disabled
-    ? 'opacity-50 cursor-not-allowed pointer-events-none'
-    : '';
-
-  const customClass = cn(
-    baseClass,
-    variants[variant],
-    sizes[size],
-    disabledClass,
-    fullClass,
+  const buttonClasses = cn(
+    BASE_BUTTON_CLASSES,
+    BUTTON_VARIANTS[variant],
+    sizeConfig.height,
+    sizeConfig.padding,
+    sizeConfig.textSize,
+    sizeConfig.textTransform,
+    disabled && DISABLED_CLASSES,
+    isFull ? 'w-full' : 'w-auto',
     className,
   );
 
@@ -63,7 +87,7 @@ const Button = ({
       type={type}
       disabled={disabled}
       onClick={onClick}
-      className={customClass}
+      className={buttonClasses}
       data-testid={dataTestId}
     >
       {children}
