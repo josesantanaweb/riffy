@@ -4,13 +4,15 @@ import React from 'react';
 
 import { cn } from '../../utils/cn';
 
+export type ButtonVariant = 'primary' | 'danger' | 'default' | 'success';
+
 interface ButtonProps {
   onClick?: () => void;
   type?: 'button' | 'submit' | 'reset';
   children: React.ReactNode;
   className?: string;
   disabled?: boolean;
-  variant?: 'default' | 'primary' | 'danger' | 'success';
+  variant?: ButtonVariant;
   size?: 'sm' | 'md' | 'lg';
   isFull?: boolean;
   'data-testid'?: string;

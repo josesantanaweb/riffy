@@ -1,6 +1,8 @@
 {
   "extends": "@riffy/typescript-config/react-library.json",
   "compilerOptions": {
+   "module": "ESNext",
+    "moduleResolution": "Node",
     "outDir": "dist",
     "rootDir": "src"
   },
