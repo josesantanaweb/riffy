@@ -1,5 +1,5 @@
 'use client';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import {
   useReactTable,
   getCoreRowModel,
@@ -106,6 +106,7 @@ const pageSizeOptions = [
 const Table = () => {
   const [selected, setSelected] = useState<Set<string>>(new Set());
   const [openMenuId, setOpenMenuId] = useState<string | null>(null);
+  const [search, setSearch] = useState<string>('');
 
   const toggleMenu = (id: string) => {
     setOpenMenuId(openMenuId === id ? null : id);
@@ -198,8 +199,16 @@ const Table = () => {
     },
   ];
 
+  const filteredData = useMemo(() => {
+    return data.filter(
+      row =>
+        row.title.toLowerCase().includes(search.toLowerCase()) ||
+        row.customer.name.toLowerCase().includes(search.toLowerCase()),
+    );
+  }, [data, search]);
+
   const table = useReactTable({
-    data,
+    data: filteredData,
     columns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
@@ -259,6 +268,8 @@ const Table = () => {
               iconPosition="left"
               placeholder="Buscar"
               inputSize="md"
+              value={search}
+              onChange={e => setSearch(e.target.value)}
             />
           </div>
         </div>
