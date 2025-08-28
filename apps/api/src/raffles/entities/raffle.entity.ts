@@ -1,5 +1,6 @@
 import { ObjectType, Field, ID, GraphQLISODateTime } from '@nestjs/graphql';
 import { Ticket } from '../../tickets/entities/ticket.entity';
+import { User } from '../../users/entities/user.entity';
 
 @ObjectType()
 export class Raffle {
@@ -50,4 +51,7 @@ export class Raffle {
 
   @Field(() => [Ticket], { nullable: true })
   tickets?: Ticket[];
+
+  @Field(() => User, { nullable: true })
+  owner?: User;
 }

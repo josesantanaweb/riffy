@@ -1,8 +1,11 @@
 'use client';
 import Table from './table';
 import { Breadcrumb } from '@riffy/components';
+// import { useRaffles } from '@/hooks';
 
 const Raffles = () => {
+  // const { data } = useRaffles();
+
   return (
     <div className="p-6 flex-col flex gap-6">
       <div className="flex flex-col">

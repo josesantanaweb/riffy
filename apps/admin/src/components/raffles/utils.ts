@@ -3,6 +3,7 @@ import { formatCurrency } from '@/utils/formatCurrency';
 import { formatDate } from '@/utils/formatDate';
 import { BadgeStatus } from '@riffy/components';
 import { RaffleStatus } from '@/types';
+import { Raffle } from '@/types/raffle';
 
 export const TABLE_CLASSES = {
   cell: 'px-4 h-14 font-medium text-white text-sm',
@@ -10,10 +11,11 @@ export const TABLE_CLASSES = {
   actionsCell: 'px-4 h-14',
 } as const;
 
-export const createColumn = <T extends Record<string, unknown>>(
-  accessorKey: keyof T,
+
+export const createColumn = (
+  accessorKey: keyof Raffle,
   header: string,
-): ColumnDef<T> => ({
+): ColumnDef<Raffle> => ({
   accessorKey,
   header,
   cell: info => info.getValue(),
@@ -23,10 +25,10 @@ export const createColumn = <T extends Record<string, unknown>>(
   },
 });
 
-export const createCurrencyColumn = <T extends Record<string, unknown>>(
-  accessorKey: keyof T,
+export const createCurrencyColumn = (
+  accessorKey: keyof Raffle,
   header: string,
-): ColumnDef<T> => ({
+): ColumnDef<Raffle> => ({
   accessorKey,
   header,
   cell: info => formatCurrency(info.getValue() as number),
@@ -36,10 +38,10 @@ export const createCurrencyColumn = <T extends Record<string, unknown>>(
   },
 });
 
-export const createDateColumn = <T extends Record<string, unknown>>(
-  accessorKey: keyof T,
+export const createDateColumn = (
+  accessorKey: keyof Raffle,
   header: string,
-): ColumnDef<T> => ({
+): ColumnDef<Raffle> => ({
   accessorKey,
   header,
   cell: info => formatDate(info.getValue() as string),

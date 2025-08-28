@@ -28,22 +28,10 @@ import MediaDisplay from '@/components/common/media-display';
 import ActionMenu from '@/components/common/action-menu';
 import Pagination from '@/components/common/pagination';
 import { PAGINATION_PAGE_SIZE } from '@/constants';
+import { Raffle } from '@/types/raffle';
 
-type Raffles = {
-  id: string;
-  title: string;
-  image: string;
-  customer: {
-    name: string;
-    image: string;
-  };
-  award: number;
-  price: number;
-  date?: string;
-  status?: string;
-};
 
-const data: Raffles[] = [
+const data: Raffle[] = [
   {
     id: '2BA12213',
     title: 'Dia del padre',
@@ -116,12 +104,12 @@ const Table = () => {
     setOpenMenuId(null);
   };
 
-  const handleEdit = (row: Raffles) => {
+  const handleEdit = (row: Raffle) => {
     alert(`Editar ${row.id}`);
     closeMenu();
   };
 
-  const handleDelete = (row: Raffles) => {
+  const handleDelete = (row: Raffle) => {
     alert(`Eliminar ${row.id}`);
     closeMenu();
   };
@@ -136,7 +124,7 @@ const Table = () => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [openMenuId]);
 
-  const columns: ColumnDef<Raffles>[] = [
+  const columns: ColumnDef<Raffle>[] = [
     createColumn('id', 'ID'),
     {
       accessorKey: 'title',

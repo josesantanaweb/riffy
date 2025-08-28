@@ -1,15 +1,15 @@
-import { gql } from '@apollo/client';
+// import { gql } from '@apollo/client';
 
-export const USER_FRAGMENT = gql`
-  fragment UserFragment on User {
-    id
-    name
-    balance
-    username
-    raking
-    email
-    image
-    createdAt
-    updatedAt
-  }
-`;
+// export const USER_FRAGMENT = gql`
+//   fragment UserFragment on User {
+//     id
+//     name
+//     balance
+//     username
+//     raking
+//     email
+//     image
+//     createdAt
+//     updatedAt
+//   }
+// `;

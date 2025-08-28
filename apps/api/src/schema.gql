@@ -47,6 +47,7 @@ type Raffle {
   createdAt: DateTime
   updatedAt: DateTime
   tickets: [Ticket!]
+  owner: User
 }
 
 type Query {

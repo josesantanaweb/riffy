@@ -18,9 +18,9 @@ export class RafflesResolver {
    * Roles requeridos: ADMIN
    * Retorna: Un array de objetos Raffle
    */
-  @Roles(Role.ADMIN)
-  @UseGuards(RolesGuard)
-  @UseGuards(GqlAuthGuard)
+  // @Roles(Role.ADMIN)
+  // @UseGuards(RolesGuard)
+  // @UseGuards(GqlAuthGuard)
   @Query(() => [Raffle], { name: 'raffles' })
   raffles(): Promise<Raffle[]> {
     return this.rafflesService.findAll();
