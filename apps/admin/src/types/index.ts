@@ -1,1 +1,1 @@
-export { RaffleStatus } from './common';
+export type { RaffleStatus, Raffle } from './raffle';

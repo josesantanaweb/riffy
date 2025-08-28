@@ -28,61 +28,7 @@ import MediaDisplay from '@/components/common/media-display';
 import ActionMenu from '@/components/common/action-menu';
 import Pagination from '@/components/common/pagination';
 import { PAGINATION_PAGE_SIZE } from '@/constants';
-import { Raffle } from '@/types/raffle';
-
-
-const data: Raffle[] = [
-  {
-    id: '2BA12213',
-    title: 'Dia del padre',
-    image: '/images/banner.png',
-    customer: { name: 'Ganaconriffy', image: '/images/customer.png' },
-    award: 100.5,
-    price: 10.0,
-    date: '2025-08-22',
-    status: 'COMPLETED',
-  },
-  {
-    id: '2BA12214',
-    title: 'Dia de la madre',
-    image: '/images/banner.png',
-    customer: { name: 'Ganaconriffy', image: '/images/customer.png' },
-    award: 250.75,
-    price: 15.5,
-    date: '2025-05-14',
-    status: 'COMPLETED',
-  },
-  {
-    id: '2BA12215',
-    title: 'Dia del niño',
-    image: '/images/banner.png',
-    customer: { name: 'Ganaconriffy', image: '/images/customer.png' },
-    award: 75.25,
-    price: 5.25,
-    date: '2025-04-30',
-    status: 'ACTIVE',
-  },
-  {
-    id: '2BA12216',
-    title: 'Navidad',
-    image: '/images/banner.png',
-    customer: { name: 'Ganaconriffy', image: '/images/customer.png' },
-    award: 500.0,
-    price: 25.0,
-    date: '2025-12-25',
-    status: 'ACTIVE',
-  },
-  {
-    id: '2BA12217',
-    title: 'Año Nuevo',
-    image: '/images/banner.png',
-    customer: { name: 'Ganaconriffy', image: '/images/customer.png' },
-    award: 1000.0,
-    price: 50.0,
-    date: '2025-12-31',
-    status: 'COMPLETED',
-  },
-];
+import { Raffle } from '@/types';
 
 const pageSizeOptions = [
   { value: '1', label: '1' },
@@ -91,7 +37,11 @@ const pageSizeOptions = [
   { value: '4', label: '4' },
 ];
 
-const Table = () => {
+interface TableProps {
+  data: Raffle[];
+}
+
+const Table = ({ data }: TableProps) => {
   const [selected, setSelected] = useState<Set<string>>(new Set());
   const [openMenuId, setOpenMenuId] = useState<string | null>(null);
   const [search, setSearch] = useState<string>('');
@@ -131,7 +81,7 @@ const Table = () => {
       header: 'Titulo',
       cell: info => {
         const row = info.row.original;
-        return <MediaDisplay label={row.title} image={row.image} />;
+        return <MediaDisplay label={row.title} image={row.banner} />;
       },
       meta: {
         className: TABLE_CLASSES.cell,
@@ -152,7 +102,7 @@ const Table = () => {
     },
     createCurrencyColumn('award', 'Premio'),
     createCurrencyColumn('price', 'Precio'),
-    createDateColumn('date', 'Fecha del sorteo'),
+    createDateColumn('drawDate', 'Fecha del sorteo'),
     {
       accessorKey: 'status',
       header: 'Estado',
@@ -191,7 +141,7 @@ const Table = () => {
     return data.filter(
       row =>
         row.title.toLowerCase().includes(search.toLowerCase()) ||
-        row.customer.name.toLowerCase().includes(search.toLowerCase()),
+        row.owner.name.toLowerCase().includes(search.toLowerCase()),
     );
   }, [data, search]);
 

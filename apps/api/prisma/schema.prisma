@@ -13,6 +13,7 @@ model User {
   password  String
   name      String
   phone     String?
+  image     String?
   state     String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -26,7 +27,6 @@ model Raffle {
   title          String
   description    String?
   banner         String
-  logo           String
   primaryColor   String   @default("00D4FF")
   secondaryColor String?
   totalTickets   Int      @default(100)
