@@ -28,13 +28,10 @@ export class RafflesResolver {
 
   /**
    * Obtiene una rifa por su ID.
-   * Roles requeridos: ADMIN
+   * No necesita autenticación
    * @param id ID de la rifa a buscar
    * @returns Un objeto Raffle si existe, si no lanza NotFoundException
    */
-  @Roles(Role.ADMIN)
-  @UseGuards(RolesGuard)
-  @UseGuards(GqlAuthGuard)
   @Query(() => Raffle, { name: 'raffle' })
   raffle(@Args('id', { type: () => String }) id: string): Promise<Raffle> {
     return this.rafflesService.findOne(id);

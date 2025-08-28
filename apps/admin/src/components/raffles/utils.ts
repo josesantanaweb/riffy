@@ -2,8 +2,7 @@ import { ColumnDef } from '@tanstack/react-table';
 import { formatCurrency } from '@/utils/formatCurrency';
 import { formatDate } from '@/utils/formatDate';
 import { BadgeStatus } from '@riffy/components';
-import { RaffleStatus } from '@/types';
-import { Raffle } from '@/types/raffle';
+import { Raffle, RaffleStatus } from '@riffy/types';
 
 export const TABLE_CLASSES = {
   cell: 'px-4 h-14 font-medium text-white text-sm',

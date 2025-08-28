@@ -1,12 +1,10 @@
-import { useRafflesQuery } from '@/__generated__/graphql';
-// import { useAuth } from '@/hooks/auth/useAuth';
+import { useQuery } from '@apollo/client';
+import { GET_RAFFLES } from '@/api/graphql/queries/raffles';
 
 export const useRaffles = () => {
-  // const { isAuthenticated } = useAuth();
-  const { data, error, loading } = useRafflesQuery({
+  const { data, error, loading } = useQuery(GET_RAFFLES, {
     variables: {},
     fetchPolicy: 'network-only',
-    // skip: !isAuthenticated,
   });
 
   return {

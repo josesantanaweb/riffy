@@ -17,9 +17,6 @@ export class Raffle {
   banner: string;
 
   @Field()
-  logo: string;
-
-  @Field()
   primaryColor: string;
 
   @Field({ nullable: true })
@@ -30,6 +27,12 @@ export class Raffle {
 
   @Field()
   price: number;
+
+  @Field()
+  award: number;
+
+  @Field()
+  status: string;
 
   @Field({ nullable: true })
   available?: number;

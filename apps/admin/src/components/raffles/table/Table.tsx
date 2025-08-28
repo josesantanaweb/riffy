@@ -75,7 +75,18 @@ const Table = ({ data }: TableProps) => {
   }, [openMenuId]);
 
   const columns: ColumnDef<Raffle>[] = [
-    createColumn('id', 'ID'),
+    {
+      accessorKey: 'id',
+      header: 'ID',
+      cell: info => {
+        const row = info.row.original;
+        return <p className="uppercase">{row.id.slice(15, 25)}</p>;
+      },
+      meta: {
+        className: TABLE_CLASSES.cell,
+        headerClassName: TABLE_CLASSES.header,
+      },
+    },
     {
       accessorKey: 'title',
       header: 'Titulo',
@@ -89,11 +100,11 @@ const Table = ({ data }: TableProps) => {
       },
     },
     {
-      accessorKey: 'customer',
-      header: 'Cliente',
+      accessorKey: 'owner',
+      header: 'Dueño',
       cell: info => {
-        const customer = info.getValue() as { name: string; image: string };
-        return <MediaDisplay label={customer.name} image={customer.image} />;
+        const owner = info.getValue() as { name: string; image: string };
+        return <MediaDisplay label={owner.name} image={owner.image} />;
       },
       meta: {
         className: TABLE_CLASSES.cell,

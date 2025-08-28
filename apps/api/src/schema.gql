@@ -7,6 +7,7 @@ type User {
   name: String!
   password: String
   email: String!
+  image: String
   phone: String
   state: String
   role: String
@@ -35,11 +36,12 @@ type Raffle {
   title: String!
   description: String
   banner: String!
-  logo: String!
   primaryColor: String!
   secondaryColor: String
   totalTickets: Float!
   price: Float!
+  award: Float!
+  status: String!
   available: Float
   sold: Float
   progress: Float
@@ -107,24 +109,33 @@ input CreateRaffleInput {
   title: String!
   description: String
   banner: String!
-  logo: String!
   primaryColor: String!
   secondaryColor: String
   totalTickets: Int!
   price: Int!
+  award: Int!
+  status: RaffleStatus
   drawDate: DateTime!
   ownerId: String!
+}
+
+enum RaffleStatus {
+  ACTIVE
+  INACTIVE
+  PENDING
+  COMPLETED
 }
 
 input UpdateRaffleInput {
   title: String
   description: String
   banner: String
-  logo: String
   primaryColor: String
   secondaryColor: String
   totalTickets: Int
   price: Int
+  award: Int
+  status: RaffleStatus
   drawDate: DateTime
   ownerId: String
 }

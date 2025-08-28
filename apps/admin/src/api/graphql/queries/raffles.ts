@@ -10,16 +10,27 @@ export const GET_RAFFLES = gql`
       secondaryColor
       totalTickets
       price
+      award
+      banner
       drawDate
       createdAt
       updatedAt
       sold
       available
+      status
       progress
       tickets {
         id
         number
         status
+      }
+      owner {
+        id
+        name
+        email
+        phone
+        state
+        role
       }
     }
   }
