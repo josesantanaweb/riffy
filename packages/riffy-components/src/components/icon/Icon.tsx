@@ -17,7 +17,12 @@ export type IconName =
   | 'home'
   | 'user'
   | 'ticket'
-  | 'confetti';
+  | 'confetti'
+  | 'edit'
+  | 'trash'
+  | 'download'
+  | 'seach'
+  | 'dots';
 
 interface IconProps {
   className?: string;
