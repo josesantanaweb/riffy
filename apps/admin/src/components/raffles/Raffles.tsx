@@ -2,7 +2,7 @@
 import Table from './table';
 import { Breadcrumb } from '@riffy/components';
 // import { useRaffles } from '@/hooks';
-import { Raffle } from '@/types';
+import { Raffle } from '@riffy/types';
 
 const Raffles = () => {
   // const { data } = useRaffles();

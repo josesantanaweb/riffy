@@ -28,7 +28,7 @@ import MediaDisplay from '@/components/common/media-display';
 import ActionMenu from '@/components/common/action-menu';
 import Pagination from '@/components/common/pagination';
 import { PAGINATION_PAGE_SIZE } from '@/constants';
-import { Raffle } from '@/types';
+import { Raffle } from '@riffy/types';
 
 const pageSizeOptions = [
   { value: '1', label: '1' },
