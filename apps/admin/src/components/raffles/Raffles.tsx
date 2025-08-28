@@ -1,7 +1,7 @@
 'use client';
 import Table from './table';
 import { Breadcrumb } from '@riffy/components';
-import { useRaffles } from '@/hooks';
+import { useRaffles } from '@riffy/hooks';
 
 const Raffles = () => {
   const { data } = useRaffles();
