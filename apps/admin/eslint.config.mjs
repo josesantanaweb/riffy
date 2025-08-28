@@ -13,6 +13,7 @@ export default [
       parser: tseslint.parser,
       parserOptions: {
         project: './tsconfig.json',
+        tsconfigRootDir: __dirname,
         ecmaFeatures: { jsx: true },
       },
     },
@@ -20,11 +21,11 @@ export default [
       // ===== BASIC RULES =====
       'no-console': 'error', // Prohibits console.log, console.error, etc.
       '@typescript-eslint/no-unused-vars': ['error'], // Marks unused variables/components as error
-      
+
       // ===== TYPESCRIPT RULES =====
       '@typescript-eslint/no-explicit-any': 'warn', // Warns about explicit 'any' usage (loses TS benefits)
       '@typescript-eslint/no-var-requires': 'error', // Prohibits require() in favor of import
-      
+
       // ===== SECURITY RULES =====
       'no-eval': 'error', // Prohibits eval() which can execute malicious code
       'no-implied-eval': 'error', // Prohibits setTimeout("code") which internally uses eval()

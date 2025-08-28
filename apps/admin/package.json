@@ -10,7 +10,8 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "test:e2e": "playwright test",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "codegen": "graphql-codegen --config codegen.yml"
   },
   "dependencies": {
     "@apollo/client": "^3.11.0-rc.2",
@@ -48,6 +49,8 @@
     "@playwright/test": "^1.44.0",
     "@riffy/api": "workspace:*",
     "@riffy/components": "workspace:*",
+    "@riffy/hooks": "workspace:*",
+    "@riffy/types": "workspace:*",
     "@riffy/eslint-config": "workspace:*",
     "@riffy/jest-config": "workspace:*",
     "@riffy/tailwind-config": "workspace:*",
@@ -64,7 +67,6 @@
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
     "postcss": "^8.5.3",
-    "tailwindcss": "^3.4.17",
-    "typescript": "5.5.4"
+    "tailwindcss": "^3.4.17"
   }
 }

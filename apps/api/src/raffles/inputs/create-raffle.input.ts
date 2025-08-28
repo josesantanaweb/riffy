@@ -1,6 +1,8 @@
 import { IsDate, IsInt, IsOptional, IsString } from 'class-validator';
-import { InputType, Field, Int } from '@nestjs/graphql';
+import { InputType, Field, Int, registerEnumType } from '@nestjs/graphql';
+import { RaffleStatus } from '@prisma/client';
 
+registerEnumType(RaffleStatus, { name: 'RaffleStatus' });
 @InputType()
 export class CreateRaffleInput {
   @IsString()
@@ -18,10 +20,6 @@ export class CreateRaffleInput {
 
   @IsString()
   @Field(() => String)
-  logo: string;
-
-  @IsString()
-  @Field(() => String)
   primaryColor: string;
 
   @IsOptional()
@@ -36,6 +34,14 @@ export class CreateRaffleInput {
   @IsInt()
   @Field(() => Int)
   price: number;
+
+  @IsInt()
+  @Field(() => Int)
+  award: number;
+
+  @IsOptional()
+  @Field(() => RaffleStatus, { nullable: true })
+  status?: RaffleStatus;
 
   @Field()
   @IsDate()

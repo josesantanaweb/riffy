@@ -1,5 +1,6 @@
 import { ObjectType, Field, ID, GraphQLISODateTime } from '@nestjs/graphql';
 import { Ticket } from '../../tickets/entities/ticket.entity';
+import { User } from '../../users/entities/user.entity';
 
 @ObjectType()
 export class Raffle {
@@ -16,9 +17,6 @@ export class Raffle {
   banner: string;
 
   @Field()
-  logo: string;
-
-  @Field()
   primaryColor: string;
 
   @Field({ nullable: true })
@@ -29,6 +27,12 @@ export class Raffle {
 
   @Field()
   price: number;
+
+  @Field()
+  award: number;
+
+  @Field()
+  status: string;
 
   @Field({ nullable: true })
   available?: number;
@@ -50,4 +54,7 @@ export class Raffle {
 
   @Field(() => [Ticket], { nullable: true })
   tickets?: Ticket[];
+
+  @Field(() => User, { nullable: true })
+  owner?: User;
 }

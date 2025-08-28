@@ -17,6 +17,8 @@ interface InputProps {
   fullWidth?: boolean;
   onIconClick?: () => void;
   type?: string;
+  value: string;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 const INPUT_SIZES = {
@@ -73,11 +75,13 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
       id,
       error,
       icon,
+      value,
       iconPosition = 'right',
       inputSize = 'lg',
       fullWidth = true,
       onIconClick,
       className,
+      onChange,
       ...props
     },
     ref,
@@ -119,7 +123,14 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
           <span className={iconClasses}>{renderIcon(icon)}</span>
         )}
 
-        <input id={id} ref={ref} className={inputClasses} {...props} />
+        <input
+          id={id}
+          ref={ref}
+          className={inputClasses}
+          value={value}
+          onChange={onChange}
+          {...props}
+        />
 
         {icon && iconPosition === 'right' && (
           <span className={iconClasses} onClick={onIconClick}>
