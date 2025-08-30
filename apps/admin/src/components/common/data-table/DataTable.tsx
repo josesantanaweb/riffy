@@ -210,7 +210,10 @@ const DataTable = <T extends Record<string, any>>({
               onClick={button.onClick}
             >
               {button.icon && (
-                <Icon name={button.icon as IconName} className="text-sm" />
+                <Icon
+                  name={button.icon as IconName}
+                  className={`${button.icon === 'plus' ? 'text-lg' : 'text-sm'}`}
+                />
               )}
               {button.label}
             </Button>
