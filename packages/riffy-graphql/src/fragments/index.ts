@@ -5,8 +5,6 @@ export const RAFFLES_FRAGMENT = gql`
     id
     title
     description
-    primaryColor
-    secondaryColor
     totalTickets
     price
     award
@@ -26,6 +24,8 @@ export const RAFFLES_FRAGMENT = gql`
     owner {
       id
       name
+      brandColor
+      image
       email
       phone
       state

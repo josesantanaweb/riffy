@@ -1,11 +1,23 @@
 import { useMutation } from '@apollo/client';
 import { CREATE_RAFFLE } from '@riffy/graphql';
+import { CreateRaffleInput } from '@riffy/types';
 
 export const useCreateRaffle = () => {
-  const [createRaffle, { data, error, loading }] = useMutation(CREATE_RAFFLE, {
-    variables: {},
-    fetchPolicy: 'network-only',
-  });
+  const [createRaffleMutation, { data, error, loading }] = useMutation(
+    CREATE_RAFFLE,
+    {
+      variables: {},
+      fetchPolicy: 'network-only',
+    },
+  );
+
+  const createRaffle = (input: CreateRaffleInput) => {
+    return createRaffleMutation({
+      variables: {
+        input,
+      },
+    });
+  };
 
   return {
     createRaffle,

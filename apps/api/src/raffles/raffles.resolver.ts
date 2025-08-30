@@ -43,9 +43,9 @@ export class RafflesResolver {
    * @param input Datos de la nueva rifa
    * @returns El objeto Raffle creado
    */
-  @Roles(Role.ADMIN)
-  @UseGuards(RolesGuard)
-  @UseGuards(GqlAuthGuard)
+  // @Roles(Role.ADMIN)
+  // @UseGuards(RolesGuard)
+  // @UseGuards(GqlAuthGuard)
   @Mutation(() => Raffle, { name: 'createRaffle' })
   create(
     @Args('input', { type: () => CreateRaffleInput }) input: CreateRaffleInput,
