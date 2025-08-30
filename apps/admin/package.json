@@ -10,7 +10,8 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "test:e2e": "playwright test",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "codegen": "graphql-codegen --config codegen.yml"
   },
   "dependencies": {
     "@apollo/client": "^3.11.0-rc.2",
@@ -31,6 +32,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.56.2",
+    "react-quill": "^2.0.0",
     "react-tooltip": "^5.28.1",
     "tailwind-merge": "^2.5.5",
     "ts-node": "^10.9.2",
@@ -49,8 +51,10 @@
     "@riffy/api": "workspace:*",
     "@riffy/components": "workspace:*",
     "@riffy/eslint-config": "workspace:*",
+    "@riffy/hooks": "workspace:*",
     "@riffy/jest-config": "workspace:*",
     "@riffy/tailwind-config": "workspace:*",
+    "@riffy/types": "workspace:*",
     "@riffy/typescript-config": "workspace:*",
     "@testing-library/jest-dom": "^6.4.5",
     "@testing-library/react": "^15.0.7",
@@ -64,7 +68,6 @@
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
     "postcss": "^8.5.3",
-    "tailwindcss": "^3.4.17",
-    "typescript": "5.5.4"
+    "tailwindcss": "^3.4.17"
   }
 }

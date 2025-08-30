@@ -2,7 +2,11 @@ export const ROUTES = {
   HOME: '/',
   LOGIN: '/login',
   REGISTER: '/register',
-  RAFFLES: '/raffles',
+  RAFFLES: {
+    LIST: '/raffles',
+    CREATE: '/raffles/create',
+    EDIT: (id: string) => `/raffles/edit/${id}`,
+  },
   CUSTOMERS: '/customers',
   TICKETS: '/tickets',
 };
@@ -16,7 +20,7 @@ export const MENU = [
   {
     label: 'Rifas',
     icon: 'gift',
-    path: ROUTES.RAFFLES,
+    path: ROUTES.RAFFLES.LIST,
   },
   {
     label: 'Clientes',

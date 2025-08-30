@@ -1,13 +1,13 @@
 'use client';
 import React from 'react';
 import type { ReactElement } from 'react';
-import { cn } from '@/utils/cn';
+import { cn } from '../../utils/cn';
 
 export type IconName =
   | 'credit-card'
   | 'menu'
   | 'chevron-down'
-  | 'info-circle.svg'
+  | 'info-circle'
   | 'hide'
   | 'show'
   | 'minus'
@@ -22,6 +22,10 @@ export type IconName =
   | 'trash'
   | 'download'
   | 'seach'
+  | 'image'
+  | 'calendar'
+  | 'arrow-back'
+  | 'plus-circle'
   | 'dots';
 
 interface IconProps {

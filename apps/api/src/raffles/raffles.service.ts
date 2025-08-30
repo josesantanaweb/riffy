@@ -17,6 +17,7 @@ export class RafflesService {
     const raffles = await this.prisma.raffle.findMany({
       include: {
         tickets: true,
+        owner: true,
       },
     });
     return raffles.map((raffle) => {

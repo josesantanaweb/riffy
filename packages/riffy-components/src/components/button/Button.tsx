@@ -4,20 +4,22 @@ import React from 'react';
 
 import { cn } from '../../utils/cn';
 
+export type ButtonVariant = 'primary' | 'danger' | 'default' | 'success';
+
 interface ButtonProps {
   onClick?: () => void;
   type?: 'button' | 'submit' | 'reset';
   children: React.ReactNode;
   className?: string;
   disabled?: boolean;
-  variant?: 'default' | 'primary' | 'danger' | 'success';
+  variant?: ButtonVariant;
   size?: 'sm' | 'md' | 'lg';
   isFull?: boolean;
   'data-testid'?: string;
 }
 
 const BUTTON_VARIANTS = {
-  default: 'bg-base-600 text-white hover:bg-base-600/90',
+  default: 'bg-base-600 text-white hover:bg-base-600/80',
   primary: 'bg-primary-600 text-white hover:bg-primary-600/90',
   danger: 'bg-red-600/30 text-red-500 hover:bg-red-600/20',
   success: 'bg-green-600 text-white hover:bg-green-600/90',
