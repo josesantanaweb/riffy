@@ -8,6 +8,8 @@ import { cn } from '../../utils/cn';
 interface InputProps {
   id?: string;
   className?: string;
+  label?: string;
+  isRequired?: boolean;
   error?: string;
   placeholder?: string;
   disabled?: boolean;
@@ -75,6 +77,8 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
       id,
       error,
       icon,
+      label,
+      isRequired,
       value,
       iconPosition = 'right',
       inputSize = 'lg',
@@ -118,7 +122,14 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
     };
 
     return (
-      <div className={cn('relative', fullWidth && 'w-full')}>
+      <div
+        className={cn('relative gap-1 flex flex-col', fullWidth && 'w-full')}
+      >
+        <label className="text-white text-sm">
+          {label}{' '}
+          {label && isRequired && <span className="text-red-500">*</span>}
+        </label>
+
         {icon && iconPosition === 'left' && (
           <span className={iconClasses}>{renderIcon(icon)}</span>
         )}

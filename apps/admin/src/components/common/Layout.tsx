@@ -33,8 +33,8 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   };
 
   return (
-    <main className="relative w-full flex items-center justify-center bg-black">
-      <div className="bg-base-900 w-full flex flex-col">
+    <main className="relative w-full flex items-center justify-center">
+      <div className="w-full flex flex-col">
         <main className="relative w-full h-screen grid grid-rows-[52px_1fr]">
           <Navbar />
           <div className="w-full flex h-full">

@@ -1,9 +1,12 @@
 'use client';
 import RafflesTable from './RafflesTable';
+import { useRouter } from 'next/navigation';
 import { Breadcrumb } from '@riffy/components';
 import { useRaffles } from '@riffy/hooks';
+import { ROUTES } from '@/constants/routes';
 
 const Raffles = () => {
+  const router = useRouter();
   const { data } = useRaffles();
 
   const handleEdit = (raffle: any) => {
@@ -14,9 +17,7 @@ const Raffles = () => {
     alert(`Eliminar ${raffle.id}`);
   };
 
-  const handleAdd = () => {
-    alert('Agregar nueva rifa');
-  };
+  const handleAdd = () => router.push(ROUTES.RAFFLES.CREATE);
 
   const handleDownload = () => {
     alert('Descargar datos');

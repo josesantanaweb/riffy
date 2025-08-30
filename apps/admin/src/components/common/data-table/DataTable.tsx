@@ -15,7 +15,7 @@ import {
   Input,
   Select,
 } from '@riffy/components';
-import type { IconName  } from '@riffy/components';
+import type { IconName } from '@riffy/components';
 import ActionMenu from '@/components/common/action-menu';
 import Pagination from '@/components/common/pagination';
 import { PAGINATION_PAGE_SIZE } from '@/constants';
@@ -62,7 +62,6 @@ const DataTable = <T extends Record<string, any>>({
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [openMenuId]);
 
-  // Add actions column if actions are provided
   const columnsWithActions = useMemo(() => {
     const baseColumns = [...columns];
 
@@ -75,13 +74,26 @@ const DataTable = <T extends Record<string, any>>({
             <ActionMenu
               isOpen={openMenuId === row.original.id}
               onToggle={() => toggleMenu(row.original.id)}
-              actions={actions.map(action => ({
-                ...action,
-                onClick: () => {
-                  action.onClick(row.original);
-                  closeMenu();
-                },
-              }))}
+              onEdit={
+                actions.find(a => a.label === 'Editar')
+                  ? () => {
+                      actions
+                        .find(a => a.label === 'Editar')
+                        ?.onClick(row.original);
+                      closeMenu();
+                    }
+                  : undefined
+              }
+              onDelete={
+                actions.find(a => a.label === 'Eliminar')
+                  ? () => {
+                      actions
+                        .find(a => a.label === 'Eliminar')
+                        ?.onClick(row.original);
+                      closeMenu();
+                    }
+                  : undefined
+              }
             />
           </div>
         ),

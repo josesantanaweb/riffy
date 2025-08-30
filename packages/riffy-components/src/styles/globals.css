@@ -134,11 +134,11 @@ input[type='number'] {
   -moz-osx-font-smoothing: grayscale;
 }
 
-
 .icon-credit-card:before { content: '\e800'; } /* '' */
+.icon-search:before { content: '\e801'; } /* '' */
 .icon-menu:before { content: '\e80b'; } /* '' */
 .icon-chevron-down:before { content: '\e825'; } /* '' */
-.icon-info-circle.svg:before { content: '\e827'; } /* '' */
+.icon-info-circle:before { content: '\e827'; } /* '' */
 .icon-hide:before { content: '\e82a'; } /* '' */
 .icon-show:before { content: '\e82b'; } /* '' */
 .icon-minus:before { content: '\e82c'; } /* '' */
@@ -153,4 +153,7 @@ input[type='number'] {
 .icon-download:before { content: '\e83c'; } /* '' */
 .icon-edit:before { content: '\e83d'; } /* '' */
 .icon-dots:before { content: '\e83e'; } /* '' */
-.icon-search:before { content: '\e801'; } /* '' */
+.icon-arrow-back:before { content: '\e83f'; } /* '' */
+.icon-image:before { content: '\e840'; } /* '' */
+.icon-calendar:before { content: '\e841'; } /* '' */
+.icon-plus-circle:before { content: '\e843'; } /* '' */
