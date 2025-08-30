@@ -156,4 +156,5 @@ input[type='number'] {
 .icon-arrow-back:before { content: '\e83f'; } /* '' */
 .icon-image:before { content: '\e840'; } /* '' */
 .icon-calendar:before { content: '\e841'; } /* '' */
-.icon-plus-circle:before { content: '\e843'; } /* '' */
+.icon-info-circle:before { content: '\e842'; } /* '' */
+.icon-close:before { content: '\e844'; } /* '' */

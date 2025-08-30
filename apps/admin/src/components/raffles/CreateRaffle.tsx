@@ -1,4 +1,5 @@
 'use client';
+import toast from 'react-hot-toast';
 import { Breadcrumb, Button, Icon } from '@riffy/components';
 import { useRouter } from 'next/navigation';
 import { useCreateRaffle } from '@riffy/hooks';
@@ -10,6 +11,8 @@ import {
   createRaffleSchema,
   type CreateRaffleFormData,
 } from '@/validations/raffleSchema';
+import Toast from '@/components/common/toast';
+import { ROUTES } from '@/constants';
 
 const CreateRaffle = () => {
   const methods = useForm<CreateRaffleFormData>({
@@ -40,7 +43,8 @@ const CreateRaffle = () => {
   const handleBack = () => router.back();
 
   const onSubmit = async (data: CreateRaffleFormData) => {
-    const { title, status, description, price, award, totalTickets, drawDate } = data;
+    const { title, status, description, price, award, totalTickets, drawDate } =
+      data;
     try {
       const raffleInput = {
         title,
@@ -55,12 +59,25 @@ const CreateRaffle = () => {
       };
 
       await createRaffle(raffleInput);
-      // console.log('Rifa creada exitosamente');
-      // router.push('/rifas');
+      toast.custom(t => (
+        <Toast
+          t={t}
+          type="success"
+          message="Rifa creada exitosamente!!"
+        />
+      ));
+      router.push(ROUTES.RAFFLES.LIST);
     } catch (error) {
       console.error('Error creando rifa:', error);
+      toast.custom(t => (
+        <Toast
+          t={t}
+          type="error"
+          message="Error creando rifa."
+        />
+      ));
     }
-  }
+  };
 
   const handleCancel = () => {
     reset();

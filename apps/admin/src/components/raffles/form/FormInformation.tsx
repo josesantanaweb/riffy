@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useFormContext } from 'react-hook-form';
-import { Icon, Input } from '@riffy/components';
+import { Icon, Input, Select } from '@riffy/components';
 import Editor from './Editor';
 import type { CreateRaffleFormData } from '@/validations/raffleSchema';
 
@@ -15,6 +15,12 @@ const FormInformation = () => {
     watch,
     setValue,
   } = useFormContext<CreateRaffleFormData>();
+
+  const statusOptions = [
+    { value: 'ACTIVE', label: 'Activo' },
+    { value: 'PENDING', label: 'Pendiente' },
+    { value: 'COMPLETED', label: 'Completado' },
+  ];
 
   const handleCollapse = () => setIsCollapse(prev => !prev);
 
@@ -119,13 +125,15 @@ const FormInformation = () => {
                   />
                 </div>
                 <div className="w-1/2">
-                  <Input
+                  <Select
                     label="Estado"
-                    placeholder="Ingresa el Estado"
-                    inputSize="md"
+                    placeholder="Selecciona el estado"
+                    size="md"
+                    options={statusOptions}
                     value={formValues.status || ''}
-                    {...register('status')}
-                    error={errors.status?.message}
+                    onChange={value =>
+                      setValue('status', value, { shouldValidate: false })
+                    }
                   />
                 </div>
               </div>

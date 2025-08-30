@@ -139,8 +139,8 @@ const DataTable = <T extends Record<string, any>>({
     },
   });
 
-  const handlePageSizeChange = (value: number) => {
-    table.setPageSize(value);
+  const handlePageSizeChange = (value: string) => {
+    table.setPageSize(Number(value));
   };
 
   const handleSelectAll = (checked: boolean) => {

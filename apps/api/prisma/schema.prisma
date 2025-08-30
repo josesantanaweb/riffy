@@ -67,7 +67,6 @@ model TicketPurchase {
 
 enum RaffleStatus {
   ACTIVE
-  INACTIVE
   PENDING
   COMPLETED
 }
