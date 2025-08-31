@@ -8,26 +8,26 @@ datasource db {
 }
 
 model User {
-  id             String   @id @default(cuid())
-  email          String   @unique
-  password       String
-  name           String
-  phone          String?
-  image          String?
-  state          String?
-  brandColor   String?   @default("00D4FF")
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
+  id         String   @id @default(cuid())
+  email      String   @unique
+  password   String
+  name       String
+  phone      String?
+  image      String?
+  state      String?
+  brandColor String?  @default("00D4FF")
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 
   role   Role     @default(USER)
   raffle Raffle[]
 }
 
 model Raffle {
-  id          String  @id @default(cuid())
-  title       String
-  description String?
-  banner      String
+  id           String       @id @default(cuid())
+  title        String
+  description  String?
+  banner       String
   totalTickets Int          @default(100)
   price        Float
   award        Float
@@ -37,7 +37,7 @@ model Raffle {
   updatedAt    DateTime     @updatedAt
 
   ownerId String
-  owner   User     @relation(fields: [ownerId], references: [id])
+  owner   User     @relation(fields: [ownerId], references: [id], onDelete: Cascade)
   tickets Ticket[]
 }
 
@@ -47,7 +47,7 @@ model Ticket {
   status TicketStatus @default(AVAILABLE)
 
   raffleId       String
-  raffle         Raffle           @relation(fields: [raffleId], references: [id])
+  raffle         Raffle           @relation(fields: [raffleId], references: [id], onDelete: Cascade)
   ticketPurchase TicketPurchase[]
 }
 
@@ -62,7 +62,7 @@ model TicketPurchase {
   updatedAt DateTime @updatedAt
 
   ticketId String
-  ticket   Ticket @relation(fields: [ticketId], references: [id])
+  ticket   Ticket @relation(fields: [ticketId], references: [id], onDelete: Cascade)
 }
 
 enum RaffleStatus {

@@ -6,8 +6,8 @@ export const useCreateRaffle = () => {
   const [createRaffleMutation, { data, error, loading }] = useMutation(
     CREATE_RAFFLE,
     {
-      variables: {},
-      fetchPolicy: 'network-only',
+      refetchQueries: ['Raffles'],
+      awaitRefetchQueries: true,
     },
   );
 

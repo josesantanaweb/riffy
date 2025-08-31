@@ -60,9 +60,9 @@ export class RafflesResolver {
    * @param input Datos nuevos para la rifa
    * @returns El objeto Raffle actualizado
    */
-  @Roles(Role.ADMIN)
-  @UseGuards(RolesGuard)
-  @UseGuards(GqlAuthGuard)
+  // @Roles(Role.ADMIN)
+  // @UseGuards(RolesGuard)
+  // @UseGuards(GqlAuthGuard)
   @Mutation(() => Raffle, { name: 'updateRaffle' })
   update(
     @Args('id', { type: () => String }) id: string,
@@ -77,9 +77,9 @@ export class RafflesResolver {
    * @param id ID de la rifa a eliminar
    * @returns El objeto Raffle eliminado
    */
-  @Roles(Role.ADMIN)
-  @UseGuards(RolesGuard)
-  @UseGuards(GqlAuthGuard)
+  // @Roles(Role.ADMIN)
+  // @UseGuards(RolesGuard)
+  // @UseGuards(GqlAuthGuard)
   @Mutation(() => Raffle, { name: 'deleteRaffle' })
   delete(@Args('id', { type: () => String }) id: string): Promise<Raffle> {
     return this.rafflesService.delete(id);

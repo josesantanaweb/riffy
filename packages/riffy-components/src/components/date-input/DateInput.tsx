@@ -14,7 +14,7 @@ interface DateInputProps {
 }
 
 const DateInput = ({ label, date, setDate }: DateInputProps) => {
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
 
   const formattedDate =
     date && !isNaN(date.getTime())

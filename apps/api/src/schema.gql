@@ -116,7 +116,6 @@ input CreateRaffleInput {
 
 enum RaffleStatus {
   ACTIVE
-  INACTIVE
   PENDING
   COMPLETED
 }
