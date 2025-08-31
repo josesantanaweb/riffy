@@ -2,10 +2,12 @@ import { Icon } from '@riffy/components';
 import toast from 'react-hot-toast';
 import { motion } from 'framer-motion';
 
+export type ToastType = 'success' | 'error' | 'info';
+
 interface ToastProps {
   t: any;
   message: string;
-  type: 'success' | 'error' | 'info';
+  type: ToastType;
 }
 
 const Toast = ({ t, message, type }: ToastProps) => {

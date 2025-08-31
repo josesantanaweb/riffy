@@ -1,19 +1,20 @@
 'use client';
-import toast from 'react-hot-toast';
 import RafflesTable from './RafflesTable';
 import { useRouter } from 'next/navigation';
 import { Breadcrumb } from '@riffy/components';
-import Toast from '@/components/common/toast';
 import { useRaffles, useDeleteRaffle } from '@riffy/hooks';
+import { useToast } from '@/hooks';
 import { ROUTES } from '@/constants/routes';
 import { Raffle } from '@riffy/types';
 
 const Raffles = () => {
   const router = useRouter();
+  const toast = useToast();
   const { data } = useRaffles();
   const { deleteRaffle } = useDeleteRaffle();
 
-  const handleEdit = (raffle: Raffle) => router.push(ROUTES.RAFFLES.EDIT(raffle.id));
+  const handleEdit = (raffle: Raffle) =>
+    router.push(ROUTES.RAFFLES.EDIT(raffle.id));
 
   const handleView = (raffle: Raffle) => {
     alert(`Ver Boletos ${raffle.id}`);
@@ -22,14 +23,10 @@ const Raffles = () => {
   const handleDelete = async (raffle: Raffle) => {
     try {
       await deleteRaffle(raffle.id);
-      toast.custom(t => (
-        <Toast t={t} type="success" message="Rifa eliminada exitosamente!!" />
-      ));
+      toast.success('Rifa eliminada exitosamente!!');
     } catch (error) {
       console.error(error);
-      toast.custom(t => (
-        <Toast t={t} type="error" message="Error al eliminar la rifa." />
-      ));
+      toast.error('Error al eliminar la rifa.');
     }
   };
 

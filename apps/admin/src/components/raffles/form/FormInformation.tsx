@@ -18,7 +18,7 @@ const FormInformation = () => {
   const statusOptions = [
     { value: 'ACTIVE', label: 'Activo' },
     { value: 'PENDING', label: 'Pendiente' },
-    { value: 'COMPLETED', label: 'Completado' },
+    { value: 'COMPLETED', label: 'Finalizada' },
   ];
 
   const handleCollapse = () => setIsCollapse(prev => !prev);

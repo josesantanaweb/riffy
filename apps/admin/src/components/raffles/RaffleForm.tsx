@@ -1,32 +1,34 @@
 'use client';
-import toast from 'react-hot-toast';
+import React, { useEffect, useCallback } from 'react';
 import { Breadcrumb, Button, Icon } from '@riffy/components';
 import { useRouter, useParams } from 'next/navigation';
-import { useCreateRaffle, useRaffle } from '@riffy/hooks';
+import { useCreateRaffle, useRaffle, useUpdateRaffle } from '@riffy/hooks';
+import { useToast } from '@/hooks';
 import FormInformation from './form/FormInformation';
 import FormImages from './form/FormImages';
 import { useForm, FormProvider } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import {
-  createRaffleSchema,
-  type FormData,
-} from '@/validations/raffleSchema';
-import Toast from '@/components/common/toast';
+import { createRaffleSchema, type FormData } from '@/validations/raffleSchema';
 import { ROUTES } from '@/constants';
+
+const DEFAULT_VALUES: FormData = {
+  title: '',
+  drawDate: new Date(),
+  price: '',
+  award: '',
+  totalTickets: '',
+  status: 'ACTIVE',
+  description: '',
+};
+
+const OWNER_ID = 'cmeyplmjp00026naspzph6qh0';
+const DEFAULT_BANNER = '/images/banner.png';
 
 const RaffleForm = () => {
   const methods = useForm<FormData>({
     resolver: zodResolver(createRaffleSchema),
     mode: 'onChange',
-    defaultValues: {
-      title: '',
-      drawDate: new Date(),
-      price: '',
-      award: '',
-      totalTickets: '',
-      status: 'ACTIVE',
-      description: '',
-    },
+    defaultValues: DEFAULT_VALUES,
   });
 
   const {
@@ -36,56 +38,67 @@ const RaffleForm = () => {
   } = methods;
 
   const router = useRouter();
-  const ownerId = 'cmeyplmjp00026naspzph6qh0';
-  const banner = '/images/banner.png';
-  const raffleId = useParams().raffleId;
-  const { data: raffleData } = useRaffle(typeof raffleId === 'string' ? raffleId : undefined);
-  const { createRaffle, loading: isLoading } = useCreateRaffle();
+  const toast = useToast();
+  const raffleId = useParams().raffleId as string | undefined;
+  const { data: raffleData } = useRaffle(raffleId);
+  const { createRaffle, loading: isCreating } = useCreateRaffle();
+  const { updateRaffle } = useUpdateRaffle();
 
-  const isUpdating = !!raffleData;
+  const isUpdating = Boolean(raffleData);
 
-  const handleBack = () => router.back();
+  useEffect(() => {
+    if (!raffleData) return;
+    reset({
+      title: raffleData.title || '',
+      drawDate: raffleData.drawDate
+        ? new Date(raffleData.drawDate)
+        : new Date(),
+      price: String(raffleData.price ?? ''),
+      award: String(raffleData.award ?? ''),
+      totalTickets: String(raffleData.totalTickets ?? ''),
+      status: raffleData.status || 'ACTIVE',
+      description: raffleData.description || '',
+    });
+  }, [raffleData, reset]);
+
+  const handleBack = useCallback(() => router.back(), [router]);
 
   const onSubmit = async (data: FormData) => {
     const { title, status, description, price, award, totalTickets, drawDate } =
       data;
+
     try {
       const raffleInput = {
-        title,
-        status,
-        description,
+        ...data,
+        title: title,
         price: Number(price),
         award: Number(award),
         totalTickets: Number(totalTickets),
         drawDate: new Date(drawDate).toISOString(),
-        ownerId,
-        banner,
+        status,
+        description,
+        ownerId: OWNER_ID,
+        banner: DEFAULT_BANNER,
       };
 
-      await createRaffle(raffleInput);
-      toast.custom(t => (
-        <Toast
-          t={t}
-          type="success"
-          message="Rifa creada exitosamente!!"
-        />
-      ));
+      if (isUpdating && raffleData?.id) {
+        await updateRaffle(raffleData.id, raffleInput);
+        toast.success('Rifa actualizada exitosamente!!');
+      } else {
+        await createRaffle(raffleInput);
+        toast.success('Rifa creada exitosamente!!');
+      }
+
       router.push(ROUTES.RAFFLES.LIST);
     } catch (error) {
-      console.error('Error creando rifa:', error);
-      toast.custom(t => (
-        <Toast
-          t={t}
-          type="error"
-          message="Error creando rifa."
-        />
-      ));
+      console.error('Error guardando rifa:', error);
+      toast.error('Error guardando rifa');
     }
   };
 
   const handleCancel = () => {
     reset();
-    router.back();
+    handleBack();
   };
 
   return (
@@ -120,9 +133,9 @@ const RaffleForm = () => {
                 variant="primary"
                 size="md"
                 type="submit"
-                disabled={!isValid || isSubmitting || isLoading}
+                disabled={!isValid || isSubmitting || isCreating}
               >
-                {isSubmitting || isLoading ? 'Guardando...' : 'Guardar'}
+                {isSubmitting || isCreating ? 'Guardando...' : 'Guardar'}
               </Button>
             </div>
           </div>

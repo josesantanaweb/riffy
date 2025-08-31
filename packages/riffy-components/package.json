@@ -45,6 +45,7 @@
   "dependencies": {
     "react-quill": "^2.0.0",
     "date-fns": "^4.1.0",
+    "react-hot-toast": "^2.6.0",
     "react-day-picker": "^9.9.0"
   },
   "peerDependencies": {
