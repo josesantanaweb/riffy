@@ -39,7 +39,7 @@ const ActionMenu: React.FC<ActionMenuProps> = ({
               onClick={onView}
               className="text-base-200 hover:text-white gap-2 flex justify-start items-center text-sm px-3 py-2 transition-colors"
             >
-              <Icon name="edit" className="text-sm" />
+              <Icon name="show" className="text-sm" />
               Ver Boletos
             </button>
             <button

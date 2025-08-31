@@ -13,9 +13,8 @@ const Raffles = () => {
   const { data } = useRaffles();
   const { deleteRaffle } = useDeleteRaffle();
 
-  const handleEdit = (raffle: Raffle) => {
-    alert(`Editar ${raffle.id}`);
-  };
+  const handleEdit = (raffle: Raffle) => router.push(ROUTES.RAFFLES.EDIT(raffle.id));
+
   const handleView = (raffle: Raffle) => {
     alert(`Ver Boletos ${raffle.id}`);
   };

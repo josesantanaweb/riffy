@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useFormContext } from 'react-hook-form';
 import { Icon, Input, Select, Editor, DateInput } from '@riffy/components';
-import type { CreateRaffleFormData } from '@/validations/raffleSchema';
+import type { FormData } from '@/validations/raffleSchema';
 
 const FormInformation = () => {
   const [isCollapse, setIsCollapse] = useState(true);
@@ -13,7 +13,7 @@ const FormInformation = () => {
     formState: { errors },
     watch,
     setValue,
-  } = useFormContext<CreateRaffleFormData>();
+  } = useFormContext<FormData>();
 
   const statusOptions = [
     { value: 'ACTIVE', label: 'Activo' },

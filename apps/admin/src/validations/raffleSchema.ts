@@ -38,4 +38,4 @@ export const createRaffleSchema = z.object({
   description: z.string().optional(),
 });
 
-export type CreateRaffleFormData = z.infer<typeof createRaffleSchema>;
+export type FormData = z.infer<typeof createRaffleSchema>;

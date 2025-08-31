@@ -1,21 +1,21 @@
 'use client';
 import toast from 'react-hot-toast';
 import { Breadcrumb, Button, Icon } from '@riffy/components';
-import { useRouter } from 'next/navigation';
-import { useCreateRaffle } from '@riffy/hooks';
+import { useRouter, useParams } from 'next/navigation';
+import { useCreateRaffle, useRaffle } from '@riffy/hooks';
 import FormInformation from './form/FormInformation';
 import FormImages from './form/FormImages';
 import { useForm, FormProvider } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
   createRaffleSchema,
-  type CreateRaffleFormData,
+  type FormData,
 } from '@/validations/raffleSchema';
 import Toast from '@/components/common/toast';
 import { ROUTES } from '@/constants';
 
-const CreateRaffle = () => {
-  const methods = useForm<CreateRaffleFormData>({
+const RaffleForm = () => {
+  const methods = useForm<FormData>({
     resolver: zodResolver(createRaffleSchema),
     mode: 'onChange',
     defaultValues: {
@@ -38,11 +38,15 @@ const CreateRaffle = () => {
   const router = useRouter();
   const ownerId = 'cmeyplmjp00026naspzph6qh0';
   const banner = '/images/banner.png';
+  const raffleId = useParams().raffleId;
+  const { data: raffleData } = useRaffle(typeof raffleId === 'string' ? raffleId : undefined);
   const { createRaffle, loading: isLoading } = useCreateRaffle();
+
+  const isUpdating = !!raffleData;
 
   const handleBack = () => router.back();
 
-  const onSubmit = async (data: CreateRaffleFormData) => {
+  const onSubmit = async (data: FormData) => {
     const { title, status, description, price, award, totalTickets, drawDate } =
       data;
     try {
@@ -91,7 +95,7 @@ const CreateRaffle = () => {
           <div className="flex w-full justify-between items-center">
             <div className="flex flex-col">
               <h3 className="text-white text-lg font-semibold">Rifas</h3>
-              <Breadcrumb page="Crear Rifa" />
+              <Breadcrumb page={isUpdating ? 'Editar Rifa' : 'Crear Rifa'} />
             </div>
             <Button size="md" onClick={handleBack} type="button">
               <Icon name="arrow-back" />
@@ -128,4 +132,4 @@ const CreateRaffle = () => {
   );
 };
 
-export default CreateRaffle;
+export default RaffleForm;
