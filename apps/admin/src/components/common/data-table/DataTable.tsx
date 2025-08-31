@@ -74,6 +74,16 @@ const DataTable = <T extends Record<string, any>>({
             <ActionMenu
               isOpen={openMenuId === row.original.id}
               onToggle={() => toggleMenu(row.original.id)}
+              onView={
+                actions.find(a => a.label === 'Ver Boletos')
+                  ? () => {
+                      actions
+                        .find(a => a.label === 'Ver Boletos')
+                        ?.onClick(row.original);
+                      closeMenu();
+                    }
+                  : undefined
+              }
               onEdit={
                 actions.find(a => a.label === 'Editar')
                   ? () => {

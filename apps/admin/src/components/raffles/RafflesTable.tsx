@@ -19,6 +19,7 @@ interface RafflesTableProps {
   data: Raffle[];
   onEdit?: (raffle: Raffle) => void;
   onDelete?: (raffle: Raffle) => void;
+  onView?: (raffle: Raffle) => void;
   onAdd?: () => void;
   onDownload?: () => void;
 }
@@ -27,6 +28,7 @@ const RafflesTable = ({
   data,
   onEdit,
   onDelete,
+  onView,
   onAdd,
   onDownload,
 }: RafflesTableProps) => {
@@ -123,6 +125,15 @@ const RafflesTable = ({
   ];
 
   const actions: TableAction<Raffle>[] = [
+    ...(onView
+      ? [
+          {
+            label: 'Ver Boletos',
+            icon: 'ticket',
+            onClick: onView,
+          },
+        ]
+      : []),
     ...(onEdit
       ? [
           {

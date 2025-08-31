@@ -16,6 +16,9 @@ const Raffles = () => {
   const handleEdit = (raffle: Raffle) => {
     alert(`Editar ${raffle.id}`);
   };
+  const handleView = (raffle: Raffle) => {
+    alert(`Ver Boletos ${raffle.id}`);
+  };
 
   const handleDelete = async (raffle: Raffle) => {
     try {
@@ -49,6 +52,7 @@ const Raffles = () => {
             data={data}
             onEdit={handleEdit}
             onDelete={handleDelete}
+            onView={handleView}
             onAdd={handleAdd}
             onDownload={handleDownload}
           />
