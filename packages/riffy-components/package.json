@@ -42,6 +42,11 @@
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0"
   },
+  "dependencies": {
+    "react-quill": "^2.0.0",
+    "date-fns": "^4.1.0",
+    "react-day-picker": "^9.9.0"
+  },
   "peerDependencies": {
     "clsx": "^2.1.1",
     "tailwind-merge": "^3.2.0",

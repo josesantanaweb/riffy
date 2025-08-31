@@ -7,37 +7,35 @@ export const createRaffleSchema = z.object({
     .min(3, 'El título debe tener al menos 3 caracteres')
     .max(100, 'El título no puede exceder 100 caracteres'),
 
-  drawDate: z
-    .string()
-    .min(1, 'La fecha del sorteo es requerida')
-    .refine((date) => {
-      const selectedDate = new Date(date);
-      const today = new Date();
-      return selectedDate > today;
-    }, 'La fecha del sorteo debe ser futura'),
+  drawDate: z.date().min(new Date(), 'La fecha del sorteo debe ser futura').optional(),
 
   price: z
     .string()
     .min(1, 'El precio del boleto es requerido')
-    .refine((val) => !isNaN(Number(val)) && Number(val) > 0, 'Debe ser un número mayor a 0'),
+    .refine(
+      val => !isNaN(Number(val)) && Number(val) > 0,
+      'Debe ser un número mayor a 0',
+    ),
 
   award: z
     .string()
     .min(1, 'El valor del premio es requerido')
-    .refine((val) => !isNaN(Number(val)) && Number(val) > 0, 'Debe ser un número mayor a 0'),
+    .refine(
+      val => !isNaN(Number(val)) && Number(val) > 0,
+      'Debe ser un número mayor a 0',
+    ),
 
   totalTickets: z
     .string()
     .min(1, 'La cantidad de boletos es requerida')
-    .refine((val) => !isNaN(Number(val)) && Number(val) > 0, 'Debe ser un número mayor a 0'),
+    .refine(
+      val => !isNaN(Number(val)) && Number(val) > 0,
+      'Debe ser un número mayor a 0',
+    ),
 
-  status: z
-    .string()
-    .optional(),
+  status: z.string().optional(),
 
-  description: z
-    .string()
-    .optional(),
+  description: z.string().optional(),
 });
 
 export type CreateRaffleFormData = z.infer<typeof createRaffleSchema>;

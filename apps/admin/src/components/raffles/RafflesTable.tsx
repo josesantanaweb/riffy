@@ -174,7 +174,7 @@ const RafflesTable = ({
       actions={actions}
       buttons={buttons}
       searchFields={['title', 'owner']}
-      searchPlaceholder="Buscar rifas..."
+      searchPlaceholder="Buscar"
       enableSelection={true}
       enablePagination={true}
     />

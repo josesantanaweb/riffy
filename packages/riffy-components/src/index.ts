@@ -9,3 +9,5 @@ export { default as Badge } from './components/badge';
 export { BadgeStatus } from './components/badge';
 export { default as Checkbox } from './components/checkbox';
 export { default as Select } from './components/select';
+export { default as Editor } from './components/editor';
+export { default as DateInput } from './components/date-input';

@@ -2,8 +2,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useFormContext } from 'react-hook-form';
-import { Icon, Input, Select } from '@riffy/components';
-import Editor from './Editor';
+import { Icon, Input, Select, Editor, DateInput } from '@riffy/components';
 import type { CreateRaffleFormData } from '@/validations/raffleSchema';
 
 const FormInformation = () => {
@@ -71,15 +70,14 @@ const FormInformation = () => {
                   />
                 </div>
                 <div className="w-1/2">
-                  <Input
+                  <DateInput
                     label="Fecha del sorteo"
-                    isRequired
-                    placeholder="yyyy-mm-dd"
-                    inputSize="md"
-                    type="date"
-                    value={formValues.drawDate || ''}
-                    {...register('drawDate')}
-                    error={errors.drawDate?.message}
+                    date={new Date(formValues.drawDate)}
+                    setDate={date =>
+                      setValue('drawDate', date, {
+                        shouldValidate: true,
+                      })
+                    }
                   />
                 </div>
               </div>

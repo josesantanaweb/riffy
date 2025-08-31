@@ -20,7 +20,7 @@ const CreateRaffle = () => {
     mode: 'onChange',
     defaultValues: {
       title: '',
-      drawDate: '',
+      drawDate: new Date(),
       price: '',
       award: '',
       totalTickets: '',
