@@ -7,8 +7,14 @@ export const ROUTES = {
     CREATE: '/raffles/create',
     EDIT: (id: string) => `/raffles/edit/${id}`,
   },
-  CUSTOMERS: '/customers',
-  TICKETS: '/tickets',
+  OWNERS: {
+    LIST: '/owners',
+    CREATE: '/owners/create',
+    EDIT: (id: string) => `/owners/edit/${id}`,
+  },
+  TICKETS: {
+    LIST: (raffleId: string) => `/raffles/${raffleId}/tickets`,
+  },
 };
 
 export const MENU = [
@@ -23,13 +29,13 @@ export const MENU = [
     path: ROUTES.RAFFLES.LIST,
   },
   {
-    label: 'Clientes',
+    label: 'Dueños',
     icon: 'user',
-    path: ROUTES.CUSTOMERS,
+    path: ROUTES.OWNERS,
   },
-  {
-    label: 'Boletos',
-    icon: 'ticket',
-    path: ROUTES.TICKETS,
-  },
-] ;
+  // {
+  //   label: 'Boletos',
+  //   icon: 'ticket',
+  //   path: ROUTES.TICKETS,
+  // },
+];

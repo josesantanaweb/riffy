@@ -1,6 +1,11 @@
 export enum Role {
   ADMIN = 'ADMIN',
-  USER = 'USER',
+  OWNER = 'OWNER',
+}
+
+export enum UserStatus {
+  ACTIVE = 'ACTIVE',
+  INACTIVE = 'INACTIVE',
 }
 
 export interface User {
@@ -9,7 +14,19 @@ export interface User {
   email: string;
   brandColor?: string | null;
   phone?: string | null;
-  image?: string | null;
-  state?: string | null;
-  role?: string | null;
+  logo?: string | null;
+  role?: Role | null;
+  status?: UserStatus | null;
 }
+
+export interface CreateUserInput {
+  name: string;
+  email: string;
+  password: string;
+  brandColor?: string | null;
+  phone?: string | null;
+  logo?: string | null;
+  role?: Role | null;
+  status?: UserStatus | null;
+}
+

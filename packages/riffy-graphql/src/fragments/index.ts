@@ -25,11 +25,33 @@ export const RAFFLES_FRAGMENT = gql`
       id
       name
       brandColor
-      image
+      logo
       email
       phone
-      state
       role
     }
+  }
+`;
+
+export const TICKETS_FRAGMENT = gql`
+  fragment TicketFragment on Ticket {
+    id
+    number
+    status
+  }
+`;
+
+export const USERS_FRAGMENT = gql`
+  fragment UserFragment on User {
+    id
+    name
+    email
+    phone
+    logo
+    brandColor
+    status
+    role
+    createdAt
+    updatedAt
   }
 `;

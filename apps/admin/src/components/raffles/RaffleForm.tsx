@@ -21,7 +21,7 @@ const DEFAULT_VALUES: FormData = {
   description: '',
 };
 
-const OWNER_ID = 'cmeyplmjp00026naspzph6qh0';
+const OWNER_ID = 'cmf1myuv20000fmqj1lgf2end';
 const DEFAULT_BANNER = '/images/banner.png';
 
 const RaffleForm = () => {

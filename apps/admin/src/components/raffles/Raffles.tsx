@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 import { Breadcrumb } from '@riffy/components';
 import { useRaffles, useDeleteRaffle } from '@riffy/hooks';
 import { useToast } from '@/hooks';
-import { ROUTES } from '@/constants/routes';
+import { ROUTES } from '@/constants';
 import { Raffle } from '@riffy/types';
 
 const Raffles = () => {
@@ -16,9 +16,7 @@ const Raffles = () => {
   const handleEdit = (raffle: Raffle) =>
     router.push(ROUTES.RAFFLES.EDIT(raffle.id));
 
-  const handleView = (raffle: Raffle) => {
-    alert(`Ver Boletos ${raffle.id}`);
-  };
+  const handleView = (raffle: Raffle) => router.push(ROUTES.TICKETS.LIST(raffle.id));
 
   const handleDelete = async (raffle: Raffle) => {
     try {

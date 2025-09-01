@@ -13,13 +13,13 @@ model User {
   password   String
   name       String
   phone      String?
-  image      String?
-  state      String?
+  logo       String?
+  status     UserStatus @default(ACTIVE)
   brandColor String?  @default("00D4FF")
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
 
-  role   Role     @default(USER)
+  role   Role     @default(OWNER)
   raffle Raffle[]
 }
 
@@ -75,9 +75,16 @@ enum TicketStatus {
   AVAILABLE
   RESERVED
   SOLD
+  WINNER
+  LOSER
+}
+
+enum UserStatus {
+  ACTIVE
+  INACTIVE
 }
 
 enum Role {
   ADMIN
-  USER
+  OWNER
 }

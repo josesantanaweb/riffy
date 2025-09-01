@@ -2,7 +2,7 @@ import { Args, Query, Resolver, Mutation } from '@nestjs/graphql';
 import { UseGuards } from '@nestjs/common';
 import { GqlAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { Roles } from '../auth/decorators/roles.decorator';
-import { Roles as Role } from '../auth/enums/roles.enum';
+import { Role } from '@prisma/client';
 import { RafflesService } from './raffles.service';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { Raffle } from './entities/raffle.entity';
@@ -22,7 +22,7 @@ export class RafflesResolver {
   // @UseGuards(RolesGuard)
   // @UseGuards(GqlAuthGuard)
   @Query(() => [Raffle], { name: 'raffles' })
-  raffles(): Promise<Raffle[]> {
+  getAll(): Promise<Raffle[]> {
     return this.rafflesService.findAll();
   }
 
@@ -33,7 +33,7 @@ export class RafflesResolver {
    * @returns Un objeto Raffle si existe, si no lanza NotFoundException
    */
   @Query(() => Raffle, { name: 'raffle' })
-  raffle(@Args('id', { type: () => String }) id: string): Promise<Raffle> {
+  getOne(@Args('id', { type: () => String }) id: string): Promise<Raffle> {
     return this.rafflesService.findOne(id);
   }
 

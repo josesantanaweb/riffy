@@ -2,7 +2,7 @@ import { Args, Query, Resolver, Mutation } from '@nestjs/graphql';
 import { UseGuards } from '@nestjs/common';
 import { GqlAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { Roles } from '../auth/decorators/roles.decorator';
-import { Roles as Role } from '../auth/enums/roles.enum';
+import { Role } from '@prisma/client';
 import { TicketsService } from './tickets.service';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { Ticket } from './entities/ticket.entity';
@@ -22,8 +22,23 @@ export class TicketsResolver {
   @UseGuards(RolesGuard)
   @UseGuards(GqlAuthGuard)
   @Query(() => [Ticket], { name: 'tickets' })
-  Tickets(): Promise<Ticket[]> {
+  getAll(): Promise<Ticket[]> {
     return this.TicketsService.findAll();
+  }
+
+  /**
+   * Obtiene todos los tickets registrados por rifa.
+   * Roles requeridos: ADMIN
+   * Retorna: Un array de objetos Ticket
+   */
+  // @Roles(Role.ADMIN)
+  // @UseGuards(RolesGuard)
+  // @UseGuards(GqlAuthGuard)
+  @Query(() => [Ticket], { name: 'ticketsByRaffleId' })
+  getAllByRaffleId(
+    @Args('raffleId', { type: () => String }) raffleId: string,
+  ): Promise<Ticket[]> {
+    return this.TicketsService.findAllByRaffleId(raffleId);
   }
 
   /**
@@ -32,11 +47,11 @@ export class TicketsResolver {
    * @param id ID del ticket a buscar
    * @returns Un objeto Ticket si existe, si no lanza NotFoundException
    */
-  @Roles(Role.ADMIN)
-  @UseGuards(RolesGuard)
-  @UseGuards(GqlAuthGuard)
+  // @Roles(Role.ADMIN)
+  // @UseGuards(RolesGuard)
+  // @UseGuards(GqlAuthGuard)
   @Query(() => Ticket, { name: 'ticket' })
-  Ticket(@Args('id', { type: () => String }) id: string): Promise<Ticket> {
+  getOne(@Args('id', { type: () => String }) id: string): Promise<Ticket> {
     return this.TicketsService.findOne(id);
   }
 
