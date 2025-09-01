@@ -10,7 +10,7 @@ import {
   TABLE_CLASSES,
   mapRaffleStatusToStatusType,
   mapRaffleStatusToLabel,
-} from '@/utils/tableUtils';
+} from '@/utils';
 import { Badge } from '@riffy/components';
 import MediaDisplay from '@/components/common/media-display';
 import { Raffle, RaffleStatus } from '@riffy/types';

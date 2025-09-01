@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 import { Breadcrumb } from '@riffy/components';
 import { useRaffles, useDeleteRaffle } from '@riffy/hooks';
 import { useToast } from '@/hooks';
-import { ROUTES } from '@/constants/routes';
+import { ROUTES } from '@/constants';
 import { Raffle } from '@riffy/types';
 
 const Raffles = () => {

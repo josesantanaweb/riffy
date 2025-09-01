@@ -8,7 +8,7 @@ import {
   TABLE_CLASSES,
   mapTicketStatusToStatusType,
   mapTicketStatusToLabel,
-} from '@/utils/tableUtils';
+} from '@/utils';
 import { Badge } from '@riffy/components';
 import MediaDisplay from '@/components/common/media-display';
 import { Ticket, TicketStatus } from '@riffy/types';
