@@ -37,7 +37,7 @@ const FormImages = () => {
             className="overflow-hidden"
           >
             <div className="flex items-center px-6 py-4 w-full gap-6">
-              <div className="flex items-center justify-center flex-col text-base-300 gap-1 rounded-lg w-[150px] h-[120px] border border-dashed border-base-500 cursor-pointer">
+              <div className="flex items-center justify-center flex-col text-base-300 gap-1 rounded-lg w-[150px] h-[120px] border-2 border-dashed border-base-500 cursor-pointer">
                 <Icon name="plus-circle" className="text-2xl" />
                 <p className="text-sm">Agregar imagen</p>
               </div>

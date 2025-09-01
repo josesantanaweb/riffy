@@ -5,17 +5,18 @@ import { Icon } from '@riffy/components';
 import { cn } from '../../utils/cn';
 
 interface Option {
-  value: string | number;
+  value: string;
   label: string;
 }
 
 interface SelectProps {
   options?: Option[];
-  value?: string | number;
-  onChange?: (value: string | number) => void;
+  value?: string;
+  onChange?: (value: string) => void;
   placeholder?: string;
   disabled?: boolean;
   className?: string;
+  label?: string;
   size?: 'sm' | 'md' | 'lg';
   fullWidth?: boolean;
 }
@@ -56,9 +57,10 @@ const Select: React.FC<SelectProps> = ({
   options = [],
   value,
   onChange,
-  placeholder = 'Seleccionar...',
+  placeholder = 'Seleccionar',
   disabled = false,
   className,
+  label,
   size = 'md',
   fullWidth = true,
 }) => {
@@ -116,6 +118,7 @@ const Select: React.FC<SelectProps> = ({
 
   return (
     <div ref={selectRef} className={cn('relative', fullWidth && 'w-full')}>
+      <label className="text-white text-sm">{label}</label>
       <div
         className={selectClasses}
         onClick={handleToggle}

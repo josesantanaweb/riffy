@@ -68,11 +68,11 @@ export const mapStatusToLabel = (status: string): string => {
 export const mapStatusToStatusType = (status: string): BadgeStatus => {
   switch (status) {
     case RaffleStatus.ACTIVE:
-      return BadgeStatus.INFO;
+      return BadgeStatus.SUCCESS;
     case RaffleStatus.INACTIVE:
       return BadgeStatus.ERROR;
     case RaffleStatus.COMPLETED:
-      return BadgeStatus.SUCCESS;
+      return BadgeStatus.DEFAULT;
     default:
       return BadgeStatus.DEFAULT;
   }

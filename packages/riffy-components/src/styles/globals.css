@@ -138,7 +138,6 @@ input[type='number'] {
 .icon-search:before { content: '\e801'; } /* '' */
 .icon-menu:before { content: '\e80b'; } /* '' */
 .icon-chevron-down:before { content: '\e825'; } /* '' */
-.icon-info-circle:before { content: '\e827'; } /* '' */
 .icon-hide:before { content: '\e82a'; } /* '' */
 .icon-show:before { content: '\e82b'; } /* '' */
 .icon-minus:before { content: '\e82c'; } /* '' */
@@ -156,4 +155,5 @@ input[type='number'] {
 .icon-arrow-back:before { content: '\e83f'; } /* '' */
 .icon-image:before { content: '\e840'; } /* '' */
 .icon-calendar:before { content: '\e841'; } /* '' */
-.icon-plus-circle:before { content: '\e843'; } /* '' */
+.icon-info-circle:before { content: '\e842'; } /* '' */
+.icon-close:before { content: '\e844'; } /* '' */

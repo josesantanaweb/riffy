@@ -19,6 +19,7 @@ interface RafflesTableProps {
   data: Raffle[];
   onEdit?: (raffle: Raffle) => void;
   onDelete?: (raffle: Raffle) => void;
+  onView?: (raffle: Raffle) => void;
   onAdd?: () => void;
   onDownload?: () => void;
 }
@@ -27,8 +28,9 @@ const RafflesTable = ({
   data,
   onEdit,
   onDelete,
+  onView,
   onAdd,
-  onDownload
+  onDownload,
 }: RafflesTableProps) => {
   const columns: ColumnDef<Raffle>[] = [
     {
@@ -55,21 +57,57 @@ const RafflesTable = ({
         headerClassName: TABLE_CLASSES.header,
       },
     },
+    // {
+    //   accessorKey: 'owner',
+    //   header: 'Dueño',
+    //   cell: info => {
+    //     const owner = info.getValue() as { name: string; image: string };
+    //     return <MediaDisplay label={owner.name} image={owner.image} />;
+    //   },
+    //   meta: {
+    //     className: TABLE_CLASSES.cell,
+    //     headerClassName: TABLE_CLASSES.header,
+    //   },
+    // },
+    createCurrencyColumn('award', 'Premio'),
+    createCurrencyColumn('price', 'Precio'),
     {
-      accessorKey: 'owner',
-      header: 'Dueño',
+      accessorKey: 'totalTickets',
+      header: 'Boletos',
       cell: info => {
-        const owner = info.getValue() as { name: string; image: string };
-        return <MediaDisplay label={owner.name} image={owner.image} />;
+        const totalTickets = info.getValue() as number;
+        return <p>{totalTickets}</p>;
       },
       meta: {
         className: TABLE_CLASSES.cell,
         headerClassName: TABLE_CLASSES.header,
       },
     },
-    createCurrencyColumn('award', 'Premio'),
-    createCurrencyColumn('price', 'Precio'),
-    createDateColumn('drawDate', 'Fecha del sorteo'),
+    {
+      accessorKey: 'sold',
+      header: 'Vendidos',
+      cell: info => {
+        const sold = info.getValue() as number;
+        return <p>{sold}</p>;
+      },
+      meta: {
+        className: TABLE_CLASSES.cell,
+        headerClassName: TABLE_CLASSES.header,
+      },
+    },
+    {
+      accessorKey: 'available',
+      header: 'Disponibles',
+      cell: info => {
+        const available = info.getValue() as number;
+        return <p>{available}</p>;
+      },
+      meta: {
+        className: TABLE_CLASSES.cell,
+        headerClassName: TABLE_CLASSES.header,
+      },
+    },
+    createDateColumn('drawDate', 'Fecha'),
     {
       accessorKey: 'status',
       header: 'Estado',
@@ -87,32 +125,57 @@ const RafflesTable = ({
   ];
 
   const actions: TableAction<Raffle>[] = [
-    ...(onEdit ? [{
-      label: 'Editar',
-      icon: 'edit',
-      onClick: onEdit,
-    }] : []),
-    ...(onDelete ? [{
-      label: 'Eliminar',
-      icon: 'trash',
-      variant: 'danger' as const,
-      onClick: onDelete,
-    }] : []),
+    ...(onView
+      ? [
+          {
+            label: 'Ver Boletos',
+            icon: 'ticket',
+            onClick: onView,
+          },
+        ]
+      : []),
+    ...(onEdit
+      ? [
+          {
+            label: 'Editar',
+            icon: 'edit',
+            onClick: onEdit,
+          },
+        ]
+      : []),
+    ...(onDelete
+      ? [
+          {
+            label: 'Eliminar',
+            icon: 'trash',
+            variant: 'danger' as const,
+            onClick: onDelete,
+          },
+        ]
+      : []),
   ];
 
   const buttons: TableButton[] = [
-    ...(onDownload ? [{
-      label: 'Descargar',
-      icon: 'download',
-      variant: 'default' as const,
-      onClick: onDownload,
-    }] : []),
-    ...(onAdd ? [{
-      label: 'Agregar',
-      icon: 'plus',
-      variant: 'primary' as const,
-      onClick: onAdd,
-    }] : []),
+    ...(onDownload
+      ? [
+          {
+            label: 'Descargar',
+            icon: 'download',
+            variant: 'default' as const,
+            onClick: onDownload,
+          },
+        ]
+      : []),
+    ...(onAdd
+      ? [
+          {
+            label: 'Agregar',
+            icon: 'plus',
+            variant: 'primary' as const,
+            onClick: onAdd,
+          },
+        ]
+      : []),
   ];
 
   return (
@@ -122,7 +185,7 @@ const RafflesTable = ({
       actions={actions}
       buttons={buttons}
       searchFields={['title', 'owner']}
-      searchPlaceholder="Buscar rifas..."
+      searchPlaceholder="Buscar"
       enableSelection={true}
       enablePagination={true}
     />

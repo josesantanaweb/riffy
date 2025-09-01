@@ -14,6 +14,16 @@ export class CreateUserInput {
   email: string;
 
   @IsString()
+  @IsOptional()
+  @Field(() => String, { nullable: true })
+  image?: string;
+
+  @IsString()
+  @IsOptional()
+  @Field(() => String, { nullable: true })
+  brandColor?: string;
+
+  @IsString()
   @Field(() => String)
   password: string;
 

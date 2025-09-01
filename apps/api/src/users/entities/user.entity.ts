@@ -17,6 +17,9 @@ export class User {
   @Field({ nullable: true })
   image?: string;
 
+  @Field()
+  brandColor: string;
+
   @Field({ nullable: true })
   phone?: string;
 

@@ -7,8 +7,9 @@ export interface User {
   id: string;
   name: string;
   email: string;
-  phone?: string;
-  image?: string;
-  state?: string;
-  role?: string;
+  brandColor?: string | null;
+  phone?: string | null;
+  image?: string | null;
+  state?: string | null;
+  role?: string | null;
 }

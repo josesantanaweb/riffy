@@ -2,19 +2,32 @@
 import RafflesTable from './RafflesTable';
 import { useRouter } from 'next/navigation';
 import { Breadcrumb } from '@riffy/components';
-import { useRaffles } from '@riffy/hooks';
+import { useRaffles, useDeleteRaffle } from '@riffy/hooks';
+import { useToast } from '@/hooks';
 import { ROUTES } from '@/constants/routes';
+import { Raffle } from '@riffy/types';
 
 const Raffles = () => {
   const router = useRouter();
+  const toast = useToast();
   const { data } = useRaffles();
+  const { deleteRaffle } = useDeleteRaffle();
 
-  const handleEdit = (raffle: any) => {
-    alert(`Editar ${raffle.id}`);
+  const handleEdit = (raffle: Raffle) =>
+    router.push(ROUTES.RAFFLES.EDIT(raffle.id));
+
+  const handleView = (raffle: Raffle) => {
+    alert(`Ver Boletos ${raffle.id}`);
   };
 
-  const handleDelete = (raffle: any) => {
-    alert(`Eliminar ${raffle.id}`);
+  const handleDelete = async (raffle: Raffle) => {
+    try {
+      await deleteRaffle(raffle.id);
+      toast.success('Rifa eliminada exitosamente!!');
+    } catch (error) {
+      console.error(error);
+      toast.error('Error al eliminar la rifa.');
+    }
   };
 
   const handleAdd = () => router.push(ROUTES.RAFFLES.CREATE);
@@ -35,6 +48,7 @@ const Raffles = () => {
             data={data}
             onEdit={handleEdit}
             onDelete={handleDelete}
+            onView={handleView}
             onAdd={handleAdd}
             onDownload={handleDownload}
           />

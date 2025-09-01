@@ -1,1 +1,1 @@
-export { GET_RAFFLES } from './raffles';
+export { GET_RAFFLES, GET_RAFFLE } from './raffles';

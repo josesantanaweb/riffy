@@ -26,6 +26,7 @@ export type IconName =
   | 'calendar'
   | 'arrow-back'
   | 'plus-circle'
+  | 'close'
   | 'dots';
 
 interface IconProps {

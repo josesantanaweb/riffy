@@ -1,15 +1,34 @@
 'use client';
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Icon, Input } from '@riffy/components';
-import Editor from './Editor';
+import { useFormContext } from 'react-hook-form';
+import { Icon, Input, Select, Editor, DateInput } from '@riffy/components';
+import type { FormData } from '@/validations/raffleSchema';
 
 const FormInformation = () => {
-  const [title, setTitle] = useState<string>('');
-  const [value, setValue] = useState('');
   const [isCollapse, setIsCollapse] = useState(true);
 
+  const {
+    register,
+    formState: { errors },
+    watch,
+    setValue,
+  } = useFormContext<FormData>();
+
+  const statusOptions = [
+    { value: 'ACTIVE', label: 'Activo' },
+    { value: 'PENDING', label: 'Pendiente' },
+    { value: 'COMPLETED', label: 'Finalizada' },
+  ];
+
   const handleCollapse = () => setIsCollapse(prev => !prev);
+
+  const formValues = watch();
+  const descriptionValue = formValues.description || '';
+
+  const handleDescriptionChange = (value: string) => {
+    setValue('description', value, { shouldValidate: true });
+  };
 
   return (
     <div className="bg-base-700 rounded-xl relative">
@@ -45,18 +64,20 @@ const FormInformation = () => {
                     isRequired
                     placeholder="Ingresa un titulo"
                     inputSize="md"
-                    value={title}
-                    onChange={e => setTitle(e.target.value)}
+                    value={formValues.title || ''}
+                    {...register('title')}
+                    error={errors.title?.message}
                   />
                 </div>
                 <div className="w-1/2">
-                  <Input
+                  <DateInput
                     label="Fecha del sorteo"
-                    isRequired
-                    placeholder="dd/mm/yyyy"
-                    inputSize="md"
-                    value={title}
-                    onChange={e => setTitle(e.target.value)}
+                    date={new Date(formValues.drawDate)}
+                    setDate={date =>
+                      setValue('drawDate', date, {
+                        shouldValidate: true,
+                      })
+                    }
                   />
                 </div>
               </div>
@@ -68,8 +89,10 @@ const FormInformation = () => {
                     isRequired
                     placeholder="Ingresa el precio del boleto"
                     inputSize="md"
-                    value={title}
-                    onChange={e => setTitle(e.target.value)}
+                    type="number"
+                    value={formValues.price || ''}
+                    {...register('price')}
+                    error={errors.price?.message}
                   />
                 </div>
                 <div className="w-1/2">
@@ -78,8 +101,10 @@ const FormInformation = () => {
                     isRequired
                     placeholder="Ingresa el valor del premio"
                     inputSize="md"
-                    value={title}
-                    onChange={e => setTitle(e.target.value)}
+                    type="number"
+                    value={formValues.award || ''}
+                    {...register('award')}
+                    error={errors.award?.message}
                   />
                 </div>
               </div>
@@ -91,22 +116,31 @@ const FormInformation = () => {
                     isRequired
                     placeholder="Ingresa la cantidad de boletos"
                     inputSize="md"
-                    value={title}
-                    onChange={e => setTitle(e.target.value)}
+                    type="number"
+                    value={formValues.totalTickets || ''}
+                    {...register('totalTickets')}
+                    error={errors.totalTickets?.message}
                   />
                 </div>
                 <div className="w-1/2">
-                  <Input
+                  <Select
                     label="Estado"
-                    placeholder="Ingresa el Estado"
-                    inputSize="md"
-                    value={title}
-                    onChange={e => setTitle(e.target.value)}
+                    placeholder="Selecciona el estado"
+                    size="md"
+                    options={statusOptions}
+                    value={formValues.status || ''}
+                    onChange={value =>
+                      setValue('status', value, { shouldValidate: false })
+                    }
                   />
                 </div>
               </div>
 
-              <Editor label="Descripción" value={value} setValue={setValue} />
+              <Editor
+                label="Descripción"
+                value={descriptionValue}
+                setValue={handleDescriptionChange}
+              />
             </div>
           </motion.div>
         )}

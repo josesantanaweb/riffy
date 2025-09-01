@@ -18,15 +18,6 @@ export class CreateRaffleInput {
   @Field(() => String)
   banner: string;
 
-  @IsString()
-  @Field(() => String)
-  primaryColor: string;
-
-  @IsOptional()
-  @IsString()
-  @Field(() => String, { nullable: true })
-  secondaryColor?: string;
-
   @IsInt()
   @Field(() => Int)
   totalTickets: number;

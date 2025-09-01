@@ -17,12 +17,6 @@ export class Raffle {
   banner: string;
 
   @Field()
-  primaryColor: string;
-
-  @Field({ nullable: true })
-  secondaryColor?: string;
-
-  @Field()
   totalTickets: number;
 
   @Field()

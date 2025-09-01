@@ -8,6 +8,7 @@ type User {
   password: String
   email: String!
   image: String
+  brandColor: String!
   phone: String
   state: String
   role: String
@@ -36,8 +37,6 @@ type Raffle {
   title: String!
   description: String
   banner: String!
-  primaryColor: String!
-  secondaryColor: String
   totalTickets: Float!
   price: Float!
   award: Float!
@@ -66,7 +65,7 @@ type Mutation {
   createUser(input: CreateUserInput!): User!
   updateUser(id: String!, input: UpdateUserInput!): User!
   deleteUser(id: String!): User!
-  register(input: RegisterInput!): AuthResponse!
+  register(input: CreateUserInput!): AuthResponse!
   login(input: LoginInput!): AuthResponse!
   createRaffle(input: CreateRaffleInput!): Raffle!
   updateRaffle(id: String!, input: UpdateRaffleInput!): Raffle!
@@ -79,6 +78,8 @@ type Mutation {
 input CreateUserInput {
   name: String!
   email: String!
+  image: String
+  brandColor: String
   password: String!
   phone: String
   state: String
@@ -88,16 +89,12 @@ input CreateUserInput {
 input UpdateUserInput {
   name: String
   email: String
+  image: String
+  brandColor: String
   password: String
   phone: String
   state: String
   role: String
-}
-
-input RegisterInput {
-  email: String!
-  password: String!
-  name: String!
 }
 
 input LoginInput {
@@ -109,8 +106,6 @@ input CreateRaffleInput {
   title: String!
   description: String
   banner: String!
-  primaryColor: String!
-  secondaryColor: String
   totalTickets: Int!
   price: Int!
   award: Int!
@@ -121,7 +116,6 @@ input CreateRaffleInput {
 
 enum RaffleStatus {
   ACTIVE
-  INACTIVE
   PENDING
   COMPLETED
 }
@@ -130,8 +124,6 @@ input UpdateRaffleInput {
   title: String
   description: String
   banner: String
-  primaryColor: String
-  secondaryColor: String
   totalTickets: Int
   price: Int
   award: Int
