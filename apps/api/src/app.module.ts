@@ -10,7 +10,8 @@ import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { RafflesModule } from './raffles/raffles.module';
 import { TicketsModule } from './tickets/tickets.module';
-import './auth/enums/role.enum';
+import './enums/role.enum';
+import './enums/user-status.enum';
 
 @Module({
   imports: [

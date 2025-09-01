@@ -11,6 +11,7 @@ type User {
   brandColor: String!
   phone: String
   role: Role
+  status: UserStatus
   createdAt: DateTime
   updatedAt: DateTime
 }
@@ -18,7 +19,13 @@ type User {
 """Roles de usuario"""
 enum Role {
   ADMIN
-  USER
+  OWNER
+}
+
+"""The status of the user"""
+enum UserStatus {
+  ACTIVE
+  INACTIVE
 }
 
 """
@@ -89,6 +96,7 @@ input CreateUserInput {
   password: String!
   phone: String
   role: Role
+  status: UserStatus
 }
 
 input UpdateUserInput {
@@ -99,6 +107,7 @@ input UpdateUserInput {
   password: String
   phone: String
   role: Role
+  status: UserStatus
 }
 
 input LoginInput {

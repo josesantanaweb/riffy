@@ -1,5 +1,5 @@
 import { ObjectType, Field, ID, GraphQLISODateTime } from '@nestjs/graphql';
-import { Role } from '@prisma/client';
+import { Role, UserStatus } from '@prisma/client';
 
 @ObjectType()
 export class User {
@@ -26,6 +26,9 @@ export class User {
 
   @Field(() => Role, { nullable: true })
   role?: Role;
+
+  @Field(() => UserStatus, { nullable: true })
+  status?: UserStatus;
 
   @Field(() => GraphQLISODateTime, { nullable: true })
   createdAt?: Date;

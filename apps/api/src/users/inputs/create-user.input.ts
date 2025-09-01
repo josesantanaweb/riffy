@@ -1,4 +1,4 @@
-import { Role } from '@prisma/client';
+import { Role, UserStatus } from '@prisma/client';
 import { IsEmail, IsEnum, IsOptional, IsString } from 'class-validator';
 import { InputType, Field } from '@nestjs/graphql';
 
@@ -36,4 +36,9 @@ export class CreateUserInput {
   @IsOptional()
   @Field(() => Role, { nullable: true })
   role?: Role;
+
+  @IsEnum(UserStatus)
+  @IsOptional()
+  @Field(() => UserStatus, { nullable: true })
+  status?: UserStatus;
 }

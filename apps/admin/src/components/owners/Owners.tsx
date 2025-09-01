@@ -1,31 +1,33 @@
 'use client';
-import RafflesTable from '../raffles/RafflesTable';
 import { useRouter } from 'next/navigation';
 import { Breadcrumb } from '@riffy/components';
-import { useRaffles, useDeleteRaffle } from '@riffy/hooks';
+import { useUsers, useDeleteRaffle } from '@riffy/hooks';
 import { useToast } from '@/hooks';
 import { ROUTES } from '@/constants';
-import { Raffle } from '@riffy/types';
+import { User, Role } from '@riffy/types';
+import OwnersTable from './OwnersTable';
 
 const Owners = () => {
   const router = useRouter();
   const toast = useToast();
-  const { data } = useRaffles();
-  const { deleteRaffle } = useDeleteRaffle();
+  const { data } = useUsers(Role.OWNER);
 
-  const handleEdit = (raffle: Raffle) =>
+  // const { deleteUser } = useDeleteRaffle();
+
+  const handleEdit = (raffle: User) =>
     router.push(ROUTES.RAFFLES.EDIT(raffle.id));
 
-  const handleView = (raffle: Raffle) => router.push(ROUTES.TICKETS.LIST(raffle.id));
+  const handleView = (raffle: User) =>
+    router.push(ROUTES.TICKETS.LIST(raffle.id));
 
-  const handleDelete = async (raffle: Raffle) => {
-    try {
-      await deleteRaffle(raffle.id);
-      toast.success('Rifa eliminada exitosamente!!');
-    } catch (error) {
-      console.error(error);
-      toast.error('Error al eliminar la rifa.');
-    }
+  const handleDelete = async (raffle: User) => {
+    // try {
+    //   await deleteUser(raffle.id);
+    //   toast.success('Rifa eliminada exitosamente!!');
+    // } catch (error) {
+    //   console.error(error);
+    //   toast.error('Error al eliminar la rifa.');
+    // }
   };
 
   const handleAdd = () => router.push(ROUTES.RAFFLES.CREATE);
@@ -42,7 +44,7 @@ const Owners = () => {
       </div>
       <div className="flex flex-col w-full bg-base-700 rounded-xl p-6">
         {data && (
-          <RafflesTable
+          <OwnersTable
             data={data}
             onEdit={handleEdit}
             onDelete={handleDelete}

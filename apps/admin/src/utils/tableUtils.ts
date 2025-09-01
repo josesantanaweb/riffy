@@ -1,6 +1,6 @@
 import { ColumnDef } from '@tanstack/react-table';
 import { BadgeStatus } from '@riffy/components';
-import { RaffleStatus, TicketStatus } from '@riffy/types';
+import { RaffleStatus, TicketStatus, UserStatus } from '@riffy/types';
 import { formatCurrency, formatDate } from '@/utils';
 
 export const TABLE_CLASSES = {
@@ -60,6 +60,17 @@ export function mapRaffleStatusToLabel(status: string): string {
   }
 }
 
+export function mapUserStatusToLabel(status: string): string {
+  switch (status) {
+    case UserStatus.ACTIVE:
+      return 'Activo';
+    case UserStatus.INACTIVE:
+      return 'Inactivo';
+    default:
+      return status;
+  }
+}
+
 export function mapTicketStatusToLabel(status: string): string {
   switch (status) {
     case TicketStatus.AVAILABLE:
@@ -70,6 +81,17 @@ export function mapTicketStatusToLabel(status: string): string {
       return 'Vendido';
     default:
       return status;
+  }
+}
+
+export function mapUserStatusToStatusType(status: UserStatus): BadgeStatus {
+  switch (status) {
+    case UserStatus.ACTIVE:
+      return BadgeStatus.SUCCESS;
+    case UserStatus.INACTIVE:
+      return BadgeStatus.ERROR;
+    default:
+      return BadgeStatus.DEFAULT;
   }
 }
 

@@ -41,3 +41,18 @@ export const TICKETS_FRAGMENT = gql`
     status
   }
 `;
+
+export const USERS_FRAGMENT = gql`
+  fragment UserFragment on User {
+    id
+    name
+    email
+    phone
+    logo
+    brandColor
+    status
+    role
+    createdAt
+    updatedAt
+  }
+`;
