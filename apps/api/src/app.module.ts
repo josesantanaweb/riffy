@@ -12,6 +12,8 @@ import { RafflesModule } from './raffles/raffles.module';
 import { TicketsModule } from './tickets/tickets.module';
 import './enums/role.enum';
 import './enums/user-status.enum';
+import './enums/raffle-status.enum';
+import './enums/ticket-status.enum';
 
 @Module({
   imports: [

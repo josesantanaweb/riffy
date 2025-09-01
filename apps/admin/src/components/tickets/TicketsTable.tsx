@@ -5,6 +5,7 @@ import DataTable from '@/components/common/data-table';
 import { TableAction, TableButton } from '@/components/common/data-table/types';
 import {
   createColumn,
+  createDateColumn,
   TABLE_CLASSES,
   mapTicketStatusToStatusType,
   mapTicketStatusToLabel,
@@ -43,18 +44,18 @@ const TicketsTable = ({
         headerClassName: TABLE_CLASSES.header,
       },
     },
-    // {
-    //   accessorKey: 'owner',
-    //   header: 'Dueño',
-    //   cell: info => {
-    //     const owner = info.getValue() as { name: string; image: string };
-    //     return <MediaDisplay label={owner.name} image={owner.image} />;
-    //   },
-    //   meta: {
-    //     className: TABLE_CLASSES.cell,
-    //     headerClassName: TABLE_CLASSES.header,
-    //   },
-    // },
+    {
+      accessorKey: 'owner',
+      header: 'Comprador',
+      cell: info => {
+        const owner = info.getValue() as { name: string; image: string };
+        return <MediaDisplay label="Julio" image="/images/customer-logo.png" />;
+      },
+      meta: {
+        className: TABLE_CLASSES.cell,
+        headerClassName: TABLE_CLASSES.header,
+      },
+    },
     createColumn('number', 'Numero'),
     {
       accessorKey: 'status',

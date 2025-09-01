@@ -31,7 +31,7 @@ export const MENU = [
   {
     label: 'Dueños',
     icon: 'user',
-    path: ROUTES.OWNERS,
+    path: ROUTES.OWNERS.LIST,
   },
   // {
   //   label: 'Boletos',

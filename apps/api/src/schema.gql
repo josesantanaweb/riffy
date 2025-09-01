@@ -127,6 +127,7 @@ input CreateRaffleInput {
   ownerId: String!
 }
 
+"""The status of the raffle"""
 enum RaffleStatus {
   ACTIVE
   PENDING
@@ -148,9 +149,20 @@ input UpdateRaffleInput {
 input CreateTicketInput {
   number: String!
   raffleId: String!
+  status: TicketStatus
+}
+
+"""The status of the ticket"""
+enum TicketStatus {
+  AVAILABLE
+  RESERVED
+  SOLD
+  WINNER
+  LOSER
 }
 
 input UpdateTicketInput {
   number: String
   raffleId: String
+  status: TicketStatus
 }

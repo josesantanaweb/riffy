@@ -1,4 +1,5 @@
 import { ObjectType, Field, ID } from '@nestjs/graphql';
+import { TicketStatus } from '@prisma/client';
 
 @ObjectType()
 export class Ticket {
@@ -9,5 +10,5 @@ export class Ticket {
   number: string;
 
   @Field({ nullable: true })
-  status?: string;
+  status?: TicketStatus;
 }

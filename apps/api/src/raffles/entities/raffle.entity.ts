@@ -1,6 +1,7 @@
 import { ObjectType, Field, ID, GraphQLISODateTime } from '@nestjs/graphql';
 import { Ticket } from '../../tickets/entities/ticket.entity';
 import { User } from '../../users/entities/user.entity';
+import { RaffleStatus } from '@prisma/client';
 
 @ObjectType()
 export class Raffle {
@@ -26,7 +27,7 @@ export class Raffle {
   award: number;
 
   @Field()
-  status: string;
+  status: RaffleStatus;
 
   @Field({ nullable: true })
   available?: number;
