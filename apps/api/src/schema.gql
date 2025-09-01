@@ -8,7 +8,7 @@ type User {
   password: String
   email: String!
   logo: String
-  brandColor: String!
+  brandColor: String
   phone: String
   role: Role
   status: UserStatus

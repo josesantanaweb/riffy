@@ -18,3 +18,15 @@ export interface User {
   role?: Role | null;
   status?: UserStatus | null;
 }
+
+export interface CreateUserInput {
+  name: string;
+  email: string;
+  password: string;
+  brandColor?: string | null;
+  phone?: string | null;
+  logo?: string | null;
+  role?: Role | null;
+  status?: UserStatus | null;
+}
+

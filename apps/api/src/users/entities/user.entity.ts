@@ -18,8 +18,8 @@ export class User {
   @Field({ nullable: true })
   logo?: string;
 
-  @Field()
-  brandColor: string;
+  @Field({ nullable: true })
+  brandColor?: string;
 
   @Field({ nullable: true })
   phone?: string;

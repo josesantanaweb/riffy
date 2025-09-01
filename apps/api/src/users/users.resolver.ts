@@ -35,9 +35,9 @@ export class UsersResolver {
    * @param id ID del usuario a buscar
    * @returns Un objeto User si existe, si no lanza NotFoundException
    */
-  @Roles(Role.ADMIN)
-  @UseGuards(RolesGuard)
-  @UseGuards(GqlAuthGuard)
+  // @Roles(Role.ADMIN)
+  // @UseGuards(RolesGuard)
+  // @UseGuards(GqlAuthGuard)
   @Query(() => User, { name: 'user' })
   getOne(@Args('id', { type: () => String }) id: string): Promise<User> {
     return this.usersService.findOne(id);
@@ -49,9 +49,9 @@ export class UsersResolver {
    * @param context Contexto de la petición con el usuario autenticado
    * @returns El objeto User correspondiente al usuario autenticado
    */
-  @Roles(Role.ADMIN)
-  @UseGuards(RolesGuard)
-  @UseGuards(GqlAuthGuard)
+  // @Roles(Role.ADMIN)
+  // @UseGuards(RolesGuard)
+  // @UseGuards(GqlAuthGuard)
   @Query(() => User, { name: 'profile' })
   profile(@Context() context: { req: { user: User } }): User {
     const user = context.req.user;
@@ -64,9 +64,9 @@ export class UsersResolver {
    * @param input Datos del nuevo usuario
    * @returns El objeto User creado
    */
-  @Roles(Role.ADMIN)
-  @UseGuards(RolesGuard)
-  @UseGuards(GqlAuthGuard)
+  // @Roles(Role.ADMIN)
+  // @UseGuards(RolesGuard)
+  // @UseGuards(GqlAuthGuard)
   @Mutation(() => User, { name: 'createUser' })
   create(
     @Args('input', { type: () => CreateUserInput }) input: CreateUserInput,
@@ -81,9 +81,9 @@ export class UsersResolver {
    * @param input Datos nuevos para el usuario
    * @returns El objeto User actualizado
    */
-  @Roles(Role.ADMIN)
-  @UseGuards(RolesGuard)
-  @UseGuards(GqlAuthGuard)
+  // @Roles(Role.ADMIN)
+  // @UseGuards(RolesGuard)
+  // @UseGuards(GqlAuthGuard)
   @Mutation(() => User, { name: 'updateUser' })
   update(
     @Args('id', { type: () => String }) id: string,
@@ -98,9 +98,9 @@ export class UsersResolver {
    * @param id ID del usuario a eliminar
    * @returns El objeto User eliminado
    */
-  @Roles(Role.ADMIN)
-  @UseGuards(RolesGuard)
-  @UseGuards(GqlAuthGuard)
+  // @Roles(Role.ADMIN)
+  // @UseGuards(RolesGuard)
+  // @UseGuards(GqlAuthGuard)
   @Mutation(() => User, { name: 'deleteUser' })
   delete(@Args('id', { type: () => String }) id: string): Promise<User> {
     return this.usersService.delete(id);

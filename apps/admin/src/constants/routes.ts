@@ -7,7 +7,11 @@ export const ROUTES = {
     CREATE: '/raffles/create',
     EDIT: (id: string) => `/raffles/edit/${id}`,
   },
-  OWNERS: '/owners',
+  OWNERS: {
+    LIST: '/owners',
+    CREATE: '/owners/create',
+    EDIT: (id: string) => `/owners/edit/${id}`,
+  },
   TICKETS: {
     LIST: (raffleId: string) => `/raffles/${raffleId}/tickets`,
   },

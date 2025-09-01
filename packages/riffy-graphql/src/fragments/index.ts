@@ -25,10 +25,9 @@ export const RAFFLES_FRAGMENT = gql`
       id
       name
       brandColor
-      image
+      logo
       email
       phone
-      state
       role
     }
   }

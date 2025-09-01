@@ -1,7 +1,7 @@
 'use client';
 import { useRouter } from 'next/navigation';
 import { Breadcrumb } from '@riffy/components';
-import { useUsers, useDeleteRaffle } from '@riffy/hooks';
+import { useUsers, useDeleteUser } from '@riffy/hooks';
 import { useToast } from '@/hooks';
 import { ROUTES } from '@/constants';
 import { User, Role } from '@riffy/types';
@@ -12,25 +12,22 @@ const Owners = () => {
   const toast = useToast();
   const { data } = useUsers(Role.OWNER);
 
-  // const { deleteUser } = useDeleteRaffle();
+  const { deleteUser } = useDeleteUser();
 
-  const handleEdit = (raffle: User) =>
-    router.push(ROUTES.RAFFLES.EDIT(raffle.id));
+  const handleEdit = (user: User) =>
+    router.push(ROUTES.OWNERS.EDIT(user.id));
 
-  const handleView = (raffle: User) =>
-    router.push(ROUTES.TICKETS.LIST(raffle.id));
-
-  const handleDelete = async (raffle: User) => {
-    // try {
-    //   await deleteUser(raffle.id);
-    //   toast.success('Rifa eliminada exitosamente!!');
-    // } catch (error) {
-    //   console.error(error);
-    //   toast.error('Error al eliminar la rifa.');
-    // }
+  const handleDelete = async (user: User) => {
+    try {
+      await deleteUser(user.id);
+      toast.success('Usuario eliminado exitosamente!!');
+    } catch (error) {
+      console.error(error);
+      toast.error('Error al eliminar el usuario.');
+    }
   };
 
-  const handleAdd = () => router.push(ROUTES.RAFFLES.CREATE);
+  const handleAdd = () => router.push(ROUTES.OWNERS.CREATE);
 
   const handleDownload = () => {
     alert('Descargar datos');
@@ -48,7 +45,6 @@ const Owners = () => {
             data={data}
             onEdit={handleEdit}
             onDelete={handleDelete}
-            onView={handleView}
             onAdd={handleAdd}
             onDownload={handleDownload}
           />
