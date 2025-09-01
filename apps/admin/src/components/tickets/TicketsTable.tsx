@@ -6,12 +6,12 @@ import { TableAction, TableButton } from '@/components/common/data-table/types';
 import {
   createColumn,
   TABLE_CLASSES,
-  mapStatusToStatusType,
-  mapStatusToLabel,
-} from './utils';
+  mapTicketStatusToStatusType,
+  mapTicketStatusToLabel,
+} from '@/utils/tableUtils';
 import { Badge } from '@riffy/components';
 import MediaDisplay from '@/components/common/media-display';
-import { Ticket } from '@riffy/types';
+import { Ticket, TicketStatus } from '@riffy/types';
 
 interface TicketsTableProps {
   data: Ticket[];
@@ -61,8 +61,8 @@ const TicketsTable = ({
       header: 'Estado',
       cell: info => (
         <Badge
-          status={mapStatusToStatusType(info.getValue() as string)}
-          label={mapStatusToLabel(info.getValue() as string)}
+          status={mapTicketStatusToStatusType(info.getValue() as TicketStatus)}
+          label={mapTicketStatusToLabel(info.getValue() as string)}
         />
       ),
       meta: {

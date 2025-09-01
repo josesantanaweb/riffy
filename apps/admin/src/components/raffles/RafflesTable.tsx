@@ -8,12 +8,12 @@ import {
   createCurrencyColumn,
   createDateColumn,
   TABLE_CLASSES,
-  mapStatusToStatusType,
-  mapStatusToLabel,
-} from './utils';
+  mapRaffleStatusToStatusType,
+  mapRaffleStatusToLabel,
+} from '@/utils/tableUtils';
 import { Badge } from '@riffy/components';
 import MediaDisplay from '@/components/common/media-display';
-import { Raffle } from '@riffy/types';
+import { Raffle, RaffleStatus } from '@riffy/types';
 
 interface RafflesTableProps {
   data: Raffle[];
@@ -113,8 +113,8 @@ const RafflesTable = ({
       header: 'Estado',
       cell: info => (
         <Badge
-          status={mapStatusToStatusType(info.getValue() as string)}
-          label={mapStatusToLabel(info.getValue() as string)}
+          status={mapRaffleStatusToStatusType(info.getValue() as RaffleStatus)}
+          label={mapRaffleStatusToLabel(info.getValue() as string)}
         />
       ),
       meta: {
