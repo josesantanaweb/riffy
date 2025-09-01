@@ -33,3 +33,11 @@ export const RAFFLES_FRAGMENT = gql`
     }
   }
 `;
+
+export const TICKETS_FRAGMENT = gql`
+  fragment TicketFragment on Ticket {
+    id
+    number
+    status
+  }
+`;

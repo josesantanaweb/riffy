@@ -58,6 +58,7 @@ type Query {
   raffles: [Raffle!]!
   raffle(id: String!): Raffle!
   tickets: [Ticket!]!
+  ticketsByRaffleId(raffleId: String!): [Ticket!]!
   ticket(id: String!): Ticket!
 }
 

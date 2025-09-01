@@ -4,7 +4,7 @@ import { persist } from 'zustand/middleware';
 import type { SidebarState } from './sidebarSlice';
 import { createSidebarSlice } from './sidebarSlice';
 
-type StoreState = SidebarState & UserState;
+type StoreState = SidebarState;
 
 export const useStore = create<StoreState>()(
   persist(

@@ -22,7 +22,7 @@ export class UsersResolver {
   @UseGuards(RolesGuard)
   @UseGuards(GqlAuthGuard)
   @Query(() => [User], { name: 'users' })
-  users(): Promise<User[]> {
+  getAll(): Promise<User[]> {
     return this.usersService.findAll();
   }
 
@@ -36,7 +36,7 @@ export class UsersResolver {
   @UseGuards(RolesGuard)
   @UseGuards(GqlAuthGuard)
   @Query(() => User, { name: 'user' })
-  user(@Args('id', { type: () => String }) id: string): Promise<User> {
+  getOne(@Args('id', { type: () => String }) id: string): Promise<User> {
     return this.usersService.findOne(id);
   }
 

@@ -22,7 +22,7 @@ export class RafflesResolver {
   // @UseGuards(RolesGuard)
   // @UseGuards(GqlAuthGuard)
   @Query(() => [Raffle], { name: 'raffles' })
-  raffles(): Promise<Raffle[]> {
+  getAll(): Promise<Raffle[]> {
     return this.rafflesService.findAll();
   }
 
@@ -33,7 +33,7 @@ export class RafflesResolver {
    * @returns Un objeto Raffle si existe, si no lanza NotFoundException
    */
   @Query(() => Raffle, { name: 'raffle' })
-  raffle(@Args('id', { type: () => String }) id: string): Promise<Raffle> {
+  getOne(@Args('id', { type: () => String }) id: string): Promise<Raffle> {
     return this.rafflesService.findOne(id);
   }
 
