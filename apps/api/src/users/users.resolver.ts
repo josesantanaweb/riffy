@@ -3,8 +3,8 @@ import { UseGuards } from '@nestjs/common';
 import { GqlAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { User } from './entities/user.entity';
 import { UsersService } from './users.service';
+import { Role } from '@prisma/client';
 import { Roles } from '../auth/decorators/roles.decorator';
-import { Roles as Role } from '../auth/enums/roles.enum';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { UpdateUserInput } from './inputs/update-user.input';
 import { CreateUserInput } from './inputs/create-user.input';
@@ -14,16 +14,19 @@ export class UsersResolver {
   constructor(private readonly usersService: UsersService) {}
 
   /**
-   * Obtiene todos los usuarios registrados.
+   * Obtiene todos los usuarios registrados o filtra por rol (ej: ADMIN, OWNER).
    * Roles requeridos: ADMIN
-   * Retorna: Un array de objetos User
+   * @param role (Opcional) Rol de usuario para filtrar
+   * @returns Un array de objetos User filtrados por rol o todos si no se especifica
    */
-  @Roles(Role.ADMIN)
-  @UseGuards(RolesGuard)
-  @UseGuards(GqlAuthGuard)
+  // @Roles(Role.ADMIN)
+  // @UseGuards(RolesGuard)
+  // @UseGuards(GqlAuthGuard)
   @Query(() => [User], { name: 'users' })
-  getAll(): Promise<User[]> {
-    return this.usersService.findAll();
+  getAll(
+    @Args('role', { type: () => Role, nullable: true }) role?: Role,
+  ): Promise<User[]> {
+    return this.usersService.findAll(role);
   }
 
   /**

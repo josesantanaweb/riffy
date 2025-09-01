@@ -7,13 +7,18 @@ type User {
   name: String!
   password: String
   email: String!
-  image: String
+  logo: String
   brandColor: String!
   phone: String
-  state: String
-  role: String
+  role: Role
   createdAt: DateTime
   updatedAt: DateTime
+}
+
+"""Roles de usuario"""
+enum Role {
+  ADMIN
+  USER
 }
 
 """
@@ -52,7 +57,7 @@ type Raffle {
 }
 
 type Query {
-  users: [User!]!
+  users(role: Role): [User!]!
   user(id: String!): User!
   profile: User!
   raffles: [Raffle!]!
@@ -79,23 +84,21 @@ type Mutation {
 input CreateUserInput {
   name: String!
   email: String!
-  image: String
+  logo: String
   brandColor: String
   password: String!
   phone: String
-  state: String
-  role: String
+  role: Role
 }
 
 input UpdateUserInput {
   name: String
   email: String
-  image: String
+  logo: String
   brandColor: String
   password: String
   phone: String
-  state: String
-  role: String
+  role: Role
 }
 
 input LoginInput {

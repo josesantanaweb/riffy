@@ -1,5 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
+import { Role } from '@prisma/client';
 import { User } from './entities/user.entity';
 import { CreateUserInput } from './inputs/create-user.input';
 import { UpdateUserInput } from './inputs/update-user.input';
@@ -10,12 +11,14 @@ export class UsersService {
   constructor(private prisma: PrismaService) {}
 
   /**
-   * Obtiene todos los usuarios registrados en la base de datos.
-   * @returns Arreglo de usuarios
+   * Obtiene todos los usuarios registrados en la base de datos, o filtra por rol si se especifica.
+   * @param role (Opcional) Rol de usuario para filtrar (ej: 'ADMIN', 'OWNER')
+   * @returns Arreglo de usuarios filtrados por rol o todos si no se especifica
    */
-  async findAll(): Promise<User[]> {
-    const users = await this.prisma.user.findMany();
-    return users;
+  async findAll(role?: Role): Promise<User[]> {
+    return await this.prisma.user.findMany({
+      where: role ? { role } : {},
+    });
   }
 
   /**

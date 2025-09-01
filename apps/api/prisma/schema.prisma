@@ -13,8 +13,7 @@ model User {
   password   String
   name       String
   phone      String?
-  image      String?
-  state      String?
+  logo       String?
   brandColor String?  @default("00D4FF")
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt

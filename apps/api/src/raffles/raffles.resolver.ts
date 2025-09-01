@@ -2,7 +2,7 @@ import { Args, Query, Resolver, Mutation } from '@nestjs/graphql';
 import { UseGuards } from '@nestjs/common';
 import { GqlAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { Roles } from '../auth/decorators/roles.decorator';
-import { Roles as Role } from '../auth/enums/roles.enum';
+import { Role } from '@prisma/client';
 import { RafflesService } from './raffles.service';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { Raffle } from './entities/raffle.entity';
