@@ -1,5 +1,22 @@
 import { gql } from '@apollo/client';
 
+export const USERS_FRAGMENT = gql`
+  fragment UserFragment on User {
+    id
+    name
+    email
+    whatsapp
+    instagram
+    tiktok
+    logo
+    brandColor
+    status
+    role
+    createdAt
+    updatedAt
+  }
+`;
+
 export const RAFFLES_FRAGMENT = gql`
   fragment RaffleFragment on Raffle {
     id
@@ -21,16 +38,11 @@ export const RAFFLES_FRAGMENT = gql`
       number
       status
     }
-    owner {
-      id
-      name
-      brandColor
-      logo
-      email
-      phone
-      role
-    }
+      owner {
+        ...UserFragment
+      }
   }
+  ${USERS_FRAGMENT}
 `;
 
 export const TICKETS_FRAGMENT = gql`
@@ -38,22 +50,5 @@ export const TICKETS_FRAGMENT = gql`
     id
     number
     status
-  }
-`;
-
-export const USERS_FRAGMENT = gql`
-  fragment UserFragment on User {
-    id
-    name
-    email
-    whatsapp
-    instagram
-    tiktok
-    logo
-    brandColor
-    status
-    role
-    createdAt
-    updatedAt
   }
 `;

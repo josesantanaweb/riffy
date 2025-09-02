@@ -1,15 +1,16 @@
 'use client';
 import React, { useEffect, useCallback } from 'react';
-import { Breadcrumb, Button, Icon } from '@riffy/components';
+import { Button } from '@riffy/components';
 import { useRouter, useParams } from 'next/navigation';
 import { useCreateRaffle, useRaffle, useUpdateRaffle } from '@riffy/hooks';
 import { useToast } from '@/hooks';
-import FormInformation from './form/FormInformation';
-import FormImages from './form/FormImages';
 import { useForm, FormProvider } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { createRaffleSchema, type FormData } from '@/validations/raffleSchema';
 import { ROUTES } from '@/constants';
+import FormImages from './form/FormImages';
+import FormInformation from './form/FormInformation';
+import PageHeader from '@/components/common/page-header';
 
 const DEFAULT_VALUES: FormData = {
   title: '',
@@ -105,16 +106,11 @@ const RaffleForm = () => {
     <FormProvider {...methods}>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="p-6 flex-col flex gap-6">
-          <div className="flex w-full justify-between items-center">
-            <div className="flex flex-col">
-              <h3 className="text-white text-lg font-semibold">Rifas</h3>
-              <Breadcrumb page={isUpdating ? 'Editar Rifa' : 'Crear Rifa'} />
-            </div>
-            <Button size="md" onClick={handleBack} type="button">
-              <Icon name="arrow-back" />
-              Volver
-            </Button>
-          </div>
+          <PageHeader
+            title={isUpdating ? 'Editar Rifa' : 'Crear Rifa'}
+            subtitle="Gestión de Rifas"
+            showBackButton
+          />
           <div className="flex flex-col gap-6 w-full">
             <FormInformation />
 
