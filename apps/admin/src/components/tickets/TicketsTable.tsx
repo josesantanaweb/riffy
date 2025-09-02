@@ -12,7 +12,7 @@ import {
 } from '@/utils';
 import { Badge } from '@riffy/components';
 import MediaDisplay from '@/components/common/media-display';
-import { Ticket, TicketStatus } from '@riffy/types';
+import { Purchase, Ticket, TicketStatus } from '@riffy/types';
 
 interface TicketsTableProps {
   data: Ticket[];
@@ -45,11 +45,11 @@ const TicketsTable = ({
       },
     },
     {
-      accessorKey: 'owner',
+      accessorKey: 'purchase',
       header: 'Comprador',
       cell: info => {
-        const owner = info.getValue() as { name: string; image: string };
-        return <MediaDisplay label="Julio" image="/images/customer-logo.png" />;
+        const purchase = info.getValue() as Purchase;
+        return purchase?.buyerName ? <MediaDisplay label={purchase?.buyerName} image={undefined} /> : 'N/A';
       },
       meta: {
         className: TABLE_CLASSES.cell,

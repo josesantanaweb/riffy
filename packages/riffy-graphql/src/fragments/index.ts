@@ -38,11 +38,23 @@ export const RAFFLES_FRAGMENT = gql`
       number
       status
     }
-      owner {
-        ...UserFragment
-      }
+    owner {
+      ...UserFragment
+    }
   }
   ${USERS_FRAGMENT}
+`;
+
+export const PURCHASE_FRAGMENT = gql`
+  fragment PurchaseFragment on Purchase {
+    id
+    buyerName
+    phone
+    state
+    purchaseDate
+    proofUrl
+    status
+  }
 `;
 
 export const TICKETS_FRAGMENT = gql`
@@ -50,5 +62,9 @@ export const TICKETS_FRAGMENT = gql`
     id
     number
     status
+    purchase {
+      ...PurchaseFragment
+    }
   }
+  ${PURCHASE_FRAGMENT}
 `;

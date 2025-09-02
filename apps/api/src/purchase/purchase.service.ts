@@ -3,6 +3,7 @@ import { PrismaService } from '../prisma/prisma.service';
 import { Purchase } from './entities/purchase.entity';
 import { CreatePurchaseInput } from './inputs/create-purchase.input';
 import { UpdatePurchaseInput } from './inputs/update-purchase.input';
+import { TicketStatus } from '@prisma/client';
 
 @Injectable()
 export class PurchaseService {
@@ -50,7 +51,14 @@ export class PurchaseService {
    * @returns El purchase creado
    */
   async create(data: CreatePurchaseInput): Promise<Purchase> {
-    return await this.prisma.purchase.create({ data });
+    const purchase = await this.prisma.purchase.create({ data });
+
+    await this.prisma.ticket.update({
+      where: { id: data.ticketId },
+      data: { status: TicketStatus.SOLD },
+    });
+
+    return purchase;
   }
 
   /**
