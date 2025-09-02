@@ -7,12 +7,27 @@ type User {
   name: String!
   password: String
   email: String!
-  image: String
-  phone: String
-  state: String
-  role: String
+  logo: String
+  brandColor: String
+  whatsapp: String
+  instagram: String
+  tiktok: String
+  role: Role
+  status: UserStatus
   createdAt: DateTime
   updatedAt: DateTime
+}
+
+"""Roles de usuario"""
+enum Role {
+  ADMIN
+  OWNER
+}
+
+"""The status of the user"""
+enum UserStatus {
+  ACTIVE
+  INACTIVE
 }
 
 """
@@ -25,10 +40,28 @@ type AuthResponse {
   user: User!
 }
 
+type Purchase {
+  id: ID!
+  buyerName: String!
+  phone: String!
+  state: String
+  purchaseDate: DateTime
+  proofUrl: String!
+  status: PurchaseStatus
+  ticket: Ticket
+}
+
+enum PurchaseStatus {
+  PENDING
+  VERIFIED
+  DENIED
+}
+
 type Ticket {
   id: ID!
   number: String!
   status: String
+  purchase: Purchase
 }
 
 type Raffle {
@@ -36,8 +69,6 @@ type Raffle {
   title: String!
   description: String
   banner: String!
-  primaryColor: String!
-  secondaryColor: String
   totalTickets: Float!
   price: Float!
   award: Float!
@@ -53,20 +84,23 @@ type Raffle {
 }
 
 type Query {
-  users: [User!]!
+  users(role: Role): [User!]!
   user(id: String!): User!
   profile: User!
   raffles: [Raffle!]!
   raffle(id: String!): Raffle!
   tickets: [Ticket!]!
+  ticketsByRaffleId(raffleId: String!): [Ticket!]!
   ticket(id: String!): Ticket!
+  purchases: [Purchase!]!
+  purchase(id: String!): Purchase!
 }
 
 type Mutation {
   createUser(input: CreateUserInput!): User!
   updateUser(id: String!, input: UpdateUserInput!): User!
   deleteUser(id: String!): User!
-  register(input: RegisterInput!): AuthResponse!
+  register(input: CreateUserInput!): AuthResponse!
   login(input: LoginInput!): AuthResponse!
   createRaffle(input: CreateRaffleInput!): Raffle!
   updateRaffle(id: String!, input: UpdateRaffleInput!): Raffle!
@@ -74,30 +108,35 @@ type Mutation {
   createTicket(input: CreateTicketInput!): Ticket!
   updateTicket(id: String!, input: UpdateTicketInput!): Ticket!
   deleteTicket(id: String!): Ticket!
+  createPurchase(input: CreatePurchaseInput!): Purchase!
+  updatePurchase(id: String!, input: UpdatePurchaseInput!): Purchase!
+  deletePurchase(id: String!): Purchase!
 }
 
 input CreateUserInput {
   name: String!
   email: String!
+  logo: String
+  brandColor: String
   password: String!
-  phone: String
-  state: String
-  role: String
+  whatsapp: String
+  tiktok: String
+  instagram: String
+  role: Role
+  status: UserStatus
 }
 
 input UpdateUserInput {
   name: String
   email: String
+  logo: String
+  brandColor: String
   password: String
-  phone: String
-  state: String
-  role: String
-}
-
-input RegisterInput {
-  email: String!
-  password: String!
-  name: String!
+  whatsapp: String
+  tiktok: String
+  instagram: String
+  role: Role
+  status: UserStatus
 }
 
 input LoginInput {
@@ -109,8 +148,6 @@ input CreateRaffleInput {
   title: String!
   description: String
   banner: String!
-  primaryColor: String!
-  secondaryColor: String
   totalTickets: Int!
   price: Int!
   award: Int!
@@ -119,9 +156,9 @@ input CreateRaffleInput {
   ownerId: String!
 }
 
+"""The status of the raffle"""
 enum RaffleStatus {
   ACTIVE
-  INACTIVE
   PENDING
   COMPLETED
 }
@@ -130,8 +167,6 @@ input UpdateRaffleInput {
   title: String
   description: String
   banner: String
-  primaryColor: String
-  secondaryColor: String
   totalTickets: Int
   price: Int
   award: Int
@@ -143,9 +178,40 @@ input UpdateRaffleInput {
 input CreateTicketInput {
   number: String!
   raffleId: String!
+  status: TicketStatus
+}
+
+"""The status of the ticket"""
+enum TicketStatus {
+  AVAILABLE
+  RESERVED
+  SOLD
+  WINNER
+  LOSER
 }
 
 input UpdateTicketInput {
   number: String
   raffleId: String
+  status: TicketStatus
+}
+
+input CreatePurchaseInput {
+  buyerName: String!
+  phone: String!
+  state: String
+  proofUrl: String!
+  purchaseDate: DateTime
+  ticketId: String!
+  status: PurchaseStatus
+}
+
+input UpdatePurchaseInput {
+  buyerName: String
+  phone: String
+  state: String
+  proofUrl: String
+  purchaseDate: DateTime
+  ticketId: String
+  status: PurchaseStatus
 }

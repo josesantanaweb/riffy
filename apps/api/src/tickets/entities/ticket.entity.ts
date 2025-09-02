@@ -1,4 +1,6 @@
 import { ObjectType, Field, ID } from '@nestjs/graphql';
+import { TicketStatus } from '@prisma/client';
+import { Purchase } from '../../purchase/entities/purchase.entity';
 
 @ObjectType()
 export class Ticket {
@@ -9,5 +11,8 @@ export class Ticket {
   number: string;
 
   @Field({ nullable: true })
-  status?: string;
+  status?: TicketStatus;
+
+  @Field(() => Purchase, { nullable: true })
+  purchase?: Purchase;
 }

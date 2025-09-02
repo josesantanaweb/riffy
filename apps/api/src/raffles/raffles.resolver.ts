@@ -2,7 +2,7 @@ import { Args, Query, Resolver, Mutation } from '@nestjs/graphql';
 import { UseGuards } from '@nestjs/common';
 import { GqlAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { Roles } from '../auth/decorators/roles.decorator';
-import { Roles as Role } from '../auth/enums/roles.enum';
+import { Role } from '@prisma/client';
 import { RafflesService } from './raffles.service';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { Raffle } from './entities/raffle.entity';
@@ -22,7 +22,7 @@ export class RafflesResolver {
   // @UseGuards(RolesGuard)
   // @UseGuards(GqlAuthGuard)
   @Query(() => [Raffle], { name: 'raffles' })
-  raffles(): Promise<Raffle[]> {
+  getAll(): Promise<Raffle[]> {
     return this.rafflesService.findAll();
   }
 
@@ -33,7 +33,7 @@ export class RafflesResolver {
    * @returns Un objeto Raffle si existe, si no lanza NotFoundException
    */
   @Query(() => Raffle, { name: 'raffle' })
-  raffle(@Args('id', { type: () => String }) id: string): Promise<Raffle> {
+  getOne(@Args('id', { type: () => String }) id: string): Promise<Raffle> {
     return this.rafflesService.findOne(id);
   }
 
@@ -43,9 +43,9 @@ export class RafflesResolver {
    * @param input Datos de la nueva rifa
    * @returns El objeto Raffle creado
    */
-  @Roles(Role.ADMIN)
-  @UseGuards(RolesGuard)
-  @UseGuards(GqlAuthGuard)
+  // @Roles(Role.ADMIN)
+  // @UseGuards(RolesGuard)
+  // @UseGuards(GqlAuthGuard)
   @Mutation(() => Raffle, { name: 'createRaffle' })
   create(
     @Args('input', { type: () => CreateRaffleInput }) input: CreateRaffleInput,
@@ -60,9 +60,9 @@ export class RafflesResolver {
    * @param input Datos nuevos para la rifa
    * @returns El objeto Raffle actualizado
    */
-  @Roles(Role.ADMIN)
-  @UseGuards(RolesGuard)
-  @UseGuards(GqlAuthGuard)
+  // @Roles(Role.ADMIN)
+  // @UseGuards(RolesGuard)
+  // @UseGuards(GqlAuthGuard)
   @Mutation(() => Raffle, { name: 'updateRaffle' })
   update(
     @Args('id', { type: () => String }) id: string,
@@ -77,9 +77,9 @@ export class RafflesResolver {
    * @param id ID de la rifa a eliminar
    * @returns El objeto Raffle eliminado
    */
-  @Roles(Role.ADMIN)
-  @UseGuards(RolesGuard)
-  @UseGuards(GqlAuthGuard)
+  // @Roles(Role.ADMIN)
+  // @UseGuards(RolesGuard)
+  // @UseGuards(GqlAuthGuard)
   @Mutation(() => Raffle, { name: 'deleteRaffle' })
   delete(@Args('id', { type: () => String }) id: string): Promise<Raffle> {
     return this.rafflesService.delete(id);

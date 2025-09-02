@@ -1,5 +1,16 @@
+import { Purchase } from "./purchase";
+
+export enum TicketStatus {
+  AVAILABLE = 'AVAILABLE',
+  RESERVED = 'RESERVED',
+  SOLD = 'SOLD',
+  WINNER = 'WINNER',
+  LOSER = 'LOSER',
+}
+
 export interface Ticket {
   id: string;
-  number: number;
+  number: string;
   status: string;
+  purchase?: Purchase | null;
 }

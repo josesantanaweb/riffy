@@ -22,6 +22,7 @@ const Editor = ({ value, setValue, label }: EditorProps) => {
                 [&_.ql-toolbar.ql-snow]:!border-base-600
                 [&_.ql-container.ql-snow]:!rounded-b-md
                 [&_.ql-editor]:!h-28
+                [&_.ql-picker-label]:!text-base-300
                 [&_.ql-container.ql-snow]:!border-base-600"
       />
     </div>

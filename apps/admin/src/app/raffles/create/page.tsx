@@ -1,5 +1,5 @@
-import CreateRaffle from "@/components/raffles/CreateRaffle";
+import RaffleForm from "@/components/raffles/RaffleForm";
 
-const CreateRafflePage = () => <CreateRaffle />;
+const CreateRafflePage = () => <RaffleForm />;
 
 export default CreateRafflePage;

@@ -26,6 +26,10 @@ export type IconName =
   | 'calendar'
   | 'arrow-back'
   | 'plus-circle'
+  | 'close'
+  | 'whatsapp'
+  | 'instagram'
+  | 'tiktok'
   | 'dots';
 
 interface IconProps {

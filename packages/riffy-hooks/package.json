@@ -16,6 +16,7 @@
     "@apollo/client": "^3.11.0-rc.2"
   },
   "devDependencies": {
-    "@riffy/graphql": "workspace:*"
+    "@riffy/graphql": "workspace:*",
+    "@riffy/types": "workspace:*"
   }
 }

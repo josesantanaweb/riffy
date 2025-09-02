@@ -17,7 +17,7 @@ interface InputProps {
   iconPosition?: 'left' | 'right';
   inputSize?: 'sm' | 'md' | 'lg';
   fullWidth?: boolean;
-  onIconClick?: () => void;
+  onClick?: () => void;
   type?: string;
   value: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -83,8 +83,8 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
       iconPosition = 'right',
       inputSize = 'lg',
       fullWidth = true,
-      onIconClick,
       className,
+      onClick,
       onChange,
       ...props
     },
@@ -109,7 +109,6 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
       iconPosition === 'left'
         ? sizeConfig.iconPadding.left
         : sizeConfig.iconPadding.right,
-      onIconClick && 'cursor-pointer transition-colors',
     );
 
     const renderIcon = (iconProp: React.ReactNode | IconName) => {
@@ -124,6 +123,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
     return (
       <div
         className={cn('relative gap-1 flex flex-col', fullWidth && 'w-full')}
+        onClick={onClick}
       >
         <label className="text-white text-sm">
           {label}{' '}
@@ -144,9 +144,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
         />
 
         {icon && iconPosition === 'right' && (
-          <span className={iconClasses} onClick={onIconClick}>
-            {renderIcon(icon)}
-          </span>
+          <span className={iconClasses}>{renderIcon(icon)}</span>
         )}
 
         {error && <span className={ERROR_CLASSES}>{error}</span>}

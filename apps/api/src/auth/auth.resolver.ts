@@ -1,7 +1,7 @@
 import { Mutation, Resolver, Args } from '@nestjs/graphql';
 
 import { AuthService } from './auth.service';
-import { RegisterInput } from './inputs/register.input';
+import { CreateUserInput } from '../users/inputs/create-user.input';
 import { AuthResponse } from './entities/auth.entity';
 import { LoginInput } from './inputs/login.input';
 
@@ -15,7 +15,7 @@ export class AuthResolver {
    * @returns Respuesta de autenticación con el usuario y el token
    */
   @Mutation(() => AuthResponse, { name: 'register' })
-  register(@Args('input') input: RegisterInput): Promise<AuthResponse> {
+  register(@Args('input') input: CreateUserInput): Promise<AuthResponse> {
     return this.authService.register(input);
   }
 

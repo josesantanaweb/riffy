@@ -13,8 +13,6 @@ export interface Raffle {
   title: string;
   description?: string | null;
   banner: string;
-  primaryColor?: string;
-  secondaryColor?: string | null;
   totalTickets: number;
   award: number;
   price: number;
@@ -27,4 +25,15 @@ export interface Raffle {
   tickets?: Ticket[] | null;
   owner: User | null;
   status?: string;
+}
+
+export interface CreateRaffleInput {
+  title: string;
+  drawDate: string;
+  price: number;
+  award: number;
+  totalTickets: number;
+  status?: string;
+  description?: string;
+  ownerId: string;
 }

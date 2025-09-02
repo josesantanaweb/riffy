@@ -1,5 +1,5 @@
-import { Role } from '@prisma/client';
-import { IsEmail, IsOptional, IsString } from 'class-validator';
+import { Role, UserStatus } from '@prisma/client';
+import { IsEmail, IsEnum, IsOptional, IsString } from 'class-validator';
 import { InputType, Field } from '@nestjs/graphql';
 
 @InputType()
@@ -14,21 +14,41 @@ export class CreateUserInput {
   email: string;
 
   @IsString()
+  @IsOptional()
+  @Field(() => String, { nullable: true })
+  logo?: string;
+
+  @IsString()
+  @IsOptional()
+  @Field(() => String, { nullable: true })
+  brandColor?: string;
+
+  @IsString()
   @Field(() => String)
   password: string;
 
   @IsString()
   @IsOptional()
   @Field(() => String, { nullable: true })
-  phone?: string;
+  whatsapp?: string;
 
   @IsString()
   @IsOptional()
   @Field(() => String, { nullable: true })
-  state?: string;
+  tiktok?: string;
 
   @IsString()
   @IsOptional()
   @Field(() => String, { nullable: true })
+  instagram?: string;
+
+  @IsEnum(Role)
+  @IsOptional()
+  @Field(() => Role, { nullable: true })
   role?: Role;
+
+  @IsEnum(UserStatus)
+  @IsOptional()
+  @Field(() => UserStatus, { nullable: true })
+  status?: UserStatus;
 }

@@ -74,26 +74,9 @@ const DataTable = <T extends Record<string, any>>({
             <ActionMenu
               isOpen={openMenuId === row.original.id}
               onToggle={() => toggleMenu(row.original.id)}
-              onEdit={
-                actions.find(a => a.label === 'Editar')
-                  ? () => {
-                      actions
-                        .find(a => a.label === 'Editar')
-                        ?.onClick(row.original);
-                      closeMenu();
-                    }
-                  : undefined
-              }
-              onDelete={
-                actions.find(a => a.label === 'Eliminar')
-                  ? () => {
-                      actions
-                        .find(a => a.label === 'Eliminar')
-                        ?.onClick(row.original);
-                      closeMenu();
-                    }
-                  : undefined
-              }
+              actions={actions}
+              row={row.original}
+              closeMenu={closeMenu}
             />
           </div>
         ),
@@ -139,8 +122,8 @@ const DataTable = <T extends Record<string, any>>({
     },
   });
 
-  const handlePageSizeChange = (value: number) => {
-    table.setPageSize(value);
+  const handlePageSizeChange = (value: string) => {
+    table.setPageSize(Number(value));
   };
 
   const handleSelectAll = (checked: boolean) => {
@@ -210,7 +193,10 @@ const DataTable = <T extends Record<string, any>>({
               onClick={button.onClick}
             >
               {button.icon && (
-                <Icon name={button.icon as IconName} className="text-sm" />
+                <Icon
+                  name={button.icon as IconName}
+                  className={`${button.icon === 'plus' ? 'text-lg' : 'text-sm'}`}
+                />
               )}
               {button.label}
             </Button>
