@@ -63,6 +63,24 @@ type Raffle {
   owner: User
 }
 
+type Purchase {
+  id: ID!
+  buyerName: String!
+  phone: String!
+  state: String
+  purchaseDate: DateTime
+  proofUrl: String!
+  status: PurchaseStatus
+  ticket: Ticket
+}
+
+"""The status of the purchase"""
+enum PurchaseStatus {
+  PENDING
+  VERIFIED
+  DENIED
+}
+
 type Query {
   users(role: Role): [User!]!
   user(id: String!): User!
@@ -72,6 +90,8 @@ type Query {
   tickets: [Ticket!]!
   ticketsByRaffleId(raffleId: String!): [Ticket!]!
   ticket(id: String!): Ticket!
+  purchases: [Purchase!]!
+  purchase(id: String!): Purchase!
 }
 
 type Mutation {
@@ -86,6 +106,9 @@ type Mutation {
   createTicket(input: CreateTicketInput!): Ticket!
   updateTicket(id: String!, input: UpdateTicketInput!): Ticket!
   deleteTicket(id: String!): Ticket!
+  createPurchase(input: CreatePurchaseInput!): Purchase!
+  updatePurchase(id: String!, input: UpdatePurchaseInput!): Purchase!
+  deletePurchase(id: String!): Purchase!
 }
 
 input CreateUserInput {
@@ -165,4 +188,24 @@ input UpdateTicketInput {
   number: String
   raffleId: String
   status: TicketStatus
+}
+
+input CreatePurchaseInput {
+  buyerName: String!
+  phone: String!
+  state: String
+  proofUrl: String!
+  purchaseDate: DateTime
+  ticketId: String!
+  status: PurchaseStatus
+}
+
+input UpdatePurchaseInput {
+  buyerName: String
+  phone: String
+  state: String
+  proofUrl: String
+  purchaseDate: DateTime
+  ticketId: String
+  status: PurchaseStatus
 }

@@ -3,7 +3,7 @@ import { PrismaService } from '../prisma/prisma.service';
 import { Raffle } from './entities/raffle.entity';
 import { CreateRaffleInput } from './inputs/create-raffle.input';
 import { UpdateRaffleInput } from './inputs/update-raffle.input';
-import { Status } from '../tickets/enums/status.enum';
+import { TicketStatus } from '@prisma/client';
 
 @Injectable()
 export class RafflesService {
@@ -23,11 +23,11 @@ export class RafflesService {
     return raffles.map((raffle) => {
       const totalTickets = raffle.tickets.length;
       const sold = raffle.tickets.filter(
-        (t) => t.status === Status.SOLD,
+        (t) => t.status === TicketStatus.SOLD,
       ).length;
 
       const available = raffle.tickets.filter(
-        (t) => t.status === Status.AVAILABLE,
+        (t) => t.status === TicketStatus.AVAILABLE,
       ).length;
       const progress = totalTickets > 0 ? (sold / totalTickets) * 100 : 0;
 
