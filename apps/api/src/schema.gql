@@ -40,10 +40,28 @@ type AuthResponse {
   user: User!
 }
 
+type Purchase {
+  id: ID!
+  buyerName: String!
+  phone: String!
+  state: String
+  purchaseDate: DateTime
+  proofUrl: String!
+  status: PurchaseStatus
+  ticket: Ticket
+}
+
+enum PurchaseStatus {
+  PENDING
+  VERIFIED
+  DENIED
+}
+
 type Ticket {
   id: ID!
   number: String!
   status: String
+  purchase: Purchase
 }
 
 type Raffle {
@@ -63,24 +81,6 @@ type Raffle {
   updatedAt: DateTime
   tickets: [Ticket!]
   owner: User
-}
-
-type Purchase {
-  id: ID!
-  buyerName: String!
-  phone: String!
-  state: String
-  purchaseDate: DateTime
-  proofUrl: String!
-  status: PurchaseStatus
-  ticket: Ticket
-}
-
-"""The status of the purchase"""
-enum PurchaseStatus {
-  PENDING
-  VERIFIED
-  DENIED
 }
 
 type Query {

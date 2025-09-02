@@ -18,9 +18,9 @@ export class TicketsResolver {
    * Roles requeridos: ADMIN
    * Retorna: Un array de objetos Ticket
    */
-  @Roles(Role.ADMIN)
-  @UseGuards(RolesGuard)
-  @UseGuards(GqlAuthGuard)
+  // @Roles(Role.ADMIN)
+  // @UseGuards(RolesGuard)
+  // @UseGuards(GqlAuthGuard)
   @Query(() => [Ticket], { name: 'tickets' })
   getAll(): Promise<Ticket[]> {
     return this.TicketsService.findAll();

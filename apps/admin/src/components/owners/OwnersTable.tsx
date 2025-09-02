@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
 import { ColumnDef } from '@tanstack/react-table';
-import { Badge } from '@riffy/components';
+import { Badge, Icon } from '@riffy/components';
 import DataTable from '@/components/common/data-table';
 import { TableAction, TableButton } from '@/components/common/data-table/types';
 import {
@@ -56,7 +56,60 @@ const OwnersTable = ({
       },
     },
     createColumn('email', 'Correo Electrónico'),
-    createColumn('phone', 'Teléfono'),
+    {
+      accessorKey: 'whatsapp',
+      header: 'Whatsaap',
+      cell: info => {
+        const handleWhatsApp = () =>
+          window.open(`https://wa.me/${info.getValue() as string}`, '_blank');
+        return (
+          <button className="cursor-pointer" onClick={handleWhatsApp}>
+            <Icon name="whatsapp" className="text-2xl" />
+          </button>
+        );
+      },
+      meta: {
+        className: TABLE_CLASSES.cell,
+        headerClassName: TABLE_CLASSES.header,
+      },
+    },
+    {
+      accessorKey: 'instagram',
+      header: 'Instagram',
+      cell: info => {
+        const handleInstagram = () =>
+          window.open(
+            `https://www.instagram.com/${info.getValue() as string}`,
+            '_blank',
+          );
+        return (
+          <button className="cursor-pointer" onClick={handleInstagram}>
+            <Icon name="instagram" className="text-2xl" />
+          </button>
+        );
+      },
+      meta: {
+        className: TABLE_CLASSES.cell,
+        headerClassName: TABLE_CLASSES.header,
+      },
+    },
+    {
+      accessorKey: 'tiktok',
+      header: 'TikTok',
+      cell: info => {
+        const handleTikTok = () =>
+          window.open(`https://www.tiktok.com/@${info.getValue() as string}`, '_blank');
+        return (
+          <button className="cursor-pointer" onClick={handleTikTok}>
+            <Icon name="tiktok" className="text-2xl" />
+          </button>
+        );
+      },
+      meta: {
+        className: TABLE_CLASSES.cell,
+        headerClassName: TABLE_CLASSES.header,
+      },
+    },
     {
       accessorKey: 'status',
       header: 'Estado',

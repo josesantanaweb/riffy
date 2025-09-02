@@ -9,7 +9,10 @@ export const TABLE_CLASSES = {
   actionsCell: 'px-4 h-14',
 } as const;
 
-export function createColumn<T>(accessorKey: keyof T, header: string): ColumnDef<T> {
+export function createColumn<T>(
+  accessorKey: keyof T,
+  header: string,
+): ColumnDef<T> {
   return {
     accessorKey,
     header,
@@ -21,7 +24,10 @@ export function createColumn<T>(accessorKey: keyof T, header: string): ColumnDef
   };
 }
 
-export function createCurrencyColumn<T>(accessorKey: keyof T, header: string): ColumnDef<T> {
+export function createCurrencyColumn<T>(
+  accessorKey: keyof T,
+  header: string,
+): ColumnDef<T> {
   return {
     accessorKey,
     header,
@@ -33,7 +39,10 @@ export function createCurrencyColumn<T>(accessorKey: keyof T, header: string): C
   };
 }
 
-export function createDateColumn<T>(accessorKey: keyof T, header: string): ColumnDef<T> {
+export function createDateColumn<T>(
+  accessorKey: keyof T,
+  header: string,
+): ColumnDef<T> {
   return {
     accessorKey,
     header,
