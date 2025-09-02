@@ -27,6 +27,9 @@ export type IconName =
   | 'arrow-back'
   | 'plus-circle'
   | 'close'
+  | 'whatsapp'
+  | 'instagram'
+  | 'tiktok'
   | 'dots';
 
 interface IconProps {

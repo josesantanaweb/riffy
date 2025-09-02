@@ -156,4 +156,8 @@ input[type='number'] {
 .icon-image:before { content: '\e840'; } /* '' */
 .icon-calendar:before { content: '\e841'; } /* '' */
 .icon-info-circle:before { content: '\e842'; } /* '' */
+.icon-plus-circle:before { content: '\e843'; } /* '' */
 .icon-close:before { content: '\e844'; } /* '' */
+.icon-instagram:before { content: '\e845'; } /* '' */
+.icon-tiktok:before { content: '\e846'; } /* '' */
+.icon-whatsapp:before { content: '\e847'; } /* '' */
