@@ -76,7 +76,7 @@ export default function TicketGrid() {
           </span>
         </div>
       </div>
-      <div className="grid grid-cols-6 gap-2 w-full mb-2">
+      <div className="grid grid-cols-6 gap-2 w-full mb-2 mt-2">
         {pageTickets.map(ticket => (
           <div
             key={ticket.id}

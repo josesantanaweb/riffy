@@ -3,16 +3,72 @@ import Image from 'next/image';
 import { IconCalendar, IconFilter, IconGift, IconSearch } from '@/icons';
 import TicketGrid from '@/components/TicketGrid';
 import TicketSelector from '@/components/TicketSelector';
+import { useRaffles } from '@riffy/hooks';
 import { Button } from '@/components/ui/button';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+
+type Ticket = {
+  id: string;
+  number: string;
+  status: string;
+};
+
+type Raffle = {
+  id: string;
+  title: string;
+  price: number;
+  totalTickets: number;
+  status: string;
+  banner?: string;
+  primaryColor?: string;
+  tickets?: Ticket[];
+};
 
 export default function Home() {
+  //   {
+  //   "data": {
+  //     "createRaffle": {
+  //       "id": "cmewdux2z00011r09e5udwy0s",
+  //       "title": "Rifa de prueba",
+  //       "description": "Primera rifa creada desde Playground",
+  //       "totalTickets": 100,
+  //       "price": 5,
+  //       "drawDate": "2025-09-10T00:00:00.000Z",
+  //       "createdAt": "2025-08-29T05:19:17.995Z"
+  //     }
+  //   }8
+  // }
   const router = useRouter();
   const [isSelectedTicket, setIsSelectedTicket] = useState(false);
+
+  const { data: raffles, loading, error } = useRaffles();
+  console.log('raffles', raffles);
+
+  if (!loading && !error && !raffles) {
+    console.error(
+      'useRaffles returned null raffles — check Apollo client URL and that the API returns raffles',
+    );
+  }
+  const activeRaffle =
+    raffles?.find((r: Raffle) => r.status === 'ACTIVE') ?? raffles?.[0] ?? null;
+
   const handleNext = () => {
     router.push('/pay');
   };
+
+  if (loading)
+    return (
+      <div className="h-full w-full flex items-center justify-center text-white">
+        Cargando rifas...
+      </div>
+    );
+  if (error)
+    return (
+      <div className="h-full w-full flex items-center justify-center text-warning-1">
+        Error cargando rifas
+      </div>
+    );
   return (
     <div className="h-full w-full">
       <Image

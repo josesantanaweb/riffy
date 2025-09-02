@@ -9,8 +9,10 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@apollo/client": "^4.0.3",
     "@svgr/core": "^8.1.0",
     "dprint": "^0.50.1",
+    "graphql": "^16.11.0",
     "next": "15.5.0",
     "react": "19.1.0",
     "react-dom": "19.1.0",
