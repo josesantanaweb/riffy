@@ -46,7 +46,9 @@ export const USERS_FRAGMENT = gql`
     id
     name
     email
-    phone
+    whatsapp
+    instagram
+    tiktok
     logo
     brandColor
     status

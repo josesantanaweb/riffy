@@ -9,7 +9,9 @@ type User {
   email: String!
   logo: String
   brandColor: String
-  phone: String
+  whatsapp: String
+  instagram: String
+  tiktok: String
   role: Role
   status: UserStatus
   createdAt: DateTime
@@ -117,7 +119,9 @@ input CreateUserInput {
   logo: String
   brandColor: String
   password: String!
-  phone: String
+  whatsapp: String
+  tiktok: String
+  instagram: String
   role: Role
   status: UserStatus
 }
@@ -128,7 +132,9 @@ input UpdateUserInput {
   logo: String
   brandColor: String
   password: String
-  phone: String
+  whatsapp: String
+  tiktok: String
+  instagram: String
   role: Role
   status: UserStatus
 }
