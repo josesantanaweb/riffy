@@ -5,7 +5,7 @@ import clsx from 'clsx';
 import { MENU } from '@/constants/routes';
 import { useStore } from '@/store';
 import SidebarItem from './SidebarItem';
-import { IconName } from '../../../../../../packages/riffy-components/src/components/icon';
+import { IconName } from '@riffy/components';
 
 const Sidebar: React.FC = () => {
   const { collapseSidebar } = useStore();

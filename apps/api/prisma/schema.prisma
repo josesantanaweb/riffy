@@ -8,16 +8,19 @@ datasource db {
 }
 
 model User {
-  id         String   @id @default(cuid())
-  email      String   @unique
+  id         String     @id @default(cuid())
+  email      String     @unique
   password   String
   name       String
   phone      String?
   logo       String?
+  instagram  String?
+  whatsapp   String?
+  tiktok     String?
   status     UserStatus @default(ACTIVE)
-  brandColor String?  @default("00D4FF")
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  brandColor String?    @default("00D4FF")
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
 
   role   Role     @default(OWNER)
   raffle Raffle[]
@@ -46,23 +49,31 @@ model Ticket {
   number String
   status TicketStatus @default(AVAILABLE)
 
-  raffleId       String
-  raffle         Raffle           @relation(fields: [raffleId], references: [id], onDelete: Cascade)
-  ticketPurchase TicketPurchase[]
+  raffleId String
+  raffle   Raffle     @relation(fields: [raffleId], references: [id], onDelete: Cascade)
+  purchase Purchase[]
 }
 
-model TicketPurchase {
-  id        String   @id @default(cuid())
-  buyerName String
-  buyerId   String
-  phone     String
-  state     String
-  proofUrl  String?
+model Purchase {
+  id           String         @id @default(cuid())
+  buyerName    String
+  phone        String
+  state        String?
+  proofUrl     String
+  purchaseDate DateTime       @default(now())
+  status       PurchaseStatus @default(PENDING)
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   ticketId String
   ticket   Ticket @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+}
+
+enum PurchaseStatus {
+  PENDING
+  VERIFIED
+  DENIED
 }
 
 enum RaffleStatus {

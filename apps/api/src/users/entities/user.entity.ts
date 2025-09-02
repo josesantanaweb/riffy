@@ -22,7 +22,13 @@ export class User {
   brandColor?: string;
 
   @Field({ nullable: true })
-  phone?: string;
+  whatsapp?: string;
+
+  @Field({ nullable: true })
+  instagram?: string;
+
+  @Field({ nullable: true })
+  tiktok?: string;
 
   @Field(() => Role, { nullable: true })
   role?: Role;

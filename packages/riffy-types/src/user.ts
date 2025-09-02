@@ -13,7 +13,9 @@ export interface User {
   name: string;
   email: string;
   brandColor?: string | null;
-  phone?: string | null;
+  whatsapp?: string | null;
+  tiktok?: string | null;
+  instagram?: string | null;
   logo?: string | null;
   role?: Role | null;
   status?: UserStatus | null;
@@ -24,9 +26,10 @@ export interface CreateUserInput {
   email: string;
   password: string;
   brandColor?: string | null;
-  phone?: string | null;
+  whatsapp?: string | null;
+  instagram?: string | null;
+  tiktok?: string | null;
   logo?: string | null;
   role?: Role | null;
   status?: UserStatus | null;
 }
-

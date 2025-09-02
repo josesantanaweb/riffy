@@ -10,8 +10,12 @@ import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { RafflesModule } from './raffles/raffles.module';
 import { TicketsModule } from './tickets/tickets.module';
+import { PurchaseModule } from './purchase/purchase.module';
 import './enums/role.enum';
 import './enums/user-status.enum';
+import './enums/raffle-status.enum';
+import './enums/ticket-status.enum';
+import './enums/purchase-status.enum';
 
 @Module({
   imports: [
@@ -31,6 +35,7 @@ import './enums/user-status.enum';
     AuthModule,
     RafflesModule,
     TicketsModule,
+    PurchaseModule,
   ],
 })
 export class AppModule {}

@@ -30,7 +30,17 @@ export class CreateUserInput {
   @IsString()
   @IsOptional()
   @Field(() => String, { nullable: true })
-  phone?: string;
+  whatsapp?: string;
+
+  @IsString()
+  @IsOptional()
+  @Field(() => String, { nullable: true })
+  tiktok?: string;
+
+  @IsString()
+  @IsOptional()
+  @Field(() => String, { nullable: true })
+  instagram?: string;
 
   @IsEnum(Role)
   @IsOptional()

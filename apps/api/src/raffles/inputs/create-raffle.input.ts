@@ -1,8 +1,7 @@
 import { IsDate, IsInt, IsOptional, IsString } from 'class-validator';
-import { InputType, Field, Int, registerEnumType } from '@nestjs/graphql';
+import { InputType, Field, Int } from '@nestjs/graphql';
 import { RaffleStatus } from '@prisma/client';
 
-registerEnumType(RaffleStatus, { name: 'RaffleStatus' });
 @InputType()
 export class CreateRaffleInput {
   @IsString()
