@@ -21,7 +21,7 @@ export type IconName =
   | 'edit'
   | 'trash'
   | 'download'
-  | 'seach'
+  | 'search'
   | 'image'
   | 'calendar'
   | 'arrow-back'
@@ -30,6 +30,8 @@ export type IconName =
   | 'whatsapp'
   | 'instagram'
   | 'tiktok'
+  | 'check-circle'
+  | 'dollar'
   | 'dots';
 
 interface IconProps {

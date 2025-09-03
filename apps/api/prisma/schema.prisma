@@ -24,6 +24,7 @@ model User {
 
   role   Role     @default(OWNER)
   raffle Raffle[]
+  paymentMethods PaymentMethod[]
 }
 
 model Raffle {
@@ -71,6 +72,27 @@ model Payment {
   ticket   Ticket  @relation(fields: [ticketId], references: [id], onDelete: Cascade)
 }
 
+model PaymentMethod {
+  id     String            @id @default(cuid())
+  name   String
+  type   PaymentMethodType
+
+  bankName      String?
+  phoneNumber   String?
+  nationalId    String?
+
+  binanceId     String?
+  binanceEmail  String?
+
+  paypalEmail   String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  ownerId String
+  owner   User   @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+}
+
 enum PaymentStatus {
   PENDING
   VERIFIED
@@ -99,4 +121,10 @@ enum UserStatus {
 enum Role {
   ADMIN
   OWNER
+}
+
+enum PaymentMethodType {
+  PAGO_MOVIL
+  BINANCE_PAY
+  PAYPAL
 }

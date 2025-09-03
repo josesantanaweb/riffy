@@ -17,6 +17,11 @@ export const ROUTES = {
   },
   PAYMENTS: {
     LIST: `/payments`,
+    CREATE: '/payments/create',
+  },
+  PAYMENT_METHODS: {
+    LIST: `/payment-methods`,
+    CREATE: '/payment-methods/create',
   },
 };
 
@@ -38,12 +43,12 @@ export const MENU = [
   },
   {
     label: 'Pagos',
-    icon: 'credit-card',
+    icon: 'dollar',
     path: ROUTES.PAYMENTS.LIST,
   },
   {
     label: 'Metodos de pago',
     icon: 'credit-card',
-    path: ROUTES.PAYMENTS.LIST,
+    path: ROUTES.PAYMENT_METHODS.LIST,
   },
 ];

@@ -161,3 +161,6 @@ input[type='number'] {
 .icon-instagram:before { content: '\e845'; } /* '' */
 .icon-tiktok:before { content: '\e846'; } /* '' */
 .icon-whatsapp:before { content: '\e847'; } /* '' */
+.icon-check-circle:before { content: '\e848'; } /* '' */
+.icon-dollar:before { content: '\e849'; } /* '' */
+

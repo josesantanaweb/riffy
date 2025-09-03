@@ -7,30 +7,29 @@ import { TableAction, TableButton } from '@/components/common/data-table/types';
 import {
   createColumn,
   TABLE_CLASSES,
-  mapUserStatusToStatusType,
-  mapUserStatusToLabel,
+  createDateColumn,
+  mapPaymentStatusToStatusType,
+  mapPaymentStatusToLabel,
 } from '@/utils';
 import MediaDisplay from '@/components/common/media-display';
-import { User, UserStatus } from '@riffy/types';
+import { Payment, PaymentStatus, Ticket } from '@riffy/types';
 
-interface OwnersTableProps {
-  data: User[];
-  onEdit?: (owner: User) => void;
-  onDelete?: (owner: User) => void;
-  onView?: (owner: User) => void;
+interface PaymentsTableProps {
+  data: Payment[];
+  onView?: (payment: Payment) => void;
   onAdd?: () => void;
+  onMarkAsVerified?: () => void;
   onDownload?: () => void;
 }
 
-const OwnersTable = ({
+const PaymentsTable = ({
   data,
-  onEdit,
-  onDelete,
   onView,
   onAdd,
+  onMarkAsVerified,
   onDownload,
-}: OwnersTableProps) => {
-  const columns: ColumnDef<User>[] = [
+}: PaymentsTableProps) => {
+  const columns: ColumnDef<Payment>[] = [
     {
       accessorKey: 'id',
       header: 'ID',
@@ -44,20 +43,34 @@ const OwnersTable = ({
       },
     },
     {
-      accessorKey: 'name',
-      header: 'Nombre',
+      accessorKey: 'ticket',
+      header: 'Boleto N°',
       cell: info => {
-        const row = info.row.original;
-        return <MediaDisplay label={row.name} image={row.logo} />;
+        const ticket = info.getValue() as Ticket;
+        return <p>{ticket.number}</p>;
       },
       meta: {
         className: TABLE_CLASSES.cell,
         headerClassName: TABLE_CLASSES.header,
       },
     },
-    createColumn('email', 'Correo Electrónico'),
     {
-      accessorKey: 'whatsapp',
+      accessorKey: 'buyerName',
+      header: 'Comprador',
+      cell: info => {
+        const row = info.row.original;
+        return <MediaDisplay label={row.buyerName} image={undefined} />;
+      },
+      meta: {
+        className: TABLE_CLASSES.cell,
+        headerClassName: TABLE_CLASSES.header,
+      },
+    },
+    createColumn('state', 'Estado'),
+    createColumn('state', 'Metodo de Pago'),
+    createDateColumn('paymentDate', 'Fecha de Pago'),
+    {
+      accessorKey: 'phone',
       header: 'Whatsaap',
       cell: info => {
         const handleWhatsApp = () =>
@@ -74,49 +87,12 @@ const OwnersTable = ({
       },
     },
     {
-      accessorKey: 'instagram',
-      header: 'Instagram',
-      cell: info => {
-        const handleInstagram = () =>
-          window.open(
-            `https://www.instagram.com/${info.getValue() as string}`,
-            '_blank',
-          );
-        return (
-          <button className="cursor-pointer" onClick={handleInstagram}>
-            <Icon name="instagram" className="text-2xl" />
-          </button>
-        );
-      },
-      meta: {
-        className: TABLE_CLASSES.cell,
-        headerClassName: TABLE_CLASSES.header,
-      },
-    },
-    {
-      accessorKey: 'tiktok',
-      header: 'TikTok',
-      cell: info => {
-        const handleTikTok = () =>
-          window.open(`https://www.tiktok.com/@${info.getValue() as string}`, '_blank');
-        return (
-          <button className="cursor-pointer" onClick={handleTikTok}>
-            <Icon name="tiktok" className="text-2xl" />
-          </button>
-        );
-      },
-      meta: {
-        className: TABLE_CLASSES.cell,
-        headerClassName: TABLE_CLASSES.header,
-      },
-    },
-    {
       accessorKey: 'status',
       header: 'Estado',
       cell: info => (
         <Badge
-          status={mapUserStatusToStatusType(info.getValue() as UserStatus)}
-          label={mapUserStatusToLabel(info.getValue() as string)}
+          status={mapPaymentStatusToStatusType(info.getValue() as PaymentStatus)}
+          label={mapPaymentStatusToLabel(info.getValue() as string)}
         />
       ),
       meta: {
@@ -126,32 +102,22 @@ const OwnersTable = ({
     },
   ];
 
-  const actions: TableAction<User>[] = [
+  const actions: TableAction<Payment>[] = [
     ...(onView
       ? [
           {
-            label: 'Ver Boletos',
-            icon: 'ticket',
+            label: 'Ver Comprobante',
+            icon: 'search',
             onClick: onView,
           },
         ]
       : []),
-    ...(onEdit
+    ...(onMarkAsVerified
       ? [
           {
-            label: 'Editar',
-            icon: 'edit',
-            onClick: onEdit,
-          },
-        ]
-      : []),
-    ...(onDelete
-      ? [
-          {
-            label: 'Eliminar',
-            icon: 'trash',
-            variant: 'danger' as const,
-            onClick: onDelete,
+            label: 'Marcar como Verificado',
+            icon: 'check-circle',
+            onClick: onMarkAsVerified,
           },
         ]
       : []),
@@ -186,7 +152,7 @@ const OwnersTable = ({
       columns={columns}
       actions={actions}
       buttons={buttons}
-      searchFields={['name']}
+      searchFields={['buyerName']}
       searchPlaceholder="Buscar"
       enableSelection={true}
       enablePagination={true}
@@ -194,4 +160,4 @@ const OwnersTable = ({
   );
 };
 
-export default OwnersTable;
+export default PaymentsTable;
