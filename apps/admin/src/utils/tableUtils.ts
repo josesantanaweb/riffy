@@ -16,7 +16,7 @@ export function createColumn<T>(
   return {
     accessorKey,
     header,
-    cell: info => info.getValue(),
+    cell: info => info.getValue() || 'N/A',
     meta: {
       className: TABLE_CLASSES.cell,
       headerClassName: TABLE_CLASSES.header,

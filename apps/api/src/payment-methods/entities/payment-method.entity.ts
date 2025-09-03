@@ -27,9 +27,6 @@ export class PaymentMethod {
   binanceId?: string;
 
   @Field({ nullable: true })
-  binanceEmail?: string;
-
-  @Field({ nullable: true })
   paypalEmail?: string;
 
   @Field(() => GraphQLISODateTime)

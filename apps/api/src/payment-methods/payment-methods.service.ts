@@ -7,6 +7,7 @@ import { PrismaService } from '../prisma/prisma.service';
 import { PaymentMethod } from './entities/payment-method.entity';
 import { CreatePaymentMethodInput } from './inputs/create-payment-method.input';
 import { UpdatePaymentMethodInput } from './inputs/update-payment-method.input';
+import { PaymentMethodCreateData, PaymentMethodUpdateData } from './types';
 
 @Injectable()
 export class PaymentMethodsService {
@@ -66,6 +67,10 @@ export class PaymentMethodsService {
   /**
    * Crea un nuevo método de pago.
    * Valida que los campos requeridos estén presentes según el tipo.
+   * Si no se proporciona nombre, se asigna automáticamente según el tipo:
+   * - PAGO_MOVIL → "Pago Móvil"
+   * - BINANCE_PAY → "Binance"
+   * - PAYPAL → "PayPal"
    * @param data Datos del nuevo método de pago
    * @returns El método de pago creado
    * @throws BadRequestException si faltan campos requeridos
@@ -73,8 +78,11 @@ export class PaymentMethodsService {
   async create(data: CreatePaymentMethodInput): Promise<PaymentMethod> {
     this.validateRequiredFields(data);
 
+    const finalName = data.name || this.getNameByType(data.type);
+    const paymentMethodData = this.formatCreateData(data, finalName);
+
     return await this.prisma.paymentMethod.create({
-      data,
+      data: paymentMethodData,
       include: {
         owner: true,
       },
@@ -94,14 +102,17 @@ export class PaymentMethodsService {
   ): Promise<PaymentMethod> {
     await this.findOne(id);
 
-    // Si se está actualizando el tipo, validar campos requeridos
     if (data.type) {
       this.validateRequiredFields(data as CreatePaymentMethodInput);
     }
 
+    const finalName =
+      data.type && !data.name ? this.getNameByType(data.type) : data.name;
+    const paymentMethodData = this.formatUpdateData(data, finalName);
+
     return await this.prisma.paymentMethod.update({
       where: { id },
-      data,
+      data: paymentMethodData,
       include: {
         owner: true,
       },
@@ -124,6 +135,77 @@ export class PaymentMethodsService {
   }
 
   /**
+   * Obtiene el nombre automático según el tipo de método de pago.
+   * @param type Tipo de método de pago
+   * @returns Nombre del método de pago
+   */
+  private getNameByType(type: string): string {
+    switch (type) {
+      case 'PAGO_MOVIL':
+        return 'Pago Móvil';
+      case 'BINANCE_PAY':
+        return 'Binance';
+      case 'PAYPAL':
+        return 'PayPal';
+      default:
+        return 'Método de Pago';
+    }
+  }
+
+  /**
+   * Convierte los datos del input a formato Prisma para creación.
+   * @param data Datos del input
+   * @param finalName Nombre final a usar
+   * @returns Datos formateados para Prisma
+   */
+  private formatCreateData(
+    data: CreatePaymentMethodInput,
+    finalName: string,
+  ): PaymentMethodCreateData {
+    return {
+      name: finalName,
+      type: data.type,
+      bankName: data.bankName || null,
+      phoneNumber: data.phoneNumber || null,
+      nationalId: data.nationalId || null,
+      binanceId: data.binanceId || null,
+      paypalEmail: data.paypalEmail || null,
+      ownerId: data.ownerId,
+    };
+  }
+
+  /**
+   * Convierte los datos del input a formato Prisma para actualización.
+   * @param data Datos del input
+   * @param finalName Nombre final a usar (opcional)
+   * @returns Datos formateados para Prisma
+   */
+  private formatUpdateData(
+    data: UpdatePaymentMethodInput,
+    finalName?: string,
+  ): PaymentMethodUpdateData {
+    return {
+      ...(finalName !== undefined && { name: finalName }),
+      ...(data.type !== undefined && { type: data.type }),
+      ...(data.bankName !== undefined && {
+        bankName: data.bankName || null,
+      }),
+      ...(data.phoneNumber !== undefined && {
+        phoneNumber: data.phoneNumber || null,
+      }),
+      ...(data.nationalId !== undefined && {
+        nationalId: data.nationalId || null,
+      }),
+      ...(data.binanceId !== undefined && {
+        binanceId: data.binanceId || null,
+      }),
+      ...(data.paypalEmail !== undefined && {
+        paypalEmail: data.paypalEmail || null,
+      }),
+    };
+  }
+
+  /**
    * Valida que los campos requeridos estén presentes según el tipo de método de pago.
    * @param data Datos del método de pago
    * @throws BadRequestException si faltan campos requeridos
@@ -138,10 +220,8 @@ export class PaymentMethodsService {
         }
         break;
       case 'BINANCE_PAY':
-        if (!data.binanceId && !data.binanceEmail) {
-          throw new BadRequestException(
-            'Binance Pay requires either binanceId or binanceEmail',
-          );
+        if (!data.binanceId) {
+          throw new BadRequestException('Binance Pay requires binanceId');
         }
         break;
       case 'PAYPAL':
