@@ -84,6 +84,21 @@ type Raffle {
   owner: User
 }
 
+type PaymentMethod {
+  id: ID!
+  name: String!
+  type: String!
+  bankName: String
+  phoneNumber: String
+  nationalId: String
+  binanceId: String
+  binanceEmail: String
+  paypalEmail: String
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  owner: User
+}
+
 type Query {
   users(role: Role): [User!]!
   user(id: String!): User!
@@ -95,6 +110,9 @@ type Query {
   ticket(id: String!): Ticket!
   payments: [Payment!]!
   payment(id: String!): Payment!
+  paymentMethods: [PaymentMethod!]!
+  paymentMethodsByOwner(ownerId: String!): [PaymentMethod!]!
+  paymentMethod(id: String!): PaymentMethod!
 }
 
 type Mutation {
@@ -112,6 +130,9 @@ type Mutation {
   createPayment(input: CreatePaymentInput!): Payment!
   updatePayment(id: String!, input: UpdatePaymentInput!): Payment!
   deletePayment(id: String!): Payment!
+  createPaymentMethod(input: CreatePaymentMethodInput!): PaymentMethod!
+  updatePaymentMethod(id: String!, input: UpdatePaymentMethodInput!): PaymentMethod!
+  deletePaymentMethod(id: String!): PaymentMethod!
 }
 
 input CreateUserInput {
@@ -215,4 +236,28 @@ input UpdatePaymentInput {
   paymentDate: DateTime
   ticketId: String
   status: PaymentStatus
+}
+
+input CreatePaymentMethodInput {
+  name: String!
+  type: String!
+  bankName: String
+  phoneNumber: String
+  nationalId: String
+  binanceId: String
+  binanceEmail: String
+  paypalEmail: String
+  ownerId: String!
+}
+
+input UpdatePaymentMethodInput {
+  name: String
+  type: String
+  bankName: String
+  phoneNumber: String
+  nationalId: String
+  binanceId: String
+  binanceEmail: String
+  paypalEmail: String
+  ownerId: String
 }

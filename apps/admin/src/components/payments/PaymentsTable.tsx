@@ -47,7 +47,7 @@ const PaymentsTable = ({
       header: 'Boleto N°',
       cell: info => {
         const ticket = info.getValue() as Ticket;
-        return <p>{ticket.number}</p>;
+        return ticket && <p>{ticket.number}</p>;
       },
       meta: {
         className: TABLE_CLASSES.cell,

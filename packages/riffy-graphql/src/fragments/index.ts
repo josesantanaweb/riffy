@@ -53,6 +53,7 @@ export const PAYMENT_FRAGMENT = gql`
     state
     paymentDate
     proofUrl
+    paymentMethod
     status
   }
 `;
@@ -67,4 +68,19 @@ export const TICKETS_FRAGMENT = gql`
     }
   }
   ${PAYMENT_FRAGMENT}
+`;
+
+
+export const PAYMENT_METHODS_FRAGMENT = gql`
+  fragment PaymentMethodsFragment on PaymentMethod {
+    id
+    name
+    type
+    bankName
+    phoneNumber
+    nationalId
+    binanceId
+    binanceEmail
+    paypalEmail
+  }
 `;

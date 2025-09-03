@@ -24,6 +24,7 @@ export interface Payment {
   phone: string;
   state: string;
   paymentDate: string;
+  paymentMethod: string;
   proofUrl?: string | null;
   status?: PaymentStatus | null;
   ticket?: Ticket | null;

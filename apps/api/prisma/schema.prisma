@@ -22,8 +22,8 @@ model User {
   createdAt  DateTime   @default(now())
   updatedAt  DateTime   @updatedAt
 
-  role   Role     @default(OWNER)
-  raffle Raffle[]
+  role           Role            @default(OWNER)
+  raffle         Raffle[]
   paymentMethods PaymentMethod[]
 }
 
@@ -51,40 +51,41 @@ model Ticket {
   status TicketStatus @default(AVAILABLE)
 
   raffleId String
-  raffle   Raffle     @relation(fields: [raffleId], references: [id], onDelete: Cascade)
+  raffle   Raffle @relation(fields: [raffleId], references: [id], onDelete: Cascade)
 
   payment Payment?
 }
 
 model Payment {
-  id           String         @id @default(cuid())
-  buyerName    String
-  phone        String
-  state        String?
-  proofUrl     String
-  paymentDate DateTime       @default(now())
-  status       PaymentStatus @default(PENDING)
+  id            String             @id @default(cuid())
+  buyerName     String
+  phone         String
+  state         String?
+  proofUrl      String
+  paymentDate   DateTime           @default(now())
+  paymentMethod String?
+  status        PaymentStatus      @default(PENDING)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  ticketId String  @unique
-  ticket   Ticket  @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+  ticketId String @unique
+  ticket   Ticket @relation(fields: [ticketId], references: [id], onDelete: Cascade)
 }
 
 model PaymentMethod {
-  id     String            @id @default(cuid())
-  name   String
-  type   PaymentMethodType
+  id   String            @id @default(cuid())
+  name String
+  type PaymentMethodType
 
-  bankName      String?
-  phoneNumber   String?
-  nationalId    String?
+  bankName    String?
+  phoneNumber String?
+  nationalId  String?
 
-  binanceId     String?
-  binanceEmail  String?
+  binanceId    String?
+  binanceEmail String?
 
-  paypalEmail   String?
+  paypalEmail String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
