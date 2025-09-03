@@ -1,9 +1,9 @@
-export interface Purchase {
+export interface Payment {
   id: string;
   buyerName: string;
   phone: string;
   state: string;
-  purchaseDate: string;
+  paymentDate: string;
   proofUrl?: string | null;
   status?: string | null;
 }

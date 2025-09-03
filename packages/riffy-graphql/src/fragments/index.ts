@@ -45,13 +45,13 @@ export const RAFFLES_FRAGMENT = gql`
   ${USERS_FRAGMENT}
 `;
 
-export const PURCHASE_FRAGMENT = gql`
-  fragment PurchaseFragment on Purchase {
+export const PAYMENT_FRAGMENT = gql`
+  fragment PaymentFragment on Payment {
     id
     buyerName
     phone
     state
-    purchaseDate
+    paymentDate
     proofUrl
     status
   }
@@ -62,9 +62,9 @@ export const TICKETS_FRAGMENT = gql`
     id
     number
     status
-    purchase {
-      ...PurchaseFragment
+    payment {
+      ...PaymentFragment
     }
   }
-  ${PURCHASE_FRAGMENT}
+  ${PAYMENT_FRAGMENT}
 `;

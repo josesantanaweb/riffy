@@ -52,17 +52,17 @@ model Ticket {
   raffleId String
   raffle   Raffle     @relation(fields: [raffleId], references: [id], onDelete: Cascade)
 
-  purchase Purchase?
+  payment Payment?
 }
 
-model Purchase {
+model Payment {
   id           String         @id @default(cuid())
   buyerName    String
   phone        String
   state        String?
   proofUrl     String
-  purchaseDate DateTime       @default(now())
-  status       PurchaseStatus @default(PENDING)
+  paymentDate DateTime       @default(now())
+  status       PaymentStatus @default(PENDING)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -71,7 +71,7 @@ model Purchase {
   ticket   Ticket  @relation(fields: [ticketId], references: [id], onDelete: Cascade)
 }
 
-enum PurchaseStatus {
+enum PaymentStatus {
   PENDING
   VERIFIED
   DENIED

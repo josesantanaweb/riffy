@@ -40,18 +40,19 @@ type AuthResponse {
   user: User!
 }
 
-type Purchase {
+type Payment {
   id: ID!
   buyerName: String!
   phone: String!
   state: String
-  purchaseDate: DateTime
+  paymentDate: DateTime
   proofUrl: String!
-  status: PurchaseStatus
+  status: PaymentStatus
   ticket: Ticket
 }
 
-enum PurchaseStatus {
+"""The status of the payment"""
+enum PaymentStatus {
   PENDING
   VERIFIED
   DENIED
@@ -61,7 +62,7 @@ type Ticket {
   id: ID!
   number: String!
   status: String
-  purchase: Purchase
+  payment: Payment
 }
 
 type Raffle {
@@ -92,8 +93,8 @@ type Query {
   tickets: [Ticket!]!
   ticketsByRaffleId(raffleId: String!): [Ticket!]!
   ticket(id: String!): Ticket!
-  purchases: [Purchase!]!
-  purchase(id: String!): Purchase!
+  payments: [Payment!]!
+  payment(id: String!): Payment!
 }
 
 type Mutation {
@@ -108,9 +109,9 @@ type Mutation {
   createTicket(input: CreateTicketInput!): Ticket!
   updateTicket(id: String!, input: UpdateTicketInput!): Ticket!
   deleteTicket(id: String!): Ticket!
-  createPurchase(input: CreatePurchaseInput!): Purchase!
-  updatePurchase(id: String!, input: UpdatePurchaseInput!): Purchase!
-  deletePurchase(id: String!): Purchase!
+  createPayment(input: CreatePaymentInput!): Payment!
+  updatePayment(id: String!, input: UpdatePaymentInput!): Payment!
+  deletePayment(id: String!): Payment!
 }
 
 input CreateUserInput {
@@ -196,22 +197,22 @@ input UpdateTicketInput {
   status: TicketStatus
 }
 
-input CreatePurchaseInput {
+input CreatePaymentInput {
   buyerName: String!
   phone: String!
   state: String
   proofUrl: String!
-  purchaseDate: DateTime
+  paymentDate: DateTime
   ticketId: String!
-  status: PurchaseStatus
+  status: PaymentStatus
 }
 
-input UpdatePurchaseInput {
+input UpdatePaymentInput {
   buyerName: String
   phone: String
   state: String
   proofUrl: String
-  purchaseDate: DateTime
+  paymentDate: DateTime
   ticketId: String
-  status: PurchaseStatus
+  status: PaymentStatus
 }
