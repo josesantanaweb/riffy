@@ -20,6 +20,10 @@ export class CreatePaymentInput {
   @Field(() => String)
   proofUrl: string;
 
+  @IsString()
+  @Field(() => String)
+  paymentMethod: string;
+
   @IsOptional()
   @Field(() => Date, { nullable: true })
   paymentDate?: Date;

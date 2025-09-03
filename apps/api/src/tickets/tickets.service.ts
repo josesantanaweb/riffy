@@ -25,7 +25,7 @@ export class TicketsService {
    * Obtiene todos los tickets registrados en la base de datos por rifa.
    * @returns Arreglo de tickets
    */
-  async findAllByRaffleId(raffleId: string): Promise<Ticket[]> {
+  async findAllByRaffle(raffleId: string): Promise<Ticket[]> {
     const tickets = await this.prisma.ticket.findMany({
       where: {
         raffleId,

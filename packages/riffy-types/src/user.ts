@@ -33,3 +33,5 @@ export interface CreateUserInput {
   role?: Role | null;
   status?: UserStatus | null;
 }
+
+export type UpdateUserInput = Partial<CreateUserInput>;

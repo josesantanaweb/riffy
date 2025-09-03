@@ -1,6 +1,6 @@
 import { useMutation } from '@apollo/client';
 import { UPDATE_PAYMENT_METHOD } from '@riffy/graphql';
-import { CreatePaymentMethodInput } from '@riffy/types';
+import { UpdatePaymentMethodInput } from '@riffy/types';
 
 export const useUpdatePaymentMethod = () => {
   const [updatePaymentMethodMutation, { data, error, loading }] = useMutation(
@@ -11,7 +11,7 @@ export const useUpdatePaymentMethod = () => {
     },
   );
 
-  const updatePaymentMethod = (id: string, input: CreatePaymentMethodInput) => {
+  const updatePaymentMethod = (id: string, input: UpdatePaymentMethodInput) => {
     return updatePaymentMethodMutation({
       variables: {
         id,

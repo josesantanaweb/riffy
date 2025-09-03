@@ -37,3 +37,5 @@ export interface CreateRaffleInput {
   description?: string;
   ownerId: string;
 }
+
+export type UpdateRaffleInput = Partial<CreateRaffleInput>;

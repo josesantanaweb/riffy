@@ -1,6 +1,6 @@
 import { useMutation } from '@apollo/client';
 import { UPDATE_USER } from '@riffy/graphql';
-import { CreateUserInput } from '@riffy/types';
+import { UpdateUserInput } from '@riffy/types';
 
 export const useUpdateUser = () => {
   const [updateUserMutation, { data, error, loading }] = useMutation(
@@ -11,7 +11,7 @@ export const useUpdateUser = () => {
     },
   );
 
-  const updateUser = (id: string, input: CreateUserInput) => {
+  const updateUser = (id: string, input: UpdateUserInput) => {
     return updateUserMutation({
       variables: {
         id,

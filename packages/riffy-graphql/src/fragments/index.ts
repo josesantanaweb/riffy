@@ -45,8 +45,16 @@ export const RAFFLES_FRAGMENT = gql`
   ${USERS_FRAGMENT}
 `;
 
-export const PAYMENT_FRAGMENT = gql`
-  fragment PaymentFragment on Payment {
+export const TICKET_BASIC_FRAGMENT = gql`
+  fragment TicketBasicFragment on Ticket {
+    id
+    number
+    status
+  }
+`;
+
+export const PAYMENT_BASIC_FRAGMENT = gql`
+  fragment PaymentBasicFragment on Payment {
     id
     buyerName
     phone
@@ -64,12 +72,28 @@ export const TICKETS_FRAGMENT = gql`
     number
     status
     payment {
-      ...PaymentFragment
+      ...PaymentBasicFragment
     }
   }
-  ${PAYMENT_FRAGMENT}
+  ${PAYMENT_BASIC_FRAGMENT}
 `;
 
+export const PAYMENT_FRAGMENT = gql`
+  fragment PaymentFragment on Payment {
+    id
+    buyerName
+    phone
+    state
+    paymentDate
+    proofUrl
+    paymentMethod
+    status
+    ticket {
+      ...TicketBasicFragment
+    }
+  }
+  ${TICKET_BASIC_FRAGMENT}
+`;
 
 export const PAYMENT_METHODS_FRAGMENT = gql`
   fragment PaymentMethodsFragment on PaymentMethod {

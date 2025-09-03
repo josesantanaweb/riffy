@@ -1,6 +1,6 @@
 import { useMutation } from '@apollo/client';
 import { UPDATE_RAFFLE } from '@riffy/graphql';
-import { CreateRaffleInput } from '@riffy/types';
+import { UpdateRaffleInput } from '@riffy/types';
 
 export const useUpdateRaffle = () => {
   const [updateRaffleMutation, { data, error, loading }] = useMutation(
@@ -11,7 +11,7 @@ export const useUpdateRaffle = () => {
     },
   );
 
-  const updateRaffle = (id: string, input: CreateRaffleInput) => {
+  const updateRaffle = (id: string, input: UpdateRaffleInput) => {
     return updateRaffleMutation({
       variables: {
         id,

@@ -1,1 +1,1 @@
-export { useTicketsByRaffleId } from './useTicketsByRaffleId';
+export { useTicketsByRaffle } from './useTicketsByRaffle';

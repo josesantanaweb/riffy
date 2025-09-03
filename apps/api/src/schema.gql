@@ -47,6 +47,7 @@ type Payment {
   state: String
   paymentDate: DateTime
   proofUrl: String!
+  paymentMethod: String!
   status: PaymentStatus
   ticket: Ticket
 }
@@ -105,7 +106,7 @@ type Query {
   raffles: [Raffle!]!
   raffle(id: String!): Raffle!
   tickets: [Ticket!]!
-  ticketsByRaffleId(raffleId: String!): [Ticket!]!
+  ticketsByRaffle(raffleId: String!): [Ticket!]!
   ticket(id: String!): Ticket!
   payments: [Payment!]!
   payment(id: String!): Payment!
@@ -222,6 +223,7 @@ input CreatePaymentInput {
   phone: String!
   state: String
   proofUrl: String!
+  paymentMethod: String!
   paymentDate: DateTime
   ticketId: String!
   status: PaymentStatus
@@ -232,6 +234,7 @@ input UpdatePaymentInput {
   phone: String
   state: String
   proofUrl: String
+  paymentMethod: String
   paymentDate: DateTime
   ticketId: String
   status: PaymentStatus

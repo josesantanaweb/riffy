@@ -30,6 +30,19 @@ export interface Payment {
   ticket?: Ticket | null;
 }
 
+export interface CreatePaymentInput {
+  buyerName: string;
+  phone: string;
+  state?: string | null;
+  paymentDate?: string | null;
+  paymentMethod: string;
+  proofUrl: string;
+  status?: PaymentStatus | null;
+  ticketId: string;
+}
+
+export type UpdatePaymentInput = Partial<CreatePaymentInput>;
+
 export interface PaymentMethod {
   id: string;
   name: string;
@@ -70,7 +83,6 @@ export type PaymentMethodData = PagoMovil | BinancePay | Paypal;
 export interface CreatePaymentMethodInput {
   name?: string;
   type: PaymentMethodType;
-
   bankName?: string | null;
   phoneNumber?: string | null;
   nationalId?: string | null;
@@ -80,3 +92,5 @@ export interface CreatePaymentMethodInput {
 
   ownerId: string;
 }
+
+export type UpdatePaymentMethodInput = Partial<CreatePaymentMethodInput>;
