@@ -17,15 +17,13 @@ import { Payment, PaymentStatus, Ticket } from '@riffy/types';
 interface PaymentsTableProps {
   data: Payment[];
   onView?: (payment: Payment) => void;
-  onAdd?: () => void;
-  onMarkAsVerified?: () => void;
+  onMarkAsVerified?: (payment: Payment) => void;
   onDownload?: () => void;
 }
 
 const PaymentsTable = ({
   data,
   onView,
-  onAdd,
   onMarkAsVerified,
   onDownload,
 }: PaymentsTableProps) => {
@@ -131,16 +129,6 @@ const PaymentsTable = ({
             icon: 'download',
             variant: 'default' as const,
             onClick: onDownload,
-          },
-        ]
-      : []),
-    ...(onAdd
-      ? [
-          {
-            label: 'Agregar',
-            icon: 'plus',
-            variant: 'primary' as const,
-            onClick: onAdd,
           },
         ]
       : []),

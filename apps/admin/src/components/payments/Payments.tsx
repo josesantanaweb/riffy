@@ -4,35 +4,35 @@ import { useRouter } from 'next/navigation';
 import { usePayments } from '@riffy/hooks';
 import { useToast } from '@/hooks';
 import { ROUTES } from '@/constants';
-import { Payment } from '@riffy/types';
+import { useUpdatePayment } from '@riffy/hooks';
+import { Payment, PaymentStatus } from '@riffy/types';
 import PageHeader from '../common/page-header';
 
 const Payments = () => {
   const router = useRouter();
   const toast = useToast();
   const { data } = usePayments();
-  // const { deleteRaffle } = useDeleteRaffle();
-
-  const handleEdit = (payment: Payment) =>
-    router.push(ROUTES.RAFFLES.EDIT(payment.id));
+  const { updatePayment } = useUpdatePayment();
 
   const handleView = (payment: Payment) =>
     router.push(ROUTES.TICKETS.LIST(payment.id));
 
-  const handleDelete = async (payment: Payment) => {
-    // try {
-    //   await deleteRaffle(payment.id);
-    //   toast.success('Pago eliminada exitosamente!!');
-    // } catch (error) {
-    //   console.error(error);
-    //   toast.error('Error al eliminar el pago.');
-    // }
-  };
-
-  const handleAdd = () => router.push(ROUTES.PAYMENTS.CREATE);
-
-  const handleMarkAsVerified = () => {
-    alert('Marcar como Verificado');
+  const handleMarkAsVerified = (payment: Payment) => {
+    confirm('¿Estás seguro de querer marcar como verificado?');
+    if (confirm) {
+      try {
+        {
+          updatePayment(payment.id, {
+            status: PaymentStatus.VERIFIED,
+            ticketId: payment.ticket?.id,
+          });
+        }
+        toast.success('Pago marcado como verificado exitosamente!!');
+      } catch (error) {
+        console.error(error);
+        toast.error('Error al marcar como verificado el pago.');
+      }
+    }
   };
 
   const handleDownload = () => {
@@ -48,7 +48,6 @@ const Payments = () => {
             data={data}
             onMarkAsVerified={handleMarkAsVerified}
             onView={handleView}
-            onAdd={handleAdd}
             onDownload={handleDownload}
           />
         )}

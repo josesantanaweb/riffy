@@ -34,11 +34,11 @@ export class TicketsResolver {
   // @Roles(Role.ADMIN)
   // @UseGuards(RolesGuard)
   // @UseGuards(GqlAuthGuard)
-  @Query(() => [Ticket], { name: 'ticketsByRaffleId' })
-  getAllByRaffleId(
+  @Query(() => [Ticket], { name: 'ticketsByRaffle' })
+  getAllByRaffle(
     @Args('raffleId', { type: () => String }) raffleId: string,
   ): Promise<Ticket[]> {
-    return this.TicketsService.findAllByRaffleId(raffleId);
+    return this.TicketsService.findAllByRaffle(raffleId);
   }
 
   /**
