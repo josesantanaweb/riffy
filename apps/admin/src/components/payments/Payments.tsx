@@ -18,19 +18,21 @@ const Payments = () => {
     router.push(ROUTES.TICKETS.LIST(payment.id));
 
   const handleMarkAsVerified = (payment: Payment) => {
-    confirm('¿Estás seguro de querer marcar como verificado?');
-    if (confirm) {
-      try {
-        {
-          updatePayment(payment.id, {
-            status: PaymentStatus.VERIFIED,
-            ticketId: payment.ticket?.id,
-          });
+    if (payment.status !== PaymentStatus.VERIFIED) {
+      confirm('¿Estás seguro de querer marcar como verificado?');
+      if (confirm) {
+        try {
+          {
+            updatePayment(payment.id, {
+              status: PaymentStatus.VERIFIED,
+              ticketId: payment.ticket?.id,
+            });
+          }
+          toast.success('Pago marcado como verificado exitosamente!!');
+        } catch (error) {
+          console.error(error);
+          toast.error('Error al marcar como verificado el pago.');
         }
-        toast.success('Pago marcado como verificado exitosamente!!');
-      } catch (error) {
-        console.error(error);
-        toast.error('Error al marcar como verificado el pago.');
       }
     }
   };
