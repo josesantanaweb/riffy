@@ -5,9 +5,10 @@ import '../../enums/payment-method-type.enum';
 
 @InputType()
 export class CreatePaymentMethodInput {
+  @IsOptional()
   @IsString()
-  @Field(() => String)
-  name: string;
+  @Field(() => String, { nullable: true })
+  name?: string;
 
   @IsEnum(['PAGO_MOVIL', 'BINANCE_PAY', 'PAYPAL'])
   @Field(() => String)
@@ -33,12 +34,6 @@ export class CreatePaymentMethodInput {
   @IsString()
   @Field(() => String, { nullable: true })
   binanceId?: string;
-
-  @ValidateIf((o: CreatePaymentMethodInput) => o.type === 'BINANCE_PAY')
-  @IsOptional()
-  @IsString()
-  @Field(() => String, { nullable: true })
-  binanceEmail?: string;
 
   @ValidateIf((o: CreatePaymentMethodInput) => o.type === 'PAYPAL')
   @IsString()

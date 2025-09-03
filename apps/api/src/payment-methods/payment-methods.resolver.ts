@@ -60,6 +60,7 @@ export class PaymentMethodsResolver {
 
   /**
    * Crea un nuevo método de pago.
+   * El nombre se asigna automáticamente según el tipo si no se proporciona.
    * Roles requeridos: OWNER (solo puede crear para sí mismo) o ADMIN
    * @param input Datos del nuevo método de pago
    * @returns El objeto PaymentMethod creado

@@ -92,7 +92,6 @@ type PaymentMethod {
   phoneNumber: String
   nationalId: String
   binanceId: String
-  binanceEmail: String
   paypalEmail: String
   createdAt: DateTime!
   updatedAt: DateTime!
@@ -239,13 +238,12 @@ input UpdatePaymentInput {
 }
 
 input CreatePaymentMethodInput {
-  name: String!
+  name: String
   type: String!
   bankName: String
   phoneNumber: String
   nationalId: String
   binanceId: String
-  binanceEmail: String
   paypalEmail: String
   ownerId: String!
 }
@@ -257,7 +255,6 @@ input UpdatePaymentMethodInput {
   phoneNumber: String
   nationalId: String
   binanceId: String
-  binanceEmail: String
   paypalEmail: String
   ownerId: String
 }

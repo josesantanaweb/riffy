@@ -66,6 +66,10 @@ export class PaymentMethodsService {
   /**
    * Crea un nuevo método de pago.
    * Valida que los campos requeridos estén presentes según el tipo.
+   * Si no se proporciona nombre, se asigna automáticamente según el tipo:
+   * - PAGO_MOVIL → "Pago Móvil"
+   * - BINANCE_PAY → "Binance"
+   * - PAYPAL → "PayPal"
    * @param data Datos del nuevo método de pago
    * @returns El método de pago creado
    * @throws BadRequestException si faltan campos requeridos
@@ -73,8 +77,14 @@ export class PaymentMethodsService {
   async create(data: CreatePaymentMethodInput): Promise<PaymentMethod> {
     this.validateRequiredFields(data);
 
+    const finalName = data.name || this.getNameByType(data.type);
+    const paymentMethodData = {
+      ...data,
+      name: finalName,
+    };
+
     return await this.prisma.paymentMethod.create({
-      data,
+      data: paymentMethodData,
       include: {
         owner: true,
       },
@@ -124,6 +134,24 @@ export class PaymentMethodsService {
   }
 
   /**
+   * Obtiene el nombre automático según el tipo de método de pago.
+   * @param type Tipo de método de pago
+   * @returns Nombre del método de pago
+   */
+  private getNameByType(type: string): string {
+    switch (type) {
+      case 'PAGO_MOVIL':
+        return 'Pago Móvil';
+      case 'BINANCE_PAY':
+        return 'Binance';
+      case 'PAYPAL':
+        return 'PayPal';
+      default:
+        return 'Método de Pago';
+    }
+  }
+
+  /**
    * Valida que los campos requeridos estén presentes según el tipo de método de pago.
    * @param data Datos del método de pago
    * @throws BadRequestException si faltan campos requeridos
@@ -138,10 +166,8 @@ export class PaymentMethodsService {
         }
         break;
       case 'BINANCE_PAY':
-        if (!data.binanceId && !data.binanceEmail) {
-          throw new BadRequestException(
-            'Binance Pay requires either binanceId or binanceEmail',
-          );
+        if (!data.binanceId) {
+          throw new BadRequestException('Binance Pay requires binanceId');
         }
         break;
       case 'PAYPAL':

@@ -83,7 +83,6 @@ model PaymentMethod {
   nationalId  String?
 
   binanceId    String?
-  binanceEmail String?
 
   paypalEmail String?
 

@@ -80,7 +80,6 @@ export const PAYMENT_METHODS_FRAGMENT = gql`
     phoneNumber
     nationalId
     binanceId
-    binanceEmail
     paypalEmail
   }
 `;
