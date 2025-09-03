@@ -22,6 +22,7 @@ export const ROUTES = {
   PAYMENT_METHODS: {
     LIST: `/payment-methods`,
     CREATE: '/payment-methods/create',
+    EDIT: (id: string) => `/payment-methods/edit/${id}`,
   },
 };
 

@@ -1,18 +1,10 @@
 'use client';
 import React from 'react';
 import { ColumnDef } from '@tanstack/react-table';
-import { Badge, Icon } from '@riffy/components';
 import DataTable from '@/components/common/data-table';
 import { TableAction, TableButton } from '@/components/common/data-table/types';
-import {
-  createColumn,
-  TABLE_CLASSES,
-  createDateColumn,
-  // mapPaymentMethodstatusToStatusType,
-  // mapPaymentMethodstatusToLabel,
-} from '@/utils';
-import MediaDisplay from '@/components/common/media-display';
-import { Payment, PaymentMethodStatus, PaymentMethod } from '@riffy/types';
+import { createColumn, TABLE_CLASSES } from '@/utils';
+import { PaymentMethod } from '@riffy/types';
 
 interface PaymentMethodsTableProps {
   data: PaymentMethod[];
@@ -27,7 +19,6 @@ const PaymentMethodsTable = ({
   onEdit,
   onAdd,
   onDelete,
-  onDownload,
 }: PaymentMethodsTableProps) => {
   const columns: ColumnDef<PaymentMethod>[] = [
     {
@@ -47,7 +38,7 @@ const PaymentMethodsTable = ({
     createColumn('nationalId', 'Cedula'),
     createColumn('phoneNumber', 'Telefono'),
     createColumn('binanceId', 'Binance ID'),
-    createColumn('paypalEmail', 'Paypal C.E.'),
+    createColumn('paypalEmail', 'Correo de Paypal'),
   ];
 
   const actions: TableAction<PaymentMethod>[] = [
@@ -72,16 +63,6 @@ const PaymentMethodsTable = ({
   ];
 
   const buttons: TableButton[] = [
-    ...(onDownload
-      ? [
-          {
-            label: 'Descargar',
-            icon: 'download',
-            variant: 'default' as const,
-            onClick: onDownload,
-          },
-        ]
-      : []),
     ...(onAdd
       ? [
           {

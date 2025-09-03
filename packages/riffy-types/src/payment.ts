@@ -41,7 +41,6 @@ export interface PaymentMethod {
   nationalId?: string | null;
 
   binanceId?: string | null;
-  binanceEmail?: string | null;
 
   paypalEmail?: string | null;
 
@@ -52,25 +51,32 @@ export interface PaymentMethod {
   owner?: User | null;
 }
 
-export interface PagoMovilData {
+export interface PagoMovil {
   bankName: string;
   phoneNumber: string;
   nationalId: string;
 }
 
-export interface BinancePayData {
+export interface BinancePay {
   binanceId?: string;
-  binanceEmail?: string;
 }
 
-export interface PaypalData {
+export interface Paypal {
   paypalEmail: string;
 }
 
-export type PaymentMethodData = PagoMovilData | BinancePayData | PaypalData;
+export type PaymentMethodData = PagoMovil | BinancePay | Paypal;
 
 export interface CreatePaymentMethodInput {
-  name: string;
+  name?: string;
   type: PaymentMethodType;
-  data: PaymentMethodData;
+
+  bankName?: string | null;
+  phoneNumber?: string | null;
+  nationalId?: string | null;
+  binanceId?: string | null;
+  binanceEmail?: string | null;
+  paypalEmail?: string | null;
+
+  ownerId: string;
 }

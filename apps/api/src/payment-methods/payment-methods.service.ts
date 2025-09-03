@@ -7,6 +7,7 @@ import { PrismaService } from '../prisma/prisma.service';
 import { PaymentMethod } from './entities/payment-method.entity';
 import { CreatePaymentMethodInput } from './inputs/create-payment-method.input';
 import { UpdatePaymentMethodInput } from './inputs/update-payment-method.input';
+import { PaymentMethodCreateData, PaymentMethodUpdateData } from './types';
 
 @Injectable()
 export class PaymentMethodsService {
@@ -78,10 +79,7 @@ export class PaymentMethodsService {
     this.validateRequiredFields(data);
 
     const finalName = data.name || this.getNameByType(data.type);
-    const paymentMethodData = {
-      ...data,
-      name: finalName,
-    };
+    const paymentMethodData = this.formatCreateData(data, finalName);
 
     return await this.prisma.paymentMethod.create({
       data: paymentMethodData,
@@ -104,14 +102,17 @@ export class PaymentMethodsService {
   ): Promise<PaymentMethod> {
     await this.findOne(id);
 
-    // Si se está actualizando el tipo, validar campos requeridos
     if (data.type) {
       this.validateRequiredFields(data as CreatePaymentMethodInput);
     }
 
+    const finalName =
+      data.type && !data.name ? this.getNameByType(data.type) : data.name;
+    const paymentMethodData = this.formatUpdateData(data, finalName);
+
     return await this.prisma.paymentMethod.update({
       where: { id },
-      data,
+      data: paymentMethodData,
       include: {
         owner: true,
       },
@@ -149,6 +150,59 @@ export class PaymentMethodsService {
       default:
         return 'Método de Pago';
     }
+  }
+
+  /**
+   * Convierte los datos del input a formato Prisma para creación.
+   * @param data Datos del input
+   * @param finalName Nombre final a usar
+   * @returns Datos formateados para Prisma
+   */
+  private formatCreateData(
+    data: CreatePaymentMethodInput,
+    finalName: string,
+  ): PaymentMethodCreateData {
+    return {
+      name: finalName,
+      type: data.type,
+      bankName: data.bankName || null,
+      phoneNumber: data.phoneNumber || null,
+      nationalId: data.nationalId || null,
+      binanceId: data.binanceId || null,
+      paypalEmail: data.paypalEmail || null,
+      ownerId: data.ownerId,
+    };
+  }
+
+  /**
+   * Convierte los datos del input a formato Prisma para actualización.
+   * @param data Datos del input
+   * @param finalName Nombre final a usar (opcional)
+   * @returns Datos formateados para Prisma
+   */
+  private formatUpdateData(
+    data: UpdatePaymentMethodInput,
+    finalName?: string,
+  ): PaymentMethodUpdateData {
+    return {
+      ...(finalName !== undefined && { name: finalName }),
+      ...(data.type !== undefined && { type: data.type }),
+      ...(data.bankName !== undefined && {
+        bankName: data.bankName || null,
+      }),
+      ...(data.phoneNumber !== undefined && {
+        phoneNumber: data.phoneNumber || null,
+      }),
+      ...(data.nationalId !== undefined && {
+        nationalId: data.nationalId || null,
+      }),
+      ...(data.binanceId !== undefined && {
+        binanceId: data.binanceId || null,
+      }),
+      ...(data.paypalEmail !== undefined && {
+        paypalEmail: data.paypalEmail || null,
+      }),
+    };
   }
 
   /**
