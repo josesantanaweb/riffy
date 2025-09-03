@@ -67,7 +67,7 @@ const PaymentsTable = ({
       },
     },
     createColumn('state', 'Estado'),
-    createColumn('state', 'Metodo de Pago'),
+    createColumn('paymentMethod', 'Metodo de Pago'),
     createDateColumn('paymentDate', 'Fecha de Pago'),
     {
       accessorKey: 'phone',

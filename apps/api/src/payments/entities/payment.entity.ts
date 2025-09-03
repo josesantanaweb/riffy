@@ -22,6 +22,9 @@ export class Payment {
   @Field()
   proofUrl: string;
 
+  @Field()
+  paymentMethod: string;
+
   @Field(() => PaymentStatus, { nullable: true })
   status?: PaymentStatus;
 
