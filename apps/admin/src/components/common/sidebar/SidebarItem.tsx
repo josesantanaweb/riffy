@@ -48,7 +48,7 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
   );
 
   return (
-    <div className="relative w-[90%] flex flex-col items-center">
+    <div className="relative w-full flex flex-col items-center">
       <li
         data-tooltip-id={`tooltip-${item.label}`}
         data-tooltip-content={item.label}

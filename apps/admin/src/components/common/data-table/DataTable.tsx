@@ -19,7 +19,7 @@ import type { IconName } from '@riffy/components';
 import ActionMenu from '@/components/common/action-menu';
 import Pagination from '@/components/common/pagination';
 import { PAGINATION_PAGE_SIZE } from '@/constants';
-import { DataTableProps, TableAction } from './types';
+import { DataTableProps } from './types';
 
 const defaultPageSizeOptions = [
   { value: '10', label: '10' },
@@ -41,26 +41,7 @@ const DataTable = <T extends Record<string, any>>({
   initialPageSize = PAGINATION_PAGE_SIZE,
 }: DataTableProps<T>) => {
   const [selected, setSelected] = useState<Set<string>>(new Set());
-  const [openMenuId, setOpenMenuId] = useState<string | null>(null);
   const [search, setSearch] = useState<string>('');
-
-  const toggleMenu = (id: string) => {
-    setOpenMenuId(openMenuId === id ? null : id);
-  };
-
-  const closeMenu = () => {
-    setOpenMenuId(null);
-  };
-
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (openMenuId && !(event.target as Element).closest('.menu-container')) {
-        closeMenu();
-      }
-    };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, [openMenuId]);
 
   const columnsWithActions = useMemo(() => {
     const baseColumns = [...columns];
@@ -72,11 +53,8 @@ const DataTable = <T extends Record<string, any>>({
         cell: ({ row }) => (
           <div className="w-full relative menu-container">
             <ActionMenu
-              isOpen={openMenuId === row.original.id}
-              onToggle={() => toggleMenu(row.original.id)}
               actions={actions}
               row={row.original}
-              closeMenu={closeMenu}
             />
           </div>
         ),
@@ -89,7 +67,7 @@ const DataTable = <T extends Record<string, any>>({
     }
 
     return baseColumns;
-  }, [columns, actions, openMenuId]);
+  }, [columns, actions]);
 
   const filteredData = useMemo(() => {
     if (!search || searchFields.length === 0) return data;

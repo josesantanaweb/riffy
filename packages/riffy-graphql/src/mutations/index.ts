@@ -1,2 +1,3 @@
 export { CREATE_RAFFLE, UPDATE_RAFFLE, DELETE_RAFFLE } from './raffles';
 export { CREATE_USER, UPDATE_USER, DELETE_USER } from './users';
+export { CREATE_PAYMENT_METHOD, UPDATE_PAYMENT_METHOD, DELETE_PAYMENT_METHOD } from './paymentMethods';

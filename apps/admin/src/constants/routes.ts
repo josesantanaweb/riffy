@@ -15,6 +15,14 @@ export const ROUTES = {
   TICKETS: {
     LIST: (raffleId: string) => `/raffles/${raffleId}/tickets`,
   },
+  PAYMENTS: {
+    LIST: `/payments`,
+    CREATE: '/payments/create',
+  },
+  PAYMENT_METHODS: {
+    LIST: `/payment-methods`,
+    CREATE: '/payment-methods/create',
+  },
 };
 
 export const MENU = [
@@ -33,9 +41,14 @@ export const MENU = [
     icon: 'user',
     path: ROUTES.OWNERS.LIST,
   },
-  // {
-  //   label: 'Boletos',
-  //   icon: 'ticket',
-  //   path: ROUTES.TICKETS,
-  // },
+  {
+    label: 'Pagos',
+    icon: 'dollar',
+    path: ROUTES.PAYMENTS.LIST,
+  },
+  {
+    label: 'Metodos de pago',
+    icon: 'credit-card',
+    path: ROUTES.PAYMENT_METHODS.LIST,
+  },
 ];

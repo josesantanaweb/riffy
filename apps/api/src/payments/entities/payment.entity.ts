@@ -1,9 +1,9 @@
 import { ObjectType, Field, ID, GraphQLISODateTime } from '@nestjs/graphql';
-import { PurchaseStatus } from '@prisma/client';
+import { PaymentStatus } from '@prisma/client';
 import { Ticket } from 'src/tickets/entities/ticket.entity';
 
 @ObjectType()
-export class Purchase {
+export class Payment {
   @Field(() => ID)
   id: string;
 
@@ -17,13 +17,13 @@ export class Purchase {
   state?: string;
 
   @Field(() => GraphQLISODateTime, { nullable: true })
-  purchaseDate?: Date;
+  paymentDate?: Date;
 
   @Field()
   proofUrl: string;
 
-  @Field(() => PurchaseStatus, { nullable: true })
-  status?: PurchaseStatus;
+  @Field(() => PaymentStatus, { nullable: true })
+  status?: PaymentStatus;
 
   @Field(() => Ticket, { nullable: true })
   ticket?: Ticket;

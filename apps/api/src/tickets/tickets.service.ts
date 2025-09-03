@@ -15,7 +15,7 @@ export class TicketsService {
   async findAll(): Promise<Ticket[]> {
     const tickets = await this.prisma.ticket.findMany({
       include: {
-        purchase: true,
+        payment: true,
       },
     });
     return tickets;
@@ -31,7 +31,7 @@ export class TicketsService {
         raffleId,
       },
       include: {
-        purchase: true,
+        payment: true,
       },
     });
     return tickets;
@@ -49,7 +49,7 @@ export class TicketsService {
         id,
       },
       include: {
-        purchase: true,
+        payment: true,
       },
     });
 

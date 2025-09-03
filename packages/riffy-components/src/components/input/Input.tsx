@@ -63,7 +63,7 @@ const BASE_INPUT_CLASSES = [
 
 const ICON_BASE_CLASSES = [
   'absolute',
-  'top-1/2',
+  'top-[55%]',
   'transform',
   '-translate-y-1/2',
   'text-base-300',
