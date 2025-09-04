@@ -99,6 +99,14 @@ type PaymentMethod {
   owner: User
 }
 
+type UploadResponse {
+  url: String!
+  key: String!
+  originalName: String!
+  mimeType: String!
+  size: Float!
+}
+
 type Query {
   users(role: Role): [User!]!
   user(id: String!): User!
@@ -133,6 +141,8 @@ type Mutation {
   createPaymentMethod(input: CreatePaymentMethodInput!): PaymentMethod!
   updatePaymentMethod(id: String!, input: UpdatePaymentMethodInput!): PaymentMethod!
   deletePaymentMethod(id: String!): PaymentMethod!
+  uploadImage(file: Upload!, options: UploadOptionsInput): UploadResponse!
+  uploadFile(file: Upload!): String!
 }
 
 input CreateUserInput {
@@ -260,4 +270,12 @@ input UpdatePaymentMethodInput {
   binanceId: String
   paypalEmail: String
   ownerId: String
+}
+
+"""The `Upload` scalar type represents a file upload."""
+scalar Upload
+
+input UploadOptionsInput {
+  folder: String
+  visibility: String
 }
