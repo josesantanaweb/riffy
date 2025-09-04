@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect, useCallback } from 'react';
+import React, { useEffect, useCallback, useState } from 'react';
 import { Button } from '@riffy/components';
 import { useRouter, useParams } from 'next/navigation';
 import { useCreateRaffle, useRaffle, useUpdateRaffle } from '@riffy/hooks';
@@ -8,6 +8,7 @@ import { useForm, FormProvider } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { createRaffleSchema, type FormData } from '@/validations/raffleSchema';
 import { ROUTES } from '@/constants';
+import { uploadImageToS3 } from '@/utils/imageUpload';
 import FormImages from './form/FormImages';
 import FormInformation from './form/FormInformation';
 import PageHeader from '@/components/common/page-header';
@@ -21,12 +22,15 @@ const DEFAULT_VALUES: FormData = {
   status: 'ACTIVE',
   description: '',
   banner: '',
+  bannerFile: null,
 };
 
 const OWNER_ID = 'cmf1myuv20000fmqj1lgf2end';
 const DEFAULT_BANNER = '/images/banner.png';
 
 const RaffleForm = () => {
+  const [isUploadingImage, setIsUploadingImage] = useState(false);
+
   const methods = useForm<FormData>({
     resolver: zodResolver(createRaffleSchema),
     mode: 'onChange',
@@ -37,6 +41,7 @@ const RaffleForm = () => {
     handleSubmit,
     formState: { errors, isValid, isSubmitting },
     reset,
+    watch,
   } = methods;
 
   const router = useRouter();
@@ -61,18 +66,33 @@ const RaffleForm = () => {
       status: raffleData.status || 'ACTIVE',
       description: raffleData.description || '',
       banner: raffleData.banner || '',
+      bannerFile: null,
     });
   }, [raffleData, reset]);
 
   const handleBack = useCallback(() => router.back(), [router]);
 
   const onSubmit = async (data: FormData) => {
-    const { title, status, description, price, award, totalTickets, drawDate } =
+    const { title, status, description, price, award, totalTickets, drawDate, bannerFile } =
       data;
 
     try {
+      let finalBannerUrl = data.banner || DEFAULT_BANNER;
+
+      if (bannerFile) {
+        setIsUploadingImage(true);
+        try {
+          finalBannerUrl = await uploadImageToS3(bannerFile, { folder: 'raffles' });
+        } catch (uploadError) {
+          console.error('Error subiendo imagen:', uploadError);
+          toast.error('Error subiendo la imagen. Intenta de nuevo.');
+          return;
+        } finally {
+          setIsUploadingImage(false);
+        }
+      }
+
       const raffleInput = {
-        ...data,
         title: title,
         price: Number(price),
         award: Number(award),
@@ -81,7 +101,7 @@ const RaffleForm = () => {
         status,
         description,
         ownerId: OWNER_ID,
-        banner: data.banner || DEFAULT_BANNER,
+        banner: finalBannerUrl,
       };
 
       if (isUpdating && raffleData?.id) {
@@ -131,9 +151,13 @@ const RaffleForm = () => {
                 variant="primary"
                 size="md"
                 type="submit"
-                disabled={!isValid || isSubmitting || isCreating}
+                disabled={!isValid || isSubmitting || isCreating || isUploadingImage}
               >
-                {isSubmitting || isCreating ? 'Guardando...' : 'Guardar'}
+                {isSubmitting || isCreating
+                  ? 'Guardando...'
+                  : isUploadingImage
+                  ? 'Subiendo imagen...'
+                  : 'Guardar'}
               </Button>
             </div>
           </div>

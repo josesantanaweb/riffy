@@ -1,9 +1,8 @@
 'use client';
-import { useMemo } from 'react';
+import { useMemo, useEffect } from 'react';
 import Image from 'next/image';
 import { Icon } from '@riffy/components';
-import { useImageUpload } from '@/hooks';
-import type { UploadOptions } from '@/hooks/useImageUpload';
+import { useImagePreview } from '@/hooks/useImagePreview';
 
 export interface ImageUploadProps {
   width?: number;
@@ -12,8 +11,8 @@ export interface ImageUploadProps {
   placeholderIcon?: 'plus-circle' | 'image' | 'user';
   placeholderSubtext?: string;
   value?: string;
-  onChange?: (url: string | null) => void;
-  uploadOptions?: UploadOptions;
+  onChange?: (file: File | null, existingUrl?: string | null) => void;
+  maxSizeMB?: number;
   className?: string;
   disabled?: boolean;
 }
@@ -25,39 +24,42 @@ const ImageUpload = ({
   placeholderSubtext = 'JPEG, PNG, WebP, GIF (máx. 10MB)',
   value,
   onChange,
-  uploadOptions = {},
+  maxSizeMB = 10,
   className = '',
   disabled = false,
 }: ImageUploadProps) => {
-  const { isUploading, uploadedUrl, previewUrl, uploadFile, clearUpload } =
-    useImageUpload({
-      ...uploadOptions,
-      onSuccess: url => {
-        uploadOptions.onSuccess?.(url);
-        onChange?.(url);
-      },
+  const { selectedFile, previewUrl, error, selectFile, clearFile, setExistingUrl } =
+    useImagePreview({
+      maxSizeMB,
+      onFileSelect: (file) => onChange?.(file, value),
+      onError: (error) => console.error('Error de validación:', error),
     });
 
-  const handleFileSelect = async (
-    event: React.ChangeEvent<HTMLInputElement>,
-  ) => {
+  useEffect(() => {
+    if (value && !selectedFile) {
+      setExistingUrl(value);
+    }
+  }, [value, selectedFile, setExistingUrl]);
+
+  const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (!file || disabled) return;
-    await uploadFile(file);
+    selectFile(file);
   };
 
   const handleDeleteImage = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    clearUpload();
-    onChange?.(null);
+    clearFile();
+    onChange?.(null, null);
   };
 
   const inputId = useMemo(
     () => `image-upload-${Math.random().toString(36).substr(2, 9)}`,
     [],
   );
-  const displayImage = previewUrl || uploadedUrl || value;
+  const displayImage = previewUrl || value;
   const hasCustomImage = Boolean(displayImage && displayImage.trim());
+  const hasNewFile = Boolean(selectedFile);
 
   return (
     <div className={`relative ${className}`}>
@@ -66,7 +68,7 @@ const ImageUpload = ({
         accept="image/*"
         onChange={handleFileSelect}
         className="hidden"
-        disabled={isUploading || disabled}
+        disabled={disabled}
         id={inputId}
       />
 
@@ -83,9 +85,9 @@ const ImageUpload = ({
         `}
         style={{ width, height }}
       >
-        {isUploading && (
-          <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center z-10">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white"></div>
+        {hasNewFile && (
+          <div className="absolute top-2 left-2 bg-blue-500 text-white text-xs px-2 py-1 rounded z-20">
+            Nuevo archivo
           </div>
         )}
 
@@ -122,7 +124,7 @@ const ImageUpload = ({
           <div className="w-full h-full flex flex-col items-center justify-center text-base-300 gap-2">
             <Icon name="edit" className="text-2xl" />
             <p className="text-sm font-medium">
-              {isUploading ? 'Subiendo...' : placeholder}
+              {placeholder}
             </p>
             {placeholderSubtext && (
               <p className="text-xs text-base-400">{placeholderSubtext}</p>
