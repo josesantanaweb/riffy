@@ -5,6 +5,11 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Icon } from '@riffy/components';
 import ImageUpload from '@/components/common/image-upload';
 
+export interface BannerContext {
+  file: File | null;
+  url: string | null;
+}
+
 const FormImages = () => {
   const [isCollapse, setIsCollapse] = useState(true);
   const { setValue, watch } = useFormContext();
@@ -12,8 +17,14 @@ const FormImages = () => {
 
   const handleCollapse = () => setIsCollapse(prev => !prev);
 
-  const handleBannerChange = (url: string | null) => {
-    setValue('banner', url || '');
+  const handleBannerChange = (file: File | null, existingUrl?: string | null) => {
+    if (file) {
+      setValue('bannerFile', file);
+      setValue('banner', existingUrl || '');
+    } else {
+      setValue('bannerFile', null);
+      setValue('banner', existingUrl || '');
+    }
   };
 
   return (
@@ -51,10 +62,7 @@ const FormImages = () => {
                 placeholderSubtext="JPEG, PNG, WebP, GIF (máx. 10MB)"
                 value={currentBanner}
                 onChange={handleBannerChange}
-                uploadOptions={{
-                  folder: 'raffles',
-                  maxSizeMB: 10,
-                }}
+                maxSizeMB={10}
               />
             </div>
           </motion.div>
