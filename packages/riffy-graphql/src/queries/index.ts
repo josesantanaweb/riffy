@@ -1,3 +1,5 @@
 export { GET_RAFFLES, GET_RAFFLE } from './raffles';
-export { GET_TICKETS_BY_RAFFLE_ID } from './tickets';
+export { GET_TICKETS_BY_RAFFLE } from './tickets';
 export { GET_USERS, GET_USER } from './users';
+export { GET_PAYMENTS, GET_PAYMENT } from './payments';
+export { GET_PAYMENT_METHODS, GET_PAYMENT_METHOD } from './paymentMethods';

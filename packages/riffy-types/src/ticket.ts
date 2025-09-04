@@ -1,4 +1,4 @@
-import { Purchase } from "./purchase";
+import { Payment } from "./payment";
 
 export enum TicketStatus {
   AVAILABLE = 'AVAILABLE',
@@ -12,5 +12,5 @@ export interface Ticket {
   id: string;
   number: string;
   status: string;
-  purchase?: Purchase | null;
+  payment?: Payment | null;
 }

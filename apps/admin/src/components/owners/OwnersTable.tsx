@@ -15,9 +15,9 @@ import { User, UserStatus } from '@riffy/types';
 
 interface OwnersTableProps {
   data: User[];
-  onEdit?: (ticket: User) => void;
-  onDelete?: (ticket: User) => void;
-  onView?: (ticket: User) => void;
+  onEdit?: (owner: User) => void;
+  onDelete?: (owner: User) => void;
+  onView?: (owner: User) => void;
   onAdd?: () => void;
   onDownload?: () => void;
 }

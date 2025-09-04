@@ -22,8 +22,9 @@ model User {
   createdAt  DateTime   @default(now())
   updatedAt  DateTime   @updatedAt
 
-  role   Role     @default(OWNER)
-  raffle Raffle[]
+  role           Role            @default(OWNER)
+  raffle         Raffle[]
+  paymentMethods PaymentMethod[]
 }
 
 model Raffle {
@@ -50,28 +51,49 @@ model Ticket {
   status TicketStatus @default(AVAILABLE)
 
   raffleId String
-  raffle   Raffle     @relation(fields: [raffleId], references: [id], onDelete: Cascade)
+  raffle   Raffle @relation(fields: [raffleId], references: [id], onDelete: Cascade)
 
-  purchase Purchase?
+  payment Payment?
 }
 
-model Purchase {
-  id           String         @id @default(cuid())
-  buyerName    String
-  phone        String
-  state        String?
-  proofUrl     String
-  purchaseDate DateTime       @default(now())
-  status       PurchaseStatus @default(PENDING)
+model Payment {
+  id            String             @id @default(cuid())
+  buyerName     String
+  phone         String
+  state         String?
+  proofUrl      String
+  paymentDate   DateTime           @default(now())
+  paymentMethod String?
+  status        PaymentStatus      @default(PENDING)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  ticketId String  @unique
-  ticket   Ticket  @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+  ticketId String @unique
+  ticket   Ticket @relation(fields: [ticketId], references: [id], onDelete: Cascade)
 }
 
-enum PurchaseStatus {
+model PaymentMethod {
+  id   String            @id @default(cuid())
+  name String
+  type PaymentMethodType
+
+  bankName    String?
+  phoneNumber String?
+  nationalId  String?
+
+  binanceId    String?
+
+  paypalEmail String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  ownerId String
+  owner   User   @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+}
+
+enum PaymentStatus {
   PENDING
   VERIFIED
   DENIED
@@ -99,4 +121,10 @@ enum UserStatus {
 enum Role {
   ADMIN
   OWNER
+}
+
+enum PaymentMethodType {
+  PAGO_MOVIL
+  BINANCE_PAY
+  PAYPAL
 }

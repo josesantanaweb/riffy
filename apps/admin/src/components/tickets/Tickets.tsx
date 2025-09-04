@@ -1,13 +1,13 @@
 'use client';
 import { useParams } from 'next/navigation';
-import { useTicketsByRaffleId } from '@riffy/hooks';
+import { useTicketsByRaffle } from '@riffy/hooks';
 import TicketsTable from './TicketsTable';
 import PageHeader from '../common/page-header';
 
 const Tickets = () => {
   const raffleId = useParams().raffleId as string | undefined;
 
-  const { data } = useTicketsByRaffleId(raffleId);
+  const { data } = useTicketsByRaffle(raffleId);
 
   return (
     <div className="p-6 flex-col flex gap-6">
