@@ -85,8 +85,7 @@ const RaffleForm = () => {
           finalBannerUrl = await uploadImageToS3(bannerFile, { folder: 'raffles' });
         } catch (uploadError) {
           console.error('Error subiendo imagen:', uploadError);
-          toast.error('Error subiendo la imagen. Intenta de nuevo.');
-          return;
+          finalBannerUrl = DEFAULT_BANNER;
         } finally {
           setIsUploadingImage(false);
         }
