@@ -2,6 +2,6 @@
 module.exports = {
   transpilePackages: ['@riffy/components'],
   images: {
-    domains: ['randomuser.me'],
+    domains: ['randomuser.me', 'my-person-bucket.s3.us-east-2.amazonaws.com'],
   },
 };

@@ -20,6 +20,7 @@ const DEFAULT_VALUES: FormData = {
   totalTickets: '',
   status: 'ACTIVE',
   description: '',
+  banner: '',
 };
 
 const OWNER_ID = 'cmf1myuv20000fmqj1lgf2end';
@@ -59,6 +60,7 @@ const RaffleForm = () => {
       totalTickets: String(raffleData.totalTickets ?? ''),
       status: raffleData.status || 'ACTIVE',
       description: raffleData.description || '',
+      banner: raffleData.banner || '',
     });
   }, [raffleData, reset]);
 
@@ -79,7 +81,7 @@ const RaffleForm = () => {
         status,
         description,
         ownerId: OWNER_ID,
-        banner: DEFAULT_BANNER,
+        banner: data.banner || DEFAULT_BANNER,
       };
 
       if (isUpdating && raffleData?.id) {

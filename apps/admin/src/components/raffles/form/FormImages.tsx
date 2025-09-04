@@ -1,14 +1,20 @@
 'use client';
 import { useState } from 'react';
-import Image from 'next/image';
+import { useFormContext } from 'react-hook-form';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Icon } from '@riffy/components';
-import { ASSETS } from '@/constants';
+import ImageUpload from '@/components/common/image-upload';
 
 const FormImages = () => {
   const [isCollapse, setIsCollapse] = useState(true);
+  const { setValue, watch } = useFormContext();
+  const currentBanner = watch('banner');
 
   const handleCollapse = () => setIsCollapse(prev => !prev);
+
+  const handleBannerChange = (url: string | null) => {
+    setValue('banner', url || '');
+  };
 
   return (
     <div className="bg-base-700 rounded-xl relative">
@@ -36,23 +42,20 @@ const FormImages = () => {
             transition={{ duration: 0.25, ease: 'easeInOut' }}
             className="overflow-hidden"
           >
-            <div className="flex items-center px-6 py-4 w-full gap-6">
-              <div className="flex items-center justify-center flex-col text-base-300 gap-1 rounded-lg w-[150px] h-[120px] border-2 border-dashed border-base-500 cursor-pointer">
-                <Icon name="plus-circle" className="text-2xl" />
-                <p className="text-sm">Agregar imagen</p>
-              </div>
-              <div className="relative">
-                <div className="opacity-70 hover:opacity-100 transition-opacity -translate-x-1/2 -translate-y-1/2 absolute top-1/2 left-1/2 flex items-center justify-center bg-base-700 w-8 h-8 rounded-full rotate-45">
-                  <Icon name="plus" className="text-2xl text-white" />
-                </div>
-                <Image
-                  src={ASSETS.IMAGES.BANNER}
-                  alt="Imagen del cliente"
-                  width={200}
-                  height={200}
-                  className="rounded-lg w-[150px] h-[120px]"
-                />
-              </div>
+            <div className="flex items-center px-6 py-4 w-full">
+              <ImageUpload
+                width={250}
+                height={200}
+                placeholder="Agregar imagen de banner"
+                placeholderIcon="plus-circle"
+                placeholderSubtext="JPEG, PNG, WebP, GIF (máx. 10MB)"
+                value={currentBanner}
+                onChange={handleBannerChange}
+                uploadOptions={{
+                  folder: 'raffles',
+                  maxSizeMB: 10,
+                }}
+              />
             </div>
           </motion.div>
         )}
