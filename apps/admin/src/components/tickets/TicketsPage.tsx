@@ -1,8 +1,8 @@
 'use client';
 import { useParams } from 'next/navigation';
 import { useTicketsByRaffle } from '@riffy/hooks';
-import TicketsTable from './TicketsTable';
-import PageHeader from '../common/page-header';
+import TicketsTable from './tickets-table';
+import PageHeader from '@/components/common/page-header';
 
 const Tickets = () => {
   const raffleId = useParams().raffleId as string | undefined;
