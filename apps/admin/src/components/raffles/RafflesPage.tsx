@@ -1,5 +1,5 @@
 'use client';
-import RafflesTable from './RafflesTable';
+import RafflesTable from './raffles-table/RafflesTable';
 import { useRouter } from 'next/navigation';
 import { useRaffles, useDeleteRaffle } from '@riffy/hooks';
 import { useToast } from '@/hooks';
@@ -7,7 +7,7 @@ import { ROUTES } from '@/constants';
 import { Raffle } from '@riffy/types';
 import PageHeader from '../common/page-header';
 
-const Raffles = () => {
+const RafflesPage = () => {
   const router = useRouter();
   const toast = useToast();
   const { data } = useRaffles();
@@ -53,4 +53,4 @@ const Raffles = () => {
   );
 };
 
-export default Raffles;
+export default RafflesPage;

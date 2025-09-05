@@ -1,4 +1,4 @@
-import Raffles from "@/components/raffles/Raffles";
+import Raffles from "@/components/raffles";
 
 const RafflesPage = () => <Raffles />;
 
