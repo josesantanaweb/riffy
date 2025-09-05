@@ -1,4 +1,4 @@
-import Payments from "@/components/payments/Payments";
+import Payments from "@/components/payments";
 
 const PaymentsPage = () => <Payments />;
 
