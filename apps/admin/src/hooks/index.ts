@@ -1,3 +1,4 @@
 export { useToast } from './useToast';
 export { useImageUpload } from './useImageUpload';
 export { useImagePreview } from './useImagePreview';
+export { useBreakpoint } from './useBreakpoint';
