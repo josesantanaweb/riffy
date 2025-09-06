@@ -51,7 +51,6 @@ const INPUT_SIZES = {
 } as const;
 
 const BASE_INPUT_CLASSES = [
-  'text-white',
   'border',
   'border-base-600',
   'rounded-lg',
@@ -100,6 +99,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
       sizeConfig.textSize,
       icon && iconPosition === 'right' && sizeConfig.inputPadding.right,
       icon && iconPosition === 'left' && sizeConfig.inputPadding.left,
+      props.disabled ? 'text-base-500' : 'text-white',
       className,
     );
 

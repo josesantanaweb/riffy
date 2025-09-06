@@ -5,7 +5,11 @@ import { useFormContext } from 'react-hook-form';
 import { Icon, Input, Select, Editor, DateInput } from '@riffy/components';
 import type { FormData } from '@/validations/raffleSchema';
 
-const FormInformation = () => {
+interface FormInformationProps {
+  isUpdating?: boolean;
+}
+
+const FormInformation = ({ isUpdating = false }: FormInformationProps) => {
   const [isCollapse, setIsCollapse] = useState(true);
 
   const {
@@ -25,6 +29,8 @@ const FormInformation = () => {
 
   const formValues = watch();
   const descriptionValue = formValues.description || '';
+
+  const isTicketsDisabled = isUpdating && formValues.status !== 'PENDING';
 
   const handleDescriptionChange = (value: string) => {
     setValue('description', value, { shouldValidate: true });
@@ -118,6 +124,7 @@ const FormInformation = () => {
                     inputSize="md"
                     type="number"
                     value={formValues.totalTickets || ''}
+                    disabled={isTicketsDisabled}
                     {...register('totalTickets')}
                     error={errors.totalTickets?.message}
                   />
