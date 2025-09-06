@@ -11,12 +11,12 @@ import { CreatePaymentMethodInput, PaymentMethodType } from '@riffy/types';
 import { useToast } from '@/hooks';
 import { useForm, FormProvider } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { paymentMethodSchema, type PaymentMethodFormData } from '@/validations/paymentMethodSchema';
+import { paymentMethodSchema, type FormData } from '@/validations/paymentMethodSchema';
 import { ROUTES } from '@/constants';
-import FormInformation from './form/FormInformation';
+import FormInformation from './form-information';
 import PageHeader from '@/components/common/page-header';
 
-const DEFAULT_VALUES: PaymentMethodFormData = {
+const DEFAULT_VALUES: FormData = {
   type: PaymentMethodType.PAGO_MOVIL,
   bankName: undefined,
   phoneNumber: undefined,
@@ -28,7 +28,7 @@ const DEFAULT_VALUES: PaymentMethodFormData = {
 const OWNER_ID = 'cmf1myuv20000fmqj1lgf2end';
 
 const PaymentMethodsForm = () => {
-  const methods = useForm<PaymentMethodFormData>({
+  const methods = useForm<FormData>({
     resolver: zodResolver(paymentMethodSchema),
     mode: 'onTouched',
     defaultValues: DEFAULT_VALUES,
@@ -64,7 +64,7 @@ const PaymentMethodsForm = () => {
 
   const handleBack = useCallback(() => router.back(), [router]);
 
-  const onSubmit = async (data: PaymentMethodFormData) => {
+  const onSubmit = async (data: FormData) => {
     try {
       const paymentMethodInput: CreatePaymentMethodInput = {
         type: data.type,

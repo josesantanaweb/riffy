@@ -1,4 +1,4 @@
-import Owners from "@/components/owners/Owners";
+import Owners from "@/components/owners";
 
 const OwnersPage = () => <Owners />;
 

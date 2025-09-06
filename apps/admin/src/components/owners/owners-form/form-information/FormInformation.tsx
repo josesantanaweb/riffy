@@ -2,8 +2,9 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useFormContext } from 'react-hook-form';
-import { Icon, Input, Select, Editor, DateInput } from '@riffy/components';
-import type { FormData } from '@/validations/raffleSchema';
+import { Icon, Input, Select } from '@riffy/components';
+import type { FormData } from '@/validations/ownerSchema';
+import { UserStatus } from '@riffy/types';
 
 const FormInformation = () => {
   const [isCollapse, setIsCollapse] = useState(true);
@@ -17,18 +18,12 @@ const FormInformation = () => {
 
   const statusOptions = [
     { value: 'ACTIVE', label: 'Activo' },
-    { value: 'PENDING', label: 'Pendiente' },
-    { value: 'COMPLETED', label: 'Finalizada' },
+    { value: 'INACTIVE', label: 'Inactivo' },
   ];
 
   const handleCollapse = () => setIsCollapse(prev => !prev);
 
   const formValues = watch();
-  const descriptionValue = formValues.description || '';
-
-  const handleDescriptionChange = (value: string) => {
-    setValue('description', value, { shouldValidate: true });
-  };
 
   return (
     <div className="bg-base-700 rounded-xl relative">
@@ -37,7 +32,7 @@ const FormInformation = () => {
       >
         <div className="flex items-center gap-2">
           <Icon name="info-circle" className="text-2xl text-base-300" />
-          <h5 className="text-base text-white">Información de rifa</h5>
+          <h5 className="text-base text-white">Información del dueño</h5>
         </div>
         <button
           className={`cursor-pointer text-base-300 transition-transform ${isCollapse ? 'rotate-180' : ''}`}
@@ -54,30 +49,30 @@ const FormInformation = () => {
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.25, ease: 'easeInOut' }}
-            className="overflow-hidden"
           >
             <div className="flex flex-col px-6 py-4 w-full gap-6">
               <div className="flex gap-4 items-center w-full">
                 <div className="w-1/2">
                   <Input
-                    label="Título"
+                    label="Nombre"
                     isRequired
-                    placeholder="Ingresa un titulo"
+                    placeholder="Ej: Juan Pérez"
                     inputSize="md"
-                    value={formValues.title || ''}
-                    {...register('title')}
-                    error={errors.title?.message}
+                    value={formValues.name || ''}
+                    {...register('name')}
+                    error={errors.name?.message}
                   />
                 </div>
                 <div className="w-1/2">
-                  <DateInput
-                    label="Fecha del sorteo"
-                    date={new Date(formValues.drawDate)}
-                    setDate={date =>
-                      setValue('drawDate', date, {
-                        shouldValidate: true,
-                      })
-                    }
+                  <Input
+                    label="Email"
+                    isRequired
+                    placeholder="Ej: juan@correo.com"
+                    inputSize="md"
+                    type="email"
+                    value={formValues.email || ''}
+                    {...register('email')}
+                    error={errors.email?.message}
                   />
                 </div>
               </div>
@@ -85,26 +80,24 @@ const FormInformation = () => {
               <div className="flex gap-4 items-center w-full">
                 <div className="w-1/2">
                   <Input
-                    label="Precio del boleto"
-                    isRequired
-                    placeholder="Ingresa el precio del boleto"
+                    label="Contraseña"
+                    placeholder="Dejar vacío para mantener actual"
                     inputSize="md"
-                    type="number"
-                    value={formValues.price || ''}
-                    {...register('price')}
-                    error={errors.price?.message}
+                    type="password"
+                    value={formValues.password || ''}
+                    {...register('password')}
+                    error={errors.password?.message}
                   />
                 </div>
                 <div className="w-1/2">
                   <Input
-                    label="Valor del premio"
-                    isRequired
-                    placeholder="Ingresa el valor del premio"
+                    label="Color de Marca"
+                    placeholder="#000000"
                     inputSize="md"
-                    type="number"
-                    value={formValues.award || ''}
-                    {...register('award')}
-                    error={errors.award?.message}
+                    type="text"
+                    value={formValues.brandColor || ''}
+                    {...register('brandColor')}
+                    error={errors.brandColor?.message}
                   />
                 </div>
               </div>
@@ -112,16 +105,40 @@ const FormInformation = () => {
               <div className="flex gap-4 items-center w-full">
                 <div className="w-1/2">
                   <Input
-                    label="Cantidad de boletos"
-                    isRequired
-                    placeholder="Ingresa la cantidad de boletos"
+                    label="WhatsApp"
+                    placeholder="Ej: 04141234567"
                     inputSize="md"
-                    type="number"
-                    value={formValues.totalTickets || ''}
-                    {...register('totalTickets')}
-                    error={errors.totalTickets?.message}
+                    value={formValues.whatsapp || ''}
+                    {...register('whatsapp')}
+                    error={errors.whatsapp?.message}
                   />
                 </div>
+                <div className="w-1/2">
+                  <Input
+                    label="Instagram"
+                    placeholder="Ej: @miCuenta"
+                    inputSize="md"
+                    value={formValues.instagram || ''}
+                    {...register('instagram')}
+                    error={errors.instagram?.message}
+                  />
+                </div>
+              </div>
+
+              <div className="flex gap-4 items-center w-full">
+                <div className="w-1/2">
+                  <Input
+                    label="TikTok"
+                    placeholder="Ej: @miCuenta"
+                    inputSize="md"
+                    value={formValues.tiktok || ''}
+                    {...register('tiktok')}
+                    error={errors.tiktok?.message}
+                  />
+                </div>
+              </div>
+
+              <div className="flex gap-4 items-center w-full">
                 <div className="w-1/2">
                   <Select
                     label="Estado"
@@ -130,17 +147,11 @@ const FormInformation = () => {
                     options={statusOptions}
                     value={formValues.status || ''}
                     onChange={value =>
-                      setValue('status', value, { shouldValidate: false })
+                      setValue('status', value as UserStatus, { shouldValidate: false })
                     }
                   />
                 </div>
               </div>
-
-              <Editor
-                label="Descripción"
-                value={descriptionValue}
-                setValue={handleDescriptionChange}
-              />
             </div>
           </motion.div>
         )}

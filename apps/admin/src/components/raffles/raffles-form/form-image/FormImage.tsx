@@ -10,7 +10,7 @@ export interface BannerContext {
   url: string | null;
 }
 
-const FormImages = () => {
+const FormImage = () => {
   const [isCollapse, setIsCollapse] = useState(true);
   const { setValue, watch } = useFormContext();
   const currentBanner = watch('banner');
@@ -72,4 +72,4 @@ const FormImages = () => {
   );
 };
 
-export default FormImages;
+export default FormImage;

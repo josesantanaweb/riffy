@@ -1,4 +1,4 @@
-import PaymentMethodsForm from "@/components/payment-methods/PaymentMethodsForm";
+import PaymentMethodsForm from "@/components/payment-methods/payment-methods-form";
 
 const EditPaymentMethodsPage = () => <PaymentMethodsForm />;
 

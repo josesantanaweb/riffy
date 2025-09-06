@@ -1,11 +1,11 @@
 'use client';
-import PaymentMethodsTable from './PaymentMethodsTable';
 import { useRouter } from 'next/navigation';
 import { usePaymentMethods, useDeletePaymentMethod } from '@riffy/hooks';
 import { useToast } from '@/hooks';
 import { ROUTES } from '@/constants';
 import { PaymentMethod } from '@riffy/types';
-import PageHeader from '../common/page-header';
+import PageHeader from '@/components/common/page-header';
+import PaymentMethodsTable from './payment-methods-table';
 
 const PaymentMethods = () => {
   const router = useRouter();

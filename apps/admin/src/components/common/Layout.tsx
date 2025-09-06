@@ -35,7 +35,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
     <main className="relative w-full flex items-center justify-center">
       <div className="w-full flex flex-col">
-        <main className="relative w-full h-screen grid grid-rows-[52px_1fr]">
+        <main className="relative w-full h-screen xl:grid xl:grid-rows-[52px_1fr]">
           <Navbar />
           <div className="w-full flex h-full">
             <Sidebar />

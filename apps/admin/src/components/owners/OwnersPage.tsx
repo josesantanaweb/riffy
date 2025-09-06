@@ -4,10 +4,10 @@ import { useUsers, useDeleteUser } from '@riffy/hooks';
 import { useToast } from '@/hooks';
 import { ROUTES } from '@/constants';
 import { User, Role } from '@riffy/types';
-import OwnersTable from './OwnersTable';
+import OwnersTable from './owners-table/OwnersTable';
 import PageHeader from '../common/page-header';
 
-const Owners = () => {
+const OwnersPage = () => {
   const router = useRouter();
   const toast = useToast();
   const { data } = useUsers(Role.OWNER);
@@ -34,7 +34,7 @@ const Owners = () => {
 
   return (
     <div className="p-6 flex-col flex gap-6">
-      <PageHeader title="Dueños" subtitle="Lista de Dueños" />
+      <PageHeader title="Dueños de Rifa" subtitle="Lista de Dueños de Rifa" />
       <div className="flex flex-col w-full bg-base-700 rounded-xl p-6">
         {data && (
           <OwnersTable
@@ -50,4 +50,4 @@ const Owners = () => {
   );
 };
 
-export default Owners;
+export default OwnersPage;

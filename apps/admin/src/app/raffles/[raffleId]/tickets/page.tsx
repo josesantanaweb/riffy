@@ -1,4 +1,4 @@
-import Tickets from "@/components/tickets/Tickets";
+import Tickets from "@/components/tickets";
 
 const TicketsPage = () => <Tickets />;
 

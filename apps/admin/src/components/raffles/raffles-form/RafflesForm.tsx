@@ -9,8 +9,8 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { createRaffleSchema, type FormData } from '@/validations/raffleSchema';
 import { ROUTES } from '@/constants';
 import { uploadImageToS3 } from '@/utils/imageUpload';
-import FormImages from './form/FormImages';
-import FormInformation from './form/FormInformation';
+import FormImages from './form-image';
+import FormInformation from './form-information';
 import PageHeader from '@/components/common/page-header';
 
 const DEFAULT_VALUES: FormData = {
@@ -28,7 +28,7 @@ const DEFAULT_VALUES: FormData = {
 const OWNER_ID = 'cmf1myuv20000fmqj1lgf2end';
 const DEFAULT_BANNER = '/images/banner.png';
 
-const RaffleForm = () => {
+const RafflesForm = () => {
   const [isUploadingImage, setIsUploadingImage] = useState(false);
 
   const methods = useForm<FormData>({
@@ -133,7 +133,7 @@ const RaffleForm = () => {
             showBackButton
           />
           <div className="flex flex-col gap-6 w-full">
-            <FormInformation />
+            <FormInformation isUpdating={isUpdating} />
 
             <FormImages />
 
@@ -166,4 +166,4 @@ const RaffleForm = () => {
   );
 };
 
-export default RaffleForm;
+export default RafflesForm;

@@ -1,14 +1,14 @@
 'use client';
-import PaymentsTable from './PaymentsTable';
+import PaymentsTable from './payments-table/PaymentsTable';
 import { useRouter } from 'next/navigation';
 import { usePayments } from '@riffy/hooks';
 import { useToast } from '@/hooks';
 import { ROUTES } from '@/constants';
 import { useUpdatePayment } from '@riffy/hooks';
 import { Payment, PaymentStatus } from '@riffy/types';
-import PageHeader from '../common/page-header';
+import PageHeader from '@/components/common/page-header';
 
-const Payments = () => {
+const PaymentsPage = () => {
   const router = useRouter();
   const toast = useToast();
   const { data } = usePayments();
@@ -58,4 +58,4 @@ const Payments = () => {
   );
 };
 
-export default Payments;
+export default PaymentsPage;

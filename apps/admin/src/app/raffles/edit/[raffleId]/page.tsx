@@ -1,4 +1,4 @@
-import RaffleForm from "@/components/raffles/RaffleForm";
+import RaffleForm from "@/components/raffles/raffles-form";
 
 const EditRafflePage = () => <RaffleForm />;
 
