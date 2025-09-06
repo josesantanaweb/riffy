@@ -13,6 +13,7 @@ interface SidebarItemProps {
   isOpen: boolean;
   toggleDropdown: (label: string) => void;
   isCollapse: boolean;
+  onItemClick?: () => void;
 }
 
 const SidebarItem: React.FC<SidebarItemProps> = ({
@@ -20,6 +21,7 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
   isOpen,
   toggleDropdown,
   isCollapse,
+  onItemClick,
 }) => {
   const router = useRouter();
   const pathname = usePathname();
@@ -31,6 +33,7 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
       toggleDropdown(item.label);
     } else if (item.path) {
       router.push(item.path);
+      onItemClick?.();
     }
   };
 

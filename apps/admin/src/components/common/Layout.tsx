@@ -2,8 +2,13 @@
 import { useRouter } from 'next/navigation';
 import Sidebar from '@/components/common/sidebar';
 import Navbar from './navbar';
+import { useStore } from '@/store';
+import { useBreakpoint } from '@/hooks';
+
 const Layout = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter();
+  const { collapseSidebar } = useStore();
+  const { isDesktop } = useBreakpoint();
 
   const isLoading = false;
 
@@ -32,17 +37,26 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
     onLogout: handleLogout,
   };
 
+  const gridTemplateColumns = isDesktop
+    ? (collapseSidebar ? '80px 1fr' : '230px 1fr')
+    : '1fr';
+
   return (
-    <main className="relative w-full flex items-center justify-center">
-      <div className="w-full flex flex-col">
-        <main className="relative w-full h-screen xl:grid xl:grid-rows-[52px_1fr]">
-          <Navbar />
-          <div className="w-full flex">
-            <Sidebar />
-            <div className="bg-base-800 w-full">{children}</div>
-          </div>
-        </main>
-        {/* <Footer menu={MENU} /> */}
+    <main className="relative w-full h-screen flex flex-col">
+      <Navbar />
+
+      <div
+        className="flex-1 transition-all duration-300"
+        style={{
+          display: isDesktop ? 'grid' : 'block',
+          gridTemplateColumns,
+        }}
+      >
+        <Sidebar />
+
+        <div className="bg-base-800 h-full overflow-auto">
+          {children}
+        </div>
       </div>
     </main>
   );
