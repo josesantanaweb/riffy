@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useFormContext } from 'react-hook-form';
 import { Icon, Input, Select } from '@riffy/components';
-import type { PaymentMethodFormData } from '@/validations/paymentMethodSchema';
+import type { FormData } from '@/validations/paymentMethodSchema';
 import { PaymentMethodType } from '@riffy/types';
 
 const PAYMENT_METHOD_OPTIONS = [
@@ -20,14 +20,14 @@ const FormInformation = () => {
     formState: { errors },
     watch,
     setValue,
-  } = useFormContext<PaymentMethodFormData>();
+  } = useFormContext<FormData>();
 
   const handleCollapse = () => setIsCollapse(prev => !prev);
 
   const formValues = watch();
   const paymentType = formValues.type;
 
-  const handleTypeChange = (newType: PaymentMethodFormData['type']) => {
+  const handleTypeChange = (newType: FormData['type']) => {
     setValue('type', newType, { shouldValidate: true });
 
     switch (newType) {
@@ -86,7 +86,7 @@ const FormInformation = () => {
                     options={PAYMENT_METHOD_OPTIONS}
                     value={formValues.type}
                     onChange={(value) =>
-                      handleTypeChange(value as PaymentMethodFormData['type'])
+                      handleTypeChange(value as FormData['type'])
                     }
                   />
                   {errors.type && (
