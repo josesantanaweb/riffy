@@ -19,7 +19,6 @@ interface OwnersTableProps {
   onDelete?: (owner: User) => void;
   onView?: (owner: User) => void;
   onAdd?: () => void;
-  onDownload?: () => void;
 }
 
 const OwnersTable = ({
@@ -28,7 +27,6 @@ const OwnersTable = ({
   onDelete,
   onView,
   onAdd,
-  onDownload,
 }: OwnersTableProps) => {
   const columns: ColumnDef<User>[] = [
     {
@@ -158,16 +156,6 @@ const OwnersTable = ({
   ];
 
   const buttons: TableButton[] = [
-    ...(onDownload
-      ? [
-          {
-            label: 'Descargar',
-            icon: 'download',
-            variant: 'default' as const,
-            onClick: onDownload,
-          },
-        ]
-      : []),
     ...(onAdd
       ? [
           {
