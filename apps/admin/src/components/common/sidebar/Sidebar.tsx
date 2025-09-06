@@ -24,7 +24,7 @@ const Sidebar: React.FC = () => {
   };
 
   const sidebarClasses = clsx(
-    'w-full bg-base-700 min-h-screen h-full transition-all pt-10 flex-shrink-0',
+    'w-full bg-base-700 min-h-screen transition-all pt-10 flex-shrink-0',
     collapseSidebar ? 'max-w-[80px]' : 'max-w-[230px]',
   );
 

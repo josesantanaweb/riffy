@@ -77,8 +77,8 @@ const FormInformation = () => {
             className="overflow-hidden"
           >
             <div className="flex flex-col px-6 py-4 w-full gap-6">
-              <div className="flex gap-4 items-center w-full">
-                <div className="w-1/2">
+              <div className="flex gap-4 items-center w-full flex-wrap lg:flex-nowrap">
+                <div className="w-full lg:w-1/2">
                   <Select
                     label="Tipo de Método de Pago"
                     placeholder="Selecciona el tipo"
@@ -99,8 +99,8 @@ const FormInformation = () => {
 
               {paymentType === PaymentMethodType.PAGO_MOVIL && (
                 <>
-                  <div className="flex gap-4 items-center w-full">
-                    <div className="w-1/2">
+                  <div className="flex gap-4 items-center w-full flex-wrap lg:flex-nowrap">
+                    <div className="w-full lg:w-1/2">
                       <Input
                         label="Nombre del Banco"
                         isRequired
@@ -111,7 +111,7 @@ const FormInformation = () => {
                         error={errors.bankName?.message}
                       />
                     </div>
-                    <div className="w-1/2">
+                    <div className="w-full lg:w-1/2">
                       <Input
                         label="Número de Teléfono"
                         isRequired
@@ -123,8 +123,8 @@ const FormInformation = () => {
                       />
                     </div>
                   </div>
-                  <div className="flex gap-4 items-center w-full">
-                    <div className="w-1/2">
+                  <div className="flex gap-4 items-center w-full flex-wrap lg:flex-nowrap">
+                    <div className="w-full lg:w-1/2">
                       <Input
                         label="Cédula de Identidad"
                         isRequired
@@ -141,7 +141,7 @@ const FormInformation = () => {
 
               {paymentType === PaymentMethodType.BINANCE_PAY && (
                 <div className="flex gap-4 items-center w-full">
-                  <div className="w-1/2">
+                  <div className="w-full lg:w-1/2">
                     <Input
                       label="Binance ID"
                       placeholder="Ej: 1234567890"
@@ -155,7 +155,7 @@ const FormInformation = () => {
               )}
 
               {paymentType === PaymentMethodType.PAYPAL && (
-                <div className="flex gap-4 items-center w-full">
+                <div className="flex gap-4 items-center w-full flex-wrap lg:flex-nowrap">
                   <div className="w-1/2">
                     <Input
                       label="Email de PayPal"

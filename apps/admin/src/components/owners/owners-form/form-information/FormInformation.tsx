@@ -51,8 +51,8 @@ const FormInformation = () => {
             transition={{ duration: 0.25, ease: 'easeInOut' }}
           >
             <div className="flex flex-col px-6 py-4 w-full gap-6">
-              <div className="flex gap-4 items-center w-full">
-                <div className="w-1/2">
+              <div className="flex gap-4 items-center w-full flex-wrap lg:flex-nowrap">
+                <div className="w-full lg:w-1/2">
                   <Input
                     label="Nombre"
                     isRequired
@@ -63,7 +63,7 @@ const FormInformation = () => {
                     error={errors.name?.message}
                   />
                 </div>
-                <div className="w-1/2">
+                <div className="w-full lg:w-1/2">
                   <Input
                     label="Email"
                     isRequired
@@ -77,8 +77,8 @@ const FormInformation = () => {
                 </div>
               </div>
 
-              <div className="flex gap-4 items-center w-full">
-                <div className="w-1/2">
+              <div className="flex gap-4 items-center w-full flex-wrap lg:flex-nowrap">
+                <div className="w-full lg:w-1/2">
                   <Input
                     label="Contraseña"
                     placeholder="Dejar vacío para mantener actual"
@@ -89,7 +89,7 @@ const FormInformation = () => {
                     error={errors.password?.message}
                   />
                 </div>
-                <div className="w-1/2">
+                <div className="w-full lg:w-1/2">
                   <Input
                     label="Color de Marca"
                     placeholder="#000000"
@@ -102,8 +102,8 @@ const FormInformation = () => {
                 </div>
               </div>
 
-              <div className="flex gap-4 items-center w-full">
-                <div className="w-1/2">
+              <div className="flex gap-4 items-center w-full flex-wrap lg:flex-nowrap">
+                <div className="w-full lg:w-1/2">
                   <Input
                     label="WhatsApp"
                     placeholder="Ej: 04141234567"
@@ -113,7 +113,7 @@ const FormInformation = () => {
                     error={errors.whatsapp?.message}
                   />
                 </div>
-                <div className="w-1/2">
+                <div className="w-full lg:w-1/2">
                   <Input
                     label="Instagram"
                     placeholder="Ej: @miCuenta"
@@ -125,8 +125,8 @@ const FormInformation = () => {
                 </div>
               </div>
 
-              <div className="flex gap-4 items-center w-full">
-                <div className="w-1/2">
+              <div className="flex gap-4 items-center w-full flex-wrap lg:flex-nowrap">
+                <div className="w-full lg:w-1/2">
                   <Input
                     label="TikTok"
                     placeholder="Ej: @miCuenta"
@@ -136,10 +136,7 @@ const FormInformation = () => {
                     error={errors.tiktok?.message}
                   />
                 </div>
-              </div>
-
-              <div className="flex gap-4 items-center w-full">
-                <div className="w-1/2">
+                <div className="w-full lg:w-1/2">
                   <Select
                     label="Estado"
                     placeholder="Selecciona el estado"
@@ -147,7 +144,9 @@ const FormInformation = () => {
                     options={statusOptions}
                     value={formValues.status || ''}
                     onChange={value =>
-                      setValue('status', value as UserStatus, { shouldValidate: false })
+                      setValue('status', value as UserStatus, {
+                        shouldValidate: false,
+                      })
                     }
                   />
                 </div>

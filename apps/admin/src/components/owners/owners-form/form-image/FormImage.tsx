@@ -17,7 +17,10 @@ const FormImage = () => {
 
   const handleCollapse = () => setIsCollapse(prev => !prev);
 
-  const handleBannerChange = (file: File | null, existingUrl?: string | null) => {
+  const handleBannerChange = (
+    file: File | null,
+    existingUrl?: string | null,
+  ) => {
     if (file) {
       setValue('logoFile', file);
       setValue('logo', existingUrl || '');
@@ -53,7 +56,7 @@ const FormImage = () => {
             transition={{ duration: 0.25, ease: 'easeInOut' }}
             className="overflow-hidden"
           >
-            <div className="flex items-center px-6 py-4 w-full">
+            <div className="flex items-center px-6 py-4 w-full justify-center lg:justify-start">
               <ImageUpload
                 width={250}
                 height={200}

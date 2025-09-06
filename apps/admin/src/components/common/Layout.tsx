@@ -37,7 +37,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       <div className="w-full flex flex-col">
         <main className="relative w-full h-screen xl:grid xl:grid-rows-[52px_1fr]">
           <Navbar />
-          <div className="w-full flex h-full">
+          <div className="w-full flex">
             <Sidebar />
             <div className="bg-base-800 w-full">{children}</div>
           </div>

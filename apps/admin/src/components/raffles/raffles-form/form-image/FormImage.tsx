@@ -53,7 +53,7 @@ const FormImage = () => {
             transition={{ duration: 0.25, ease: 'easeInOut' }}
             className="overflow-hidden"
           >
-            <div className="flex items-center px-6 py-4 w-full">
+            <div className="flex items-center px-6 py-4 w-full justify-center lg:justify-start">
               <ImageUpload
                 width={250}
                 height={200}
