@@ -13,7 +13,7 @@ import { useForm, FormProvider } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { paymentMethodSchema, type PaymentMethodFormData } from '@/validations/paymentMethodSchema';
 import { ROUTES } from '@/constants';
-import FormInformation from './form/FormInformation';
+import FormInformation from './form-information';
 import PageHeader from '@/components/common/page-header';
 
 const DEFAULT_VALUES: PaymentMethodFormData = {

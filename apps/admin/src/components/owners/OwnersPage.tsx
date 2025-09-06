@@ -4,10 +4,10 @@ import { useUsers, useDeleteUser } from '@riffy/hooks';
 import { useToast } from '@/hooks';
 import { ROUTES } from '@/constants';
 import { User, Role } from '@riffy/types';
-import OwnersTable from './OwnersTable';
+import OwnersTable from './owners-table/OwnersTable';
 import PageHeader from '../common/page-header';
 
-const Owners = () => {
+const OwnersPage = () => {
   const router = useRouter();
   const toast = useToast();
   const { data } = useUsers(Role.OWNER);
@@ -50,4 +50,4 @@ const Owners = () => {
   );
 };
 
-export default Owners;
+export default OwnersPage;
