@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useFormContext } from 'react-hook-form';
 import { Icon, Input, Select } from '@riffy/components';
-import type { PaymentMethodFormData } from '@/validations/paymentMethodSchema';
+import type { FormData } from '@/validations/paymentMethodSchema';
 import { PaymentMethodType } from '@riffy/types';
 
 const PAYMENT_METHOD_OPTIONS = [
@@ -20,14 +20,14 @@ const FormInformation = () => {
     formState: { errors },
     watch,
     setValue,
-  } = useFormContext<PaymentMethodFormData>();
+  } = useFormContext<FormData>();
 
   const handleCollapse = () => setIsCollapse(prev => !prev);
 
   const formValues = watch();
   const paymentType = formValues.type;
 
-  const handleTypeChange = (newType: PaymentMethodFormData['type']) => {
+  const handleTypeChange = (newType: FormData['type']) => {
     setValue('type', newType, { shouldValidate: true });
 
     switch (newType) {
@@ -77,8 +77,8 @@ const FormInformation = () => {
             className="overflow-hidden"
           >
             <div className="flex flex-col px-6 py-4 w-full gap-6">
-              <div className="flex gap-4 items-center w-full">
-                <div className="w-1/2">
+              <div className="flex gap-4 items-center w-full flex-wrap lg:flex-nowrap">
+                <div className="w-full lg:w-1/2">
                   <Select
                     label="Tipo de Método de Pago"
                     placeholder="Selecciona el tipo"
@@ -86,7 +86,7 @@ const FormInformation = () => {
                     options={PAYMENT_METHOD_OPTIONS}
                     value={formValues.type}
                     onChange={(value) =>
-                      handleTypeChange(value as PaymentMethodFormData['type'])
+                      handleTypeChange(value as FormData['type'])
                     }
                   />
                   {errors.type && (
@@ -99,8 +99,8 @@ const FormInformation = () => {
 
               {paymentType === PaymentMethodType.PAGO_MOVIL && (
                 <>
-                  <div className="flex gap-4 items-center w-full">
-                    <div className="w-1/2">
+                  <div className="flex gap-4 items-center w-full flex-wrap lg:flex-nowrap">
+                    <div className="w-full lg:w-1/2">
                       <Input
                         label="Nombre del Banco"
                         isRequired
@@ -111,7 +111,7 @@ const FormInformation = () => {
                         error={errors.bankName?.message}
                       />
                     </div>
-                    <div className="w-1/2">
+                    <div className="w-full lg:w-1/2">
                       <Input
                         label="Número de Teléfono"
                         isRequired
@@ -123,8 +123,8 @@ const FormInformation = () => {
                       />
                     </div>
                   </div>
-                  <div className="flex gap-4 items-center w-full">
-                    <div className="w-1/2">
+                  <div className="flex gap-4 items-center w-full flex-wrap lg:flex-nowrap">
+                    <div className="w-full lg:w-1/2">
                       <Input
                         label="Cédula de Identidad"
                         isRequired
@@ -141,7 +141,7 @@ const FormInformation = () => {
 
               {paymentType === PaymentMethodType.BINANCE_PAY && (
                 <div className="flex gap-4 items-center w-full">
-                  <div className="w-1/2">
+                  <div className="w-full lg:w-1/2">
                     <Input
                       label="Binance ID"
                       placeholder="Ej: 1234567890"
@@ -155,7 +155,7 @@ const FormInformation = () => {
               )}
 
               {paymentType === PaymentMethodType.PAYPAL && (
-                <div className="flex gap-4 items-center w-full">
+                <div className="flex gap-4 items-center w-full flex-wrap lg:flex-nowrap">
                   <div className="w-1/2">
                     <Input
                       label="Email de PayPal"

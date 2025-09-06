@@ -63,8 +63,8 @@ const FormInformation = ({ isUpdating = false }: FormInformationProps) => {
             className="overflow-hidden"
           >
             <div className="flex flex-col px-6 py-4 w-full gap-6">
-              <div className="flex gap-4 items-center w-full">
-                <div className="w-1/2">
+              <div className="flex gap-4 items-center w-full flex-wrap lg:flex-nowrap">
+                <div className="w-full lg:w-1/2">
                   <Input
                     label="Título"
                     isRequired
@@ -75,7 +75,7 @@ const FormInformation = ({ isUpdating = false }: FormInformationProps) => {
                     error={errors.title?.message}
                   />
                 </div>
-                <div className="w-1/2">
+                <div className="w-full lg:w-1/2">
                   <DateInput
                     label="Fecha del sorteo"
                     date={new Date(formValues.drawDate)}
@@ -88,8 +88,8 @@ const FormInformation = ({ isUpdating = false }: FormInformationProps) => {
                 </div>
               </div>
 
-              <div className="flex gap-4 items-center w-full">
-                <div className="w-1/2">
+              <div className="flex gap-4 items-center w-full flex-wrap lg:flex-nowrap">
+                <div className="w-full lg:w-1/2">
                   <Input
                     label="Precio del boleto"
                     isRequired
@@ -101,7 +101,7 @@ const FormInformation = ({ isUpdating = false }: FormInformationProps) => {
                     error={errors.price?.message}
                   />
                 </div>
-                <div className="w-1/2">
+                <div className="w-full lg:w-1/2">
                   <Input
                     label="Valor del premio"
                     isRequired
@@ -115,8 +115,8 @@ const FormInformation = ({ isUpdating = false }: FormInformationProps) => {
                 </div>
               </div>
 
-              <div className="flex gap-4 items-center w-full">
-                <div className="w-1/2">
+              <div className="flex gap-4 items-center w-full flex-wrap lg:flex-nowrap">
+                <div className="w-full lg:w-1/2">
                   <Input
                     label="Cantidad de boletos"
                     isRequired
@@ -129,7 +129,7 @@ const FormInformation = ({ isUpdating = false }: FormInformationProps) => {
                     error={errors.totalTickets?.message}
                   />
                 </div>
-                <div className="w-1/2">
+                <div className="w-full lg:w-1/2">
                   <Select
                     label="Estado"
                     placeholder="Selecciona el estado"
