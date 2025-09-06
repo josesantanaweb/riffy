@@ -1,4 +1,4 @@
-import OwnerForm from "@/components/owners/OwnersPage";
+import OwnerForm from "@/components/owners/owners-form";
 
 const CreateOwnerPage = () => <OwnerForm />;
 

@@ -60,4 +60,4 @@ export const paymentMethodSchema = z.object({
   }
 });
 
-export type PaymentMethodFormData = z.infer<typeof paymentMethodSchema>;
+export type FormData = z.infer<typeof paymentMethodSchema>;
