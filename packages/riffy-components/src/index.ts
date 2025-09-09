@@ -14,3 +14,4 @@ export { default as DateInput } from './components/date-input';
 export { default as Toast } from './components/toast';
 export type { ToastType } from './components/toast';
 export { default as Logo } from './components/logo';
+export { default as Pagination } from './components/pagination';
