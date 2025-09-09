@@ -1,4 +1,5 @@
 import Layout from '@/components/common/Layout';
+import { AuthGuard } from '@/components/common/guards';
 
 export default function DashboardLayout({
   children,
@@ -6,8 +7,10 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   return (
-    <Layout>
-      {children}
-    </Layout>
+    <AuthGuard>
+      <Layout>
+        {children}
+      </Layout>
+    </AuthGuard>
   );
 }

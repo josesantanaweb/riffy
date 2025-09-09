@@ -2,11 +2,11 @@
 import React, { useState, useEffect } from 'react';
 import clsx from 'clsx';
 import { motion, AnimatePresence } from 'framer-motion';
-import Image from 'next/image';
 import { useStore } from '@/store';
 import SidebarItem from './SidebarItem';
 import { IconName, Icon } from '@riffy/components';
 import { ASSETS, MENU } from '@/constants';
+import { Logo } from '@riffy/components';
 
 const Sidebar: React.FC = () => {
   const { collapseSidebar, isMobileSidebarOpen, setMobileSidebarOpen } =
@@ -96,13 +96,7 @@ const Sidebar: React.FC = () => {
             className="fixed left-0 top-0 w-[280px] h-screen bg-base-700 z-50 lg:hidden lg:pt-4"
           >
             <div className="flex items-center justify-between pr-3 pl-6 py-2 lg:py-0 mb-4">
-              <Image
-                src={ASSETS.IMAGES.LOGO}
-                alt="logo"
-                width={117}
-                height={30}
-                className="w-[64px]"
-              />
+              <Logo className="w-[64px]" src={ASSETS.IMAGES.LOGO} />
               <button
                 onClick={() => setMobileSidebarOpen(false)}
                 className="p-2 rounded-lg hover:bg-base-600 transition-colors"

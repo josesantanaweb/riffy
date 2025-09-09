@@ -18,6 +18,9 @@ interface InputProps {
   inputSize?: 'sm' | 'md' | 'lg';
   fullWidth?: boolean;
   onClick?: () => void;
+  onIconClick?: () => void;
+  onLeftIconClick?: () => void;
+  onRightIconClick?: () => void;
   type?: string;
   value: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -52,9 +55,9 @@ const INPUT_SIZES = {
 
 const BASE_INPUT_CLASSES = [
   'border',
-  'border-base-600',
+  'border-base-500',
   'rounded-lg',
-  'bg-transparent',
+  'bg-base-700',
   'placeholder:text-base-300',
   'focus:outline-none',
   'transition-colors',
@@ -62,10 +65,13 @@ const BASE_INPUT_CLASSES = [
 
 const ICON_BASE_CLASSES = [
   'absolute',
-  'top-[55%]',
+  'top-1/2',
   'transform',
   '-translate-y-1/2',
   'text-base-300',
+  'cursor-pointer',
+  'hover:text-white',
+  'transition-colors',
 ].join(' ');
 
 const ERROR_CLASSES = 'text-xs text-red-500 px-1';
@@ -84,6 +90,9 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
       fullWidth = true,
       className,
       onClick,
+      onIconClick,
+      onLeftIconClick,
+      onRightIconClick,
       onChange,
       ...props
     },
@@ -120,9 +129,21 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
       return iconProp;
     };
 
+    const handleIconClick = (e: React.MouseEvent) => {
+      e.stopPropagation();
+
+      if (iconPosition === 'left' && onLeftIconClick) {
+        onLeftIconClick();
+      } else if (iconPosition === 'right' && onRightIconClick) {
+        onRightIconClick();
+      } else if (onIconClick) {
+        onIconClick();
+      }
+    };
+
     return (
       <div
-        className={cn('relative gap-2 flex flex-col', fullWidth && 'w-full')}
+        className={cn('gap-2 flex flex-col', fullWidth && 'w-full')}
         onClick={onClick}
       >
         <label className="text-white text-sm">
@@ -130,22 +151,28 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
           {label && isRequired && <span className="text-red-500">*</span>}
         </label>
 
-        {icon && iconPosition === 'left' && (
-          <span className={iconClasses}>{renderIcon(icon)}</span>
-        )}
+        <div className="relative">
+          {icon && iconPosition === 'left' && (
+            <span className={iconClasses} onClick={handleIconClick}>
+              {renderIcon(icon)}
+            </span>
+          )}
 
-        <input
-          id={id}
-          ref={ref}
-          className={inputClasses}
-          value={value}
-          onChange={onChange}
-          {...props}
-        />
+          <input
+            id={id}
+            ref={ref}
+            className={inputClasses}
+            value={value}
+            onChange={onChange}
+            {...props}
+          />
 
-        {icon && iconPosition === 'right' && (
-          <span className={iconClasses}>{renderIcon(icon)}</span>
-        )}
+          {icon && iconPosition === 'right' && (
+            <span className={iconClasses} onClick={handleIconClick}>
+              {renderIcon(icon)}
+            </span>
+          )}
+        </div>
 
         {error && <span className={ERROR_CLASSES}>{error}</span>}
       </div>

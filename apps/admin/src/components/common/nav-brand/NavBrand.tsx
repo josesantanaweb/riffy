@@ -1,10 +1,10 @@
 'use client';
 import React from 'react';
-import Image from 'next/image';
 import type { ReactElement } from 'react';
 import { clsx } from 'clsx';
 import { ASSETS } from '@/constants';
 import { useBreakpoint } from '@/hooks';
+import { Logo } from '@riffy/components';
 
 interface NavBrandProps {
   collapseSidebar: boolean;
@@ -12,7 +12,6 @@ interface NavBrandProps {
 
 const NavBrand = ({ collapseSidebar }: NavBrandProps): ReactElement => {
   const { isDesktop } = useBreakpoint();
-
 
   const shouldCollapse = isDesktop && collapseSidebar;
   const collapseClass = shouldCollapse
@@ -29,12 +28,9 @@ const NavBrand = ({ collapseSidebar }: NavBrandProps): ReactElement => {
         collapseClass,
       )}
     >
-      <Image
-        src={logoSrc}
-        alt="logo"
-        width={117}
-        height={30}
+      <Logo
         className={`${shouldCollapse ? 'w-[24px]' : 'w-[64px] lg:w-[74px]'} transition-all`}
+        src={logoSrc}
       />
     </div>
   );
