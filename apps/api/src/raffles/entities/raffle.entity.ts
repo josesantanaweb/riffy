@@ -52,4 +52,7 @@ export class Raffle {
 
   @Field(() => User, { nullable: true })
   owner?: User;
+
+  @Field()
+  ownerId?: string;
 }

@@ -1,25 +1,35 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  ForbiddenException,
+} from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { Raffle } from './entities/raffle.entity';
 import { CreateRaffleInput } from './inputs/create-raffle.input';
 import { UpdateRaffleInput } from './inputs/update-raffle.input';
-import { TicketStatus } from '@prisma/client';
+import { TicketStatus, Role } from '@prisma/client';
 
 @Injectable()
 export class RafflesService {
   constructor(private prisma: PrismaService) {}
 
   /**
-   * Obtiene todos las rifas registradas en la base de datos.
-   * @returns Arreglo de rifas
+   * Obtiene todas las rifas registradas en la base de datos.
+   * Los usuarios ADMIN ven todas las rifas, los OWNER solo ven las suyas.
+   * @param user Usuario logueado con su ID y rol
+   * @returns Arreglo de rifas con información de tickets (vendidos, disponibles, progreso)
    */
-  async findAll(): Promise<Raffle[]> {
+  async findAll(user: { id: string; role: Role }): Promise<Raffle[]> {
+    const where = user.role === Role.ADMIN ? {} : { ownerId: user.id };
+
     const raffles = await this.prisma.raffle.findMany({
+      where,
       include: {
         tickets: true,
         owner: true,
       },
     });
+
     return raffles.map((raffle) => {
       const totalTickets = raffle.tickets.length;
       const sold = raffle.tickets.filter(
@@ -53,6 +63,7 @@ export class RafflesService {
       },
       include: {
         tickets: true,
+        owner: true,
       },
     });
 
@@ -65,12 +76,23 @@ export class RafflesService {
 
   /**
    * Crea una nueva rifa.
-   * @param data Datos de la nueva rifa
-   * @returns La rifa creada
+   * El propietario (ownerId) se asigna automáticamente al usuario logueado.
+   * Genera automáticamente todos los tickets numerados para la rifa.
+   * @param data Datos de la nueva rifa (sin ownerId)
+   * @param user Usuario logueado que será el propietario de la rifa
+   * @returns La rifa creada con todos sus tickets
    */
-  async create(data: CreateRaffleInput): Promise<Raffle> {
+  async create(
+    data: CreateRaffleInput,
+    user: { id: string; role: Role },
+  ): Promise<Raffle> {
     const { totalTickets } = data;
-    const raffle = await this.prisma.raffle.create({ data });
+
+    const ownerId = user.id;
+
+    const raffleData = { ...data, ownerId };
+
+    const raffle = await this.prisma.raffle.create({ data: raffleData });
 
     const maxLength = totalTickets.toString().length;
 
@@ -88,10 +110,22 @@ export class RafflesService {
    * Actualiza los datos de una rifa existente.
    * @param id ID de la rifa a actualizar
    * @param data Datos nuevos para la rifa
+   * @param user Usuario que actualiza la rifa
    * @returns La rifa actualizada
    */
-  async update(id: string, data: UpdateRaffleInput): Promise<Raffle> {
-    await this.findOne(id);
+  async update(
+    id: string,
+    data: UpdateRaffleInput,
+    user: { id: string; role: Role },
+  ): Promise<Raffle> {
+    const raffle = await this.findOne(id);
+
+    if (user.role !== Role.ADMIN && raffle.ownerId !== user.id) {
+      throw new ForbiddenException(
+        'No tienes permiso para actualizar esta rifa',
+      );
+    }
+
     return await this.prisma.raffle.update({
       where: { id },
       data,
@@ -101,10 +135,16 @@ export class RafflesService {
   /**
    * Elimina los datos de una rifa existente.
    * @param id ID de la rifa a eliminar
+   * @param user Usuario que elimina la rifa
    * @returns La rifa eliminada
    */
-  async delete(id: string): Promise<Raffle> {
+  async delete(id: string, user: { id: string; role: Role }): Promise<Raffle> {
     const raffle = await this.findOne(id);
+
+    if (user.role !== Role.ADMIN && raffle.ownerId !== user.id) {
+      throw new ForbiddenException('No tienes permiso para eliminar esta rifa');
+    }
+
     await this.prisma.raffle.delete({
       where: {
         id,
