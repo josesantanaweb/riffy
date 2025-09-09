@@ -28,10 +28,6 @@ const OwnersPage = () => {
 
   const handleAdd = () => router.push(ROUTES.OWNERS.CREATE);
 
-  const handleDownload = () => {
-    alert('Descargar datos');
-  };
-
   return (
     <div className="p-6 flex-col flex gap-6">
       <PageHeader title="Dueños de Rifa" subtitle="Lista de Dueños de Rifa" />
@@ -42,7 +38,6 @@ const OwnersPage = () => {
             onEdit={handleEdit}
             onDelete={handleDelete}
             onAdd={handleAdd}
-            onDownload={handleDownload}
           />
         )}
       </div>

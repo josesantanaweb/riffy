@@ -83,6 +83,7 @@ type Raffle {
   updatedAt: DateTime
   tickets: [Ticket!]
   owner: User
+  ownerId: String!
 }
 
 type PaymentMethod {
@@ -185,7 +186,6 @@ input CreateRaffleInput {
   award: Int!
   status: RaffleStatus
   drawDate: DateTime!
-  ownerId: String!
 }
 
 """The status of the raffle"""
@@ -204,7 +204,6 @@ input UpdateRaffleInput {
   award: Int
   status: RaffleStatus
   drawDate: DateTime
-  ownerId: String
 }
 
 input CreateTicketInput {

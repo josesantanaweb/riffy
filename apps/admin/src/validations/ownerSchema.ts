@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { Role, UserStatus } from '@riffy/types';
+import { UserStatus } from '@riffy/types';
 
 const emptyToUndefined = (value: unknown) => (value === '' ? undefined : value);
 

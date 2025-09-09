@@ -1,5 +1,5 @@
 'use client';
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useMemo } from 'react';
 import {
   useReactTable,
   getCoreRowModel,
@@ -8,7 +8,7 @@ import {
 } from '@tanstack/react-table';
 
 import {
-  Badge,
+  Pagination,
   Checkbox,
   Button,
   Icon,
@@ -17,7 +17,6 @@ import {
 } from '@riffy/components';
 import type { IconName } from '@riffy/components';
 import ActionMenu from '@/components/common/action-menu';
-import Pagination from '@/components/common/pagination';
 import { PAGINATION_PAGE_SIZE } from '@/constants';
 import { DataTableProps } from './types';
 
@@ -151,7 +150,7 @@ const DataTable = <T extends Record<string, any>>({
             </div>
           )}
         </div>
-        <div className="flex flex-wrap items-center gap-3 w-full sm:w-auto justify-end">
+        <div className="flex flex-wrap items-center gap-3 w-full sm:w-auto justify-between lg:justify-end">
           {enableSelection && selected.size > 0 && (
             <Button variant="danger" size="md" className="gap-1">
               <Icon name="trash" className="text-sm" />
