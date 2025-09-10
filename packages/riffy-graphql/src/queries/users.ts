@@ -18,3 +18,12 @@ export const GET_USER = gql`
   }
   ${USERS_FRAGMENT}
 `;
+
+export const GET_PROFILE = gql`
+  query Profile {
+    profile {
+      ...UserFragment
+    }
+  }
+  ${USERS_FRAGMENT}
+`;

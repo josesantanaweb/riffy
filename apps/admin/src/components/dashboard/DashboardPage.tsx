@@ -3,9 +3,11 @@ import { useRouter } from 'next/navigation';
 import PageHeader from '../common/page-header';
 import { Icon, Button, Avatar } from '@riffy/components';
 import { ROUTES } from '@/constants/routes';
+import { useProfile } from '@riffy/hooks';
 
 const DashboardPage = () => {
   const router = useRouter();
+  const { data: profile } = useProfile();
 
   const handleCreateRaffle = () => router.push(ROUTES.RAFFLES.CREATE);
 
@@ -15,9 +17,9 @@ const DashboardPage = () => {
       <div className="flex flex-col gap-6 mt-4">
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-3">
-            <Avatar name="riffy" size={45} className="rounded-md" />
+            <Avatar name={profile?.name} src={profile?.logo} size={45} className="rounded-md" />
             <div className="flex flex-col gap-1">
-              <h3 className="text-base font-medium text-white">Hola riffy</h3>
+              <h3 className="text-base font-medium text-white">Hola {profile?.name}</h3>
               <p className="text-sm text-base-300">
                 Anilisis y estadisticas de tus rifas
               </p>

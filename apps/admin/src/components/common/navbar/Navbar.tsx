@@ -6,8 +6,10 @@ import NavUser from '../nav-user';
 import NavNotification from '../nav-notifications';
 import NavBrand from '../nav-brand';
 import { useStore } from '@/store';
+import { useProfile } from '@riffy/hooks';
 
 const Navbar = (): ReactElement => {
+  const { data: profile } = useProfile();
   const { setCollapseSidebar, collapseSidebar, toggleMobileSidebar } = useStore();
 
   return (
@@ -26,7 +28,7 @@ const Navbar = (): ReactElement => {
         />
         <div className="flex gap-6 items-center">
           <NavNotification />
-          <NavUser name="Riffy" role="Administrador" />
+          <NavUser name={profile?.name} role={profile?.role} />
         </div>
       </div>
     </div>
