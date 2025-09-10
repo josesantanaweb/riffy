@@ -4,5 +4,6 @@ echo "🔨 Running pre-commit checks..."
 echo "📦 Building API and Admin..."
 pnpm --filter=api build
 pnpm --filter=admin build
+pnpm --filter=web build
 
 echo "✅ All pre-commit checks passed!"
