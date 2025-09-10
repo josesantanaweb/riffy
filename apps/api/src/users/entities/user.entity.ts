@@ -9,6 +9,9 @@ export class User {
   @Field()
   name: string;
 
+  @Field()
+  domain: string;
+
   @Field({ nullable: true })
   password?: string;
 

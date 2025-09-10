@@ -17,10 +17,30 @@ export class RafflesService {
    * Obtiene todas las rifas registradas en la base de datos.
    * Los usuarios ADMIN ven todas las rifas, los OWNER solo ven las suyas.
    * @param user Usuario logueado con su ID y rol
+   * @param ownerDomain (opcional) Dominio del owner para filtrar
    * @returns Arreglo de rifas con información de tickets (vendidos, disponibles, progreso)
    */
-  async findAll(user: { id: string; role: Role }): Promise<Raffle[]> {
-    const where = user.role === Role.ADMIN ? {} : { ownerId: user.id };
+  async findAll(
+    user?: { role: Role; domain: string },
+    ownerDomain?: string,
+  ): Promise<Raffle[]> {
+    let where = {};
+
+    if (ownerDomain) {
+      where = {
+        owner: {
+          domain: ownerDomain,
+        },
+      };
+    } else if (user) {
+      if (user.role !== Role.ADMIN) {
+        where = {
+          owner: {
+            domain: user.domain,
+          },
+        };
+      }
+    }
 
     const raffles = await this.prisma.raffle.findMany({
       where,
@@ -35,7 +55,6 @@ export class RafflesService {
       const sold = raffle.tickets.filter(
         (t) => t.status === TicketStatus.SOLD,
       ).length;
-
       const available = raffle.tickets.filter(
         (t) => t.status === TicketStatus.AVAILABLE,
       ).length;

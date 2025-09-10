@@ -9,6 +9,10 @@ export class CreateUserInput {
   name: string;
 
   @IsString()
+  @Field(() => String)
+  domain: string;
+
+  @IsString()
   @IsEmail()
   @Field(() => String)
   email: string;

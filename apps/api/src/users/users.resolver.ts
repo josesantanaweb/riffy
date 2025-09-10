@@ -1,4 +1,4 @@
-import { Resolver, Query, Args, Context, Mutation } from '@nestjs/graphql';
+import { Resolver, Query, Args, Mutation } from '@nestjs/graphql';
 import { UseGuards } from '@nestjs/common';
 import { GqlAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { User } from './entities/user.entity';
@@ -8,6 +8,7 @@ import { Roles } from '../auth/decorators/roles.decorator';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { UpdateUserInput } from './inputs/update-user.input';
 import { CreateUserInput } from './inputs/create-user.input';
+import { CurrentUser } from '../auth/decorators/current-user.decorator';
 
 @Resolver(() => User)
 export class UsersResolver {
@@ -19,9 +20,9 @@ export class UsersResolver {
    * @param role (Opcional) Rol de usuario para filtrar
    * @returns Un array de objetos User filtrados por rol o todos si no se especifica
    */
-  // @Roles(Role.ADMIN)
-  // @UseGuards(RolesGuard)
-  // @UseGuards(GqlAuthGuard)
+  @Roles(Role.ADMIN)
+  @UseGuards(RolesGuard)
+  @UseGuards(GqlAuthGuard)
   @Query(() => [User], { name: 'users' })
   getAll(
     @Args('role', { type: () => Role, nullable: true }) role?: Role,
@@ -35,9 +36,9 @@ export class UsersResolver {
    * @param id ID del usuario a buscar
    * @returns Un objeto User si existe, si no lanza NotFoundException
    */
-  // @Roles(Role.ADMIN)
-  // @UseGuards(RolesGuard)
-  // @UseGuards(GqlAuthGuard)
+  @Roles(Role.ADMIN)
+  @UseGuards(RolesGuard)
+  @UseGuards(GqlAuthGuard)
   @Query(() => User, { name: 'user' })
   getOne(@Args('id', { type: () => String }) id: string): Promise<User> {
     return this.usersService.findOne(id);
@@ -49,13 +50,12 @@ export class UsersResolver {
    * @param context Contexto de la petición con el usuario autenticado
    * @returns El objeto User correspondiente al usuario autenticado
    */
-  // @Roles(Role.ADMIN)
-  // @UseGuards(RolesGuard)
-  // @UseGuards(GqlAuthGuard)
+  @UseGuards(GqlAuthGuard)
   @Query(() => User, { name: 'profile' })
-  profile(@Context() context: { req: { user: User } }): User {
-    const user = context.req.user;
-    return user;
+  async profile(
+    @CurrentUser() user: { id: string; role: Role },
+  ): Promise<User> {
+    return this.usersService.findOne(user.id);
   }
 
   /**
@@ -64,9 +64,6 @@ export class UsersResolver {
    * @param input Datos del nuevo usuario
    * @returns El objeto User creado
    */
-  // @Roles(Role.ADMIN)
-  // @UseGuards(RolesGuard)
-  // @UseGuards(GqlAuthGuard)
   @Mutation(() => User, { name: 'createUser' })
   create(
     @Args('input', { type: () => CreateUserInput }) input: CreateUserInput,
@@ -81,9 +78,9 @@ export class UsersResolver {
    * @param input Datos nuevos para el usuario
    * @returns El objeto User actualizado
    */
-  // @Roles(Role.ADMIN)
-  // @UseGuards(RolesGuard)
-  // @UseGuards(GqlAuthGuard)
+  @Roles(Role.ADMIN)
+  @UseGuards(RolesGuard)
+  @UseGuards(GqlAuthGuard)
   @Mutation(() => User, { name: 'updateUser' })
   update(
     @Args('id', { type: () => String }) id: string,
@@ -98,9 +95,9 @@ export class UsersResolver {
    * @param id ID del usuario a eliminar
    * @returns El objeto User eliminado
    */
-  // @Roles(Role.ADMIN)
-  // @UseGuards(RolesGuard)
-  // @UseGuards(GqlAuthGuard)
+  @Roles(Role.ADMIN)
+  @UseGuards(RolesGuard)
+  @UseGuards(GqlAuthGuard)
   @Mutation(() => User, { name: 'deleteUser' })
   delete(@Args('id', { type: () => String }) id: string): Promise<User> {
     return this.usersService.delete(id);
