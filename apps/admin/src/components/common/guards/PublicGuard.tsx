@@ -10,7 +10,7 @@ interface PublicGuardProps {
   redirectTo?: string;
 }
 
-export const PublicGuard = ({ children, redirectTo = ROUTES.HOME }: PublicGuardProps) => {
+export const PublicGuard = ({ children, redirectTo = ROUTES.DASHBOARD }: PublicGuardProps) => {
   const { isAuthenticated, isLoading } = useAuth();
   const router = useRouter();
 

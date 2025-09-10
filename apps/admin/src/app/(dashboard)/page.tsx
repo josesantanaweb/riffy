@@ -1,5 +1,5 @@
-import { redirect } from 'next/navigation';
+import Dashboard from "@/components/dashboard";
 
-export default function RootRedirect() {
-  redirect('/login');
-}
+const DashboardPage = () => <Dashboard />;
+
+export default DashboardPage;

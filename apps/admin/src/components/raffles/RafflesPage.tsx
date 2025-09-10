@@ -23,7 +23,8 @@ const RafflesPage = () => {
       await deleteRaffle(raffle.id);
       toast.success('Rifa eliminada exitosamente!!');
     } catch (error) {
-      console.error(error);
+      // eslint-disable-next-line no-console
+      console.error(error)
       toast.error('Error al eliminar la rifa.');
     }
   };

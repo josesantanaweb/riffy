@@ -99,6 +99,7 @@ type PaymentMethod {
   createdAt: DateTime!
   updatedAt: DateTime!
   owner: User
+  ownerId: String
 }
 
 type UploadResponse {
