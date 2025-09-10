@@ -5,6 +5,7 @@
 type User {
   id: ID!
   name: String!
+  domain: String!
   password: String
   email: String!
   logo: String
@@ -113,6 +114,7 @@ type Query {
   user(id: String!): User!
   profile: User!
   raffles: [Raffle!]!
+  rafflesByDomain(domain: String!): [Raffle!]!
   raffle(id: String!): Raffle!
   tickets: [Ticket!]!
   ticketsByRaffle(raffleId: String!): [Ticket!]!
@@ -148,6 +150,7 @@ type Mutation {
 
 input CreateUserInput {
   name: String!
+  domain: String!
   email: String!
   logo: String
   brandColor: String
@@ -161,6 +164,7 @@ input CreateUserInput {
 
 input UpdateUserInput {
   name: String
+  domain: String
   email: String
   logo: String
   brandColor: String

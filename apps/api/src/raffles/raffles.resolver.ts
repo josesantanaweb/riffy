@@ -16,13 +16,28 @@ export class RafflesResolver {
 
   /**
    * Obtiene todas las rifas registradas.
-   * Admins ven todas las rifas, Owners solo ven sus rifas
-   * Retorna: Un array de objetos Raffle
+   * @param user Usuario logueado con su domain y rol
+   * @returns Un array de objetos Raffle
    */
   @UseGuards(GqlAuthGuard)
   @Query(() => [Raffle], { name: 'raffles' })
-  getAll(@CurrentUser() user: { id: string; role: Role }): Promise<Raffle[]> {
+  getAll(
+    @CurrentUser() user: { domain: string; role: Role },
+  ): Promise<Raffle[]> {
     return this.rafflesService.findAll(user);
+  }
+
+  /**
+   * Obtiene todas las rifas registradas por un owner.
+   * Retorna: Un array de objetos Raffle
+   * @param domain del owner
+   * @returns Un array de objetos Raffle
+   */
+  @Query(() => [Raffle], { name: 'rafflesByDomain' })
+  findByDomain(
+    @Args('domain', { type: () => String }) domain: string,
+  ): Promise<Raffle[]> {
+    return this.rafflesService.findAll(undefined, domain);
   }
 
   /**
