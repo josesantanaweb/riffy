@@ -73,7 +73,7 @@ export class PaymentMethodsResolver {
   create(
     @Args('input', { type: () => CreatePaymentMethodInput })
     input: CreatePaymentMethodInput,
-    @CurrentUser() user: { domain: string; role: Role },
+    @CurrentUser() user: { id: string; role: Role },
   ): Promise<PaymentMethod> {
     return this.paymentMethodsService.create(input, user);
   }
@@ -95,7 +95,7 @@ export class PaymentMethodsResolver {
     @Args('id', { type: () => String }) id: string,
     @Args('input', { type: () => UpdatePaymentMethodInput })
     input: UpdatePaymentMethodInput,
-    @CurrentUser() user: { domain: string; role: Role },
+    @CurrentUser() user: { id: string; role: Role },
   ): Promise<PaymentMethod> {
     return this.paymentMethodsService.update(id, input, user);
   }
@@ -113,7 +113,7 @@ export class PaymentMethodsResolver {
   @Mutation(() => PaymentMethod, { name: 'deletePaymentMethod' })
   delete(
     @Args('id', { type: () => String }) id: string,
-    @CurrentUser() user: { domain: string; role: Role },
+    @CurrentUser() user: { id: string; role: Role },
   ): Promise<PaymentMethod> {
     return this.paymentMethodsService.delete(id, user);
   }
