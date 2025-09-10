@@ -61,6 +61,7 @@ model Payment {
   id            String        @id @default(cuid())
   buyerName     String
   phone         String
+  nationalId    String?
   state         String?
   proofUrl      String
   paymentDate   DateTime      @default(now())

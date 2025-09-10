@@ -15,12 +15,12 @@ export class PaymentsResolver {
 
   /**
    * Obtiene todos los payments registrados.
-   * Roles requeridos: ADMIN
+   * Roles requeridos: ADMIN, OWNER
    * Retorna: Un array de objetos Payment
    */
-  // @Roles(Role.ADMIN)
-  // @UseGuards(RolesGuard)
-  // @UseGuards(GqlAuthGuard)
+  @Roles(Role.ADMIN, Role.OWNER)
+  @UseGuards(RolesGuard)
+  @UseGuards(GqlAuthGuard)
   @Query(() => [Payment], { name: 'payments' })
   getAll(): Promise<Payment[]> {
     return this.PaymentService.findAll();
@@ -28,13 +28,13 @@ export class PaymentsResolver {
 
   /**
    * Obtiene un payment por su ID.
-   * Roles requeridos: ADMIN
+   * Roles requeridos: ADMIN, OWNER
    * @param id ID del payment a buscar
    * @returns Un objeto Payment si existe, si no lanza NotFoundException
    */
-  // @Roles(Role.ADMIN)
-  // @UseGuards(RolesGuard)
-  // @UseGuards(GqlAuthGuard)
+  @Roles(Role.ADMIN, Role.OWNER)
+  @UseGuards(RolesGuard)
+  @UseGuards(GqlAuthGuard)
   @Query(() => Payment, { name: 'payment' })
   getOne(@Args('id', { type: () => String }) id: string): Promise<Payment> {
     return this.PaymentService.findOne(id);
@@ -42,13 +42,9 @@ export class PaymentsResolver {
 
   /**
    * Crea un nuevo payment.
-   * Roles requeridos: ADMIN
    * @param input Datos del nuevo payment
    * @returns El objeto Payment creado
    */
-  // @Roles(Role.ADMIN)
-  // @UseGuards(RolesGuard)
-  // @UseGuards(GqlAuthGuard)
   @Mutation(() => Payment, { name: 'createPayment' })
   create(
     @Args('input', { type: () => CreatePaymentInput })
@@ -64,9 +60,9 @@ export class PaymentsResolver {
    * @param input Datos nuevos para el payment
    * @returns El objeto Payment actualizado
    */
-  // @Roles(Role.ADMIN)
-  // @UseGuards(RolesGuard)
-  // @UseGuards(GqlAuthGuard)
+  @Roles(Role.ADMIN)
+  @UseGuards(RolesGuard)
+  @UseGuards(GqlAuthGuard)
   @Mutation(() => Payment, { name: 'updatePayment' })
   update(
     @Args('id', { type: () => String }) id: string,
