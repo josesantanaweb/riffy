@@ -44,6 +44,13 @@ export class UsersResolver {
     return this.usersService.findOne(id);
   }
 
+  @Query(() => User, { name: 'userByDomain' })
+  getOneByDomain(
+    @Args('domain', { type: () => String }) domain: string,
+  ): Promise<User> {
+    return this.usersService.findOneByDomain(domain);
+  }
+
   /**
    * Obtiene el perfil del usuario autenticado.
    * Roles requeridos: ADMIN

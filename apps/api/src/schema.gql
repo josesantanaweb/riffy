@@ -2,45 +2,6 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type User {
-  id: ID!
-  name: String!
-  domain: String!
-  password: String
-  email: String!
-  logo: String
-  brandColor: String
-  whatsapp: String
-  instagram: String
-  tiktok: String
-  role: Role
-  status: UserStatus
-  createdAt: DateTime
-  updatedAt: DateTime
-}
-
-"""Roles de usuario"""
-enum Role {
-  ADMIN
-  OWNER
-}
-
-"""The status of the user"""
-enum UserStatus {
-  ACTIVE
-  INACTIVE
-}
-
-"""
-A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
-"""
-scalar DateTime
-
-type AuthResponse {
-  accessToken: String!
-  user: User!
-}
-
 type Payment {
   id: ID!
   buyerName: String!
@@ -52,6 +13,11 @@ type Payment {
   status: PaymentStatus
   ticket: Ticket
 }
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
 
 """The status of the payment"""
 enum PaymentStatus {
@@ -87,6 +53,41 @@ type Raffle {
   ownerId: String!
 }
 
+type User {
+  id: ID!
+  name: String!
+  domain: String!
+  password: String
+  email: String!
+  logo: String
+  brandColor: String
+  whatsapp: String
+  instagram: String
+  tiktok: String
+  role: Role
+  status: UserStatus
+  createdAt: DateTime
+  updatedAt: DateTime
+  raffles: [Raffle!]
+}
+
+"""Roles de usuario"""
+enum Role {
+  ADMIN
+  OWNER
+}
+
+"""The status of the user"""
+enum UserStatus {
+  ACTIVE
+  INACTIVE
+}
+
+type AuthResponse {
+  accessToken: String!
+  user: User!
+}
+
 type PaymentMethod {
   id: ID!
   name: String!
@@ -113,6 +114,7 @@ type UploadResponse {
 type Query {
   users(role: Role): [User!]!
   user(id: String!): User!
+  userByDomain(domain: String!): User!
   profile: User!
   raffles: [Raffle!]!
   rafflesByDomain: [Raffle!]!
