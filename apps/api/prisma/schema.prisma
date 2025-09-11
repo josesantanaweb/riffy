@@ -8,35 +8,41 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(cuid())
-  email     String   @unique
-  password  String
-  name      String
-  phone     String?
-  state     String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id         String     @id @default(cuid())
+  email      String     @unique
+  password   String
+  name       String
+  domain     String     @unique
+  phone      String?
+  logo       String?
+  instagram  String?
+  whatsapp   String?
+  tiktok     String?
+  status     UserStatus @default(ACTIVE)
+  brandColor String?    @default("00D4FF")
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
 
-  role   Role     @default(USER)
-  raffle Raffle[]
+  role           Role            @default(OWNER)
+  raffle         Raffle[]
+  paymentMethods PaymentMethod[]
 }
 
 model Raffle {
-  id             String   @id @default(cuid())
-  title          String
-  description    String?
-  banner         String
-  logo           String
-  primaryColor   String   @default("00D4FF")
-  secondaryColor String?
-  totalTickets   Int      @default(100)
-  price          Float
-  drawDate       DateTime @default(dbgenerated("(now() + interval '15 days')"))
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
+  id           String       @id @default(cuid())
+  title        String
+  description  String?
+  banner       String
+  totalTickets Int          @default(100)
+  price        Float
+  award        Float
+  status       RaffleStatus @default(ACTIVE)
+  drawDate     DateTime     @default(dbgenerated("(now() + interval '15 days')"))
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
 
   ownerId String
-  owner   User     @relation(fields: [ownerId], references: [id])
+  owner   User     @relation(fields: [ownerId], references: [id], onDelete: Cascade)
   tickets Ticket[]
 }
 
@@ -45,32 +51,82 @@ model Ticket {
   number String
   status TicketStatus @default(AVAILABLE)
 
-  raffleId       String
-  raffle         Raffle           @relation(fields: [raffleId], references: [id])
-  ticketPurchase TicketPurchase[]
+  raffleId String
+  raffle   Raffle @relation(fields: [raffleId], references: [id], onDelete: Cascade)
+
+  payment Payment?
 }
 
-model TicketPurchase {
-  id        String   @id @default(cuid())
-  buyerName String
-  buyerId   String
-  phone     String
-  state     String
-  proofUrl  String?
+model Payment {
+  id            String        @id @default(cuid())
+  buyerName     String
+  phone         String
+  nationalId    String?
+  state         String?
+  proofUrl      String
+  paymentDate   DateTime      @default(now())
+  paymentMethod String?
+  status        PaymentStatus @default(PENDING)
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  ticketId String
-  ticket   Ticket @relation(fields: [ticketId], references: [id])
+  ticketId String @unique
+  ticket   Ticket @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+}
+
+model PaymentMethod {
+  id   String            @id @default(cuid())
+  name String
+  type PaymentMethodType
+
+  bankName    String?
+  phoneNumber String?
+  nationalId  String?
+
+  binanceId String?
+
+  paypalEmail String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  ownerId String
+  owner   User   @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+}
+
+enum PaymentStatus {
+  PENDING
+  VERIFIED
+  DENIED
+}
+
+enum RaffleStatus {
+  ACTIVE
+  PENDING
+  COMPLETED
 }
 
 enum TicketStatus {
   AVAILABLE
   RESERVED
   SOLD
+  WINNER
+  LOSER
+}
+
+enum UserStatus {
+  ACTIVE
+  INACTIVE
 }
 
 enum Role {
   ADMIN
-  USER
+  OWNER
+}
+
+enum PaymentMethodType {
+  PAGO_MOVIL
+  BINANCE_PAY
+  PAYPAL
 }

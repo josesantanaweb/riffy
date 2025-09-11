@@ -3,7 +3,7 @@ import { JwtService } from '@nestjs/jwt';
 import { verify } from 'argon2';
 
 import { AuthResponse } from './entities/auth.entity';
-import { RegisterInput } from './inputs/register.input';
+import { CreateUserInput } from '../users/inputs/create-user.input';
 import { LoginInput } from './inputs/login.input';
 import { UsersService } from 'src/users/users.service';
 import { User } from 'src/users/entities/user.entity';
@@ -19,7 +19,7 @@ export class AuthService {
    * @param input Datos de registro del usuario
    * @returns Respuesta de autenticación con usuario y token
    */
-  async register(input: RegisterInput): Promise<AuthResponse> {
+  async register(input: CreateUserInput): Promise<AuthResponse> {
     const user = await this.usersService.create(input);
     const accessToken = this.getAccessToken(user);
     return { user, accessToken };

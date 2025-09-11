@@ -13,7 +13,27 @@ export class TicketsService {
    * @returns Arreglo de tickets
    */
   async findAll(): Promise<Ticket[]> {
-    const tickets = await this.prisma.ticket.findMany();
+    const tickets = await this.prisma.ticket.findMany({
+      include: {
+        payment: true,
+      },
+    });
+    return tickets;
+  }
+
+  /**
+   * Obtiene todos los tickets registrados en la base de datos por rifa.
+   * @returns Arreglo de tickets
+   */
+  async findAllByRaffle(raffleId: string): Promise<Ticket[]> {
+    const tickets = await this.prisma.ticket.findMany({
+      where: {
+        raffleId,
+      },
+      include: {
+        payment: true,
+      },
+    });
     return tickets;
   }
 
@@ -27,6 +47,9 @@ export class TicketsService {
     const ticket = await this.prisma.ticket.findUnique({
       where: {
         id,
+      },
+      include: {
+        payment: true,
       },
     });
 

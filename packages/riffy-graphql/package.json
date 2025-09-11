@@ -1,0 +1,22 @@
+{
+  "name": "@riffy/graphql",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsup src/index.ts --dts --format cjs,esm",
+    "clean": "rm -rf dist"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@apollo/client": "^3.11.0-rc.2"
+  },
+  "devDependencies": {
+    "tsup": "^8.5.0"
+  }
+}

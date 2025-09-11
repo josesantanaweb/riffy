@@ -10,6 +10,15 @@ import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { RafflesModule } from './raffles/raffles.module';
 import { TicketsModule } from './tickets/tickets.module';
+import { PaymentsModule } from './payments/payments.module';
+import { PaymentMethodsModule } from './payment-methods/payment-methods.module';
+import { S3Module } from './s3/s3.module';
+import './enums/role.enum';
+import './enums/user-status.enum';
+import './enums/raffle-status.enum';
+import './enums/ticket-status.enum';
+import './enums/payment-status.enum';
+import './enums/payment-method-type.enum';
 
 @Module({
   imports: [
@@ -29,6 +38,9 @@ import { TicketsModule } from './tickets/tickets.module';
     AuthModule,
     RafflesModule,
     TicketsModule,
+    PaymentsModule,
+    PaymentMethodsModule,
+    S3Module,
   ],
 })
 export class AppModule {}

@@ -1,4 +1,5 @@
 import { ObjectType, Field, ID, GraphQLISODateTime } from '@nestjs/graphql';
+import { Role, UserStatus } from '@prisma/client';
 
 @ObjectType()
 export class User {
@@ -6,7 +7,10 @@ export class User {
   id: string;
 
   @Field()
-  name?: string;
+  name: string;
+
+  @Field()
+  domain: string;
 
   @Field({ nullable: true })
   password?: string;
@@ -15,13 +19,25 @@ export class User {
   email: string;
 
   @Field({ nullable: true })
-  phone?: string;
+  logo?: string;
 
   @Field({ nullable: true })
-  state?: string;
+  brandColor?: string;
 
   @Field({ nullable: true })
-  role?: string;
+  whatsapp?: string;
+
+  @Field({ nullable: true })
+  instagram?: string;
+
+  @Field({ nullable: true })
+  tiktok?: string;
+
+  @Field(() => Role, { nullable: true })
+  role?: Role;
+
+  @Field(() => UserStatus, { nullable: true })
+  status?: UserStatus;
 
   @Field(() => GraphQLISODateTime, { nullable: true })
   createdAt?: Date;
