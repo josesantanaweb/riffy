@@ -115,7 +115,7 @@ type Query {
   user(id: String!): User!
   profile: User!
   raffles: [Raffle!]!
-  rafflesByDomain(domain: String!): [Raffle!]!
+  rafflesByDomain: [Raffle!]!
   raffle(id: String!): Raffle!
   tickets: [Ticket!]!
   ticketsByRaffle(raffleId: String!): [Ticket!]!
