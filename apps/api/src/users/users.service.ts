@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { Role } from '@prisma/client';
+import { Role, TicketStatus } from '@prisma/client';
 import { User } from './entities/user.entity';
 import { CreateUserInput } from './inputs/create-user.input';
 import { UpdateUserInput } from './inputs/update-user.input';
@@ -53,7 +53,11 @@ export class UsersService {
         domain,
       },
       include: {
-        raffles: true,
+        raffles: {
+          include: {
+            tickets: true,
+          },
+        },
       },
     });
 
@@ -61,7 +65,28 @@ export class UsersService {
       throw new NotFoundException(`User with domain ${domain} not found`);
     }
 
-    return user;
+    const rafflesWithStats = user.raffles.map((raffle) => {
+      const totalTickets = raffle.tickets.length;
+      const sold = raffle.tickets.filter(
+        (t) => t.status === TicketStatus.SOLD,
+      ).length;
+      const available = raffle.tickets.filter(
+        (t) => t.status === TicketStatus.AVAILABLE,
+      ).length;
+      const progress = totalTickets > 0 ? (sold / totalTickets) * 100 : 0;
+
+      return {
+        ...raffle,
+        sold,
+        available,
+        progress: Number(progress.toFixed(2)),
+      };
+    });
+
+    return {
+      ...user,
+      raffles: rafflesWithStats,
+    };
   }
 
   /**

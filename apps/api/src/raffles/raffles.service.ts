@@ -20,19 +20,9 @@ export class RafflesService {
    * @param ownerDomain (opcional) Dominio del owner para filtrar
    * @returns Arreglo de rifas con información de tickets (vendidos, disponibles, progreso)
    */
-  async findAll(
-    user?: { role: Role; domain: string },
-    ownerDomain?: string,
-  ): Promise<Raffle[]> {
+  async findAll(user?: { role: Role; domain: string }): Promise<Raffle[]> {
     let where = {};
-
-    if (ownerDomain) {
-      where = {
-        owner: {
-          domain: ownerDomain,
-        },
-      };
-    } else if (user) {
+    if (user) {
       if (user.role !== Role.ADMIN) {
         where = {
           owner: {

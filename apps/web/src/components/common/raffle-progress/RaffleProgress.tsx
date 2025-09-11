@@ -13,7 +13,7 @@ const RaffleProgress = ({ raffle }: RaffleProgressProps): ReactElement => {
   const isCompleted = status === RaffleStatus.COMPLETED;
 
   const displayProgress = isCompleted ? 100 : progress;
-  const progressText = `${displayProgress.toFixed(1)}% Completado`;
+  const progressText = `${displayProgress}% Completado`;
   const ticketsText = `${sold.toLocaleString()}/${totalTickets.toLocaleString()}`;
 
   return (

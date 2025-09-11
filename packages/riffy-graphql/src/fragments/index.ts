@@ -14,6 +14,7 @@ export const USERS_FRAGMENT = gql`
     role
     createdAt
     updatedAt
+    domain
   }
 `;
 
