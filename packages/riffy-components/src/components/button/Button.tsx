@@ -20,9 +20,9 @@ interface ButtonProps {
 
 const BUTTON_VARIANTS = {
   default: 'bg-base-600 text-white hover:bg-base-600/80',
-  primary: 'bg-primary-600 text-white hover:bg-primary-600/90',
-  danger: 'bg-red-600/30 text-red-500 hover:bg-red-600/20',
-  success: 'bg-green-600 text-white hover:bg-green-600/90',
+  primary: 'bg-primary-500 text-white hover:bg-primary-500/90',
+  danger: 'bg-danger-500/30 text-danger-500 hover:bg-danger-500/20',
+  success: 'bg-success-500 text-white hover:bg-success-500/90',
 } as const;
 
 const BUTTON_SIZES = {

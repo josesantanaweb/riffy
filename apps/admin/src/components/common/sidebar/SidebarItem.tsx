@@ -40,8 +40,8 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
   const itemClasses = clsx(
     'flex items-center gap-2 cursor-pointer transition-all relative',
     {
-      'hover:text-primary-600': true,
-      'text-primary-600': isActive || isOpen,
+      'hover:text-primary-500': true,
+      'text-primary-500': isActive || isOpen,
       'text-base-300': !isActive && !isOpen,
       'bg-base-500': isActive && isCollapse,
       'justify-center mb-2 w-[45px] h-[45px] rounded-lg hover:bg-base-500':
@@ -59,7 +59,7 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
         onClick={handleClick}
       >
         {isActive && !isCollapse && (
-          <span className="absolute top-0 left-0 w-1 h-full bg-primary-600" />
+          <span className="absolute top-0 left-0 w-1 h-full bg-primary-500" />
         )}
 
         <div className="flex items-center gap-1 justify-center">

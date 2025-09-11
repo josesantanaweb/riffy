@@ -74,7 +74,7 @@ const ICON_BASE_CLASSES = [
   'transition-colors',
 ].join(' ');
 
-const ERROR_CLASSES = 'text-xs text-red-500 px-1';
+const ERROR_CLASSES = 'text-xs text-danger-500 px-1';
 
 const Input = forwardRef<HTMLInputElement, InputProps>(
   (
@@ -148,7 +148,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
       >
         <label className="text-white text-sm">
           {label}{' '}
-          {label && isRequired && <span className="text-red-500">*</span>}
+          {label && isRequired && <span className="text-danger-500">*</span>}
         </label>
 
         <div className="relative">

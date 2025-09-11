@@ -13,7 +13,7 @@ const Navbar = (): ReactElement => {
   const { setCollapseSidebar, collapseSidebar, toggleMobileSidebar } = useStore();
 
   return (
-    <div className="w-full h-[52px] bg-base-700 flex justify-between items-center">
+    <div className="w-full h-[52px] flex-shrink-0 bg-base-700 flex justify-between items-center">
       <NavBrand collapseSidebar={collapseSidebar} />
       <div className="flex items-center w-full h-full gap-3 pr-6 lg:px-6 justify-between">
         <Icon

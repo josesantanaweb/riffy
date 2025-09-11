@@ -33,38 +33,38 @@ const DashboardPage = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-6">
           <div className="flex items-center justify-between gap-4 bg-base-700 rounded-xl p-6">
             <div className="flex flex-col gap-2">
-              <h2 className="text-2xl font-medium text-primary-600">10</h2>
+              <h2 className="text-2xl font-medium text-primary-500">10</h2>
               <p className="text-sm text-white">Rifas Creadas</p>
             </div>
-            <span className="flex items-center justify-center bg-primary-600/10 rounded-full w-12 h-12">
-              <Icon name="ticket" className="text-primary-600 text-2xl" />
+            <span className="flex items-center justify-center bg-primary-500/10 rounded-full w-12 h-12">
+              <Icon name="ticket" className="text-primary-500 text-2xl" />
             </span>
           </div>
           <div className="flex items-center justify-between gap-4 bg-base-700 rounded-xl p-6">
             <div className="flex flex-col gap-2">
-              <h2 className="text-2xl font-medium text-primary-600">1.500</h2>
+              <h2 className="text-2xl font-medium text-primary-500">1.500</h2>
               <p className="text-sm text-white">Boletos Vendidos</p>
             </div>
-            <span className="flex items-center justify-center bg-primary-600/10 rounded-full w-12 h-12">
-              <Icon name="credit-card" className="text-primary-600 text-2xl" />
+            <span className="flex items-center justify-center bg-primary-500/10 rounded-full w-12 h-12">
+              <Icon name="credit-card" className="text-primary-500 text-2xl" />
             </span>
           </div>
           <div className="flex items-center justify-between gap-4 bg-base-700 rounded-xl p-6">
             <div className="flex flex-col gap-2">
-              <h2 className="text-2xl font-medium text-primary-600">11.000</h2>
+              <h2 className="text-2xl font-medium text-primary-500">11.000</h2>
               <p className="text-sm text-white">Premios Repartidos</p>
             </div>
-            <span className="flex items-center justify-center bg-primary-600/10 rounded-full w-12 h-12">
-              <Icon name="gift" className="text-primary-600 text-2xl" />
+            <span className="flex items-center justify-center bg-primary-500/10 rounded-full w-12 h-12">
+              <Icon name="gift" className="text-primary-500 text-2xl" />
             </span>
           </div>
           <div className="flex items-center justify-between gap-4 bg-base-700 rounded-xl p-6">
             <div className="flex flex-col gap-2">
-              <h2 className="text-2xl font-medium text-primary-600">5.200</h2>
+              <h2 className="text-2xl font-medium text-primary-500">5.200</h2>
               <p className="text-sm text-white">Ganadores</p>
             </div>
-            <span className="flex items-center justify-center bg-primary-600/10 rounded-full w-12 h-12">
-              <Icon name="user" className="text-primary-600 text-2xl" />
+            <span className="flex items-center justify-center bg-primary-500/10 rounded-full w-12 h-12">
+              <Icon name="user" className="text-primary-500 text-2xl" />
             </span>
           </div>
         </div>
