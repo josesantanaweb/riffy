@@ -78,9 +78,9 @@ export class PaymentsResolver {
    * @param id ID del payment a eliminar
    * @returns El objeto Payment eliminado
    */
-  // @Roles(Role.ADMIN)
-  // @UseGuards(RolesGuard)
-  // @UseGuards(GqlAuthGuard)
+  @Roles(Role.ADMIN)
+  @UseGuards(RolesGuard)
+  @UseGuards(GqlAuthGuard)
   @Mutation(() => Payment, { name: 'deletePayment' })
   delete(@Args('id', { type: () => String }) id: string): Promise<Payment> {
     return this.PaymentService.delete(id);

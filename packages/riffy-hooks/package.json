@@ -13,10 +13,12 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@apollo/client": "^3.11.0-rc.2"
+    "@apollo/client": "^3.11.0-rc.2",
+    "react": "^19.1.0"
   },
   "devDependencies": {
     "@riffy/graphql": "workspace:*",
-    "@riffy/types": "workspace:*"
+    "@riffy/types": "workspace:*",
+    "@types/react": "^19.1.12"
   }
 }

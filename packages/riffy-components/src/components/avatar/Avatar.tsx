@@ -46,7 +46,7 @@ const Avatar = ({
       ) : (
         <div
           className={cn(
-            'bg-primary-600 rounded-full flex items-center justify-center text-white font-medium text-lg',
+            'bg-primary-500 rounded-full flex items-center justify-center text-white font-medium text-lg',
           )}
           style={{ width: size, height: size }}
         >

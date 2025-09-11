@@ -55,7 +55,7 @@ const DateInput = ({ label, date, setDate }: DateInputProps) => {
             }}
             modifiersClassNames={{
               selected: 'bg-base-500 text-white',
-              today: 'bg-primary-600 text-white',
+              today: 'bg-primary-500 text-white',
             }}
           />
         </div>

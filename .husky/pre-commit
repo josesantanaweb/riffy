@@ -1,0 +1,9 @@
+echo "🔨 Running pre-commit checks..."
+
+# Ejecutar builds de API y Admin (sin lint que puede ser muy estricto)
+echo "📦 Building API and Admin..."
+pnpm --filter=api build
+pnpm --filter=admin build
+pnpm --filter=web build
+
+echo "✅ All pre-commit checks passed!"

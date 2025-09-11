@@ -18,7 +18,7 @@ const LoginForm = () => {
   const {
     handleSubmit,
     register,
-    formState: { errors, isValid, isSubmitting },
+    formState: { errors, isValid },
     watch,
   } = methods;
 
@@ -38,6 +38,7 @@ const LoginForm = () => {
       toast.success('Inicio de sesión exitoso');
       router.push(redirectUrl);
     } catch (error) {
+      // eslint-disable-next-line no-console
       console.error(error);
       toast.error('Error al iniciar sesión');
     }
