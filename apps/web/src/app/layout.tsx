@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import '@riffy/components/styles/globals.css';
 import Providers from '@/components/providers';
+import Layout from '@/components/common/Layout';
 
 export const metadata: Metadata = {
   title: 'Riffy Admin',
@@ -16,7 +17,7 @@ export default function RootLayout({
     <html lang="es">
       <body>
         <Providers>
-          {children}
+          <Layout>{children}</Layout>
         </Providers>
       </body>
     </html>
