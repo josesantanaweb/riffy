@@ -5,6 +5,7 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { ScheduleModule } from '@nestjs/schedule';
 import { join } from 'path';
 import { ConfigModule } from '@nestjs/config';
+import { createGraphQLContext } from './common/utils/domain.utils';
 import { PrismaModule } from 'src/prisma/prisma.module';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
@@ -32,7 +33,7 @@ import './enums/payment-method-type.enum';
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
       plugins: [ApolloServerPluginLandingPageLocalDefault({ footer: false })],
       csrfPrevention: false,
-      context: ({ req }: { req: Request }) => ({ req }),
+      context: createGraphQLContext,
     }),
     UsersModule,
     AuthModule,
