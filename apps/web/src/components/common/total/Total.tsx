@@ -11,18 +11,18 @@ const Total = ({ totalTickets, price }: TotalProps): ReactElement => {
   return (
     <div className="flex flex-col gap-2 border-t border-base-500 pt-4 mt-4">
       <div className="flex items-center justify-between">
-        <p className="text-base font-medium text-base-300">Cantidad</p>
-        <p className="text-base font-medium text-white">{totalTickets || 0}</p>
+        <p className="text-sm font-medium text-base-300">Cantidad</p>
+        <p className="text-sm font-medium text-white">{totalTickets || 0}</p>
       </div>
       <div className="flex items-center justify-between">
-        <p className="text-base font-medium text-base-300">Precio por ticket</p>
-        <p className="text-base font-medium text-white">
+        <p className="text-sm font-medium text-base-300">Precio por ticket</p>
+        <p className="text-sm font-medium text-white">
           Bs {price?.toFixed(2) || 0}
         </p>
       </div>
       <div className="flex items-center justify-between">
-        <p className="text-lg font-medium text-base-300">Total a pagar</p>
-        <p className="text-lg font-medium text-white">
+        <p className="text-base font-medium text-base-300">Total a pagar</p>
+        <p className="text-base font-medium text-white">
           Bs {(totalTickets * price).toFixed(2) || 0}
         </p>
       </div>

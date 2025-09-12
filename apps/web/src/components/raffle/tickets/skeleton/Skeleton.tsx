@@ -5,7 +5,7 @@ import type { ReactElement } from 'react';
 const Skeleton = (): ReactElement => {
   return (
     <div className="grid grid-cols-5 gap-2">
-      {Array.from({ length: 100 }, (_, i) => (
+      {Array.from({ length: 40 }, (_, i) => (
         <span
           key={i}
           className="text-sm bg-base-600 rounded-md p-2 h-10 flex items-center justify-center animate-pulse"

@@ -10,6 +10,7 @@ import RaffleProgress from '@/components/common/raffle-progress';
 import Total from '@/components/common/total';
 import { useRaffle } from '@riffy/hooks';
 import { Ticket } from '@riffy/types';
+import { formatDate } from '@/utils';
 
 const RafflePage = (): ReactElement => {
   const { raffleId } = useParams();
@@ -30,11 +31,11 @@ const RafflePage = (): ReactElement => {
       <div className="flex flex-col gap-5 p-5">
         <div className="flex flex-col gap-2 border-b border-base-500 pb-4">
           <h1 className="text-2xl font-bold text-white">
-            Rifa Toyota 4runner 2025 TRD
+            {raffle?.title}
           </h1>
         </div>
 
-        <Alert message="20 de Agosto de 2025" icon="calendar" type="info" />
+        <Alert message={formatDate(raffle?.drawDate)} icon="calendar" type="info" />
 
         {raffle && <RaffleProgress raffle={raffle} />}
 
