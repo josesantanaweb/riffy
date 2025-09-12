@@ -55,6 +55,12 @@ export class RafflesService {
         sold,
         available,
         progress: Number(progress.toFixed(2)),
+        tickets: raffle.tickets
+          .sort((a, b) => parseInt(a.number) - parseInt(b.number))
+          .map((ticket) => ({
+            ...ticket,
+            number: ticket.number.toString(),
+          })),
       };
     });
   }
@@ -80,7 +86,27 @@ export class RafflesService {
       throw new NotFoundException(`Raffle with id ${id} not found`);
     }
 
-    return raffle;
+    const totalTickets = raffle.tickets.length;
+    const sold = raffle.tickets.filter(
+      (t) => t.status === TicketStatus.SOLD,
+    ).length;
+    const available = raffle.tickets.filter(
+      (t) => t.status === TicketStatus.AVAILABLE,
+    ).length;
+    const progress = totalTickets > 0 ? (sold / totalTickets) * 100 : 0;
+
+    return {
+      ...raffle,
+      sold,
+      available,
+      progress: Number(progress.toFixed(2)),
+      tickets: raffle.tickets
+        .sort((a, b) => parseInt(a.number) - parseInt(b.number))
+        .map((ticket) => ({
+          ...ticket,
+          number: ticket.number.toString(),
+        })),
+    };
   }
 
   /**

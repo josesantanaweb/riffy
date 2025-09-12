@@ -32,6 +32,9 @@ export type IconName =
   | 'tiktok'
   | 'check-circle'
   | 'dollar'
+  | 'sort'
+  | 'shuffle'
+  | 'list'
   | 'dots';
 
 interface IconProps {

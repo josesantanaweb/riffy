@@ -42,17 +42,17 @@ const Navbar = () => {
       <div className="flex items-center gap-3">
         <Icon
           name="instagram"
-          className="text-white text2xl"
+          className="text-white text-2xl"
           onClick={handleInstagram}
         />
         <Icon
           name="tiktok"
-          className="text-white text2xl"
+          className="text-white text-2xl"
           onClick={handleTiktok}
         />
         <Icon
           name="whatsapp"
-          className="text-white text2xl"
+          className="text-white text-2xl"
           onClick={handleWhatsapp}
         />
       </div>

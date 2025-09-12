@@ -1,19 +1,24 @@
 'use client';
 import React from 'react';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { Button, Icon } from '@riffy/components';
 import Alert from '@/components/common/alert';
 import RaffleProgress from '@/components/common/raffle-progress';
 import type { ReactElement } from 'react';
 import { Raffle, RaffleStatus } from '@riffy/types';
 import { formatDate } from '@/utils';
+import { ROUTES } from '@/constants/routes';
 
 interface RaffleCardProps {
   raffle: Raffle;
 }
 
 const RaffleCard = ({ raffle }: RaffleCardProps): ReactElement => {
+  const router = useRouter();
   const isCompleted = raffle.status === RaffleStatus.COMPLETED;
+
+  const handleBuyTicket = () => router.push(ROUTES.RAFFLES.RAFFLE(raffle.id));
 
   return (
     <div className="flex flex-col bg-base-700 rounded-xl overflow-hidden">
@@ -43,7 +48,11 @@ const RaffleCard = ({ raffle }: RaffleCardProps): ReactElement => {
         <RaffleProgress raffle={raffle} />
 
         <div className="flex flex-col gap-3 mt-4">
-          {!isCompleted && <Button variant="primary">Comprar boleto</Button>}
+          {!isCompleted && (
+            <Button variant="primary" onClick={handleBuyTicket}>
+              Comprar boleto
+            </Button>
+          )}
 
           <Button variant="default">
             <Icon name="search" />
