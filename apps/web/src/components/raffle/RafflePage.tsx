@@ -43,13 +43,17 @@ const RafflePage = (): ReactElement => {
       <div className="flex flex-col gap-5 p-5">
         <RaffleTitle title={raffle?.title} loading={loading} />
 
-        <Alert
-          message={formatDate(raffle?.drawDate)}
-          icon="calendar"
-          type="info"
-        />
+        {loading ? (
+          <div className="w-full h-12 bg-base-600 animate-pulse rounded-lg" />
+        ) : (
+          <Alert
+            message={formatDate(raffle?.drawDate)}
+            icon="calendar"
+            type="info"
+          />
+        )}
 
-        {raffle && <RaffleProgress raffle={raffle} />}
+        <RaffleProgress raffle={raffle} loading={loading} />
 
         <div className="flex flex-col gap-1 my-3">
           <h2 className="text-lg font-semibold text-white">Lista de Tickets</h2>

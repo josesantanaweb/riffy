@@ -8,6 +8,7 @@ interface TotalProps {
 }
 
 const Total = ({ totalTickets, price }: TotalProps): ReactElement => {
+  const total = totalTickets * (price || 0);
   return (
     <div className="flex flex-col gap-2 border-t border-base-500 pt-4 mt-4">
       <div className="flex items-center justify-between">
@@ -23,7 +24,7 @@ const Total = ({ totalTickets, price }: TotalProps): ReactElement => {
       <div className="flex items-center justify-between">
         <p className="text-base font-medium text-base-300">Total a pagar</p>
         <p className="text-base font-medium text-white">
-          Bs {(totalTickets * price).toFixed(2) || 0}
+          Bs {isNaN(total) ? '0.00' : total.toFixed(2)}
         </p>
       </div>
     </div>
