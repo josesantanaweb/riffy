@@ -6,19 +6,24 @@ import type { ReactElement } from 'react';
 interface LogoProps {
   className: string;
   src: string;
+  loading?: boolean;
 }
 
-const Logo = ({ className, src }: LogoProps): ReactElement => {
+const Logo = ({ className, src, loading }: LogoProps): ReactElement => {
   return (
     <div className={className}>
-      <Image
-        src={src}
-        alt="logo"
-        objectFit="contain"
-        className={className}
-        width={117}
-        height={30}
-      />
+      {loading ? (
+        <div className="w-[117px] h-[30px] bg-base-600 rounded-md animate-pulse" />
+      ) : (
+        <Image
+          src={src}
+          alt="logo"
+          objectFit="contain"
+          className={className}
+          width={117}
+          height={30}
+        />
+      )}
     </div>
   );
 };

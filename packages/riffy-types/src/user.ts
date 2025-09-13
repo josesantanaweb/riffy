@@ -1,3 +1,5 @@
+import { Raffle } from "./raffle";
+
 export enum Role {
   ADMIN = 'ADMIN',
   OWNER = 'OWNER',
@@ -19,6 +21,7 @@ export interface User {
   logo?: string | null;
   role?: Role | null;
   status?: UserStatus | null;
+  raffles?: Raffle[] | null;
 }
 
 export interface CreateUserInput {

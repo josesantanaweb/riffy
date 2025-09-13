@@ -1,4 +1,4 @@
-import { IsOptional, IsString } from 'class-validator';
+import { IsOptional, IsString, IsArray } from 'class-validator';
 import { InputType, Field } from '@nestjs/graphql';
 import { PaymentStatus } from '@prisma/client';
 
@@ -28,9 +28,10 @@ export class CreatePaymentInput {
   @Field(() => Date, { nullable: true })
   paymentDate?: Date;
 
-  @IsString()
-  @Field(() => String)
-  ticketId: string;
+  @IsArray()
+  @IsString({ each: true })
+  @Field(() => [String])
+  ticketIds: string[];
 
   @IsOptional()
   @Field(() => PaymentStatus, { nullable: true })

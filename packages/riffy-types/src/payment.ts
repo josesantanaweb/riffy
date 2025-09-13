@@ -27,7 +27,7 @@ export interface Payment {
   paymentMethod: string;
   proofUrl?: string | null;
   status?: PaymentStatus | null;
-  ticket?: Ticket | null;
+  tickets?: Ticket | null;
 }
 
 export interface CreatePaymentInput {
@@ -38,7 +38,7 @@ export interface CreatePaymentInput {
   paymentMethod: string;
   proofUrl: string;
   status?: PaymentStatus | null;
-  ticketId: string;
+  ticketIds: string[];
 }
 
 export type UpdatePaymentInput = Partial<CreatePaymentInput>;

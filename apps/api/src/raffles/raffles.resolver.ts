@@ -9,7 +9,6 @@ import { Raffle } from './entities/raffle.entity';
 import { UpdateRaffleInput } from './inputs/update-raffle.input';
 import { CreateRaffleInput } from './inputs/create-raffle.input';
 import { CurrentUser } from '../auth/decorators/current-user.decorator';
-import { CurrentDomain } from '../auth/decorators/current-domain.decorator';
 
 @Resolver()
 export class RafflesResolver {
@@ -26,17 +25,6 @@ export class RafflesResolver {
     @CurrentUser() user: { domain: string; role: Role },
   ): Promise<Raffle[]> {
     return this.rafflesService.findAll(user);
-  }
-
-  /**
-   * Obtiene todas las rifas del dominio actual (detectado automáticamente).
-   * Ideal para frontends multi-tenant donde el dominio se detecta automáticamente.
-   * @param domain Dominio detectado automáticamente del header Host
-   * @returns Un array de objetos Raffle del dominio actual
-   */
-  @Query(() => [Raffle], { name: 'rafflesByDomain' })
-  getAllByDomain(@CurrentDomain() domain: string): Promise<Raffle[]> {
-    return this.rafflesService.findAll(undefined, domain);
   }
 
   /**

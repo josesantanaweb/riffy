@@ -14,7 +14,7 @@ const config: Omit<Config, 'content'> = {
           800: '#0F111A',
         },
         primary: {
-          500: '#00D4FF',
+          500: 'var(--primary-500, #00D4FF)',
         },
         warning: {
           500: '#FFE100',

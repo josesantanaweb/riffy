@@ -1,5 +1,6 @@
 import { ObjectType, Field, ID, GraphQLISODateTime } from '@nestjs/graphql';
 import { Role, UserStatus } from '@prisma/client';
+import { Raffle } from '../../raffles/entities/raffle.entity';
 
 @ObjectType()
 export class User {
@@ -44,4 +45,7 @@ export class User {
 
   @Field(() => GraphQLISODateTime, { nullable: true })
   updatedAt?: Date;
+
+  @Field(() => [Raffle], { nullable: true })
+  raffles?: Raffle[];
 }
