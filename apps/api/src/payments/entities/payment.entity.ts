@@ -11,6 +11,9 @@ export class Payment {
   buyerName: string;
 
   @Field()
+  nationalId: string;
+
+  @Field()
   phone: string;
 
   @Field({ nullable: true })

@@ -58,6 +58,7 @@ export const PAYMENT_BASIC_FRAGMENT = gql`
   fragment PaymentBasicFragment on Payment {
     id
     buyerName
+    nationalId
     phone
     state
     paymentDate

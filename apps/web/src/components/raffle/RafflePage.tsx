@@ -23,6 +23,7 @@ const RafflePage = (): ReactElement => {
   useEffect(() => {
     setPayment({
       buyerName: '',
+      nationalId: '',
       phone: '',
       state: null,
       paymentDate: null,

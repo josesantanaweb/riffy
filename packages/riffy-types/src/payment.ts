@@ -21,6 +21,7 @@ export enum PaymentMethodStatus {
 export interface Payment {
   id: string;
   buyerName: string;
+  nationalId: string;
   phone: string;
   state: string;
   paymentDate: string;
@@ -33,6 +34,7 @@ export interface Payment {
 export interface CreatePaymentInput {
   buyerName: string;
   phone: string;
+  nationalId: string;
   state?: string | null;
   paymentDate?: string | null;
   paymentMethod: string;

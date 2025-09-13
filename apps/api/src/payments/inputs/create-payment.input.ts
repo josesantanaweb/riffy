@@ -10,6 +10,10 @@ export class CreatePaymentInput {
 
   @IsString()
   @Field(() => String)
+  nationalId: string;
+
+  @IsString()
+  @Field(() => String)
   phone: string;
 
   @IsOptional()

@@ -5,6 +5,7 @@
 type Payment {
   id: ID!
   buyerName: String!
+  nationalId: String!
   phone: String!
   state: String
   paymentDate: DateTime
@@ -235,6 +236,7 @@ input UpdateTicketInput {
 
 input CreatePaymentInput {
   buyerName: String!
+  nationalId: String!
   phone: String!
   state: String
   proofUrl: String!
@@ -246,6 +248,7 @@ input CreatePaymentInput {
 
 input UpdatePaymentInput {
   buyerName: String
+  nationalId: String
   phone: String
   state: String
   proofUrl: String
