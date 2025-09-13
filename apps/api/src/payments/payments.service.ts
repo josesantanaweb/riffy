@@ -16,7 +16,7 @@ export class PaymentsService {
   async findAll(): Promise<Payment[]> {
     const payments = await this.prisma.payment.findMany({
       include: {
-        ticket: true,
+        tickets: true,
       },
     });
     return payments;
@@ -34,7 +34,7 @@ export class PaymentsService {
         id,
       },
       include: {
-        ticket: true,
+        tickets: true,
       },
     });
 
@@ -51,11 +51,31 @@ export class PaymentsService {
    * @returns El payment creado
    */
   async create(data: CreatePaymentInput): Promise<Payment> {
-    const payment = await this.prisma.payment.create({ data });
+    const { ticketIds, ...paymentData } = data;
 
-    await this.prisma.ticket.update({
-      where: { id: data.ticketId },
-      data: { status: TicketStatus.SOLD },
+    const payment = await this.prisma.$transaction(async (tx) => {
+      const newPayment = await tx.payment.create({
+        data: paymentData,
+      });
+
+      await tx.ticket.updateMany({
+        where: {
+          id: {
+            in: ticketIds,
+          },
+        },
+        data: {
+          status: TicketStatus.SOLD,
+          paymentId: newPayment.id,
+        },
+      });
+
+      return await tx.payment.findUnique({
+        where: { id: newPayment.id },
+        include: {
+          tickets: true,
+        },
+      });
     });
 
     return payment;

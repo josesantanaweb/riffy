@@ -3,7 +3,7 @@ import TicketButton from "../ticket-button";
 
 interface TicketGridProps {
   tickets: Ticket[];
-  selectedTickets: Ticket[];
+  selectedTickets: string[];
   onTicketSelect: (ticket: Ticket) => void;
 }
 
@@ -14,9 +14,7 @@ const TicketGrid = ({
 }: TicketGridProps) => (
   <div className="grid grid-cols-5 gap-2 overflow-y-auto max-h-[300px]">
     {tickets.map(ticket => {
-      const isSelected = selectedTickets.some(
-        selected => selected.id === ticket.id,
-      );
+      const isSelected = selectedTickets.includes(ticket.id);
       const isSold = ticket.status === TicketStatus.SOLD;
 
       return (

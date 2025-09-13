@@ -11,7 +11,7 @@ type Payment {
   proofUrl: String!
   paymentMethod: String!
   status: PaymentStatus
-  ticket: Ticket
+  tickets: [Ticket!]
 }
 
 """
@@ -240,7 +240,7 @@ input CreatePaymentInput {
   proofUrl: String!
   paymentMethod: String!
   paymentDate: DateTime
-  ticketId: String!
+  ticketIds: [String!]!
   status: PaymentStatus
 }
 
@@ -251,7 +251,7 @@ input UpdatePaymentInput {
   proofUrl: String
   paymentMethod: String
   paymentDate: DateTime
-  ticketId: String
+  ticketIds: [String!]
   status: PaymentStatus
 }
 

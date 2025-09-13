@@ -1,41 +1,53 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import type { ReactElement } from 'react';
 import { Button } from '@riffy/components';
-import Image from 'next/image';
 import Alert from '@/components/common/alert/Alert';
 import Tickets from './tickets/Tickets';
 import RaffleProgress from '@/components/common/raffle-progress';
 import Total from '@/components/common/total';
 import { useRaffle } from '@riffy/hooks';
-import { Ticket } from '@riffy/types';
 import { formatDate } from '@/utils';
+import { useStore } from '@/store';
+import { RaffleStatus } from '@riffy/types';
+import RaffleBanner from '@/components/common/raffle-banner';
+import RaffleTitle from '@/components/common/raffle-title';
 
 const RafflePage = (): ReactElement => {
   const { raffleId } = useParams();
   const { data: raffle, loading } = useRaffle(raffleId as string);
-  const [selectedTickets, setSelectedTickets] = useState<Ticket[]>([]);
+  const { setPayment } = useStore();
+  const [selectedTickets, setSelectedTickets] = useState<string[]>([]);
+
+  useEffect(() => {
+    setPayment({
+      buyerName: '',
+      phone: '',
+      state: null,
+      paymentDate: null,
+      paymentMethod: '',
+      proofUrl: '',
+      status: null,
+      ticketIds: selectedTickets,
+    });
+  }, [selectedTickets, setPayment]);
 
   return (
-    <div className="w-full h-full flex flex-col gap-5">
-      <div className="w-full h-[340px] relative">
-        <Image
-          src={raffle?.banner}
-          alt="banner"
-          width={500}
-          height={500}
-          className="object-cover w-full h-full hover:scale-105 transition-all duration-300"
-        />
-      </div>
+    <div className="w-full h-full flex flex-col">
+      <RaffleBanner
+        banner={raffle?.banner}
+        isCompleted={raffle?.status === RaffleStatus.COMPLETED}
+        loading={loading}
+      />
       <div className="flex flex-col gap-5 p-5">
-        <div className="flex flex-col gap-2 border-b border-base-500 pb-4">
-          <h1 className="text-2xl font-bold text-white">
-            {raffle?.title}
-          </h1>
-        </div>
+        <RaffleTitle title={raffle?.title} loading={loading} />
 
-        <Alert message={formatDate(raffle?.drawDate)} icon="calendar" type="info" />
+        <Alert
+          message={formatDate(raffle?.drawDate)}
+          icon="calendar"
+          type="info"
+        />
 
         {raffle && <RaffleProgress raffle={raffle} />}
 
@@ -59,10 +71,7 @@ const RafflePage = (): ReactElement => {
           type="warning"
         />
 
-        <Total
-          totalTickets={selectedTickets.length}
-          price={raffle?.price}
-        />
+        <Total totalTickets={selectedTickets.length} price={raffle?.price} />
 
         <Button variant="primary" isFull disabled={selectedTickets.length < 2}>
           Pagar

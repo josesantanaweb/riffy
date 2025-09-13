@@ -15,7 +15,7 @@ const RafflesPage = (): ReactElement => {
 
       {!loading &&
         user?.raffles?.map(raffle => (
-          <RaffleCard key={raffle.id} raffle={raffle} />
+          <RaffleCard key={raffle.id} raffle={raffle} loading={loading} />
         ))}
     </div>
   );

@@ -11,8 +11,8 @@ import TicketsHeader from './ticket-header';
 interface TicketsProps {
   tickets: Ticket[];
   loading: boolean;
-  selectedTickets: Ticket[];
-  setSelectedTickets: React.Dispatch<React.SetStateAction<Ticket[]>>;
+  selectedTickets: string[];
+  setSelectedTickets: React.Dispatch<React.SetStateAction<string[]>>;
 }
 
 const Tickets = ({
@@ -33,11 +33,11 @@ const Tickets = ({
 
   const handleTicketSelect = (ticket: Ticket) => {
     setSelectedTickets(prev => {
-      const isSelected = prev.some(selected => selected.id === ticket.id);
+      const isSelected = prev.includes(ticket.id);
       if (isSelected) {
-        return prev.filter(selected => selected.id !== ticket.id);
+        return prev.filter(id => id !== ticket.id);
       }
-      return [...prev, ticket];
+      return [...prev, ticket.id];
     });
   };
 

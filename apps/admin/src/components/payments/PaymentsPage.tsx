@@ -5,7 +5,7 @@ import { usePayments } from '@riffy/hooks';
 import { useToast } from '@/hooks';
 import { ROUTES } from '@/constants';
 import { useUpdatePayment } from '@riffy/hooks';
-import { Payment, PaymentStatus } from '@riffy/types';
+import { Payment, PaymentStatus, Ticket } from '@riffy/types';
 import PageHeader from '@/components/common/page-header';
 
 const PaymentsPage = () => {
@@ -22,14 +22,16 @@ const PaymentsPage = () => {
       confirm('¿Estás seguro de querer marcar como verificado?');
       if (confirm) {
         try {
-          {
-            updatePayment(payment.id, {
-              status: PaymentStatus.VERIFIED,
-              ticketId: payment.ticket?.id,
-            });
-          }
+          const ticketIds = Array.isArray(payment.tickets)
+            ? payment.tickets.map((ticket: Ticket) => ticket.id)
+            : [];
+          updatePayment(payment.id, {
+            status: PaymentStatus.VERIFIED,
+            ticketIds,
+          });
           toast.success('Pago marcado como verificado exitosamente!!');
         } catch (error) {
+          // eslint-disable-next-line no-console
           console.error(error);
           toast.error('Error al marcar como verificado el pago.');
         }
