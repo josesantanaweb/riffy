@@ -29,7 +29,7 @@ export interface Payment {
   paymentMethod: string;
   proofUrl?: string | null;
   status?: PaymentStatus | null;
-  tickets?: Ticket | null;
+  tickets?: Ticket[] | null;
 }
 
 export interface CreatePaymentInput {

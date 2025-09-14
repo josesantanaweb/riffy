@@ -38,14 +38,11 @@ const PaymentForm = (): ReactElement => {
   const { payment, user, loading, setUser, setLoading } = useStore();
   const { createPayment } = useCreatePayment();
 
-  // Forzar recarga de datos del usuario para asegurar que los paymentMethods estén disponibles
   const { data: userData, loading: userLoading } = useUserByDomain('demo.com');
 
-  // Verificar si los métodos de pago están cargados
   const paymentMethodsLoaded = user?.paymentMethods && user.paymentMethods.length > 0;
   const isLoading = loading || userLoading;
 
-  // Actualizar el store cuando se carguen los datos del usuario
   useEffect(() => {
     if (userData && !user?.paymentMethods) {
       setUser(userData);
@@ -127,7 +124,7 @@ const PaymentForm = (): ReactElement => {
                   : "Método de pago"
             }
             options={user?.paymentMethods?.map(paymentMethod => ({
-              value: paymentMethod.id,
+              value: paymentMethod.name,
               label: paymentMethod.name,
             })) || []}
             size="lg"
