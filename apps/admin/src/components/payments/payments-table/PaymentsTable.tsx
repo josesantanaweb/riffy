@@ -17,6 +17,7 @@ interface PaymentsTableProps {
   data: Payment[];
   onView?: (payment: Payment) => void;
   onMarkAsVerified?: (payment: Payment) => void;
+  onMarkAsDenied?: (payment: Payment) => void;
   onDownload?: () => void;
 }
 
@@ -24,6 +25,7 @@ const PaymentsTable = ({
   data,
   onView,
   onMarkAsVerified,
+  onMarkAsDenied,
   onDownload,
 }: PaymentsTableProps) => {
   const columns: ColumnDef<Payment>[] = [
@@ -117,9 +119,18 @@ const PaymentsTable = ({
     ...(onMarkAsVerified
       ? [
           {
-            label: 'Marcar como Verificado',
+            label: 'Marcar como verificado',
             icon: 'check-circle',
             onClick: onMarkAsVerified,
+          },
+        ]
+      : []),
+    ...(onMarkAsDenied
+      ? [
+          {
+            label: 'Marcar como no verificado',
+            icon: 'close',
+            onClick: onMarkAsDenied,
           },
         ]
       : []),

@@ -3,7 +3,7 @@ import { PrismaService } from '../prisma/prisma.service';
 import { Payment } from './entities/payment.entity';
 import { CreatePaymentInput } from './inputs/create-payment.input';
 import { UpdatePaymentInput } from './inputs/update-payment.input';
-import { TicketStatus } from '@prisma/client';
+import { PaymentStatus, TicketStatus } from '@prisma/client';
 
 @Injectable()
 export class PaymentsService {
@@ -92,6 +92,20 @@ export class PaymentsService {
     return await this.prisma.payment.update({
       where: { id },
       data,
+    });
+  }
+
+  /**
+   * Actualiza el estado de un payment.
+   * @param id ID del payment a actualizar
+   * @param status Nuevo estado del payment
+   * @returns El payment actualizado
+   */
+  async updateStatus(id: string, status: PaymentStatus): Promise<Payment> {
+    await this.findOne(id);
+    return await this.prisma.payment.update({
+      where: { id },
+      data: { status },
     });
   }
 

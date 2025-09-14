@@ -145,6 +145,7 @@ type Mutation {
   deleteTicket(id: String!): Ticket!
   createPayment(input: CreatePaymentInput!): Payment!
   updatePayment(id: String!, input: UpdatePaymentInput!): Payment!
+  updatePaymentStatus(id: String!, status: PaymentStatus!): Payment!
   deletePayment(id: String!): Payment!
   createPaymentMethod(input: CreatePaymentMethodInput!): PaymentMethod!
   updatePaymentMethod(id: String!, input: UpdatePaymentMethodInput!): PaymentMethod!

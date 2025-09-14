@@ -4,8 +4,8 @@ import Providers from '@/components/providers';
 import Layout from '@/components/common/Layout';
 
 export const metadata: Metadata = {
-  title: 'Riffy Admin',
-  description: 'Riffy Admin Dashboard',
+  title: 'Riffy Web',
+  description: 'Riffy Web',
 };
 
 export default function RootLayout({

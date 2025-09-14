@@ -20,6 +20,15 @@ export const UPDATE_PAYMENT = gql`
   ${PAYMENT_FRAGMENT}
 `;
 
+export const UPDATE_PAYMENT_STATUS = gql`
+  mutation UpdatePaymentStatus($id: String!, $status: PaymentStatus!) {
+    updatePaymentStatus(id: $id, status: $status) {
+      ...PaymentFragment
+    }
+  }
+  ${PAYMENT_FRAGMENT}
+`;
+
 export const DELETE_PAYMENT = gql`
   mutation DeletePayment($id: String!) {
     deletePayment(id: $id) {
