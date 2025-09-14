@@ -58,6 +58,7 @@ export class UsersService {
             tickets: true,
           },
         },
+        paymentMethods: true,
       },
     });
 

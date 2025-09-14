@@ -44,9 +44,9 @@ const SELECT_SIZES = {
 
 const BASE_SELECT_CLASSES = [
   'border',
-  'border-base-600',
+  'border-base-500',
   'rounded-lg',
-  'bg-transparent',
+  'bg-base-700',
   'text-base-300',
   'focus:outline-none',
   'transition-colors',
@@ -110,7 +110,7 @@ const Select: React.FC<SelectProps> = ({
     sizeConfig.textSize,
     fullWidth ? 'w-full' : 'w-auto',
     disabled && 'opacity-50 cursor-not-allowed',
-    !disabled && 'cursor-pointer hover:border-base-500',
+    !disabled && 'cursor-pointer',
     className,
   ]
     .filter(Boolean)

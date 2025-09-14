@@ -5,7 +5,7 @@ import { PAYMENT_FRAGMENT } from '../fragments';
 export const CREATE_PAYMENT = gql`
   mutation CreatePayment($input: CreatePaymentInput!) {
     createPayment(input: $input) {
-      ...PaymentMethodsFragment
+      ...PaymentFragment
     }
   }
   ${PAYMENT_FRAGMENT}

@@ -1,5 +1,21 @@
 import { gql } from '@apollo/client';
 
+export const PAYMENT_METHODS_FRAGMENT = gql`
+  fragment PaymentMethodsFragment on PaymentMethod {
+    id
+    name
+    type
+    bankName
+    phoneNumber
+    nationalId
+    binanceId
+    paypalEmail
+    createdAt
+    updatedAt
+    ownerId
+  }
+`;
+
 export const USERS_FRAGMENT = gql`
   fragment UserFragment on User {
     id
@@ -15,7 +31,11 @@ export const USERS_FRAGMENT = gql`
     createdAt
     updatedAt
     domain
+    paymentMethods {
+      ...PaymentMethodsFragment
+    }
   }
+  ${PAYMENT_METHODS_FRAGMENT}
 `;
 
 export const RAFFLES_FRAGMENT = gql`
@@ -44,14 +64,6 @@ export const RAFFLES_FRAGMENT = gql`
     }
   }
   ${USERS_FRAGMENT}
-`;
-
-export const TICKET_BASIC_FRAGMENT = gql`
-  fragment TicketBasicFragment on Ticket {
-    id
-    number
-    status
-  }
 `;
 
 export const PAYMENT_BASIC_FRAGMENT = gql`
@@ -91,22 +103,10 @@ export const PAYMENT_FRAGMENT = gql`
     proofUrl
     paymentMethod
     status
-    ticket {
-      ...TicketBasicFragment
+    tickets {
+      id
+      number
+      status
     }
-  }
-  ${TICKET_BASIC_FRAGMENT}
-`;
-
-export const PAYMENT_METHODS_FRAGMENT = gql`
-  fragment PaymentMethodsFragment on PaymentMethod {
-    id
-    name
-    type
-    bankName
-    phoneNumber
-    nationalId
-    binanceId
-    paypalEmail
   }
 `;

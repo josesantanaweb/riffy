@@ -1,3 +1,4 @@
+import { PaymentMethod } from "./payment";
 import { Raffle } from "./raffle";
 
 export enum Role {
@@ -22,6 +23,7 @@ export interface User {
   role?: Role | null;
   status?: UserStatus | null;
   raffles?: Raffle[] | null;
+  paymentMethods?: PaymentMethod[] | null;
 }
 
 export interface CreateUserInput {
