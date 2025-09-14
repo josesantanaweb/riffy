@@ -11,6 +11,9 @@ export class Payment {
   buyerName: string;
 
   @Field()
+  amount: number;
+
+  @Field()
   nationalId: string;
 
   @Field()

@@ -1,5 +1,6 @@
 import { useState, useCallback } from 'react';
-import { useToast } from './useToast';
+
+const NEXT_PUBLIC_API_URL = 'http://localhost:4000'
 
 export interface UploadOptions {
   folder?: string;
@@ -34,8 +35,6 @@ export const useImageUpload = (options: UploadOptions = {}): UploadState & Uploa
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  const toast = useToast();
-
   const config = { ...DEFAULT_OPTIONS, ...options };
 
   const validateFile = useCallback((file: File): string | null => {
@@ -54,7 +53,6 @@ export const useImageUpload = (options: UploadOptions = {}): UploadState & Uploa
     const validationError = validateFile(file);
     if (validationError) {
       setError(validationError);
-      toast.error(validationError);
       options.onError?.(validationError);
       return;
     }
@@ -69,7 +67,7 @@ export const useImageUpload = (options: UploadOptions = {}): UploadState & Uploa
       formData.append('file', file);
       formData.append('folder', config.folder);
 
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
+      const apiUrl = NEXT_PUBLIC_API_URL;
       const response = await fetch(`${apiUrl}/api/s3/upload`, {
         method: 'POST',
         body: formData,
@@ -89,13 +87,12 @@ export const useImageUpload = (options: UploadOptions = {}): UploadState & Uploa
       const errorMessage = err instanceof Error ? err.message : 'Error desconocido';
       setError(errorMessage);
       setPreviewUrl(null);
-      toast.error('Error al subir la imagen. Intenta de nuevo.');
       options.onError?.(errorMessage);
       console.error('Error uploading image:', err);
     } finally {
       setIsUploading(false);
     }
-  }, [validateFile, config.folder, options, toast]);
+  }, [validateFile, config.folder, options]);
 
   const clearUpload = useCallback(() => {
     setUploadedUrl(null);

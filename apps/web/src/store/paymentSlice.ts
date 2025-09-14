@@ -1,9 +1,15 @@
 import type { StateCreator } from 'zustand';
-import { CreatePaymentInput } from '@riffy/types';
+
+interface PaymentData {
+  ticketIds: string[];
+  amount: number;
+  price: number;
+  totalTickets: number;
+}
 
 export type PaymentState = {
-  payment: CreatePaymentInput | null;
-  setPayment: (payment: CreatePaymentInput) => void;
+  payment: PaymentData | null;
+  setPayment: (payment: PaymentData) => void;
 };
 
 export const createPaymentSlice: StateCreator<PaymentState> = set => ({

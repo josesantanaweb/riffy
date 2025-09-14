@@ -62,6 +62,7 @@ export const PAYMENT_BASIC_FRAGMENT = gql`
     phone
     state
     paymentDate
+    amount
     proofUrl
     paymentMethod
     status

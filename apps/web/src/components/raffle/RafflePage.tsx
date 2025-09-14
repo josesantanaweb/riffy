@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import type { ReactElement } from 'react';
+import { useRouter } from 'next/navigation';
 import { Button } from '@riffy/components';
 import Alert from '@/components/common/alert/Alert';
 import Tickets from './tickets/Tickets';
@@ -13,8 +14,10 @@ import { useStore } from '@/store';
 import { RaffleStatus } from '@riffy/types';
 import RaffleBanner from '@/components/common/raffle-banner';
 import RaffleTitle from '@/components/common/raffle-title';
+import { ROUTES } from '@/constants';
 
 const RafflePage = (): ReactElement => {
+  const router = useRouter();
   const { raffleId } = useParams();
   const { data: raffle, loading } = useRaffle(raffleId as string);
   const { setPayment } = useStore();
@@ -22,17 +25,14 @@ const RafflePage = (): ReactElement => {
 
   useEffect(() => {
     setPayment({
-      buyerName: '',
-      nationalId: '',
-      phone: '',
-      state: null,
-      paymentDate: null,
-      paymentMethod: '',
-      proofUrl: '',
-      status: null,
       ticketIds: selectedTickets,
+      amount: (raffle?.price || 0) * selectedTickets.length,
+      price: raffle?.price || 0,
+      totalTickets: selectedTickets.length,
     });
-  }, [selectedTickets, setPayment]);
+  }, [selectedTickets, setPayment, raffle]);
+
+  const handlePay = () => router.push(ROUTES.PAYMENT);
 
   return (
     <div className="w-full h-full flex flex-col">
@@ -78,7 +78,7 @@ const RafflePage = (): ReactElement => {
 
         <Total totalTickets={selectedTickets.length} price={raffle?.price} />
 
-        <Button variant="primary" isFull disabled={selectedTickets.length < 2}>
+        <Button variant="primary" isFull disabled={selectedTickets.length < 2} onClick={handlePay}>
           Pagar
         </Button>
       </div>

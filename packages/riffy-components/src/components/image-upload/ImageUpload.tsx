@@ -2,7 +2,7 @@
 import { useMemo, useEffect } from 'react';
 import Image from 'next/image';
 import { Icon } from '@riffy/components';
-import { useImagePreview } from '@/hooks/useImagePreview';
+import { useImagePreview } from '@riffy/hooks';
 
 export interface ImageUploadProps {
   width?: number;
@@ -18,7 +18,7 @@ export interface ImageUploadProps {
 }
 
 const ImageUpload = ({
-  width = 300,
+  width,
   height = 200,
   placeholder = 'Agregar imagen',
   placeholderSubtext = 'JPEG, PNG, WebP, GIF (máx. 10MB)',
@@ -28,11 +28,11 @@ const ImageUpload = ({
   className = '',
   disabled = false,
 }: ImageUploadProps) => {
-  const { selectedFile, previewUrl, error, selectFile, clearFile, setExistingUrl } =
+  const { selectedFile, previewUrl, selectFile, clearFile, setExistingUrl } =
     useImagePreview({
       maxSizeMB,
-      onFileSelect: (file) => onChange?.(file, value),
-      onError: (error) => console.error('Error de validación:', error),
+      onFileSelect: file => onChange?.(file, value),
+      onError: error => console.error('Error de validación:', error),
     });
 
   useEffect(() => {
@@ -59,7 +59,6 @@ const ImageUpload = ({
   );
   const displayImage = previewUrl || value;
   const hasCustomImage = Boolean(displayImage && displayImage.trim());
-  const hasNewFile = Boolean(selectedFile);
 
   return (
     <div className={`relative ${className}`}>
@@ -83,14 +82,8 @@ const ImageUpload = ({
           }
           ${disabled ? 'opacity-50 cursor-not-allowed' : ''}
         `}
-        style={{ width, height }}
+        style={{ width: width || '100%', height }}
       >
-        {hasNewFile && (
-          <div className="absolute top-2 left-2 bg-blue-500 text-white text-xs px-2 py-1 rounded z-20">
-            Nuevo archivo
-          </div>
-        )}
-
         {hasCustomImage && !disabled && (
           <button
             type="button"
@@ -107,14 +100,14 @@ const ImageUpload = ({
             <Image
               src={displayImage}
               alt="Imagen subida"
-              width={width}
+              width={width || 300}
               height={height}
               className="w-full h-full object-cover rounded-lg"
             />
             {!disabled && (
               <div className="opacity-0 hover:opacity-100 transition-opacity absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
                 <div className="flex flex-col items-center text-white">
-                  <Icon name="edit" className="text-2xl mb-1" />
+                  <Icon name="edit" className="text-xl mb-1" />
                   <span className="text-sm">Cambiar imagen</span>
                 </div>
               </div>
@@ -122,10 +115,8 @@ const ImageUpload = ({
           </>
         ) : (
           <div className="w-full h-full flex flex-col items-center justify-center text-base-300 gap-2">
-            <Icon name="edit" className="text-2xl" />
-            <p className="text-sm font-medium">
-              {placeholder}
-            </p>
+            <Icon name="plus-circle" className="text-3xl" />
+            <p className="text-base font-medium">{placeholder}</p>
             {placeholderSubtext && (
               <p className="text-xs text-base-400">{placeholderSubtext}</p>
             )}

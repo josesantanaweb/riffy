@@ -10,7 +10,7 @@ interface TotalProps {
 const Total = ({ totalTickets, price }: TotalProps): ReactElement => {
   const total = totalTickets * (price || 0);
   return (
-    <div className="flex flex-col gap-2 border-t border-base-500 pt-4 mt-4">
+    <div className="flex flex-col gap-2 border-t border-base-600 pt-4 mt-4">
       <div className="flex items-center justify-between">
         <p className="text-sm font-medium text-base-300">Cantidad</p>
         <p className="text-sm font-medium text-white">{totalTickets || 0}</p>

@@ -5,6 +5,7 @@
 type Payment {
   id: ID!
   buyerName: String!
+  amount: Float!
   nationalId: String!
   phone: String!
   state: String
@@ -238,6 +239,7 @@ input CreatePaymentInput {
   buyerName: String!
   nationalId: String!
   phone: String!
+  amount: Float!
   state: String
   proofUrl: String!
   paymentMethod: String!
@@ -250,6 +252,7 @@ input UpdatePaymentInput {
   buyerName: String
   nationalId: String
   phone: String
+  amount: Float
   state: String
   proofUrl: String
   paymentMethod: String
