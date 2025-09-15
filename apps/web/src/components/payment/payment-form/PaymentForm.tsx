@@ -10,6 +10,8 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import Total from '@/components/common/total';
 import PaymentMethod from '../payment-method';
 import { useToast } from '@/hooks';
+import router from 'next/router';
+import { ROUTES } from '@/constants';
 
 const stateOptions = [
   { value: 'Caracas', label: 'Caracas' },
@@ -63,6 +65,7 @@ const PaymentForm = (): ReactElement => {
         amount: (payment?.price || 0) * (payment?.totalTickets || 0),
       });
       toast.success('Pago creado exitosamente');
+      router.push(ROUTES.RAFFLES.LIST);
       reset();
     } catch {
       toast.error('Error al crear el pago');
@@ -150,7 +153,7 @@ const PaymentForm = (): ReactElement => {
 
           {watch('paymentMethod') && user?.paymentMethods && (
             <PaymentMethod
-              paymentMethod={user.paymentMethods.find(pm => pm.id === watch('paymentMethod'))}
+              paymentMethod={user.paymentMethods.find(pm => pm.name === watch('paymentMethod'))}
             />
           )}
 
