@@ -64,6 +64,7 @@ model Payment {
   phone         String
   nationalId    String?
   state         String?
+  amount        Float?
   proofUrl      String
   paymentDate   DateTime      @default(now())
   paymentMethod String?

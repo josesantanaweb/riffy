@@ -4,37 +4,45 @@ import { useRouter } from 'next/navigation';
 import { usePayments } from '@riffy/hooks';
 import { useToast } from '@/hooks';
 import { ROUTES } from '@/constants';
-import { useUpdatePayment } from '@riffy/hooks';
-import { Payment, PaymentStatus, Ticket } from '@riffy/types';
+import { useUpdatePaymentStatus } from '@riffy/hooks';
+import { Payment, PaymentStatus } from '@riffy/types';
 import PageHeader from '@/components/common/page-header';
 
 const PaymentsPage = () => {
   const router = useRouter();
   const toast = useToast();
   const { data } = usePayments();
-  const { updatePayment } = useUpdatePayment();
+  const { updatePaymentStatus } = useUpdatePaymentStatus();
 
   const handleView = (payment: Payment) =>
     router.push(ROUTES.TICKETS.LIST(payment.id));
 
-  const handleMarkAsVerified = (payment: Payment) => {
-    if (payment.status !== PaymentStatus.VERIFIED) {
-      confirm('¿Estás seguro de querer marcar como verificado?');
-      if (confirm) {
-        try {
-          const ticketIds = Array.isArray(payment.tickets)
-            ? payment.tickets.map((ticket: Ticket) => ticket.id)
-            : [];
-          updatePayment(payment.id, {
-            status: PaymentStatus.VERIFIED,
-            ticketIds,
-          });
-          toast.success('Pago marcado como verificado exitosamente!!');
-        } catch (error) {
-          // eslint-disable-next-line no-console
-          console.error(error);
-          toast.error('Error al marcar como verificado el pago.');
-        }
+  const handleUpdatePaymentStatus = (payment: Payment, newStatus: PaymentStatus) => {
+    if (payment.status === newStatus) return;
+
+    const statusMessages = {
+      [PaymentStatus.VERIFIED]: {
+        confirm: '¿Estás seguro de querer marcar como verificado?',
+        success: 'Pago marcado como verificado exitosamente!!',
+        error: 'Error al marcar como verificado el pago.'
+      },
+      [PaymentStatus.DENIED]: {
+        confirm: '¿Estás seguro de querer marcar como denegado?',
+        success: 'Pago marcado como denegado exitosamente!!',
+        error: 'Error al marcar como denegado el pago.'
+      }
+    };
+
+    const messages = statusMessages[newStatus];
+
+    if (confirm(messages.confirm)) {
+      try {
+        updatePaymentStatus(payment.id, newStatus);
+        toast.success(messages.success);
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.error(error);
+        toast.error(messages.error);
       }
     }
   };
@@ -50,9 +58,10 @@ const PaymentsPage = () => {
         {data && (
           <PaymentsTable
             data={data}
-            onMarkAsVerified={handleMarkAsVerified}
             onView={handleView}
             onDownload={handleDownload}
+            onMarkAsVerified={(payment) => handleUpdatePaymentStatus(payment, PaymentStatus.VERIFIED)}
+            onMarkAsDenied={(payment) => handleUpdatePaymentStatus(payment, PaymentStatus.DENIED)}
           />
         )}
       </div>

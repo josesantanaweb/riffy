@@ -2,6 +2,7 @@
 import React from 'react';
 import Image from 'next/image';
 import type { ReactElement } from 'react';
+import Link from 'next/link';
 
 interface LogoProps {
   className: string;
@@ -11,7 +12,7 @@ interface LogoProps {
 
 const Logo = ({ className, src, loading }: LogoProps): ReactElement => {
   return (
-    <div className={className}>
+    <Link href="/" className={className}>
       {loading ? (
         <div className="w-[117px] h-[30px] bg-base-600 rounded-md animate-pulse" />
       ) : (
@@ -24,7 +25,7 @@ const Logo = ({ className, src, loading }: LogoProps): ReactElement => {
           height={30}
         />
       )}
-    </div>
+    </Link>
   );
 };
 

@@ -2,8 +2,7 @@
 import { useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Icon } from '@riffy/components';
-import ImageUpload from '@/components/common/image-upload';
+import { Icon, ImageUpload } from '@riffy/components';
 
 export interface LogoContext {
   file: File | null;

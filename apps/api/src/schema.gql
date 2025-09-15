@@ -2,9 +2,31 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type PaymentMethod {
+  id: ID!
+  name: String!
+  type: String!
+  bankName: String
+  phoneNumber: String
+  nationalId: String
+  binanceId: String
+  paypalEmail: String
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  owner: User
+  ownerId: String
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
 type Payment {
   id: ID!
   buyerName: String!
+  amount: Float!
+  nationalId: String!
   phone: String!
   state: String
   paymentDate: DateTime
@@ -13,11 +35,6 @@ type Payment {
   status: PaymentStatus
   tickets: [Ticket!]
 }
-
-"""
-A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
-"""
-scalar DateTime
 
 """The status of the payment"""
 enum PaymentStatus {
@@ -69,6 +86,7 @@ type User {
   createdAt: DateTime
   updatedAt: DateTime
   raffles: [Raffle!]
+  paymentMethods: [PaymentMethod!]
 }
 
 """Roles de usuario"""
@@ -86,21 +104,6 @@ enum UserStatus {
 type AuthResponse {
   accessToken: String!
   user: User!
-}
-
-type PaymentMethod {
-  id: ID!
-  name: String!
-  type: String!
-  bankName: String
-  phoneNumber: String
-  nationalId: String
-  binanceId: String
-  paypalEmail: String
-  createdAt: DateTime!
-  updatedAt: DateTime!
-  owner: User
-  ownerId: String
 }
 
 type UploadResponse {
@@ -142,6 +145,7 @@ type Mutation {
   deleteTicket(id: String!): Ticket!
   createPayment(input: CreatePaymentInput!): Payment!
   updatePayment(id: String!, input: UpdatePaymentInput!): Payment!
+  updatePaymentStatus(id: String!, status: PaymentStatus!): Payment!
   deletePayment(id: String!): Payment!
   createPaymentMethod(input: CreatePaymentMethodInput!): PaymentMethod!
   updatePaymentMethod(id: String!, input: UpdatePaymentMethodInput!): PaymentMethod!
@@ -235,7 +239,9 @@ input UpdateTicketInput {
 
 input CreatePaymentInput {
   buyerName: String!
+  nationalId: String!
   phone: String!
+  amount: Float!
   state: String
   proofUrl: String!
   paymentMethod: String!
@@ -246,7 +252,9 @@ input CreatePaymentInput {
 
 input UpdatePaymentInput {
   buyerName: String
+  nationalId: String
   phone: String
+  amount: Float
   state: String
   proofUrl: String
   paymentMethod: String

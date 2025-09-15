@@ -1,6 +1,8 @@
 export interface RequestWithHeaders {
   headers?: {
     host?: string;
+    authorization?: string;
+    [key: string]: string;
   };
 }
 
@@ -27,6 +29,10 @@ export function createGraphQLContext({ req }: { req: RequestWithHeaders }): {
     req: {
       ...req,
       domain,
+      headers: {
+        ...req.headers,
+        authorization: req.headers?.authorization,
+      },
     } as GraphQLRequest,
   };
 }

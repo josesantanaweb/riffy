@@ -11,13 +11,13 @@ import {
   mapPaymentStatusToStatusType,
   mapPaymentStatusToLabel,
 } from '@/utils';
-import MediaDisplay from '@/components/common/media-display';
 import { Payment, PaymentStatus, Ticket } from '@riffy/types';
 
 interface PaymentsTableProps {
   data: Payment[];
   onView?: (payment: Payment) => void;
   onMarkAsVerified?: (payment: Payment) => void;
+  onMarkAsDenied?: (payment: Payment) => void;
   onDownload?: () => void;
 }
 
@@ -25,6 +25,7 @@ const PaymentsTable = ({
   data,
   onView,
   onMarkAsVerified,
+  onMarkAsDenied,
   onDownload,
 }: PaymentsTableProps) => {
   const columns: ColumnDef<Payment>[] = [
@@ -41,11 +42,16 @@ const PaymentsTable = ({
       },
     },
     {
-      accessorKey: 'ticket',
+      accessorKey: 'tickets',
       header: 'Boleto N°',
       cell: info => {
-        const ticket = info.getValue() as Ticket;
-        return ticket && <p>{ticket.number}</p>;
+        const tickets = info.getValue() as Ticket[];
+        if (!tickets || tickets.length === 0) {
+          return <p>N/A</p>;
+        }
+
+        const ticketNumbers = tickets.map(ticket => ticket.number).join(', ');
+        return <p>{ticketNumbers}</p>;
       },
       meta: {
         className: TABLE_CLASSES.cell,
@@ -57,7 +63,7 @@ const PaymentsTable = ({
       header: 'Comprador',
       cell: info => {
         const row = info.row.original;
-        return <MediaDisplay label={row.buyerName} image={undefined} />;
+        return <h4>{row.buyerName}</h4>;
       },
       meta: {
         className: TABLE_CLASSES.cell,
@@ -113,9 +119,18 @@ const PaymentsTable = ({
     ...(onMarkAsVerified
       ? [
           {
-            label: 'Marcar como Verificado',
+            label: 'Marcar como verificado',
             icon: 'check-circle',
             onClick: onMarkAsVerified,
+          },
+        ]
+      : []),
+    ...(onMarkAsDenied
+      ? [
+          {
+            label: 'Marcar como no verificado',
+            icon: 'close',
+            onClick: onMarkAsDenied,
           },
         ]
       : []),

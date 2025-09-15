@@ -35,6 +35,8 @@ export type IconName =
   | 'sort'
   | 'shuffle'
   | 'list'
+  | 'copy'
+  | 'time'
   | 'dots';
 
 interface IconProps {
