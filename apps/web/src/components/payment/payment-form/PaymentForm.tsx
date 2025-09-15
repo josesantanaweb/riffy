@@ -1,7 +1,7 @@
 'use client';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import type { ReactElement } from 'react';
-import { Button, Input, Select } from '@riffy/components';
+import { Button, Input, Select, ImageUpload } from '@riffy/components';
 import { useStore } from '@/store';
 import { useForm } from 'react-hook-form';
 import { paymentSchema, type FormData } from '@/validations/paymentSchema';
@@ -10,8 +10,9 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import Total from '@/components/common/total';
 import PaymentMethod from '../payment-method';
 import { useToast } from '@/hooks';
-import router from 'next/router';
+import { useRouter } from 'next/navigation';
 import { ROUTES } from '@/constants';
+import { uploadImageToS3 } from '@/utils/imageUpload';
 
 const stateOptions = [
   { value: 'Caracas', label: 'Caracas' },
@@ -22,10 +23,12 @@ const stateOptions = [
 ];
 
 const PaymentForm = (): ReactElement => {
+  const [isUploadingImage, setIsUploadingImage] = useState(false);
   const toast = useToast();
+  const router = useRouter();
   const methods = useForm<FormData>({
     resolver: zodResolver(paymentSchema),
-    mode: 'onTouched',
+    mode: 'onChange',
   });
 
   const {
@@ -33,6 +36,7 @@ const PaymentForm = (): ReactElement => {
     register,
     setValue,
     reset,
+    unregister,
     formState: { errors, isValid },
     watch,
   } = methods;
@@ -52,21 +56,55 @@ const PaymentForm = (): ReactElement => {
     }
   }, [userData, user?.paymentMethods, setUser, setLoading]);
 
+  const handleChangeProofUrl = (file: File | null, existingUrl?: string | null) => {
+    if (file) {
+      setValue('proofFile', file, { shouldValidate: true });
+      setValue('proofUrl', existingUrl || '', { shouldValidate: true });
+    } else {
+      unregister('proofFile');
+      setValue('proofUrl', existingUrl || '', { shouldValidate: true });
+    }
+  };
+
   const onSubmit = async (data: FormData) => {
     try {
-      await createPayment({
+      let finalProofUrl = data.proofUrl || '';
+
+      if (data.proofFile) {
+        setIsUploadingImage(true);
+        try {
+          finalProofUrl = await uploadImageToS3(data.proofFile, { folder: 'payments' });
+        } catch {
+          toast.error('Error al subir la imagen del comprobante');
+          setIsUploadingImage(false);
+          return;
+        } finally {
+          setIsUploadingImage(false);
+        }
+      }
+
+      const result = await createPayment({
         buyerName: data.buyerName,
         phone: data.phone,
         nationalId: data.nationalId,
         state: data.state,
         paymentMethod: data.paymentMethod,
-        proofUrl: '',
+        proofUrl: finalProofUrl,
         ticketIds: payment?.ticketIds || [],
         amount: (payment?.price || 0) * (payment?.totalTickets || 0),
       });
+
+      if (result.errors) {
+        toast.error('Error al crear el pago');
+        return;
+      }
+
       toast.success('Pago creado exitosamente');
-      router.push(ROUTES.RAFFLES.LIST);
       reset();
+
+      setTimeout(() => {
+        router.push(ROUTES.RAFFLES.LIST);
+      }, 1000);
     } catch {
       toast.error('Error al crear el pago');
     }
@@ -114,7 +152,7 @@ const PaymentForm = (): ReactElement => {
             value={watch('state') || ''}
             onChange={value =>
               setValue('state', value as string, {
-                shouldValidate: false,
+                shouldValidate: true,
               })
             }
           />
@@ -134,7 +172,7 @@ const PaymentForm = (): ReactElement => {
             value={watch('paymentMethod') || ''}
             onChange={value =>
               setValue('paymentMethod', value as string, {
-                shouldValidate: false,
+                shouldValidate: true,
               })
             }
             disabled={isLoading || !paymentMethodsLoaded}
@@ -157,18 +195,19 @@ const PaymentForm = (): ReactElement => {
             />
           )}
 
-          {/* <div className="relative w-full flex justify-center">
+          <div className="relative w-full flex justify-center">
             <ImageUpload
               height={200}
               placeholder="Sube imagen de comprobante de pago"
               placeholderIcon="plus-circle"
               placeholderSubtext="JPEG, PNG, WebP, GIF (máx. 10MB)"
-              // value={currentBanner}
+              value={watch('proofUrl')}
               onChange={handleChangeProofUrl}
               maxSizeMB={10}
               className="w-full"
+              disabled={isUploadingImage}
             />
-          </div> */}
+          </div>
         </div>
       </div>
 
@@ -182,9 +221,9 @@ const PaymentForm = (): ReactElement => {
         isFull
         type="submit"
         className="mt-3"
-        disabled={!isValid}
+        disabled={!isValid || isUploadingImage}
       >
-        Pagar
+        {isUploadingImage ? 'Subiendo comprobante...' : 'Pagar'}
       </Button>
     </form>
   );
