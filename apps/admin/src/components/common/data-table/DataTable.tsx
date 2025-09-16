@@ -1,5 +1,5 @@
 'use client';
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useMemo } from 'react';
 import {
   useReactTable,
   getCoreRowModel,
@@ -8,7 +8,7 @@ import {
 } from '@tanstack/react-table';
 
 import {
-  Badge,
+  Pagination,
   Checkbox,
   Button,
   Icon,
@@ -17,7 +17,6 @@ import {
 } from '@riffy/components';
 import type { IconName } from '@riffy/components';
 import ActionMenu from '@/components/common/action-menu';
-import Pagination from '@/components/common/pagination';
 import { PAGINATION_PAGE_SIZE } from '@/constants';
 import { DataTableProps } from './types';
 
@@ -52,10 +51,7 @@ const DataTable = <T extends Record<string, any>>({
         header: 'Acciones',
         cell: ({ row }) => (
           <div className="w-full relative menu-container">
-            <ActionMenu
-              actions={actions}
-              row={row.original}
-            />
+            <ActionMenu actions={actions} row={row.original} />
           </div>
         ),
         meta: {
@@ -128,11 +124,11 @@ const DataTable = <T extends Record<string, any>>({
   const allSelected = selected.size === data.length && data.length > 0;
 
   return (
-    <div className="flex flex-col gap-6">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-3">
+    <div className="flex flex-col gap-6 w-full">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 w-full sm:w-auto">
           {enablePagination && (
-            <div className="w-[130px]">
+            <div className="w-full sm:w-[130px] min-w-[130px]">
               <Select
                 options={pageSizeOptions}
                 value={String(table.getState().pagination.pageSize)}
@@ -142,7 +138,7 @@ const DataTable = <T extends Record<string, any>>({
             </div>
           )}
           {searchFields.length > 0 && (
-            <div className="w-[240px]">
+            <div className="w-full sm:w-[240px] min-w-[200px]">
               <Input
                 icon="search"
                 iconPosition="left"
@@ -154,7 +150,7 @@ const DataTable = <T extends Record<string, any>>({
             </div>
           )}
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center gap-3 w-full sm:w-auto justify-between lg:justify-end">
           {enableSelection && selected.size > 0 && (
             <Button variant="danger" size="md" className="gap-1">
               <Icon name="trash" className="text-sm" />
@@ -182,52 +178,70 @@ const DataTable = <T extends Record<string, any>>({
         </div>
       </div>
 
-      <table className="min-w-full rounded-lg">
-        <thead className="bg-base-600 rounded-lg">
-          <tr>
-            {enableSelection && (
-              <th className="px-4 py-3 text-left">
-                <Checkbox checked={allSelected} onChange={handleSelectAll} />
-              </th>
-            )}
-            {table.getHeaderGroups()[0].headers.map(header => (
-              <th
-                key={header.id}
-                className={
-                  (header.column.columnDef.meta as any)?.headerClassName
-                }
-              >
-                {flexRender(
-                  header.column.columnDef.header,
-                  header.getContext(),
-                )}
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {table.getRowModel().rows.map(row => (
-            <tr key={row.id} className="border-b border-gray-700">
-              {enableSelection && (
-                <td className="px-4 h-14">
-                  <Checkbox
-                    checked={selected.has(row.original.id)}
-                    onChange={handleSelectRow(row.original.id)}
-                  />
-                </td>
-              )}
-              {row.getVisibleCells().map(cell => (
-                <td
-                  key={cell.id}
-                  className={(cell.column.columnDef.meta as any)?.className}
-                >
-                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                </td>
-              ))}
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <div className="overflow-x-auto -mx-2 sm:mx-0">
+        <div className="min-w-full inline-block align-middle">
+          <div className="overflow-hidden rounded-lg border border-base-600">
+            <table className="min-w-full divide-y divide-base-600">
+              <thead className="bg-base-600">
+                <tr>
+                  {enableSelection && (
+                    <th className="px-4 py-3 text-left whitespace-nowrap">
+                      <Checkbox
+                        checked={allSelected}
+                        onChange={handleSelectAll}
+                      />
+                    </th>
+                  )}
+                  {table.getHeaderGroups()[0].headers.map(header => (
+                    <th
+                      key={header.id}
+                      className={`px-4 py-3 text-left whitespace-nowrap ${
+                        (header.column.columnDef.meta as any)
+                          ?.headerClassName || ''
+                      }`}
+                    >
+                      {flexRender(
+                        header.column.columnDef.header,
+                        header.getContext(),
+                      ) as React.ReactNode}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody className="bg-base-700 divide-y divide-base-600">
+                {table.getRowModel().rows.map(row => (
+                  <tr
+                    key={row.id}
+                    className="hover:bg-base-600 transition-colors"
+                  >
+                    {enableSelection && (
+                      <td className="px-4 py-3 whitespace-nowrap">
+                        <Checkbox
+                          checked={selected.has(row.original.id)}
+                          onChange={handleSelectRow(row.original.id)}
+                        />
+                      </td>
+                    )}
+                    {row.getVisibleCells().map(cell => (
+                      <td
+                        key={cell.id}
+                        className={`px-4 py-3 whitespace-nowrap ${
+                          (cell.column.columnDef.meta as any)?.className || ''
+                        }`}
+                      >
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext(),
+                        ) as React.ReactNode}
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
 
       {enablePagination && (
         <Pagination

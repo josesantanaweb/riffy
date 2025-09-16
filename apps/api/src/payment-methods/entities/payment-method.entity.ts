@@ -37,4 +37,7 @@ export class PaymentMethod {
 
   @Field(() => User, { nullable: true })
   owner?: User;
+
+  @Field(() => String, { nullable: true })
+  ownerId?: string;
 }

@@ -4,3 +4,5 @@ export * from "./users";
 export * from "./common";
 export * from "./payments";
 export * from "./payment-methods";
+export * from "./auth";
+export * from "./upload";

@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { Role } from '@prisma/client';
+import { Role, TicketStatus } from '@prisma/client';
 import { User } from './entities/user.entity';
 import { CreateUserInput } from './inputs/create-user.input';
 import { UpdateUserInput } from './inputs/update-user.input';
@@ -39,6 +39,55 @@ export class UsersService {
     }
 
     return user;
+  }
+
+  /**
+   * Busca un usuario por su dominio.
+   * @param domain Dominio del usuario a buscar
+   * @throws NotFoundException si el usuario no existe
+   * @returns El usuario encontrado con sus rifas
+   */
+  async findOneByDomain(domain: string): Promise<User> {
+    const user = await this.prisma.user.findUnique({
+      where: {
+        domain,
+      },
+      include: {
+        raffles: {
+          include: {
+            tickets: true,
+          },
+        },
+        paymentMethods: true,
+      },
+    });
+
+    if (!user) {
+      throw new NotFoundException(`User with domain ${domain} not found`);
+    }
+
+    const rafflesWithStats = user.raffles.map((raffle) => {
+      const totalTickets = raffle.tickets.length;
+      const sold = raffle.tickets.filter(
+        (t) => t.status === TicketStatus.SOLD,
+      ).length;
+      const available = raffle.tickets.filter(
+        (t) => t.status === TicketStatus.AVAILABLE,
+      ).length;
+      const progress = totalTickets > 0 ? (sold / totalTickets) * 100 : 0;
+
+      return {
+        ...raffle,
+        sold,
+        available,
+        progress: Number(progress.toFixed(2)),
+      };
+    });
+
+    return {
+      ...user,
+      raffles: rafflesWithStats,
+    };
   }
 
   /**

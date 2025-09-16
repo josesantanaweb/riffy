@@ -39,8 +39,4 @@ export class CreatePaymentMethodInput {
   @IsString()
   @Field(() => String, { nullable: true })
   paypalEmail?: string;
-
-  @IsString()
-  @Field()
-  ownerId: string;
 }

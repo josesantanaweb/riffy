@@ -1,43 +1,13 @@
 import { setContext } from '@apollo/client/link/context';
 import { onError } from '@apollo/client/link/error';
-import { fromPromise } from '@apollo/client/link/utils';
 import { tokenStorage } from '@/utils/tokenStorage';
-import { jwtDecode } from 'jwt-decode';
-
-let isRefreshing = false;
-let failedQueue: Array<{ resolve: (value: string | null) => void; reject: (reason?: Error) => void }> = [];
-
-const processQueue = (error: Error | null, token: string | null = null) => {
-  failedQueue.forEach(({ resolve, reject }) => {
-    if (error) {
-      reject(error);
-    } else {
-      resolve(token);
-    }
-  });
-
-  failedQueue = [];
-};
+import { ROUTES } from '@/constants';
 
 export const createAuthLink = () => {
   const authLink = setContext(async (_, { headers }) => {
     if (typeof window === 'undefined') return { headers };
 
-    let token = tokenStorage.getAccessToken();
-
-    if (token) {
-      try {
-        const decoded = jwtDecode<{ exp: number }>(token);
-        const now = Date.now() / 1000;
-        const timeUntilExpiry = decoded.exp - now;
-
-        if (timeUntilExpiry < 30) {
-          token = await refreshTokenIfNeeded();
-        }
-      } catch {
-        token = await refreshTokenIfNeeded();
-      }
-    }
+    const token = tokenStorage.getAccessToken();
 
     return {
       headers: {
@@ -47,99 +17,48 @@ export const createAuthLink = () => {
     };
   });
 
-  const errorLink = onError(({ networkError, operation, forward }) => {
-    if (networkError && 'statusCode' in networkError && networkError.statusCode === 401) {
-      if (!isRefreshing) {
-        isRefreshing = true;
+  const errorLink = onError(({ networkError, graphQLErrors }) => {
+    const handleLogout = () => {
+      if (typeof window !== 'undefined') {
+        tokenStorage.removeTokens();
 
-        return fromPromise(
-          refreshTokenIfNeeded()
-            .then((newToken) => {
-              processQueue(null, newToken);
-              return newToken;
-            })
-            .catch((error) => {
-              processQueue(error, null);
-              if (typeof window !== 'undefined') {
-                window.location.href = '/login';
-              }
-              return null;
-            })
-            .finally(() => {
-              isRefreshing = false;
-            })
-        ).flatMap((newToken) => {
-          if (newToken) {
-            operation.setContext({
-              headers: {
-                ...operation.getContext().headers,
-                authorization: `Bearer ${newToken}`,
-              },
-            });
-            return forward(operation);
-          }
-          return null;
-        });
+        window.location.href = ROUTES.LOGIN;
       }
+    };
 
-      return fromPromise(
-        new Promise((resolve, reject) => {
-          failedQueue.push({ resolve, reject });
-        })
-      ).flatMap(() => forward(operation));
+    if (graphQLErrors) {
+      graphQLErrors.forEach(({ message, locations, path, extensions }) => {
+        /* eslint-disable no-console */
+        console.error(
+          `GraphQL error: Message: ${message}, Location: ${locations}, Path: ${path}`
+        );
+
+        const isAuthError =
+          extensions?.code === 'UNAUTHENTICATED' ||
+          message === 'Unauthorized' ||
+          message.includes('Unauthorized') ||
+          (extensions?.originalError &&
+           typeof extensions.originalError === 'object' &&
+           'statusCode' in extensions.originalError &&
+           extensions.originalError.statusCode === 401);
+
+        if (isAuthError) {
+          console.warn('Error de autenticación detectado, cerrando sesión...');
+          handleLogout();
+        }
+      });
+    }
+
+    if (networkError) {
+      console.error('Network error:', networkError);
+
+      if ('statusCode' in networkError && networkError.statusCode === 401) {
+        console.warn('Error 401 detectado, cerrando sesión...');
+        handleLogout();
+      }
     }
   });
 
   return { authLink, errorLink };
 };
 
-const refreshTokenIfNeeded = async (): Promise<string | null> => {
-  try {
-    const refreshToken = tokenStorage.getRefreshToken();
-    const accessToken = tokenStorage.getAccessToken();
-
-    if (!refreshToken || !accessToken) {
-      throw new Error('No tokens available');
-    }
-
-    const decoded = jwtDecode<{ id: string }>(accessToken);
-
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/graphql`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        query: `
-          query RefreshToken($id: String!, $refreshToken: String!) {
-            refreshToken(id: $id, refreshToken: $refreshToken) {
-              accessToken
-              refreshToken
-              user { id email username name image }
-            }
-          }
-        `,
-        variables: {
-          id: decoded.id,
-          refreshToken,
-        },
-      }),
-    });
-
-    const data = await response.json();
-
-    if (data.errors || !data.data?.refreshToken) {
-      throw new Error('Refresh failed');
-    }
-
-    const authData = data.data.refreshToken;
-
-    tokenStorage.setAccessToken(authData.accessToken);
-    tokenStorage.setRefreshToken(authData.refreshToken);
-
-    return authData.accessToken;
-  } catch {
-    tokenStorage.removeTokens();
-    return null;
-  }
-};

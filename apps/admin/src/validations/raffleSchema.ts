@@ -36,6 +36,9 @@ export const createRaffleSchema = z.object({
   status: z.string().optional(),
 
   description: z.string().optional(),
+
+  banner: z.string().optional(),
+  bannerFile: z.instanceof(File).optional().nullable(),
 });
 
 export type FormData = z.infer<typeof createRaffleSchema>;

@@ -13,10 +13,10 @@ interface ToastProps {
 const Toast = ({ t, message, type }: ToastProps) => {
   const colors =
     type === 'success'
-      ? 'bg-green-500'
+      ? 'bg-success-500'
       : type === 'error'
-        ? 'bg-red-500'
-        : 'bg-primary-600';
+        ? 'bg-danger-500'
+        : 'bg-primary-500';
 
   return (
     <motion.div

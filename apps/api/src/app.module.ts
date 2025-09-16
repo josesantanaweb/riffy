@@ -5,6 +5,7 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { ScheduleModule } from '@nestjs/schedule';
 import { join } from 'path';
 import { ConfigModule } from '@nestjs/config';
+import { createGraphQLContext } from './common/utils/domain.utils';
 import { PrismaModule } from 'src/prisma/prisma.module';
 import { MailModule } from './mail/mail.module';
 import { PurchasesModule } from './purchases/purchases.module';
@@ -14,6 +15,7 @@ import { RafflesModule } from './raffles/raffles.module';
 import { TicketsModule } from './tickets/tickets.module';
 import { PaymentsModule } from './payments/payments.module';
 import { PaymentMethodsModule } from './payment-methods/payment-methods.module';
+import { S3Module } from './s3/s3.module';
 import './enums/role.enum';
 import './enums/user-status.enum';
 import './enums/raffle-status.enum';
@@ -33,7 +35,7 @@ import './enums/payment-method-type.enum';
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
       plugins: [ApolloServerPluginLandingPageLocalDefault({ footer: false })],
       csrfPrevention: false,
-      context: ({ req }: { req: Request }) => ({ req }),
+      context: createGraphQLContext,
     }),
     UsersModule,
     AuthModule,
@@ -44,6 +46,7 @@ import './enums/payment-method-type.enum';
     PurchasesModule,
     PaymentsModule,
     PaymentMethodsModule,
+    S3Module,
   ],
 })
 export class AppModule {}

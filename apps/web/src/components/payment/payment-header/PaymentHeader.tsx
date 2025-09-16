@@ -1,0 +1,31 @@
+'use client';
+import React from 'react';
+import type { ReactElement } from 'react';
+import { Icon } from '@riffy/components';
+import { useRouter } from 'next/navigation';
+import Timer from '../timer';
+
+const PaymentHeader = (): ReactElement => {
+  const router = useRouter();
+
+  const handleBack = () => router.back();
+
+  return (
+    <div className="flex flex-col gap-3">
+      <div
+        className="flex items-center gap-3 text-base-300 w-full mb-3"
+        onClick={handleBack}
+      >
+        <Icon name="arrow-back" className="text-xl" />
+        <p className="text-lg">Atras</p>
+      </div>
+
+      <div className="flex items-center justify-between mb-3">
+        <p className="text-white text-xl font-medium">Datos del pago</p>
+        <Timer />
+      </div>
+    </div>
+  );
+};
+
+export default PaymentHeader;

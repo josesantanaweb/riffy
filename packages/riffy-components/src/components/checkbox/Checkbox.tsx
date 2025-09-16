@@ -50,7 +50,7 @@ const Checkbox: React.FC<CheckboxProps> = ({
       >
         {checked && (
           <div className="flex items-center justify-center">
-            <div className="w-3 h-3 bg-primary-600 rounded-sm" />
+            <div className="w-3 h-3 bg-primary-500 rounded-sm" />
           </div>
         )}
       </button>

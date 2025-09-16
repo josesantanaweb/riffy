@@ -136,6 +136,7 @@ input[type='number'] {
 
 .icon-credit-card:before { content: '\e800'; } /* '' */
 .icon-search:before { content: '\e801'; } /* '' */
+.icon-time:before { content: '\e802'; } /* '' */
 .icon-menu:before { content: '\e80b'; } /* '' */
 .icon-chevron-down:before { content: '\e825'; } /* '' */
 .icon-hide:before { content: '\e82a'; } /* '' */
@@ -163,4 +164,7 @@ input[type='number'] {
 .icon-whatsapp:before { content: '\e847'; } /* '' */
 .icon-check-circle:before { content: '\e848'; } /* '' */
 .icon-dollar:before { content: '\e849'; } /* '' */
-
+.icon-sort:before { content: '\e84a'; } /* '' */
+.icon-shuffle:before { content: '\e84b'; } /* '' */
+.icon-list:before { content: '\e84c'; } /* '' */
+.icon-copy:before { content: '\e84d'; } /* '' */

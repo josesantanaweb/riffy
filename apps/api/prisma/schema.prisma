@@ -12,6 +12,7 @@ model User {
   email      String     @unique
   password   String
   name       String
+  domain     String     @unique
   phone      String?
   logo       String?
   instagram  String?
@@ -23,7 +24,7 @@ model User {
   updatedAt  DateTime   @updatedAt
 
   role           Role            @default(OWNER)
-  raffle         Raffle[]
+  raffles        Raffle[]
   paymentMethods PaymentMethod[]
 }
 
@@ -53,24 +54,26 @@ model Ticket {
   raffleId String
   raffle   Raffle @relation(fields: [raffleId], references: [id], onDelete: Cascade)
 
-  payment Payment?
+  paymentId String?
+  payment   Payment? @relation(fields: [paymentId], references: [id], onDelete: SetNull)
 }
 
 model Payment {
-  id            String             @id @default(cuid())
+  id            String        @id @default(cuid())
   buyerName     String
   phone         String
+  nationalId    String?
   state         String?
+  amount        Float?
   proofUrl      String
-  paymentDate   DateTime           @default(now())
+  paymentDate   DateTime      @default(now())
   paymentMethod String?
-  status        PaymentStatus      @default(PENDING)
+  status        PaymentStatus @default(PENDING)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  ticketId String @unique
-  ticket   Ticket @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+  tickets Ticket[]
 }
 
 model PaymentMethod {
@@ -82,7 +85,7 @@ model PaymentMethod {
   phoneNumber String?
   nationalId  String?
 
-  binanceId    String?
+  binanceId String?
 
   paypalEmail String?
 

@@ -1,25 +1,46 @@
-import { dirname } from "path";
-import { fileURLToPath } from "url";
-import { FlatCompat } from "@eslint/eslintrc";
+import js from '@eslint/js';
+import tseslint from 'typescript-eslint';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+export default [
+  js.configs.recommended,
+  ...tseslint.configs.recommended,
+  {
+    files: ['**/*.ts', '**/*.tsx'],
+    plugins: {
+      '@typescript-eslint': tseslint.plugin,
+    },
+    languageOptions: {
+      parser: tseslint.parser,
+      parserOptions: {
+        project: './tsconfig.json',
+        tsconfigRootDir: import.meta.dirname,
+        ecmaFeatures: { jsx: true },
+      },
+    },
+    rules: {
+      // ===== BASIC RULES =====
+      'no-console': 'error', // Prohibits console.log, console.error, etc.
+      '@typescript-eslint/no-unused-vars': ['error'], // Marks unused variables/components as error
 
-const compat = new FlatCompat({
-  baseDirectory: __dirname,
-});
+      // ===== TYPESCRIPT RULES =====
+      '@typescript-eslint/no-explicit-any': 'warn', // Warns about explicit 'any' usage (loses TS benefits)
+      '@typescript-eslint/no-var-requires': 'error', // Prohibits require() in favor of import
 
-const eslintConfig = [
-  ...compat.extends("next/core-web-vitals", "next/typescript"),
+      // ===== SECURITY RULES =====
+      'no-eval': 'error', // Prohibits eval() which can execute malicious code
+      'no-implied-eval': 'error', // Prohibits setTimeout("code") which internally uses eval()
+      'no-new-func': 'error', // Prohibits new Function() which is similar to eval()
+    },
+  },
   {
     ignores: [
-      "node_modules/**",
-      ".next/**",
-      "out/**",
-      "build/**",
-      "next-env.d.ts",
+      '.next/',
+      'node_modules/',
+      'dist/',
+      'build/',
+      '.prettierrc.js',
+      'next.config.js',
+      'postcss.config.js',
     ],
   },
 ];
-
-export default eslintConfig;

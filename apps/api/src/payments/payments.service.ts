@@ -3,7 +3,7 @@ import { PrismaService } from '../prisma/prisma.service';
 import { Payment } from './entities/payment.entity';
 import { CreatePaymentInput } from './inputs/create-payment.input';
 import { UpdatePaymentInput } from './inputs/update-payment.input';
-import { TicketStatus } from '@prisma/client';
+import { PaymentStatus, TicketStatus } from '@prisma/client';
 
 @Injectable()
 export class PaymentsService {
@@ -16,7 +16,7 @@ export class PaymentsService {
   async findAll(): Promise<Payment[]> {
     const payments = await this.prisma.payment.findMany({
       include: {
-        ticket: true,
+        tickets: true,
       },
     });
     return payments;
@@ -34,7 +34,7 @@ export class PaymentsService {
         id,
       },
       include: {
-        ticket: true,
+        tickets: true,
       },
     });
 
@@ -51,11 +51,31 @@ export class PaymentsService {
    * @returns El payment creado
    */
   async create(data: CreatePaymentInput): Promise<Payment> {
-    const payment = await this.prisma.payment.create({ data });
+    const { ticketIds, ...paymentData } = data;
 
-    await this.prisma.ticket.update({
-      where: { id: data.ticketId },
-      data: { status: TicketStatus.SOLD },
+    const payment = await this.prisma.$transaction(async (tx) => {
+      const newPayment = await tx.payment.create({
+        data: paymentData,
+      });
+
+      await tx.ticket.updateMany({
+        where: {
+          id: {
+            in: ticketIds,
+          },
+        },
+        data: {
+          status: TicketStatus.SOLD,
+          paymentId: newPayment.id,
+        },
+      });
+
+      return await tx.payment.findUnique({
+        where: { id: newPayment.id },
+        include: {
+          tickets: true,
+        },
+      });
     });
 
     return payment;
@@ -72,6 +92,57 @@ export class PaymentsService {
     return await this.prisma.payment.update({
       where: { id },
       data,
+    });
+  }
+
+  /**
+   * Actualiza el estado de un payment y los tickets asociados.
+   * @param id ID del payment a actualizar
+   * @param status Nuevo estado del payment
+   * @returns El payment actualizado
+   */
+  async updateStatus(id: string, status: PaymentStatus): Promise<Payment> {
+    const payment = await this.findOne(id);
+
+    return await this.prisma.$transaction(async (tx) => {
+      const updatedPayment = await tx.payment.update({
+        where: { id },
+        data: { status },
+        include: {
+          tickets: true,
+        },
+      });
+
+      if (payment.tickets && payment.tickets.length > 0) {
+        const ticketIds = payment.tickets.map((ticket) => ticket.id);
+
+        if (status === PaymentStatus.DENIED) {
+          await tx.ticket.updateMany({
+            where: {
+              id: {
+                in: ticketIds,
+              },
+            },
+            data: {
+              status: TicketStatus.AVAILABLE,
+              paymentId: null,
+            },
+          });
+        } else if (status === PaymentStatus.VERIFIED) {
+          await tx.ticket.updateMany({
+            where: {
+              id: {
+                in: ticketIds,
+              },
+            },
+            data: {
+              status: TicketStatus.SOLD,
+            },
+          });
+        }
+      }
+
+      return updatedPayment;
     });
   }
 

@@ -13,7 +13,7 @@ export default [
       parser: tseslint.parser,
       parserOptions: {
         project: './tsconfig.json',
-        tsconfigRootDir: __dirname,
+        tsconfigRootDir: import.meta.dirname,
         ecmaFeatures: { jsx: true },
       },
     },

@@ -13,6 +13,7 @@ interface SidebarItemProps {
   isOpen: boolean;
   toggleDropdown: (label: string) => void;
   isCollapse: boolean;
+  onItemClick?: () => void;
 }
 
 const SidebarItem: React.FC<SidebarItemProps> = ({
@@ -20,6 +21,7 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
   isOpen,
   toggleDropdown,
   isCollapse,
+  onItemClick,
 }) => {
   const router = useRouter();
   const pathname = usePathname();
@@ -31,14 +33,15 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
       toggleDropdown(item.label);
     } else if (item.path) {
       router.push(item.path);
+      onItemClick?.();
     }
   };
 
   const itemClasses = clsx(
     'flex items-center gap-2 cursor-pointer transition-all relative',
     {
-      'hover:text-primary-600': true,
-      'text-primary-600': isActive || isOpen,
+      'hover:text-primary-500': true,
+      'text-primary-500': isActive || isOpen,
       'text-base-300': !isActive && !isOpen,
       'bg-base-500': isActive && isCollapse,
       'justify-center mb-2 w-[45px] h-[45px] rounded-lg hover:bg-base-500':
@@ -56,7 +59,7 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
         onClick={handleClick}
       >
         {isActive && !isCollapse && (
-          <span className="absolute top-0 left-0 w-1 h-full bg-primary-600" />
+          <span className="absolute top-0 left-0 w-1 h-full bg-primary-500" />
         )}
 
         <div className="flex items-center gap-1 justify-center">

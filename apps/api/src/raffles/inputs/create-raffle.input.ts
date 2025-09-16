@@ -36,8 +36,4 @@ export class CreateRaffleInput {
   @Field()
   @IsDate()
   drawDate: Date;
-
-  @IsString()
-  @Field()
-  ownerId: string;
 }

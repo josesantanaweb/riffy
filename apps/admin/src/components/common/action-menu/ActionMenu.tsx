@@ -18,6 +18,8 @@ const getIconSize = (iconName: string): string => {
       return 'text-base';
     case 'search':
       return 'text-lg';
+    case 'close':
+      return 'text-2xl';
     default:
       return 'text-lg';
   }

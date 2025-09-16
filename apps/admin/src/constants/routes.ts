@@ -1,5 +1,5 @@
 export const ROUTES = {
-  HOME: '/',
+  DASHBOARD: '/',
   LOGIN: '/login',
   REGISTER: '/register',
   RAFFLES: {
@@ -30,7 +30,7 @@ export const MENU = [
   {
     label: 'Dashboard',
     icon: 'home',
-    path: ROUTES.HOME,
+    path: ROUTES.DASHBOARD,
   },
   {
     label: 'Rifas',
