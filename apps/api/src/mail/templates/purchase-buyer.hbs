@@ -1,0 +1,18 @@
+<html>
+  <body style='font-family: Arial,Helvetica,sans-serif; color: #111;'>
+    <h2>Gracias por tu compra, {{buyerName}} 👋</h2>
+    <p>Has comprado boletos para la rifa: <strong>{{raffleTitle}}</strong>.</p>
+    <p>Boletos comprados:</p>
+    <ul>
+      {{#each ticketNumbers}}
+        <li>{{this}}</li>
+      {{/each}}
+    </ul>
+    <p>Precio por ticket: <strong>Bs {{price}}</strong></p>
+    <p>Total pagado: <strong>Bs {{totalPaid}}</strong></p>
+    <p>Fecha de compra: {{purchaseDate}}</p>
+    <p>Ver rifa: <a href='{{raffleUrl}}'>{{raffleUrl}}</a></p>
+    <hr />
+    <p>Gracias por usar Riffy.</p>
+  </body>
+</html>

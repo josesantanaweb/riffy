@@ -1,0 +1,18 @@
+<html>
+  <body style='font-family: Arial,Helvetica,sans-serif; color: #111;'>
+    <h2>Nuevo pedido para tu rifa: {{raffleTitle}}</h2>
+    <p>Comprador: <strong>{{buyerName}}</strong></p>
+    <p>Boletos vendidos:</p>
+    <ul>
+      {{#each ticketNumbers}}
+        <li>{{this}}</li>
+      {{/each}}
+    </ul>
+    <p>Precio por ticket: <strong>Bs {{price}}</strong></p>
+    <p>Total recibido: <strong>Bs {{totalPaid}}</strong></p>
+    <p>Fecha: {{purchaseDate}}</p>
+    <p>Ver rifa: <a href='{{raffleUrl}}'>{{raffleUrl}}</a></p>
+    <hr />
+    <p>¡Suerte!</p>
+  </body>
+</html>

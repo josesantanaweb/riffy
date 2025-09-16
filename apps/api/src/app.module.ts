@@ -6,6 +6,8 @@ import { ScheduleModule } from '@nestjs/schedule';
 import { join } from 'path';
 import { ConfigModule } from '@nestjs/config';
 import { PrismaModule } from 'src/prisma/prisma.module';
+import { MailModule } from './mail/mail.module';
+import { PurchasesModule } from './purchases/purchases.module';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { RafflesModule } from './raffles/raffles.module';
@@ -37,6 +39,9 @@ import './enums/payment-method-type.enum';
     AuthModule,
     RafflesModule,
     TicketsModule,
+    // Mail and Purchases
+    MailModule,
+    PurchasesModule,
     PaymentsModule,
     PaymentMethodsModule,
   ],
