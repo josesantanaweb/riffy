@@ -2,7 +2,7 @@ import { Args, Query, Resolver, Mutation } from '@nestjs/graphql';
 import { UseGuards } from '@nestjs/common';
 import { GqlAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { Roles } from '../auth/decorators/roles.decorator';
-import { Role } from '@prisma/client';
+import { PaymentStatus, Role } from '@prisma/client';
 import { PaymentsService } from './payments.service';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { Payment } from './entities/payment.entity';
@@ -70,6 +70,24 @@ export class PaymentsResolver {
     input: UpdatePaymentInput,
   ): Promise<Payment> {
     return this.PaymentService.update(id, input);
+  }
+
+  /**
+   * Actualiza el estado de un payment.
+   * Roles requeridos: ADMIN
+   * @param id ID del payment a actualizar
+   * @param status Nuevo estado del payment
+   * @returns El payment actualizado
+   */
+  @Roles(Role.ADMIN, Role.OWNER)
+  @UseGuards(RolesGuard)
+  @UseGuards(GqlAuthGuard)
+  @Mutation(() => Payment, { name: 'updatePaymentStatus' })
+  updateStatus(
+    @Args('id', { type: () => String }) id: string,
+    @Args('status', { type: () => PaymentStatus }) status: PaymentStatus,
+  ): Promise<Payment> {
+    return this.PaymentService.updateStatus(id, status);
   }
 
   /**

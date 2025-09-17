@@ -1,5 +1,6 @@
-import Raffles from "@/components/raffles";
+import { redirect } from 'next/navigation';
+import { ROUTES } from '@/constants';
 
-const RafflesPage = () => <Raffles />;
-
-export default RafflesPage;
+export default function RootRedirect() {
+  redirect(ROUTES.RAFFLES.LIST);
+}

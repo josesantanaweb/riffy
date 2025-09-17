@@ -1,37 +1,56 @@
 'use client';
 import React from 'react';
-import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { Button, Icon } from '@riffy/components';
-import { ASSETS } from '@/constants/assets';
 import Alert from '@/components/common/alert';
-import Progress from '@/components/common/progress';
+import RaffleProgress from '@/components/common/raffle-progress';
 import type { ReactElement } from 'react';
+import { Raffle, RaffleStatus } from '@riffy/types';
+import { formatDate } from '@/utils';
+import { ROUTES } from '@/constants/routes';
+import RaffleBanner from '@/components/common/raffle-banner';
+import RaffleTitle from '@/components/common/raffle-title';
 
-const RaffleCard = (): ReactElement => {
+interface RaffleCardProps {
+  raffle: Raffle;
+  loading: boolean;
+}
+
+const RaffleCard = ({ raffle, loading }: RaffleCardProps): ReactElement => {
+  const router = useRouter();
+  const isCompleted = raffle?.status === RaffleStatus.COMPLETED;
+
+  const handleBuyTicket = () => router.push(ROUTES.RAFFLES.RAFFLE(raffle.id));
+
   return (
     <div className="flex flex-col bg-base-700 rounded-xl overflow-hidden">
-      <div className="w-full h-[340px]">
-        <Image
-          src={ASSETS.IMAGES.BANNER}
-          alt="raffle banner"
-          width={500}
-          height={500}
-          className="object-cover w-full h-full"
-        />
-      </div>
+      <RaffleBanner
+        banner={raffle?.banner}
+        isCompleted={raffle?.status === RaffleStatus.COMPLETED}
+        loading={loading}
+      />
+
       <div className="flex flex-col gap-5 p-5">
-        <div className="flex items-center gap-3 border-b border-base-500 pb-4">
-          <h1 className="text-2xl font-bold text-white">
-            Rifa Toyota 4runner 2025 TRD
-          </h1>
-        </div>
-        <Alert />
-        <Progress />
+        <RaffleTitle title={raffle.title} loading={loading} />
+
+        <Alert
+          message={!isCompleted ? formatDate(raffle.drawDate) : 'Completada'}
+          icon="calendar"
+          type={!isCompleted ? undefined : 'success'}
+        />
+
+        <RaffleProgress raffle={raffle} />
+
         <div className="flex flex-col gap-3 mt-4">
-          <Button variant="primary">Comprar boleto</Button>
+          {!isCompleted && (
+            <Button variant="primary" onClick={handleBuyTicket}>
+              Comprar boleto
+            </Button>
+          )}
+
           <Button variant="default">
             <Icon name="search" />
-            Verificar
+            Verificar boleto
           </Button>
         </div>
       </div>

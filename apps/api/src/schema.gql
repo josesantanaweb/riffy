@@ -2,33 +2,19 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type User {
+type PaymentMethod {
   id: ID!
   name: String!
-  domain: String!
-  password: String
-  email: String!
-  logo: String
-  brandColor: String
-  whatsapp: String
-  instagram: String
-  tiktok: String
-  role: Role
-  status: UserStatus
-  createdAt: DateTime
-  updatedAt: DateTime
-}
-
-"""Roles de usuario"""
-enum Role {
-  ADMIN
-  OWNER
-}
-
-"""The status of the user"""
-enum UserStatus {
-  ACTIVE
-  INACTIVE
+  type: String!
+  bankName: String
+  phoneNumber: String
+  nationalId: String
+  binanceId: String
+  paypalEmail: String
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  owner: User
+  ownerId: String
 }
 
 """
@@ -36,21 +22,18 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
-type AuthResponse {
-  accessToken: String!
-  user: User!
-}
-
 type Payment {
   id: ID!
   buyerName: String!
+  amount: Float!
+  nationalId: String!
   phone: String!
   state: String
   paymentDate: DateTime
   proofUrl: String!
   paymentMethod: String!
   status: PaymentStatus
-  ticket: Ticket
+  tickets: [Ticket!]
 }
 
 """The status of the payment"""
@@ -87,19 +70,40 @@ type Raffle {
   ownerId: String!
 }
 
-type PaymentMethod {
+type User {
   id: ID!
   name: String!
-  type: String!
-  bankName: String
-  phoneNumber: String
-  nationalId: String
-  binanceId: String
-  paypalEmail: String
-  createdAt: DateTime!
-  updatedAt: DateTime!
-  owner: User
-  ownerId: String
+  domain: String!
+  password: String
+  email: String!
+  logo: String
+  brandColor: String
+  whatsapp: String
+  instagram: String
+  tiktok: String
+  role: Role
+  status: UserStatus
+  createdAt: DateTime
+  updatedAt: DateTime
+  raffles: [Raffle!]
+  paymentMethods: [PaymentMethod!]
+}
+
+"""Roles de usuario"""
+enum Role {
+  ADMIN
+  OWNER
+}
+
+"""The status of the user"""
+enum UserStatus {
+  ACTIVE
+  INACTIVE
+}
+
+type AuthResponse {
+  accessToken: String!
+  user: User!
 }
 
 type UploadResponse {
@@ -113,9 +117,9 @@ type UploadResponse {
 type Query {
   users(role: Role): [User!]!
   user(id: String!): User!
+  userByDomain(domain: String!): User!
   profile: User!
   raffles: [Raffle!]!
-  rafflesByDomain(domain: String!): [Raffle!]!
   raffle(id: String!): Raffle!
   tickets: [Ticket!]!
   ticketsByRaffle(raffleId: String!): [Ticket!]!
@@ -141,12 +145,14 @@ type Mutation {
   deleteTicket(id: String!): Ticket!
   createPayment(input: CreatePaymentInput!): Payment!
   updatePayment(id: String!, input: UpdatePaymentInput!): Payment!
+  updatePaymentStatus(id: String!, status: PaymentStatus!): Payment!
   deletePayment(id: String!): Payment!
   createPaymentMethod(input: CreatePaymentMethodInput!): PaymentMethod!
   updatePaymentMethod(id: String!, input: UpdatePaymentMethodInput!): PaymentMethod!
   deletePaymentMethod(id: String!): PaymentMethod!
   uploadImage(file: Upload!, options: UploadOptionsInput): UploadResponse!
   uploadFile(file: Upload!): String!
+  executeSeed: Boolean!
 }
 
 input CreateUserInput {
@@ -234,23 +240,27 @@ input UpdateTicketInput {
 
 input CreatePaymentInput {
   buyerName: String!
+  nationalId: String!
   phone: String!
+  amount: Float!
   state: String
   proofUrl: String!
   paymentMethod: String!
   paymentDate: DateTime
-  ticketId: String!
+  ticketIds: [String!]!
   status: PaymentStatus
 }
 
 input UpdatePaymentInput {
   buyerName: String
+  nationalId: String
   phone: String
+  amount: Float
   state: String
   proofUrl: String
   paymentMethod: String
   paymentDate: DateTime
-  ticketId: String
+  ticketIds: [String!]
   status: PaymentStatus
 }
 

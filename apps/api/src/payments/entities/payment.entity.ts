@@ -11,6 +11,12 @@ export class Payment {
   buyerName: string;
 
   @Field()
+  amount: number;
+
+  @Field()
+  nationalId: string;
+
+  @Field()
   phone: string;
 
   @Field({ nullable: true })
@@ -28,6 +34,6 @@ export class Payment {
   @Field(() => PaymentStatus, { nullable: true })
   status?: PaymentStatus;
 
-  @Field(() => Ticket, { nullable: true })
-  ticket?: Ticket;
+  @Field(() => [Ticket], { nullable: true })
+  tickets?: Ticket[];
 }

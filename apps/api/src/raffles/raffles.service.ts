@@ -20,19 +20,9 @@ export class RafflesService {
    * @param ownerDomain (opcional) Dominio del owner para filtrar
    * @returns Arreglo de rifas con información de tickets (vendidos, disponibles, progreso)
    */
-  async findAll(
-    user?: { role: Role; domain: string },
-    ownerDomain?: string,
-  ): Promise<Raffle[]> {
+  async findAll(user?: { role: Role; domain: string }): Promise<Raffle[]> {
     let where = {};
-
-    if (ownerDomain) {
-      where = {
-        owner: {
-          domain: ownerDomain,
-        },
-      };
-    } else if (user) {
+    if (user) {
       if (user.role !== Role.ADMIN) {
         where = {
           owner: {
@@ -65,6 +55,12 @@ export class RafflesService {
         sold,
         available,
         progress: Number(progress.toFixed(2)),
+        tickets: raffle.tickets
+          .sort((a, b) => parseInt(a.number) - parseInt(b.number))
+          .map((ticket) => ({
+            ...ticket,
+            number: ticket.number.toString(),
+          })),
       };
     });
   }
@@ -90,7 +86,27 @@ export class RafflesService {
       throw new NotFoundException(`Raffle with id ${id} not found`);
     }
 
-    return raffle;
+    const totalTickets = raffle.tickets.length;
+    const sold = raffle.tickets.filter(
+      (t) => t.status === TicketStatus.SOLD,
+    ).length;
+    const available = raffle.tickets.filter(
+      (t) => t.status === TicketStatus.AVAILABLE,
+    ).length;
+    const progress = totalTickets > 0 ? (sold / totalTickets) * 100 : 0;
+
+    return {
+      ...raffle,
+      sold,
+      available,
+      progress: Number(progress.toFixed(2)),
+      tickets: raffle.tickets
+        .sort((a, b) => parseInt(a.number) - parseInt(b.number))
+        .map((ticket) => ({
+          ...ticket,
+          number: ticket.number.toString(),
+        })),
+    };
   }
 
   /**

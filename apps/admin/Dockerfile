@@ -1,24 +1,94 @@
-# Etapa 1: Build
-FROM node:20-alpine AS builder
+# Multi-stage build para optimizar el tamaño de la imagen
+FROM node:18-alpine AS base
 
+# Instalar pnpm versión específica
+RUN npm install -g pnpm@9.15.3
+
+# Establecer directorio de trabajo
 WORKDIR /app
 
-COPY ../../package.json ../../pnpm-lock.yaml ./
-COPY ../../apps/minigames ./apps/minigames
-COPY ../../packages ./packages
+# Copiar archivos de configuración del workspace
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
+COPY turbo.json ./
 
-RUN npm install -g pnpm && pnpm install
-RUN pnpm --filter minigames-web build
+# Copiar configuración de TypeScript
+COPY tsconfig.json ./
 
-# Etapa 2: Runtime
-FROM node:20-alpine
+# Copiar todos los packages
+COPY packages/ ./packages/
 
+# Copiar configuración de la aplicación admin
+COPY apps/admin/package.json ./apps/admin/
+COPY apps/admin/tsconfig.json ./apps/admin/
+COPY apps/admin/next.config.js ./apps/admin/
+COPY apps/admin/tailwind.config.ts ./apps/admin/
+COPY apps/admin/postcss.config.js ./apps/admin/
+
+# Instalar dependencias
+RUN pnpm install --frozen-lockfile
+
+# Stage de build
+FROM base AS builder
+
+# Copiar código fuente de la aplicación admin
+COPY apps/admin/src ./apps/admin/src
+COPY apps/admin/public ./apps/admin/public
+COPY apps/admin/.env ./apps/admin/.env
+
+# Build de la aplicación
+WORKDIR /app/apps/admin
+RUN pnpm build
+
+# Stage de producción
+FROM node:18-alpine AS runner
+
+# Instalar pnpm versión específica
+RUN npm install -g pnpm@9.15.3
+
+# Crear usuario no-root
+RUN addgroup --system --gid 1001 nodejs
+RUN adduser --system --uid 1001 nextjs
+
+# Establecer directorio de trabajo
 WORKDIR /app
 
-COPY --from=builder /app/apps/minigames/web/.next .next
-COPY --from=builder /app/apps/minigames/web/public public
-COPY --from=builder /app/apps/minigames/web/package.json .
-COPY --from=builder /app/node_modules ./node_modules
+# Copiar archivos de configuración del workspace
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
+COPY turbo.json ./
 
-EXPOSE 3000
-CMD ["pnpm", "start"]
+# Copiar configuración de TypeScript
+COPY tsconfig.json ./
+
+# Copiar todos los packages
+COPY packages/ ./packages/
+
+# Copiar configuración de la aplicación admin
+COPY apps/admin/package.json ./apps/admin/
+COPY apps/admin/tsconfig.json ./apps/admin/
+COPY apps/admin/next.config.js ./apps/admin/
+COPY apps/admin/tailwind.config.ts ./apps/admin/
+COPY apps/admin/postcss.config.js ./apps/admin/
+
+# Instalar solo dependencias de producción (saltar scripts de prepare)
+RUN pnpm install --prod --frozen-lockfile --ignore-scripts
+
+# Copiar archivos compilados y públicos
+COPY --from=builder /app/apps/admin/.next/standalone ./
+COPY --from=builder /app/apps/admin/.next/static ./apps/admin/.next/static
+COPY --from=builder /app/apps/admin/public ./apps/admin/public
+COPY apps/admin/.env ./apps/admin/.env
+
+# Cambiar ownership al usuario nextjs
+RUN chown -R nextjs:nodejs /app
+USER nextjs
+
+# Exponer puerto
+EXPOSE 3001
+
+# Variables de entorno
+ENV PORT 3001
+ENV HOSTNAME "0.0.0.0"
+
+# Comando por defecto
+WORKDIR /app
+CMD ["node", "apps/admin/server.js"]

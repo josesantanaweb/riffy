@@ -45,7 +45,7 @@ const Sidebar: React.FC = () => {
   }, [isMobileSidebarOpen, setMobileSidebarOpen]);
 
   const desktopSidebarClasses = clsx(
-    'bg-base-700 h-full transition-all duration-300 pt-10 flex-shrink-0 hidden lg:block',
+    'bg-base-700 h-full transition-all duration-300 pt-10 flex-shrink-0 hidden lg:block relative z-10',
     collapseSidebar ? 'w-[80px]' : 'w-[230px]',
   );
 
@@ -80,7 +80,7 @@ const Sidebar: React.FC = () => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden"
+            className="fixed inset-0 bg-black bg-opacity-50 z-50 lg:hidden"
           />
         )}
       </AnimatePresence>
@@ -93,7 +93,7 @@ const Sidebar: React.FC = () => {
             animate={{ x: 0 }}
             exit={{ x: '-100%' }}
             transition={{ duration: 0.3, ease: 'easeInOut' }}
-            className="fixed left-0 top-0 w-[280px] h-screen bg-base-700 z-50 lg:hidden lg:pt-4"
+            className="fixed left-0 top-0 w-[280px] h-screen bg-base-700 lg:hidden lg:pt-4 z-50"
           >
             <div className="flex items-center justify-between pr-3 pl-6 py-2 lg:py-0 mb-4">
               <Logo className="w-[64px]" src={ASSETS.IMAGES.LOGO} />

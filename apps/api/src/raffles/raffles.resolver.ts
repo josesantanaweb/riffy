@@ -28,19 +28,6 @@ export class RafflesResolver {
   }
 
   /**
-   * Obtiene todas las rifas registradas por un owner.
-   * Retorna: Un array de objetos Raffle
-   * @param domain del owner
-   * @returns Un array de objetos Raffle
-   */
-  @Query(() => [Raffle], { name: 'rafflesByDomain' })
-  findByDomain(
-    @Args('domain', { type: () => String }) domain: string,
-  ): Promise<Raffle[]> {
-    return this.rafflesService.findAll(undefined, domain);
-  }
-
-  /**
    * Obtiene una rifa por su ID.
    * No necesita autenticación
    * @param id ID de la rifa a buscar

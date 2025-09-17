@@ -66,7 +66,6 @@ const LoginForm = () => {
         <div className="w-full">
           <Input
             label="Correo electrónico"
-            isRequired
             placeholder="Ej: juan@correo.com"
             inputSize="lg"
             value={watch('email') || ''}
@@ -78,7 +77,6 @@ const LoginForm = () => {
         <div className="w-full">
           <Input
             label="Contraseña"
-            isRequired
             type={showPassword ? 'text' : 'password'}
             icon={showPassword ? 'show' : 'hide'}
             iconPosition="right"
