@@ -8,7 +8,9 @@ export const paymentSchema = z.object({
   email: z.string().email('El correo electrónico es inválido'),
   paymentMethod: z.string().min(1, 'El método de pago es requerido'),
   proofUrl: z.string().optional(),
-  proofFile: z.instanceof(File, { message: 'Debe subir una imagen del comprobante de pago' }),
+  proofFile: typeof File !== 'undefined'
+    ? z.instanceof(File, { message: 'Debe subir una imagen del comprobante de pago' })
+    : z.any().refine(() => false, { message: 'Debe subir una imagen del comprobante de pago' }),
 });
 
 export type FormData = z.infer<typeof paymentSchema>;
