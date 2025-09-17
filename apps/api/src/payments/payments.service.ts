@@ -96,16 +96,53 @@ export class PaymentsService {
   }
 
   /**
-   * Actualiza el estado de un payment.
+   * Actualiza el estado de un payment y los tickets asociados.
    * @param id ID del payment a actualizar
    * @param status Nuevo estado del payment
    * @returns El payment actualizado
    */
   async updateStatus(id: string, status: PaymentStatus): Promise<Payment> {
-    await this.findOne(id);
-    return await this.prisma.payment.update({
-      where: { id },
-      data: { status },
+    const payment = await this.findOne(id);
+
+    return await this.prisma.$transaction(async (tx) => {
+      const updatedPayment = await tx.payment.update({
+        where: { id },
+        data: { status },
+        include: {
+          tickets: true,
+        },
+      });
+
+      if (payment.tickets && payment.tickets.length > 0) {
+        const ticketIds = payment.tickets.map((ticket) => ticket.id);
+
+        if (status === PaymentStatus.DENIED) {
+          await tx.ticket.updateMany({
+            where: {
+              id: {
+                in: ticketIds,
+              },
+            },
+            data: {
+              status: TicketStatus.AVAILABLE,
+              paymentId: null,
+            },
+          });
+        } else if (status === PaymentStatus.VERIFIED) {
+          await tx.ticket.updateMany({
+            where: {
+              id: {
+                in: ticketIds,
+              },
+            },
+            data: {
+              status: TicketStatus.SOLD,
+            },
+          });
+        }
+      }
+
+      return updatedPayment;
     });
   }
 

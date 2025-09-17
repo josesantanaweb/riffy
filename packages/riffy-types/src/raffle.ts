@@ -35,7 +35,6 @@ export interface CreateRaffleInput {
   totalTickets: number;
   status?: string;
   description?: string;
-  ownerId: string;
 }
 
 export type UpdateRaffleInput = Partial<CreateRaffleInput>;

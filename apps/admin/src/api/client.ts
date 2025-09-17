@@ -10,18 +10,28 @@ import { tokenStorage } from '@/utils/tokenStorage';
 import { createAuthLink } from '@/lib/apollo-auth-link';
 
 export function makeClient(): ApolloClient<InMemoryCache> {
+  const getGraphQLUri = () => {
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
+    return `${apiUrl}/graphql`;
+  };
+
   const httpLink = new HttpLink({
-    uri: `${process.env.NEXT_PUBLIC_API_URL}/graphql`,
+    uri: getGraphQLUri(),
     fetchOptions: { cache: 'no-store' },
   });
 
   const { authLink, errorLink } = createAuthLink();
 
+  const getWebSocketUri = () => {
+    const apiUrl = process.env.NEXT_PUBLIC_API_WS_URL || process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
+    return `${apiUrl.replace('http', 'ws')}/graphql`;
+  };
+
   const wsLink =
     typeof window !== 'undefined'
       ? new GraphQLWsLink(
           createClient({
-            url: `${process.env.NEXT_PUBLIC_API_WS_URL}/graphql`,
+            url: getWebSocketUri(),
             connectionParams: async () => {
               const token = tokenStorage.getAccessToken();
               return {

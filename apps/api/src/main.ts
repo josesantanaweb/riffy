@@ -11,22 +11,26 @@ async function bootstrap(): Promise<void> {
   app.use(express.json({ limit: '100mb' }));
   app.use(express.urlencoded({ limit: '100mb', extended: true }));
 
-  app.enableCors({
-    origin: (
-      _origin: string | undefined,
-      callback: (err: Error | null, allow?: boolean) => void,
-    ) => {
-      callback(null, true);
-    },
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    credentials: true,
-    allowedHeaders: [
-      'Content-Type',
-      'Authorization',
-      'On-behalf-of',
-      'x-sg-elas-acl',
-    ],
-  });
+  const isProduction = process.env.NODE_ENV === 'production';
+
+  if (!isProduction) {
+    app.enableCors({
+      origin: (
+        _origin: string | undefined,
+        callback: (err: Error | null, allow?: boolean) => void,
+      ) => {
+        callback(null, true);
+      },
+      methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+      credentials: true,
+      allowedHeaders: [
+        'Content-Type',
+        'Authorization',
+        'On-behalf-of',
+        'x-sg-elas-acl',
+      ],
+    });
+  }
 
   app.useGlobalPipes(
     new ValidationPipe({

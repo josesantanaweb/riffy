@@ -8,24 +8,23 @@ datasource db {
 }
 
 model User {
-  id         String     @id @default(cuid())
-  email      String     @unique
-  password   String
-  name       String
-  domain     String     @unique
-  phone      String?
-  logo       String?
-  instagram  String?
-  whatsapp   String?
-  tiktok     String?
-  status     UserStatus @default(ACTIVE)
-  brandColor String?    @default("00D4FF")
-  createdAt  DateTime   @default(now())
-  updatedAt  DateTime   @updatedAt
-
+  id             String          @id @default(cuid())
+  email          String          @unique
+  password       String
+  name           String
+  phone          String?
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
   role           Role            @default(OWNER)
-  raffles        Raffle[]
+  brandColor     String?         @default("00D4FF")
+  logo           String?
+  status         UserStatus      @default(ACTIVE)
+  instagram      String?
+  tiktok         String?
+  whatsapp       String?
+  domain         String          @unique
   paymentMethods PaymentMethod[]
+  raffles        Raffle[]
 }
 
 model Raffle {
@@ -35,65 +34,55 @@ model Raffle {
   banner       String
   totalTickets Int          @default(100)
   price        Float
-  award        Float
-  status       RaffleStatus @default(ACTIVE)
-  drawDate     DateTime     @default(dbgenerated("(now() + interval '15 days')"))
+  drawDate     DateTime     @default(dbgenerated("(now() + '15 days'::interval)"))
   createdAt    DateTime     @default(now())
   updatedAt    DateTime     @updatedAt
-
-  ownerId String
-  owner   User     @relation(fields: [ownerId], references: [id], onDelete: Cascade)
-  tickets Ticket[]
+  ownerId      String
+  award        Float
+  status       RaffleStatus @default(ACTIVE)
+  owner        User         @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  tickets      Ticket[]
 }
 
 model Ticket {
-  id     String       @id @default(cuid())
-  number String
-  status TicketStatus @default(AVAILABLE)
-
-  raffleId String
-  raffle   Raffle @relation(fields: [raffleId], references: [id], onDelete: Cascade)
-
+  id        String       @id @default(cuid())
+  number    String
+  status    TicketStatus @default(AVAILABLE)
+  raffleId  String
   paymentId String?
-  payment   Payment? @relation(fields: [paymentId], references: [id], onDelete: SetNull)
+  payment   Payment?     @relation(fields: [paymentId], references: [id])
+  raffle    Raffle       @relation(fields: [raffleId], references: [id], onDelete: Cascade)
 }
 
 model Payment {
   id            String        @id @default(cuid())
   buyerName     String
   phone         String
-  nationalId    String?
   state         String?
-  amount        Float?
   proofUrl      String
   paymentDate   DateTime      @default(now())
-  paymentMethod String?
   status        PaymentStatus @default(PENDING)
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  tickets Ticket[]
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  paymentMethod String?
+  nationalId    String?
+  amount        Float?
+  tickets       Ticket[]
 }
 
 model PaymentMethod {
-  id   String            @id @default(cuid())
-  name String
-  type PaymentMethodType
-
+  id          String            @id @default(cuid())
+  name        String
+  type        PaymentMethodType
   bankName    String?
   phoneNumber String?
   nationalId  String?
-
-  binanceId String?
-
+  binanceId   String?
   paypalEmail String?
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  ownerId String
-  owner   User   @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+  ownerId     String
+  owner       User              @relation(fields: [ownerId], references: [id], onDelete: Cascade)
 }
 
 enum PaymentStatus {

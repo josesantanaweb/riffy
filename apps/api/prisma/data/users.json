@@ -1,0 +1,26 @@
+[
+  {
+    "name": "demo",
+    "domain": "demo.com",
+    "email": "demo@riffy.com",
+    "password": "12345678",
+    "role": "OWNER",
+    "logo": "/images/logo.png",
+    "brandColor": "00d4ff",
+    "whatsapp": "4126475918",
+    "tiktok": "demo",
+    "instagram": "demo"
+  },
+  {
+    "name": "admin",
+    "domain": "admin.com",
+    "email": "admin@riffy.com",
+    "password": "12345678",
+    "role": "ADMIN",
+    "logo": "/images/logo.png",
+    "brandColor": "00d4ff",
+    "whatsapp": "4126475918",
+    "tiktok": "admin",
+    "instagram": "admin"
+  }
+]

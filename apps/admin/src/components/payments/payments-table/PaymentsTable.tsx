@@ -4,6 +4,7 @@ import { ColumnDef } from '@tanstack/react-table';
 import { Badge, Icon } from '@riffy/components';
 import DataTable from '@/components/common/data-table';
 import { TableAction, TableButton } from '@/components/common/data-table/types';
+import PaymentProof from '../payment-proof/PaymentProof';
 import {
   createColumn,
   TABLE_CLASSES,
@@ -15,7 +16,6 @@ import { Payment, PaymentStatus, Ticket } from '@riffy/types';
 
 interface PaymentsTableProps {
   data: Payment[];
-  onView?: (payment: Payment) => void;
   onMarkAsVerified?: (payment: Payment) => void;
   onMarkAsDenied?: (payment: Payment) => void;
   onDownload?: () => void;
@@ -23,7 +23,6 @@ interface PaymentsTableProps {
 
 const PaymentsTable = ({
   data,
-  onView,
   onMarkAsVerified,
   onMarkAsDenied,
   onDownload,
@@ -74,6 +73,18 @@ const PaymentsTable = ({
     createColumn('paymentMethod', 'Metodo de Pago'),
     createDateColumn('paymentDate', 'Fecha de Pago'),
     {
+      accessorKey: 'proofUrl',
+      header: 'Comprobante',
+      cell: info => {
+        const proofUrl = info.getValue() as string;
+        return <PaymentProof proofUrl={proofUrl} />;
+      },
+      meta: {
+        className: TABLE_CLASSES.cell,
+        headerClassName: TABLE_CLASSES.header,
+      },
+    },
+    {
       accessorKey: 'phone',
       header: 'Whatsaap',
       cell: info => {
@@ -95,7 +106,9 @@ const PaymentsTable = ({
       header: 'Estado',
       cell: info => (
         <Badge
-          status={mapPaymentStatusToStatusType(info.getValue() as PaymentStatus)}
+          status={mapPaymentStatusToStatusType(
+            info.getValue() as PaymentStatus,
+          )}
           label={mapPaymentStatusToLabel(info.getValue() as string)}
         />
       ),
@@ -107,15 +120,6 @@ const PaymentsTable = ({
   ];
 
   const actions: TableAction<Payment>[] = [
-    ...(onView
-      ? [
-          {
-            label: 'Ver Comprobante',
-            icon: 'search',
-            onClick: onView,
-          },
-        ]
-      : []),
     ...(onMarkAsVerified
       ? [
           {

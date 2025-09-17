@@ -1,23 +1,18 @@
 'use client';
 import PaymentsTable from './payments-table/PaymentsTable';
-import { useRouter } from 'next/navigation';
 import { usePayments } from '@riffy/hooks';
 import { useToast } from '@/hooks';
-import { ROUTES } from '@/constants';
 import { useUpdatePaymentStatus } from '@riffy/hooks';
-import { Payment, PaymentStatus } from '@riffy/types';
+import { PaymentStatus } from '@riffy/types';
+import { Payment } from '@riffy/types';
 import PageHeader from '@/components/common/page-header';
 
 const PaymentsPage = () => {
-  const router = useRouter();
   const toast = useToast();
   const { data } = usePayments();
   const { updatePaymentStatus } = useUpdatePaymentStatus();
 
-  const handleView = (payment: Payment) =>
-    router.push(ROUTES.TICKETS.LIST(payment.id));
-
-  const handleUpdatePaymentStatus = (payment: Payment, newStatus: PaymentStatus) => {
+  const handleUpdatePaymentStatus = async (payment: Payment, newStatus: PaymentStatus) => {
     if (payment.status === newStatus) return;
 
     const statusMessages = {
@@ -37,11 +32,10 @@ const PaymentsPage = () => {
 
     if (confirm(messages.confirm)) {
       try {
-        updatePaymentStatus(payment.id, newStatus);
+        await updatePaymentStatus(payment.id, newStatus);
         toast.success(messages.success);
       } catch (error) {
-        // eslint-disable-next-line no-console
-        console.error(error);
+        console.error('Error updating payment status:', error);
         toast.error(messages.error);
       }
     }
@@ -58,7 +52,6 @@ const PaymentsPage = () => {
         {data && (
           <PaymentsTable
             data={data}
-            onView={handleView}
             onDownload={handleDownload}
             onMarkAsVerified={(payment) => handleUpdatePaymentStatus(payment, PaymentStatus.VERIFIED)}
             onMarkAsDenied={(payment) => handleUpdatePaymentStatus(payment, PaymentStatus.DENIED)}
