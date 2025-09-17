@@ -18,7 +18,7 @@ interface RaffleCardProps {
 
 const RaffleCard = ({ raffle, loading }: RaffleCardProps): ReactElement => {
   const router = useRouter();
-  const isCompleted = raffle.status === RaffleStatus.COMPLETED;
+  const isCompleted = raffle?.status === RaffleStatus.COMPLETED;
 
   const handleBuyTicket = () => router.push(ROUTES.RAFFLES.RAFFLE(raffle.id));
 

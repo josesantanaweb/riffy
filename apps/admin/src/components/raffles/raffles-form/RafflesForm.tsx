@@ -25,7 +25,6 @@ const DEFAULT_VALUES: FormData = {
   bannerFile: null,
 };
 
-const OWNER_ID = 'cmf1myuv20000fmqj1lgf2end';
 const DEFAULT_BANNER = '/images/banner.png';
 
 const RafflesForm = () => {
@@ -99,7 +98,6 @@ const RafflesForm = () => {
         drawDate: new Date(drawDate).toISOString(),
         status,
         description,
-        ownerId: OWNER_ID,
         banner: finalBannerUrl,
       };
 

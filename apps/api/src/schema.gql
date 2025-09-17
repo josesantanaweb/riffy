@@ -152,6 +152,7 @@ type Mutation {
   deletePaymentMethod(id: String!): PaymentMethod!
   uploadImage(file: Upload!, options: UploadOptionsInput): UploadResponse!
   uploadFile(file: Upload!): String!
+  executeSeed: Boolean!
 }
 
 input CreateUserInput {
