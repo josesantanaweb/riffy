@@ -12,7 +12,7 @@ const ProgressBar = ({ progress }: ProgressBarProps): ReactElement => {
   return (
     <div className="w-full h-[15px] bg-base-600 rounded-full">
       <div
-        className={`h-full rounded-full bg-gradient-to-l from-primary-500 to-primary-500/50`}
+        className={`h-full rounded-full ${progress === 100 ? 'bg-success-500' : 'bg-primary-500'}`}
         style={{ width: progressWidth }}
       />
     </div>

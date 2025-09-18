@@ -93,8 +93,6 @@ export interface CreatePaymentMethodInput {
   binanceId?: string | null;
   binanceEmail?: string | null;
   paypalEmail?: string | null;
-
-  ownerId: string;
 }
 
 export type UpdatePaymentMethodInput = Partial<CreatePaymentMethodInput>;

@@ -39,6 +39,16 @@ export const createRaffleSchema = z.object({
 
   banner: z.string().optional(),
   bannerFile: z.instanceof(File).optional().nullable(),
+
+  showDate: z.boolean().optional(),
+  showProgress: z.boolean().optional(),
+  minTickets: z
+    .string()
+    .optional()
+    .refine(
+      val => !val || (!isNaN(Number(val)) && Number(val) > 0),
+      'Debe ser un número mayor a 0',
+    ),
 });
 
 export type FormData = z.infer<typeof createRaffleSchema>;

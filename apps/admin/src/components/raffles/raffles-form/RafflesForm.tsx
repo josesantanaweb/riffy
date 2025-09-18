@@ -23,6 +23,9 @@ const DEFAULT_VALUES: FormData = {
   description: '',
   banner: '',
   bannerFile: null,
+  showDate: true,
+  showProgress: true,
+  minTickets: '2',
 };
 
 const DEFAULT_BANNER = '/images/banner.png';
@@ -38,9 +41,8 @@ const RafflesForm = () => {
 
   const {
     handleSubmit,
-    formState: { errors, isValid, isSubmitting },
+    formState: { isValid, isSubmitting },
     reset,
-    watch,
   } = methods;
 
   const router = useRouter();
@@ -66,13 +68,16 @@ const RafflesForm = () => {
       description: raffleData.description || '',
       banner: raffleData.banner || '',
       bannerFile: null,
+      showDate: raffleData.showDate ?? true,
+      showProgress: raffleData.showProgress ?? true,
+      minTickets: String(raffleData.minTickets ?? 2),
     });
   }, [raffleData, reset]);
 
   const handleBack = useCallback(() => router.back(), [router]);
 
   const onSubmit = async (data: FormData) => {
-    const { title, status, description, price, award, totalTickets, drawDate, bannerFile } =
+    const { title, status, description, price, award, totalTickets, drawDate, bannerFile, showDate, showProgress, minTickets } =
       data;
 
     try {
@@ -82,8 +87,7 @@ const RafflesForm = () => {
         setIsUploadingImage(true);
         try {
           finalBannerUrl = await uploadImageToS3(bannerFile, { folder: 'raffles' });
-        } catch (uploadError) {
-          console.error('Error subiendo imagen:', uploadError);
+        } catch {
           finalBannerUrl = DEFAULT_BANNER;
         } finally {
           setIsUploadingImage(false);
@@ -99,6 +103,9 @@ const RafflesForm = () => {
         status,
         description,
         banner: finalBannerUrl,
+        showDate: showDate ?? true,
+        showProgress: showProgress ?? true,
+        minTickets: minTickets ? Number(minTickets) : 2,
       };
 
       if (isUpdating && raffleData?.id) {
@@ -110,8 +117,7 @@ const RafflesForm = () => {
       }
 
       router.push(ROUTES.RAFFLES.LIST);
-    } catch (error) {
-      console.error('Error guardando rifa:', error);
+    } catch {
       toast.error('Error guardando rifa');
     }
   };

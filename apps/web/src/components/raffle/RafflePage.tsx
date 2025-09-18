@@ -50,7 +50,7 @@ const RafflePage = (): ReactElement => {
           <Alert
             message={formatDate(raffle?.drawDate)}
             icon="calendar"
-            type="info"
+            type="default"
           />
         )}
 
