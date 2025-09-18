@@ -2,26 +2,6 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type PaymentMethod {
-  id: ID!
-  name: String!
-  type: String!
-  bankName: String
-  phoneNumber: String
-  nationalId: String
-  binanceId: String
-  paypalEmail: String
-  createdAt: DateTime!
-  updatedAt: DateTime!
-  owner: User
-  ownerId: String
-}
-
-"""
-A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
-"""
-scalar DateTime
-
 type Payment {
   id: ID!
   buyerName: String!
@@ -36,6 +16,11 @@ type Payment {
   tickets: [Ticket!]
 }
 
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
 """The status of the payment"""
 enum PaymentStatus {
   PENDING
@@ -48,6 +33,29 @@ type Ticket {
   number: String!
   status: String
   payment: Payment
+}
+
+type PurchaseResult {
+  raffleId: String!
+  buyerId: String!
+  tickets: [Ticket!]!
+  totalPaid: Float!
+  message: String!
+}
+
+type PaymentMethod {
+  id: ID!
+  name: String!
+  type: String!
+  bankName: String
+  phoneNumber: String
+  nationalId: String
+  binanceId: String
+  paypalEmail: String
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  owner: User
+  ownerId: String
 }
 
 type Raffle {
@@ -143,6 +151,7 @@ type Mutation {
   createTicket(input: CreateTicketInput!): Ticket!
   updateTicket(id: String!, input: UpdateTicketInput!): Ticket!
   deleteTicket(id: String!): Ticket!
+  purchaseTickets(input: PurchaseTicketsInput!): PurchaseResult!
   createPayment(input: CreatePaymentInput!): Payment!
   updatePayment(id: String!, input: UpdatePaymentInput!): Payment!
   updatePaymentStatus(id: String!, status: PaymentStatus!): Payment!
@@ -235,6 +244,11 @@ input UpdateTicketInput {
   number: String
   raffleId: String
   status: TicketStatus
+}
+
+input PurchaseTicketsInput {
+  raffleId: String!
+  quantity: Int!
 }
 
 input CreatePaymentInput {

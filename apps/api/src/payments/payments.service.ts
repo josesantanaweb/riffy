@@ -1,13 +1,19 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, Logger } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { Payment } from './entities/payment.entity';
 import { CreatePaymentInput } from './inputs/create-payment.input';
 import { UpdatePaymentInput } from './inputs/update-payment.input';
 import { PaymentStatus, TicketStatus } from '@prisma/client';
+import { MailService } from '../mail/mail.service';
 
 @Injectable()
 export class PaymentsService {
-  constructor(private prisma: PrismaService) {}
+  private readonly logger = new Logger(PaymentsService.name);
+
+  constructor(
+    private prisma: PrismaService,
+    private mailService: MailService,
+  ) {}
 
   /**
    * Obtiene todos los payments registradas en la base de datos.
@@ -73,10 +79,64 @@ export class PaymentsService {
       return await tx.payment.findUnique({
         where: { id: newPayment.id },
         include: {
-          tickets: true,
+          tickets: { include: { raffle: { include: { owner: true } } } },
         },
       });
     });
+
+    // After successful transaction, send notifications (best-effort)
+    try {
+      const buyerEmail = (payment as any)?.buyerEmail ?? null;
+      const buyerName = (payment as any)?.buyerName ?? payment.buyerName;
+      const ticketNumbers: string[] = (payment.tickets || []).map(
+        (t) => (t as any).number,
+      );
+      const raffle =
+        payment.tickets && payment.tickets.length > 0
+          ? (payment.tickets[0] as any).raffle
+          : null;
+      const raffleTitle = raffle?.title ?? 'Rifa';
+      const raffleUrl = `${process.env.APP_URL || 'http://localhost:3000'}/raffles/${raffle?.id ?? ''}`;
+      const totalPaid = Number(payment.amount || 0);
+      const purchaseDate = new Date().toISOString();
+
+      // Send buyer email if we have an email
+      if (buyerEmail) {
+        await this.mailService.sendPurchaseBuyer({
+          to: buyerEmail,
+          raffleTitle,
+          ticketNumbers,
+          price: Number(payment.amount || 0),
+          totalPaid,
+          buyerName,
+          purchaseDate,
+          raffleUrl,
+        });
+      }
+
+      // Send seller email (raffle owner)
+      const sellerEmail = raffle?.owner?.email;
+      const sellerName = raffle?.owner?.name ?? 'Vendedor';
+      if (sellerEmail) {
+        await this.mailService.sendPurchaseSeller({
+          to: sellerEmail,
+          raffleTitle,
+          ticketNumbers,
+          price: Number(payment.amount || 0),
+          totalPaid,
+          buyerName,
+          sellerName,
+          purchaseDate,
+          raffleUrl,
+        });
+      }
+    } catch (mailErr) {
+      const msg =
+        mailErr && typeof mailErr === 'object' && 'message' in mailErr
+          ? (mailErr as any).message
+          : String(mailErr);
+      this.logger.error('Error sending purchase emails: ' + msg);
+    }
 
     return payment;
   }
