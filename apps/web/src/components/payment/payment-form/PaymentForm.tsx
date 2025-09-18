@@ -13,14 +13,7 @@ import { useToast } from '@/hooks';
 import { useRouter } from 'next/navigation';
 import { ROUTES } from '@/constants';
 import { uploadImageToS3 } from '@/utils/imageUpload';
-
-const stateOptions = [
-  { value: 'Caracas', label: 'Caracas' },
-  { value: 'Trujillo', label: 'Trujillo' },
-  { value: 'Barinas', label: 'Barinas' },
-  { value: 'Mérida', label: 'Mérida' },
-  { value: 'Portuguesa', label: 'Portuguesa' },
-];
+import { stateOptions } from './states';
 
 const PaymentForm = (): ReactElement => {
   const [isUploadingImage, setIsUploadingImage] = useState(false);

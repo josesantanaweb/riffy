@@ -43,6 +43,9 @@ export const RAFFLES_FRAGMENT = gql`
     id
     title
     description
+    showDate
+    showProgress
+    minTickets
     totalTickets
     price
     award
