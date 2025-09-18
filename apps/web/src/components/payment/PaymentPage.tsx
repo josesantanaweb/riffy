@@ -13,7 +13,7 @@ const PaymentPage = (): ReactElement => {
       <Alert
         message="¿Ya has compradodo antes?"
         icon="info-circle"
-        type="info"
+        type="warning"
       />
 
       <PaymentForm />

@@ -25,7 +25,7 @@ const LoginForm = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const toast = useToast();
-  const { login, loginLoading } = useAuth();
+  const { login } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
 
   const redirectUrl = searchParams.get('redirect') || '/';
@@ -95,7 +95,7 @@ const LoginForm = () => {
             size="lg"
             type="submit"
             isFull
-            disabled={loginLoading || !isValid}
+            disabled={!isValid}
           >
             Iniciar sesión
           </Button>

@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useFormContext } from 'react-hook-form';
 import { Icon, Input, Select, Editor, DateInput } from '@riffy/components';
 import type { FormData } from '@/validations/raffleSchema';
+import Switch from '@/components/common/switch';
 
 interface FormInformationProps {
   isUpdating?: boolean;
@@ -143,11 +144,33 @@ const FormInformation = ({ isUpdating = false }: FormInformationProps) => {
                 </div>
               </div>
 
-              <Editor
-                label="Descripción"
-                value={descriptionValue}
-                setValue={handleDescriptionChange}
-              />
+              <div className="flex gap-4 items-center w-full flex-wrap lg:flex-nowrap">
+                <div className="w-full">
+                  <Editor
+                    label="Descripción"
+                    value={descriptionValue}
+                    setValue={handleDescriptionChange}
+                  />
+                </div>
+              </div>
+
+              <div className="flex gap-4 items-center w-full flex-wrap lg:flex-nowrap">
+                <div className="w-full lg:w-1/2 flex items-center gap-10">
+                     <Switch
+                       checked={formValues.showDate || false}
+                       onChange={value => setValue('showDate', value, { shouldValidate: false })}
+                       label="Mostrar fecha"
+                     />
+                  <Switch
+                    checked={formValues.showProgress || false}
+                    onChange={value =>
+                      setValue('showProgress', value, { shouldValidate: false })
+                    }
+                    label="Mostrar progreso"
+                  />
+                </div>
+                <div className="w-full lg:w-1/2">1</div>
+              </div>
             </div>
           </motion.div>
         )}

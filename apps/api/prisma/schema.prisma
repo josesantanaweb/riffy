@@ -35,6 +35,9 @@ model Raffle {
   totalTickets Int          @default(100)
   price        Float
   drawDate     DateTime     @default(dbgenerated("(now() + '15 days'::interval)"))
+  showDate     Boolean?     @default(true)
+  showProgress Boolean?     @default(true)
+  minTickets   Int?         @default(2)
   createdAt    DateTime     @default(now())
   updatedAt    DateTime     @updatedAt
   ownerId      String

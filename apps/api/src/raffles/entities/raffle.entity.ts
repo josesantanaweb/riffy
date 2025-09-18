@@ -30,6 +30,15 @@ export class Raffle {
   status: RaffleStatus;
 
   @Field({ nullable: true })
+  showDate?: boolean;
+
+  @Field({ nullable: true })
+  showProgress?: boolean;
+
+  @Field({ nullable: true })
+  minTickets?: number;
+
+  @Field({ nullable: true })
   available?: number;
 
   @Field({ nullable: true })

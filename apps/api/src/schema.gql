@@ -59,6 +59,9 @@ type Raffle {
   price: Float!
   award: Float!
   status: String!
+  showDate: Boolean
+  showProgress: Boolean
+  minTickets: Float
   available: Float
   sold: Float
   progress: Float
@@ -194,6 +197,9 @@ input CreateRaffleInput {
   banner: String!
   totalTickets: Int!
   price: Int!
+  showDate: Boolean
+  showProgress: Boolean
+  minTickets: Int
   award: Int!
   status: RaffleStatus
   drawDate: DateTime!
@@ -212,6 +218,9 @@ input UpdateRaffleInput {
   banner: String
   totalTickets: Int
   price: Int
+  showDate: Boolean
+  showProgress: Boolean
+  minTickets: Int
   award: Int
   status: RaffleStatus
   drawDate: DateTime
