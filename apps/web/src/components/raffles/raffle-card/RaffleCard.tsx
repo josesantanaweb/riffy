@@ -36,7 +36,7 @@ const RaffleCard = ({ raffle, loading }: RaffleCardProps): ReactElement => {
         <Alert
           message={!isCompleted ? formatDate(raffle.drawDate) : 'Completada'}
           icon="calendar"
-          type={!isCompleted ? undefined : 'success'}
+          type={!isCompleted ? 'default' : 'success'}
         />
 
         <RaffleProgress raffle={raffle} />
