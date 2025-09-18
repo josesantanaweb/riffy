@@ -1,0 +1,19 @@
+[
+  {
+    "name": "Pago Móvil",
+    "type": "PAGO_MOVIL",
+    "bankName": "Banco Venezuela",
+    "phoneNumber": "1234567890",
+    "nationalId": "1234567890"
+  },
+  {
+    "name": "Binance Pay",
+    "type": "BINANCE_PAY",
+    "binanceId": "1234567890"
+  },
+  {
+    "name": "PayPal",
+    "type": "PAYPAL",
+    "paypalEmail": "demo@riffy.com"
+  }
+]

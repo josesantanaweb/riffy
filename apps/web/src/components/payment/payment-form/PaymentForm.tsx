@@ -178,17 +178,6 @@ const PaymentForm = (): ReactElement => {
             disabled={isLoading || !paymentMethodsLoaded}
           />
 
-          {!isLoading && !paymentMethodsLoaded && (
-            <div className="w-full border border-yellow-500 rounded-lg p-3 flex flex-col gap-2 my-2">
-              <div className="text-center text-yellow-300">
-                <p className="text-sm">⚠️ No hay métodos de pago configurados</p>
-                <p className="text-xs text-base-300 mt-1">
-                  Por favor, contacta al administrador para configurar métodos de pago.
-                </p>
-              </div>
-            </div>
-          )}
-
           {watch('paymentMethod') && user?.paymentMethods && (
             <PaymentMethod
               paymentMethod={user.paymentMethods.find(pm => pm.name === watch('paymentMethod'))}
