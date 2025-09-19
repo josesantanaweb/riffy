@@ -14,7 +14,7 @@ module.exports = {
     },
     {
       name: 'web',
-      script: 'apps/web/.next/standalone/server.js',
+      script: '.next/standalone/server.js',
       cwd: 'apps/web',
       instances: 1,
       autorestart: true,
@@ -28,7 +28,7 @@ module.exports = {
     },
     {
       name: 'admin',
-      script: 'apps/admin/.next/standalone/server.js',
+      script: '.next/standalone/server.js',
       cwd: 'apps/admin',
       instances: 1,
       autorestart: true,
