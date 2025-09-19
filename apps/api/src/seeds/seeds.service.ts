@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { loadJson } from '../utils/loadJson';
 import { hash } from 'argon2';
@@ -43,7 +43,24 @@ interface RaffleSeedData {
 
 @Injectable()
 export class SeedsService {
+  private readonly logger = new Logger(SeedsService.name);
+
   constructor(private readonly prisma: PrismaService) {}
+
+  async checkUsers(): Promise<
+    Array<{
+      id: string;
+      name: string;
+      domain: string;
+      email: string;
+      role: Role;
+    }>
+  > {
+    const users = await this.prisma.user.findMany({
+      select: { id: true, name: true, domain: true, email: true, role: true },
+    });
+    return users;
+  }
 
   async executeSeed(): Promise<boolean> {
     await this.deleteDatabase();
@@ -52,8 +69,9 @@ export class SeedsService {
       await this.seedUsers();
       await this.seedPaymentMethods();
       await this.seedRaffles();
-    } catch {
-      //
+    } catch (error) {
+      this.logger.error('Error durante el seeding:', error);
+      throw error;
     }
 
     return true;
@@ -69,15 +87,24 @@ export class SeedsService {
   async seedUsers(): Promise<void> {
     const users = loadJson<UserSeedData[]>('users.json');
     for (const user of users) {
-      const { password, ...userData } = user;
-      const hashedPassword = await hash(password);
-      await this.prisma.user.create({
-        data: {
-          ...userData,
-          password: hashedPassword,
-          role: userData.role,
-        },
-      });
+      try {
+        const { password, ...userData } = user;
+        const hashedPassword = await hash(password);
+
+        await this.prisma.user.create({
+          data: {
+            ...userData,
+            password: hashedPassword,
+            role: userData.role,
+          },
+        });
+      } catch (error) {
+        this.logger.error(
+          `Error creando usuario ${user.name} (${user.domain}):`,
+          error,
+        );
+        throw error;
+      }
     }
   }
 
@@ -86,7 +113,12 @@ export class SeedsService {
       where: { domain: 'demo.com' },
     });
 
-    if (!demoUser) return;
+    if (!demoUser) {
+      this.logger.error(
+        'Usuario demo.com no encontrado para crear métodos de pago',
+      );
+      return;
+    }
 
     const paymentMethods = loadJson<PaymentMethodSeedData[]>(
       'payment-methods.json',
@@ -107,7 +139,10 @@ export class SeedsService {
       where: { domain: 'demo.com' },
     });
 
-    if (!demoUser) return;
+    if (!demoUser) {
+      this.logger.error('Usuario demo.com no encontrado para crear rifas');
+      return;
+    }
 
     const raffles = loadJson<RaffleSeedData[]>('raffles.json');
 
