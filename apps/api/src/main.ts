@@ -2,21 +2,14 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
-import * as express from 'express';
 
 async function bootstrap(): Promise<void> {
-  const app = await NestFactory.create(AppModule, {
-    bodyParser: false,
-  });
-
-  app.use(express.json({ limit: '100mb' }));
-  app.use(express.urlencoded({ limit: '100mb', extended: true }));
+  const app = await NestFactory.create(AppModule);
 
   app.setGlobalPrefix('api');
 
   const isProduction = process.env.NODE_ENV === 'production';
 
-  // Habilitar CORS tanto en desarrollo como en producción
   app.enableCors({
     origin: isProduction
       ? [
@@ -27,7 +20,7 @@ async function bootstrap(): Promise<void> {
       : (
           _origin: string | undefined,
           callback: (err: Error | null, allow?: boolean) => void,
-        ) => {
+        ): void => {
           callback(null, true);
         },
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
