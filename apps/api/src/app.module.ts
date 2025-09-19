@@ -33,13 +33,7 @@ import './enums/payment-method-type.enum';
       introspection: true,
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
       plugins: [ApolloServerPluginLandingPageLocalDefault({ footer: false })],
-      csrfPrevention: false,
       context: createGraphQLContext,
-      formatError: (error) => {
-        // eslint-disable-next-line no-console
-        console.error('GraphQL Error:', error);
-        return error;
-      },
     }),
     UsersModule,
     AuthModule,
