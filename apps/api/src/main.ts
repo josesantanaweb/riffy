@@ -13,24 +13,29 @@ async function bootstrap(): Promise<void> {
 
   const isProduction = process.env.NODE_ENV === 'production';
 
-  if (!isProduction) {
-    app.enableCors({
-      origin: (
-        _origin: string | undefined,
-        callback: (err: Error | null, allow?: boolean) => void,
-      ) => {
-        callback(null, true);
-      },
-      methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-      credentials: true,
-      allowedHeaders: [
-        'Content-Type',
-        'Authorization',
-        'On-behalf-of',
-        'x-sg-elas-acl',
-      ],
-    });
-  }
+  // Habilitar CORS tanto en desarrollo como en producción
+  app.enableCors({
+    origin: isProduction
+      ? [
+          'http://64.23.183.4:3000',
+          'http://64.23.183.4:3001',
+          'http://64.23.183.4',
+        ]
+      : (
+          _origin: string | undefined,
+          callback: (err: Error | null, allow?: boolean) => void,
+        ) => {
+          callback(null, true);
+        },
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true,
+    allowedHeaders: [
+      'Content-Type',
+      'Authorization',
+      'On-behalf-of',
+      'x-sg-elas-acl',
+    ],
+  });
 
   app.useGlobalPipes(
     new ValidationPipe({
