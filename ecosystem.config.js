@@ -14,7 +14,8 @@ module.exports = {
     },
     {
       name: 'web',
-      script: '.next/standalone/server.js',
+      script: 'node_modules/.bin/next',
+      args: 'start',
       cwd: 'apps/web',
       instances: 1,
       autorestart: true,
@@ -23,12 +24,11 @@ module.exports = {
       env: {
         NODE_ENV: 'production',
         PORT: 3000,
-        HOSTNAME: '0.0.0.0',
       },
     },
     {
       name: 'admin',
-      script: '.next/standalone/server.js',
+      script: '.next/standalone/apps/admin/server.js',
       cwd: 'apps/admin',
       instances: 1,
       autorestart: true,
