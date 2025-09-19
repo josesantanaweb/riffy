@@ -2,7 +2,8 @@ module.exports = {
   apps: [
     {
       name: 'api',
-      script: 'apps/api/dist/main.js',
+      script: 'dist/main.js',
+      cwd: 'apps/api',
       instances: 1,
       autorestart: true,
       watch: false,
@@ -14,8 +15,8 @@ module.exports = {
     },
     {
       name: 'web',
-      script: 'node_modules/.bin/next',
-      args: 'start',
+      script: 'npx',
+      args: 'next start',
       cwd: 'apps/web',
       instances: 1,
       autorestart: true,
