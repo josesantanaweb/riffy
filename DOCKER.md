@@ -48,7 +48,6 @@ AWS_S3_BUCKET=your-s3-bucket-name
 
 # URLs de las aplicaciones
 NEXT_PUBLIC_API_URL=http://localhost:4000
-NEXT_PUBLIC_GRAPHQL_ENDPOINT=http://localhost:4000/graphql
 ```
 
 ## Comandos de Docker
