@@ -37,6 +37,7 @@ export type IconName =
   | 'list'
   | 'copy'
   | 'time'
+  | 'logout'
   | 'dots';
 
 interface IconProps {

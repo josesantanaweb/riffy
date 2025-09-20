@@ -12,7 +12,7 @@ import { useAuth } from '@riffy/hooks';
 const LoginForm = () => {
   const methods = useForm<FormData>({
     resolver: zodResolver(loginSchema),
-    mode: 'onTouched',
+    mode: 'onChange',
   });
 
   const {
@@ -29,6 +29,10 @@ const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
 
   const redirectUrl = searchParams.get('redirect') || '/';
+
+  const email = watch('email');
+  const password = watch('password');
+
 
   const onSubmit = async (data: FormData) => {
     const { email, password } = data;
@@ -68,7 +72,7 @@ const LoginForm = () => {
             label="Correo electrónico"
             placeholder="Ej: juan@correo.com"
             inputSize="lg"
-            value={watch('email') || ''}
+            value={email}
             {...register('email')}
             error={errors.email?.message}
           />
@@ -83,7 +87,7 @@ const LoginForm = () => {
             placeholder="Ingresa tu contraseña"
             inputSize="lg"
             onIconClick={() => setShowPassword(!showPassword)}
-            value={watch('password') || ''}
+            value={password}
             {...register('password')}
             error={errors.password?.message}
           />

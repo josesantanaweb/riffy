@@ -7,6 +7,8 @@ import { Tooltip } from 'react-tooltip';
 import SidebarSubmenu from './SidebarSubmenu';
 import { Icon } from '@riffy/components';
 import { Item } from './types';
+import { useAuth } from '@riffy/hooks';
+import { ROUTES } from '@/constants/routes';
 
 interface SidebarItemProps {
   item: Item;
@@ -25,12 +27,17 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
 }) => {
   const router = useRouter();
   const pathname = usePathname();
+  const { logout } = useAuth();
 
   const isActive = item.path && pathname === item.path && !item.submenu;
 
   const handleClick = () => {
     if (item.submenu) {
       toggleDropdown(item.label);
+    } else if (item.path === ROUTES.LOGOUT) {
+      logout();
+      router.push('/login');
+      onItemClick?.();
     } else if (item.path) {
       router.push(item.path);
       onItemClick?.();
