@@ -143,7 +143,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
 
     return (
       <div
-        className={cn('gap-2 flex flex-col', fullWidth && 'w-full')}
+        className={cn('flex flex-col', fullWidth && 'w-full', label && 'gap-2')}
         onClick={onClick}
       >
         <label className="text-white text-sm">

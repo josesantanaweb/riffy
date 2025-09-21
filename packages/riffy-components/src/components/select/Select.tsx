@@ -119,7 +119,11 @@ const Select: React.FC<SelectProps> = ({
   return (
     <div
       ref={selectRef}
-      className={cn('relative gap-2 flex flex-col', fullWidth && 'w-full')}
+      className={cn(
+        'relative flex flex-col',
+        fullWidth && 'w-full',
+        label && 'gap-2',
+      )}
     >
       <label className="text-white text-sm">{label}</label>
       <div

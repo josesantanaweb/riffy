@@ -71,14 +71,14 @@ const RafflePage = (): ReactElement => {
         />
 
         <Alert
-          message="La compra minima es de 1 ticket "
+          message={`La compra minima es de ${raffle?.minTickets} tickets`}
           icon="info-circle"
           type="warning"
         />
 
         <Total totalTickets={selectedTickets.length} price={raffle?.price} />
 
-        <Button variant="primary" isFull disabled={selectedTickets.length < 2} onClick={handlePay}>
+        <Button variant="primary" isFull disabled={selectedTickets.length < raffle?.minTickets} onClick={handlePay}>
           Pagar
         </Button>
       </div>

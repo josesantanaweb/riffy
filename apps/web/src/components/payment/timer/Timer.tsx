@@ -6,18 +6,67 @@ import { useRouter } from 'next/navigation';
 import { ROUTES } from '@/constants';
 import { formatTime } from '@/utils';
 
+const TIMER_KEY = 'payment-timer';
+const TIMER_DURATION = 5 * 60;
+
 const Timer = (): ReactElement => {
   const router = useRouter();
-  const [timeLeft, setTimeLeft] = useState(5 * 60);
+  const [timeLeft, setTimeLeft] = useState(TIMER_DURATION);
+
+  const loadTimerFromStorage = (): number => {
+    if (typeof window === 'undefined') return TIMER_DURATION;
+
+    try {
+      const savedTimer = localStorage.getItem(TIMER_KEY);
+      if (savedTimer) {
+        const { timeLeft: savedTime, timestamp } = JSON.parse(savedTimer);
+        const elapsed = Math.floor((Date.now() - timestamp) / 1000);
+        const remainingTime = savedTime - elapsed;
+
+        if (remainingTime > 0) {
+          return remainingTime;
+        }
+      }
+    } catch {
+      //
+    }
+
+    return TIMER_DURATION;
+  };
+
+  const saveTimerToStorage = (time: number) => {
+    if (typeof window === 'undefined') return;
+
+    try {
+      const timerData = {
+        timeLeft: time,
+        timestamp: Date.now()
+      };
+      localStorage.setItem(TIMER_KEY, JSON.stringify(timerData));
+    } catch {
+      //
+    }
+  };
+
+  useEffect(() => {
+    const savedTime = loadTimerFromStorage();
+    setTimeLeft(savedTime);
+  }, []);
 
   useEffect(() => {
     const timer = setInterval(() => {
       setTimeLeft(prevTime => {
-        if (prevTime <= 1) {
+        const newTime = prevTime - 1;
+
+        saveTimerToStorage(newTime);
+
+        if (newTime <= 0) {
+          localStorage.removeItem(TIMER_KEY);
           router.push(ROUTES.RAFFLES.LIST);
           return 0;
         }
-        return prevTime - 1;
+
+        return newTime;
       });
     }, 1000);
 

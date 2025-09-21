@@ -129,6 +129,7 @@ type Query {
   ticket(id: String!): Ticket!
   payments: [Payment!]!
   payment(id: String!): Payment!
+  paymentByNationalId(nationalId: String!): Payment!
   paymentMethods: [PaymentMethod!]!
   paymentMethodsByDomain(domain: String!): [PaymentMethod!]!
   paymentMethod(id: String!): PaymentMethod!

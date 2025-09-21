@@ -12,7 +12,7 @@ interface S3UploadResponse {
 
 export const uploadImageToS3 = async (
   file: File,
-  options: UploadToS3Options = {}
+  options: UploadToS3Options = {},
 ): Promise<string> => {
   const formData = new FormData();
   formData.append('file', file);
@@ -22,7 +22,9 @@ export const uploadImageToS3 = async (
   }
 
   const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
-  const response = await fetch(`${apiUrl}/api/s3/upload`, {
+  // TODO: Remove this after the API is updated
+  // const response = await fetch(`${apiUrl}/api/s3/upload`, {
+  const response = await fetch(`${apiUrl}/s3/upload`, {
     method: 'POST',
     body: formData,
   });
