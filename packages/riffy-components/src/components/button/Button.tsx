@@ -44,7 +44,7 @@ const BUTTON_SIZES = {
     height: 'h-12',
     padding: 'px-6',
     textSize: 'text-base',
-    fontWeight: 'font-bold',
+    fontWeight: 'font-semibold',
     textTransform: 'uppercase',
   },
 } as const;

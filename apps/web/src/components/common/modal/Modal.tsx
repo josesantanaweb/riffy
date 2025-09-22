@@ -90,7 +90,7 @@ const Modal = ({
             className={`
               relative w-[90%] ${sizeClasses[size]}
               bg-base-800 rounded-2xl shadow-2xl
-              border border-base-600 overflow-hidden
+              max-h-[90vh] overflow-y-auto border border-base-600
               ${className}
             `}
             variants={modalVariants}
@@ -101,7 +101,7 @@ const Modal = ({
             {showCloseButton && (
               <button
                 onClick={onClose}
-                className="absolute top-4 right-4 z-10 w-10 h-10 rounded-full bg-base-600 hover:bg-base-600 transition-colors"
+                className="sticky top-4 right-4 z-10 w-10 h-10 rounded-full bg-base-600 hover:bg-base-600 transition-colors float-right"
                 aria-label="Cerrar modal"
               >
                 <Icon name="close" className="text-white transition-colors text-2xl" />
