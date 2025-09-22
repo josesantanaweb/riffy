@@ -74,7 +74,7 @@ const ICON_BASE_CLASSES = [
   'transition-colors',
 ].join(' ');
 
-const ERROR_CLASSES = 'text-xs text-danger-500 px-1';
+const ERROR_CLASSES = 'text-xs text-danger-500 px-1 mt-2';
 
 const Input = forwardRef<HTMLInputElement, InputProps>(
   (

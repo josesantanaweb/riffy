@@ -2,13 +2,18 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
-import * as express from 'express';
+import { ExpressAdapter } from '@nestjs/platform-express';
+import express from 'express';
 
 async function bootstrap(): Promise<void> {
-  const app = await NestFactory.create(AppModule);
+  const server = express();
 
-  app.use(express.json({ limit: '100mb' }));
-  app.use(express.urlencoded({ limit: '100mb', extended: true }));
+  server.use(express.json({ limit: '100mb' }));
+  server.use(express.urlencoded({ limit: '100mb', extended: true }));
+
+  const app = await NestFactory.create(AppModule, new ExpressAdapter(server));
+
+  app.setGlobalPrefix('api');
 
   const isProduction = process.env.NODE_ENV === 'production';
 

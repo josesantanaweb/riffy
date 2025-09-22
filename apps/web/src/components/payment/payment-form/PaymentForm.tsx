@@ -15,21 +15,22 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import Total from '@/components/common/total';
 import PaymentMethod from '../payment-method';
 import { useToast } from '@/hooks';
-import { useRouter } from 'next/navigation';
 import Alert from '@/components/common/alert/Alert';
 import Search from '@/components/common/search/Search';
-import { ROUTES } from '@/constants';
+import PendingPayment from '../payment-pending';
 import { uploadImageToS3 } from '@/utils/imageUpload';
 import { stateOptions } from './states';
+import type { Payment } from '@riffy/types';
 
 const PaymentForm = (): ReactElement => {
-  const [isUploadingImage, setIsUploadingImage] = useState(false);
-  const [searchNationalId, setSearchNationalId] = useState('');
-  const [hasSearched, setHasSearched] = useState(false);
-  const [isExistingUser, setIsExistingUser] = useState(false);
+  const [isUploadingImage, setIsUploadingImage] = useState<boolean>(false);
+  const [searchNationalId, setSearchNationalId] = useState<string>('');
+  const [hasSearched, setHasSearched] = useState<boolean>(false);
+  const [isExistingUser, setIsExistingUser] = useState<boolean>(false);
+  const [isOpenPendingPayment, setIsOpenPendingPayment] = useState<boolean>(false);
+  const [createdPayment, setCreatedPayment] = useState<Payment | null>(null);
   const lastProcessedPaymentId = useRef<string | null>(null);
   const toast = useToast();
-  const router = useRouter();
   const methods = useForm<FormData>({
     resolver: zodResolver(paymentSchema),
     mode: 'onChange',
@@ -45,7 +46,7 @@ const PaymentForm = (): ReactElement => {
     watch,
   } = methods;
 
-  const { payment, user, loading, setUser, setLoading } = useStore();
+  const { cart, user, loading, setUser, setLoading } = useStore();
   const { createPayment } = useCreatePayment();
   const { data: consultPayment, loading: consultPaymentLoading } =
     usePaymentByNationalId(searchNationalId);
@@ -174,8 +175,8 @@ const PaymentForm = (): ReactElement => {
         state: data.state,
         paymentMethod: data.paymentMethod,
         proofUrl: finalProofUrl,
-        ticketIds: payment?.ticketIds || [],
-        amount: (payment?.price || 0) * (payment?.totalTickets || 0),
+        ticketIds: cart?.ticketIds || [],
+        amount: (cart?.price || 0) * (cart?.totalTickets || 0),
       });
 
       if (result.errors) {
@@ -183,16 +184,14 @@ const PaymentForm = (): ReactElement => {
         return;
       }
 
-      toast.success('Pago creado exitosamente');
+      setCreatedPayment(result.data.createPayment);
+      setIsOpenPendingPayment(true);
       reset();
-
-      setTimeout(() => {
-        router.push(ROUTES.RAFFLES.LIST);
-      }, 1000);
     } catch {
       toast.error('Error al crear el pago');
     }
   };
+
 
   return (
     <form className="form" onSubmit={handleSubmit(onSubmit)}>
@@ -310,10 +309,10 @@ const PaymentForm = (): ReactElement => {
         </div>
       </div>
 
-       <div className="fixed bottom-5 left-1/2 transform -translate-x-1/2 w-full max-w-md px-5 bg-base-800 z-10">
+       <div className="fixed bottom-0 left-1/2 transform -translate-x-1/2 w-full max-w-md p-5 bg-base-800 z-10 flex flex-col gap-3">
         <Total
-          totalTickets={payment?.totalTickets || 0}
-          price={payment?.price || null}
+          totalTickets={cart?.totalTickets || 0}
+          price={cart?.price || null}
         />
 
         <Button
@@ -326,6 +325,12 @@ const PaymentForm = (): ReactElement => {
           {isUploadingImage ? 'Subiendo comprobante...' : 'Pagar'}
         </Button>
       </div>
+        {createdPayment && (
+          <PendingPayment
+            isOpen={isOpenPendingPayment}
+            data={createdPayment}
+          />
+        )}
     </form>
   );
 };
