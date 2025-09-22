@@ -6,7 +6,7 @@ import { useEffect } from 'react';
 import { useStore } from '@/store';
 
 const Navbar = () => {
-  const { data: user, loading } = useUserByDomain('demo.com');
+  const { data: user, loading } = useUserByDomain(String(process.env.NEXT_PUBLIC_DEFAULT_DOMAIN));
   const { setUser, setLoading } = useStore();
 
   useEffect(() => {

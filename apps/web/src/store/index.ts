@@ -2,17 +2,17 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
 import type { UserState } from './userSlice';
-import type { PaymentState } from './paymentSlice';
+import type { CartState } from './cartSlice';
 import { createUserSlice } from './userSlice';
-import { createPaymentSlice } from './paymentSlice';
+import { createCartSlice } from './cartSlice';
 
-type StoreState = UserState & PaymentState;
+type StoreState = UserState & CartState;
 
 export const useStore = create<StoreState>()(
   persist(
     (set, get, api) => ({
       ...createUserSlice(set, get, api),
-      ...createPaymentSlice(set, get, api),
+      ...createCartSlice(set, get, api),
     }),
     { name: 'app-store' },
   ),

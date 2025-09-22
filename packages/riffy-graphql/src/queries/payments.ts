@@ -18,3 +18,12 @@ export const GET_PAYMENT = gql`
   }
   ${PAYMENT_FRAGMENT}
 `;
+
+export const GET_PAYMENT_BY_NATIONAL_ID = gql`
+  query PaymentByNationalId($nationalId: String!) {
+    paymentByNationalId(nationalId: $nationalId) {
+      ...PaymentFragment
+    }
+  }
+  ${PAYMENT_FRAGMENT}
+`;

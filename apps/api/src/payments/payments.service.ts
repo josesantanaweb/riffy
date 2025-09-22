@@ -46,6 +46,27 @@ export class PaymentsService {
   }
 
   /**
+   * Busca un payment por su número de cédula.
+   * @param nationalId Número de cédula a buscar
+   * @returns el payment encontrado
+   */
+  async findByNationalId(nationalId: string): Promise<Payment> {
+    const payment = await this.prisma.payment.findFirst({
+      where: {
+        nationalId,
+      },
+    });
+
+    if (!payment) {
+      throw new NotFoundException(
+        `Payment with national id ${nationalId} not found`,
+      );
+    }
+
+    return payment;
+  }
+
+  /**
    * Crea un nuevo payment.
    * @param data Datos del nuevo payment
    * @returns El payment creado

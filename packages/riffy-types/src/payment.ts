@@ -24,6 +24,7 @@ export interface Payment {
   nationalId: string;
   amount: number;
   phone: string;
+  email?: string | null;
   state: string;
   paymentDate: string;
   paymentMethod: string;
@@ -38,7 +39,7 @@ export interface CreatePaymentInput {
   nationalId: string;
   state?: string | null;
   amount: number;
-  paymentDate?: string | null;
+  email?: string | null;
   paymentMethod: string;
   proofUrl: string;
   status?: PaymentStatus | null;

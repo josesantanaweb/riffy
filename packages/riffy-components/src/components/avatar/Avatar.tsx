@@ -18,7 +18,7 @@ const Avatar = ({
   className,
   isLoading,
 }: AvatarProps): React.ReactElement => {
-  const customClass = cn('rounded-full object-cover', className);
+  const customClass = cn('h-full w-full', className);
   const showImage = src && src.trim() !== '';
   const safeName = typeof name === 'string' ? name : '';
   const trimmed = safeName.trim();
@@ -34,7 +34,10 @@ const Avatar = ({
   }
 
   return (
-    <div style={{ width: size, height: size }}>
+    <div
+      style={{ width: size, height: size }}
+      className="rounded-full overflow-hidden"
+    >
       {showImage ? (
         <Image
           src={src!}

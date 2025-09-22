@@ -33,13 +33,15 @@ const RaffleCard = ({ raffle, loading }: RaffleCardProps): ReactElement => {
       <div className="flex flex-col gap-5 p-5">
         <RaffleTitle title={raffle.title} loading={loading} />
 
-        <Alert
-          message={!isCompleted ? formatDate(raffle.drawDate) : 'Completada'}
-          icon="calendar"
-          type={!isCompleted ? 'default' : 'success'}
-        />
+        {raffle.showDate && (
+          <Alert
+            message={!isCompleted ? formatDate(raffle.drawDate) : 'Completada'}
+            icon="calendar"
+            type={!isCompleted ? 'default' : 'success'}
+          />
+        )}
 
-        <RaffleProgress raffle={raffle} />
+        {raffle.showProgress && <RaffleProgress raffle={raffle} />}
 
         <div className="flex flex-col gap-3 mt-4">
           {!isCompleted && (

@@ -29,6 +29,7 @@ type Payment {
   nationalId: String!
   phone: String!
   state: String
+  email: String
   paymentDate: DateTime
   proofUrl: String!
   paymentMethod: String!
@@ -129,6 +130,7 @@ type Query {
   ticket(id: String!): Ticket!
   payments: [Payment!]!
   payment(id: String!): Payment!
+  paymentByNationalId(nationalId: String!): Payment!
   paymentMethods: [PaymentMethod!]!
   paymentMethodsByDomain(domain: String!): [PaymentMethod!]!
   paymentMethod(id: String!): PaymentMethod!
@@ -252,10 +254,10 @@ input CreatePaymentInput {
   nationalId: String!
   phone: String!
   amount: Float!
+  email: String
   state: String
   proofUrl: String!
   paymentMethod: String!
-  paymentDate: DateTime
   ticketIds: [String!]!
   status: PaymentStatus
 }
@@ -265,10 +267,10 @@ input UpdatePaymentInput {
   nationalId: String
   phone: String
   amount: Float
+  email: String
   state: String
   proofUrl: String
   paymentMethod: String
-  paymentDate: DateTime
   ticketIds: [String!]
   status: PaymentStatus
 }

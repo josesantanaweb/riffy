@@ -42,7 +42,7 @@ const Tickets = ({
   };
 
   return (
-    <div className="flex flex-col gap-3 mb-10">
+    <div className="flex flex-col gap-3 pb-[150px]">
       <TicketsHeader sortOrder={sortOrder} onSort={handleSort} />
 
       {loading && <Skeleton />}

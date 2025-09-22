@@ -21,7 +21,7 @@ const Alert = ({
     success: 'text-success-500',
     error: 'text-error-500',
     warning: 'text-warning-500',
-    default: 'text-base-300',
+    default: 'text-white',
   } as const;
 
   const textColor = TEXT_COLORS[type || 'default'];
