@@ -77,7 +77,7 @@ const Modal = ({
     <AnimatePresence>
       {isOpen && (
         <motion.div
-          className="fixed inset-0 z-50 flex items-center justify-center"
+          className="fixed inset-0 z-50 flex items-center justify-center p-4"
           variants={overlayVariants}
           initial="hidden"
           animate="visible"
@@ -88,9 +88,9 @@ const Modal = ({
 
           <motion.div
             className={`
-              relative w-[90%] ${sizeClasses[size]}
+              relative w-full ${sizeClasses[size]}
               bg-base-800 rounded-2xl shadow-2xl
-              max-h-[90vh] overflow-y-auto border border-base-600
+              max-h-[calc(100vh-2rem)] overflow-y-auto border border-base-600
               ${className}
             `}
             variants={modalVariants}

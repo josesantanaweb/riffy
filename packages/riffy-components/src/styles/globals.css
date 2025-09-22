@@ -170,3 +170,4 @@ input[type='number'] {
 .icon-copy:before { content: '\e84d'; } /* '' */
 .icon-logout:before { content: '\e84e'; } /* '' */
 .icon-spinner:before { content: '\e84f'; } /* '' */
+.icon-check-circle:before { content: '\e850'; } /* '' */
