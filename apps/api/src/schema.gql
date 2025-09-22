@@ -29,6 +29,7 @@ type Payment {
   nationalId: String!
   phone: String!
   state: String
+  email: String
   paymentDate: DateTime
   proofUrl: String!
   paymentMethod: String!
@@ -253,10 +254,10 @@ input CreatePaymentInput {
   nationalId: String!
   phone: String!
   amount: Float!
+  email: String
   state: String
   proofUrl: String!
   paymentMethod: String!
-  paymentDate: DateTime
   ticketIds: [String!]!
   status: PaymentStatus
 }
@@ -266,10 +267,10 @@ input UpdatePaymentInput {
   nationalId: String
   phone: String
   amount: Float
+  email: String
   state: String
   proofUrl: String
   paymentMethod: String
-  paymentDate: DateTime
   ticketIds: [String!]
   status: PaymentStatus
 }

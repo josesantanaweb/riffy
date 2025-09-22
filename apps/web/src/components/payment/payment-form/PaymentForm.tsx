@@ -1,22 +1,33 @@
 'use client';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import type { ReactElement } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Button, Input, Select, ImageUpload } from '@riffy/components';
 import { useStore } from '@/store';
 import { useForm } from 'react-hook-form';
 import { paymentSchema, type FormData } from '@/validations/paymentSchema';
-import { useCreatePayment, useUserByDomain } from '@riffy/hooks';
+import {
+  useCreatePayment,
+  useUserByDomain,
+  usePaymentByNationalId,
+} from '@riffy/hooks';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Total from '@/components/common/total';
 import PaymentMethod from '../payment-method';
 import { useToast } from '@/hooks';
 import { useRouter } from 'next/navigation';
+import Alert from '@/components/common/alert/Alert';
+import Search from '@/components/common/search/Search';
 import { ROUTES } from '@/constants';
 import { uploadImageToS3 } from '@/utils/imageUpload';
 import { stateOptions } from './states';
 
 const PaymentForm = (): ReactElement => {
   const [isUploadingImage, setIsUploadingImage] = useState(false);
+  const [searchNationalId, setSearchNationalId] = useState('');
+  const [hasSearched, setHasSearched] = useState(false);
+  const [isExistingUser, setIsExistingUser] = useState(false);
+  const lastProcessedPaymentId = useRef<string | null>(null);
   const toast = useToast();
   const router = useRouter();
   const methods = useForm<FormData>({
@@ -36,10 +47,14 @@ const PaymentForm = (): ReactElement => {
 
   const { payment, user, loading, setUser, setLoading } = useStore();
   const { createPayment } = useCreatePayment();
+  const { data: consultPayment, loading: consultPaymentLoading } =
+    usePaymentByNationalId(searchNationalId);
+  const { data: userData, loading: userLoading } = useUserByDomain(
+    String(process.env.NEXT_PUBLIC_DEFAULT_DOMAIN),
+  );
 
-  const { data: userData, loading: userLoading } = useUserByDomain('demo.com');
-
-  const paymentMethodsLoaded = user?.paymentMethods && user.paymentMethods.length > 0;
+  const paymentMethodsLoaded =
+    user?.paymentMethods && user.paymentMethods.length > 0;
   const isLoading = loading || userLoading;
 
   useEffect(() => {
@@ -49,7 +64,44 @@ const PaymentForm = (): ReactElement => {
     }
   }, [userData, user?.paymentMethods, setUser, setLoading]);
 
-  const handleChangeProofUrl = (file: File | null, existingUrl?: string | null) => {
+  useEffect(() => {
+    if (hasSearched && !consultPaymentLoading) {
+      if (consultPayment) {
+        setIsExistingUser(true);
+
+        if (consultPayment.id !== lastProcessedPaymentId.current) {
+          lastProcessedPaymentId.current = consultPayment.id;
+
+          if (consultPayment.buyerName) {
+            setValue('buyerName', consultPayment.buyerName, {
+              shouldValidate: true,
+            });
+          }
+          if (consultPayment.email) {
+            setValue('email', consultPayment.email, { shouldValidate: true });
+          }
+          if (consultPayment.phone) {
+            setValue('phone', consultPayment.phone, { shouldValidate: true });
+          }
+          if (consultPayment.state) {
+            setValue('state', consultPayment.state, { shouldValidate: true });
+          }
+          if (consultPayment.paymentMethod) {
+            setValue('paymentMethod', consultPayment.paymentMethod, {
+              shouldValidate: true,
+            });
+          }
+        }
+      } else {
+        setIsExistingUser(false);
+      }
+    }
+  }, [consultPayment, consultPaymentLoading, hasSearched, setValue, toast]);
+
+  const handleChangeProofUrl = (
+    file: File | null,
+    existingUrl?: string | null,
+  ) => {
     if (file) {
       setValue('proofFile', file, { shouldValidate: true });
       setValue('proofUrl', existingUrl || '', { shouldValidate: true });
@@ -59,6 +111,42 @@ const PaymentForm = (): ReactElement => {
     }
   };
 
+  const handleSearchNationalId = () => {
+    const nationalId = watch('nationalId');
+    if (nationalId) {
+      lastProcessedPaymentId.current = null;
+      setHasSearched(true);
+      setSearchNationalId(nationalId);
+    }
+  };
+
+  const getAlertMessage = () => {
+    if (!hasSearched) {
+      return 'Ingresa tu cédula de identidad y presiona el icono de búsqueda para continuar';
+    }
+
+    if (isExistingUser) {
+      return 'Usuario encontrado. Puedes continuar con el pago.';
+    }
+
+    return 'Eres un nuevo usuario, ingresa tus datos para continuar con el pago';
+  };
+
+  const getAlertType = isExistingUser ? 'success' : 'warning';
+
+  useEffect(() => {
+    const subscription = watch((value, { name }) => {
+      if (name === 'nationalId' && hasSearched) {
+        if (!value.nationalId || value.nationalId.trim() === '') {
+          setHasSearched(false);
+          setIsExistingUser(false);
+          lastProcessedPaymentId.current = null;
+        }
+      }
+    });
+    return () => subscription.unsubscribe();
+  }, [watch, hasSearched]);
+
   const onSubmit = async (data: FormData) => {
     try {
       let finalProofUrl = data.proofUrl || '';
@@ -66,7 +154,9 @@ const PaymentForm = (): ReactElement => {
       if (data.proofFile) {
         setIsUploadingImage(true);
         try {
-          finalProofUrl = await uploadImageToS3(data.proofFile, { folder: 'payments' });
+          finalProofUrl = await uploadImageToS3(data.proofFile, {
+            folder: 'payments',
+          });
         } catch {
           toast.error('Error al subir la imagen del comprobante');
           setIsUploadingImage(false);
@@ -80,6 +170,7 @@ const PaymentForm = (): ReactElement => {
         buyerName: data.buyerName,
         phone: data.phone,
         nationalId: data.nationalId,
+        email: data.email,
         state: data.state,
         paymentMethod: data.paymentMethod,
         proofUrl: finalProofUrl,
@@ -105,108 +196,136 @@ const PaymentForm = (): ReactElement => {
 
   return (
     <form className="form" onSubmit={handleSubmit(onSubmit)}>
-      <div className="relative min-h-[400px] flex flex-col gap-2">
-        <div className="flex flex-col gap-2">
-          <Input
-            isRequired
-            placeholder="Nombre completo"
-            inputSize="lg"
-            value={watch('buyerName') || ''}
-            {...register('buyerName')}
-            error={errors.buyerName?.message}
-          />
-          <Input
-            isRequired
-            placeholder="Correo electrónico"
-            inputSize="lg"
-            value={watch('email') || ''}
-            {...register('email')}
-            error={errors.email?.message}
-          />
-          <Input
-            placeholder="Teléfono"
-            isRequired
-            value={watch('phone') || ''}
-            {...register('phone')}
-            error={errors.phone?.message}
-          />
-          <Input
+      <Alert
+        message={getAlertMessage()}
+        icon="info-circle"
+        type={getAlertType}
+      />
+      <div className="relative min-h-[400px] flex flex-col gap-3 mt-3 pb-[180px]">
+        <div className="flex flex-col gap-3">
+          <Search
             placeholder="Cédula de identidad"
             isRequired
             value={watch('nationalId') || ''}
-            {...register('nationalId')}
-            error={errors.nationalId?.message}
-          />
-
-          <Select
-            placeholder="Selecciona el estado"
-            options={stateOptions}
-            size="lg"
-            value={watch('state') || ''}
-            onChange={value =>
-              setValue('state', value as string, {
-                shouldValidate: true,
-              })
+            error={errors.nationalId?.message || ''}
+            loading={consultPaymentLoading}
+            onClick={handleSearchNationalId}
+            onChange={e =>
+              setValue('nationalId', e.target.value, { shouldValidate: true })
             }
           />
-          <Select
-            placeholder={
-              isLoading
-                ? "Cargando métodos de pago..."
-                : !paymentMethodsLoaded
-                  ? "No hay métodos de pago disponibles"
-                  : "Método de pago"
-            }
-            options={user?.paymentMethods?.map(paymentMethod => ({
-              value: paymentMethod.name,
-              label: paymentMethod.name,
-            })) || []}
-            size="lg"
-            value={watch('paymentMethod') || ''}
-            onChange={value =>
-              setValue('paymentMethod', value as string, {
-                shouldValidate: true,
-              })
-            }
-            disabled={isLoading || !paymentMethodsLoaded}
-          />
 
-          {watch('paymentMethod') && user?.paymentMethods && (
-            <PaymentMethod
-              paymentMethod={user.paymentMethods.find(pm => pm.name === watch('paymentMethod'))}
-            />
-          )}
+          <AnimatePresence>
+            {hasSearched && (
+              <motion.div
+                initial={{ opacity: 0, height: 0, y: -20 }}
+                animate={{ opacity: 1, height: 'auto', y: 0 }}
+                exit={{ opacity: 0, height: 0, y: -20 }}
+                transition={{ duration: 0.4, ease: 'easeInOut' }}
+                className="flex flex-col gap-3 overflow-hidden"
+              >
+                <Input
+                  isRequired
+                  placeholder="Nombre completo"
+                  inputSize="lg"
+                  value={watch('buyerName') || ''}
+                  {...register('buyerName')}
+                  error={errors.buyerName?.message}
+                />
+                <Input
+                  isRequired
+                  placeholder="Correo electrónico"
+                  inputSize="lg"
+                  value={watch('email') || ''}
+                  {...register('email')}
+                  error={errors.email?.message}
+                />
+                <Input
+                  placeholder="Teléfono"
+                  isRequired
+                  value={watch('phone') || ''}
+                  {...register('phone')}
+                  error={errors.phone?.message}
+                />
 
-          <div className="relative w-full flex justify-center">
-            <ImageUpload
-              height={200}
-              placeholder="Sube imagen de comprobante de pago"
-              placeholderIcon="plus-circle"
-              placeholderSubtext="JPEG, PNG, WebP, GIF (máx. 10MB)"
-              value={watch('proofUrl')}
-              onChange={handleChangeProofUrl}
-              maxSizeMB={10}
-              className="w-full"
-              disabled={isUploadingImage}
-            />
-          </div>
+                <Select
+                  placeholder="Selecciona el estado"
+                  options={stateOptions}
+                  size="lg"
+                  value={watch('state') || ''}
+                  onChange={value =>
+                    setValue('state', value as string, {
+                      shouldValidate: true,
+                    })
+                  }
+                />
+                <Select
+                  placeholder={
+                    isLoading
+                      ? 'Cargando métodos de pago...'
+                      : !paymentMethodsLoaded
+                        ? 'No hay métodos de pago disponibles'
+                        : 'Método de pago'
+                  }
+                  options={
+                    user?.paymentMethods?.map(paymentMethod => ({
+                      value: paymentMethod.name,
+                      label: paymentMethod.name,
+                    })) || []
+                  }
+                  size="lg"
+                  value={watch('paymentMethod') || ''}
+                  onChange={value =>
+                    setValue('paymentMethod', value as string, {
+                      shouldValidate: true,
+                    })
+                  }
+                  disabled={isLoading || !paymentMethodsLoaded}
+                />
+
+                {watch('paymentMethod') && user?.paymentMethods && (
+                  <PaymentMethod
+                    paymentMethod={user.paymentMethods.find(
+                      pm => pm.name === watch('paymentMethod'),
+                    )}
+                  />
+                )}
+
+                <div className="relative w-full flex justify-center">
+                  <ImageUpload
+                    height={200}
+                    placeholder="Sube imagen de comprobante de pago"
+                    placeholderIcon="plus-circle"
+                    placeholderSubtext="JPEG, PNG, WebP, GIF (máx. 10MB)"
+                    value={watch('proofUrl')}
+                    onChange={handleChangeProofUrl}
+                    maxSizeMB={10}
+                    className="w-full"
+                    disabled={isUploadingImage}
+                  />
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       </div>
 
-      <Total
-        totalTickets={payment?.totalTickets || 0}
-        price={payment?.price || null}
-      />
+       <div className="fixed bottom-5 left-1/2 transform -translate-x-1/2 w-full max-w-md px-5 bg-base-800 z-10">
+        <Total
+          totalTickets={payment?.totalTickets || 0}
+          price={payment?.price || null}
+        />
 
-      <Button
-        variant="primary"
-        isFull
-        type="submit"
-        className="mt-3"
-        disabled={!isValid || isUploadingImage}
-      >
-        {isUploadingImage ? 'Subiendo comprobante...' : 'Pagar'}
-      </Button>
+        <Button
+          variant="primary"
+          isFull
+          type="submit"
+          className="mt-3"
+          disabled={!isValid || isUploadingImage}
+        >
+          {isUploadingImage ? 'Subiendo comprobante...' : 'Pagar'}
+        </Button>
+      </div>
     </form>
   );
 };

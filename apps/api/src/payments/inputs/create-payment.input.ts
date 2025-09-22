@@ -20,6 +20,10 @@ export class CreatePaymentInput {
   @Field(() => Number)
   amount: number;
 
+  @IsString()
+  @Field(() => String, { nullable: true })
+  email?: string;
+
   @IsOptional()
   @Field(() => String, { nullable: true })
   state?: string;
@@ -31,10 +35,6 @@ export class CreatePaymentInput {
   @IsString()
   @Field(() => String)
   paymentMethod: string;
-
-  @IsOptional()
-  @Field(() => Date, { nullable: true })
-  paymentDate?: Date;
 
   @IsArray()
   @IsString({ each: true })
