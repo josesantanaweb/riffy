@@ -197,7 +197,7 @@ const PaymentForm = (): ReactElement => {
     <form className="form" onSubmit={handleSubmit(onSubmit)}>
       <Alert
         message={getAlertMessage()}
-        icon="info-circle"
+        icon={isExistingUser ? "check-circle" : "info-circle"}
         type={getAlertType}
       />
       <div className="relative min-h-[400px] flex flex-col gap-3 mt-3 pb-[180px]">
@@ -309,7 +309,7 @@ const PaymentForm = (): ReactElement => {
         </div>
       </div>
 
-      <div className="fixed bottom-0 left-1/2 transform pb-[calc(1.25rem+env(safe-area-inset-bottom))] -translate-x-1/2 w-full max-w-md p-5 bg-base-800 z-50 flex flex-col gap-3">
+      <div className="fixed bottom-0 w-full left-1/2 -translate-x-1/2 max-w-md p-5 bg-base-800 z-50 flex flex-col gap-3 pb-[calc(1.25rem+env(safe-area-inset-bottom))]">
         <Total
           totalTickets={cart?.totalTickets || 0}
           price={cart?.price || null}
