@@ -27,7 +27,8 @@ const PaymentForm = (): ReactElement => {
   const [searchNationalId, setSearchNationalId] = useState<string>('');
   const [hasSearched, setHasSearched] = useState<boolean>(false);
   const [isExistingUser, setIsExistingUser] = useState<boolean>(false);
-  const [isOpenPendingPayment, setIsOpenPendingPayment] = useState<boolean>(false);
+  const [isOpenPendingPayment, setIsOpenPendingPayment] =
+    useState<boolean>(false);
   const [createdPayment, setCreatedPayment] = useState<Payment | null>(null);
   const lastProcessedPaymentId = useRef<string | null>(null);
   const toast = useToast();
@@ -192,7 +193,6 @@ const PaymentForm = (): ReactElement => {
     }
   };
 
-
   return (
     <form className="form" onSubmit={handleSubmit(onSubmit)}>
       <Alert
@@ -309,7 +309,7 @@ const PaymentForm = (): ReactElement => {
         </div>
       </div>
 
-       <div className="fixed bottom-0 left-1/2 transform -translate-x-1/2 w-full max-w-md p-5 bg-base-800 z-10 flex flex-col gap-3">
+      <div className="fixed bottom-0 left-1/2 transform pb-[calc(1.25rem+env(safe-area-inset-bottom))] -translate-x-1/2 w-full max-w-md p-5 bg-base-800 z-50 flex flex-col gap-3">
         <Total
           totalTickets={cart?.totalTickets || 0}
           price={cart?.price || null}
@@ -322,15 +322,12 @@ const PaymentForm = (): ReactElement => {
           className="mt-3"
           disabled={!isValid || isUploadingImage}
         >
-          {isUploadingImage ? 'Subiendo comprobante...' : 'Pagar'}
+          {isUploadingImage ? 'Creando pago...' : 'Pagar'}
         </Button>
       </div>
-        {createdPayment && (
-          <PendingPayment
-            isOpen={isOpenPendingPayment}
-            data={createdPayment}
-          />
-        )}
+      {createdPayment && (
+        <PendingPayment isOpen={isOpenPendingPayment} data={createdPayment} />
+      )}
     </form>
   );
 };

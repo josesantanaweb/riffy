@@ -30,6 +30,12 @@ const Search = ({
     'search'
   );
 
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter' && !loading) {
+      onClick();
+    }
+  };
+
   return (
     <Input
       placeholder={placeholder}
@@ -40,6 +46,7 @@ const Search = ({
       icon={icon}
       onIconClick={onClick}
       onChange={onChange}
+      onKeyDown={handleKeyDown}
     />
   );
 };

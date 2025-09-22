@@ -24,6 +24,7 @@ interface InputProps {
   type?: string;
   value: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
 }
 
 const INPUT_SIZES = {
@@ -94,6 +95,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
       onLeftIconClick,
       onRightIconClick,
       onChange,
+      onKeyDown,
       ...props
     },
     ref,
@@ -164,6 +166,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
             className={inputClasses}
             value={value}
             onChange={onChange}
+            onKeyDown={onKeyDown}
             {...props}
           />
 
