@@ -10,7 +10,6 @@ interface ModalProps {
   children: ReactNode;
   showCloseButton?: boolean;
   size?: 'sm' | 'md' | 'lg' | 'xl' | 'full';
-  className?: string;
 }
 
 const Modal = ({
@@ -19,7 +18,6 @@ const Modal = ({
   children,
   showCloseButton = true,
   size = 'md',
-  className = '',
 }: ModalProps): ReactElement => {
   const sizeClasses = {
     sm: 'max-w-sm',
@@ -77,7 +75,7 @@ const Modal = ({
     <AnimatePresence>
       {isOpen && (
         <motion.div
-          className="fixed inset-0 z-50 flex items-center justify-center p-4"
+          className="fixed inset-0 z-50 p-4"
           variants={overlayVariants}
           initial="hidden"
           animate="visible"
@@ -85,33 +83,30 @@ const Modal = ({
           onClick={handleOverlayClick}
         >
           <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
+          <div className="w-full h-full flex items-center justify-center">
+            <motion.div
+              className={`relative w-full ${sizeClasses[size]}bg-base-800 rounded-2xl shadow-2xl border border-base-600`}
+              variants={modalVariants}
+              initial="hidden"
+              animate="visible"
+              exit="exit"
+            >
+              {showCloseButton && (
+                <button
+                  onClick={onClose}
+                  className="absolute top-4 right-4 z-10 w-10 h-10 rounded-full bg-base-600 hover:bg-base-600 transition-colors float-right"
+                  aria-label="Cerrar modal"
+                >
+                  <Icon
+                    name="close"
+                    className="text-white transition-colors text-2xl"
+                  />
+                </button>
+              )}
 
-          <motion.div
-            className={`
-              relative w-full ${sizeClasses[size]}
-              bg-base-800 rounded-2xl shadow-2xl
-              max-h-[calc(100vh-2rem)] overflow-y-auto border border-base-600
-              ${className}
-            `}
-            variants={modalVariants}
-            initial="hidden"
-            animate="visible"
-            exit="exit"
-          >
-            {showCloseButton && (
-              <button
-                onClick={onClose}
-                className="sticky top-4 right-4 z-10 w-10 h-10 rounded-full bg-base-600 hover:bg-base-600 transition-colors float-right"
-                aria-label="Cerrar modal"
-              >
-                <Icon name="close" className="text-white transition-colors text-2xl" />
-              </button>
-            )}
-
-            <div className="relative">
-              {children}
-            </div>
-          </motion.div>
+              <div className="relative">{children}</div>
+            </motion.div>
+          </div>
         </motion.div>
       )}
     </AnimatePresence>

@@ -2,16 +2,14 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
-import { ExpressAdapter } from '@nestjs/platform-express';
-import express, { Request, Response, NextFunction } from 'express';
+import * as express from 'express';
+import { Request, Response, NextFunction } from 'express';
 
 async function bootstrap(): Promise<void> {
-  const server = express();
+  const app = await NestFactory.create(AppModule);
 
-  server.use(express.json({ limit: '100mb' }));
-  server.use(express.urlencoded({ limit: '100mb', extended: true }));
-
-  const app = await NestFactory.create(AppModule, new ExpressAdapter(server));
+  app.use(express.json({ limit: '100mb' }));
+  app.use(express.urlencoded({ limit: '100mb', extended: true }));
 
   app.use((req: Request, res: Response, next: NextFunction) => {
     if (!req.body) {

@@ -22,6 +22,8 @@ const RaffleCard = ({ raffle, loading }: RaffleCardProps): ReactElement => {
 
   const handleBuyTicket = () => router.push(ROUTES.RAFFLES.RAFFLE(raffle.id));
 
+  const handleVerifyTicket = () => router.push(ROUTES.RAFFLES.VERIFY_TICKET(raffle.id));
+
   return (
     <div className="flex flex-col bg-base-700 rounded-xl overflow-hidden">
       <RaffleBanner
@@ -50,7 +52,7 @@ const RaffleCard = ({ raffle, loading }: RaffleCardProps): ReactElement => {
             </Button>
           )}
 
-          <Button variant="default">
+          <Button variant="default" onClick={handleVerifyTicket}>
             <Icon name="search" />
             Verificar boleto
           </Button>

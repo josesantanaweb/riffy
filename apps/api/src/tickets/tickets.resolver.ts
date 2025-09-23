@@ -42,6 +42,19 @@ export class TicketsResolver {
   }
 
   /**
+   * Obtiene todos los tickets registrados por número de cédula.
+   * Roles requeridos: ADMIN
+   * Retorna: Un array de objetos Ticket
+   */
+  @Query(() => [Ticket], { name: 'ticketsByNationalId' })
+  getAllByNationalId(
+    @Args('nationalId', { type: () => String }) nationalId: string,
+    @Args('raffleId', { type: () => String }) raffleId: string,
+  ): Promise<Ticket[]> {
+    return this.TicketsService.findAllByNationalId(nationalId, raffleId);
+  }
+
+  /**
    * Obtiene un ticket por su ID.
    * Roles requeridos: ADMIN
    * @param id ID del ticket a buscar

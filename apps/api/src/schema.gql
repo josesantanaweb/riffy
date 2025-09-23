@@ -127,6 +127,7 @@ type Query {
   raffle(id: String!): Raffle!
   tickets: [Ticket!]!
   ticketsByRaffle(raffleId: String!): [Ticket!]!
+  ticketsByNationalId(nationalId: String!, raffleId: String!): [Ticket!]!
   ticket(id: String!): Ticket!
   payments: [Payment!]!
   payment(id: String!): Payment!
