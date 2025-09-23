@@ -3,9 +3,14 @@ import React from 'react';
 import type { ReactElement } from 'react';
 import { Icon } from '@riffy/components';
 import { useRouter } from 'next/navigation';
-import Timer from '../timer';
+import Timer from '../../common/timer';
 
-const PaymentHeader = (): ReactElement => {
+interface PageHeaderProps {
+  title: string;
+  showTimer?: boolean;
+}
+
+const PageHeader = ({ title, showTimer }: PageHeaderProps): ReactElement => {
   const router = useRouter();
 
   const handleBack = () => router.back();
@@ -21,11 +26,11 @@ const PaymentHeader = (): ReactElement => {
       </div>
 
       <div className="flex items-center justify-between mb-3">
-        <p className="text-white text-xl font-medium">Datos del pago</p>
-        <Timer />
+        <p className="text-white text-xl font-medium">{title}</p>
+        {showTimer && <Timer />}
       </div>
     </div>
   );
 };
 
-export default PaymentHeader;
+export default PageHeader;

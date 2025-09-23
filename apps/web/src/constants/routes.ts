@@ -4,6 +4,7 @@ export const ROUTES = {
   RAFFLES: {
     LIST: '/raffles',
     RAFFLE: (id: string) => `/raffles/${id}`,
+    VERIFY_TICKET: (id: string) => `/raffles/${id}/verify-ticket`,
   },
   PAYMENT: '/payment',
 };
