@@ -40,7 +40,7 @@ const TicketsPage = (): ReactElement => {
         touchAction: 'pan-y',
       }}
     >
-      <PageHeader title="Consultar boletos" />
+      <PageHeader title="Buscar boletos" />
       <div className="flex flex-col gap-10">
         <div className="flex flex-col gap-3">
           <Search
