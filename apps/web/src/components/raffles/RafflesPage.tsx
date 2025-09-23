@@ -13,10 +13,16 @@ const RafflesPage = (): ReactElement => {
       {loading &&
         Array.from({ length: 3 }).map((_, index) => <Skeleton key={index} />)}
 
-      {!loading &&
-        user?.raffles?.map(raffle => (
+      {!loading && user?.raffles && user.raffles.length > 0 &&
+        user.raffles.map(raffle => (
           <RaffleCard key={raffle.id} raffle={raffle} loading={loading} />
         ))}
+
+      {!loading && user && (!user.raffles || user.raffles.length === 0) && (
+        <div className="flex flex-col items-center justify-center py-10">
+          <p className="text-base-300 text-center">No hay rifas disponibles</p>
+        </div>
+      )}
     </div>
   );
 };

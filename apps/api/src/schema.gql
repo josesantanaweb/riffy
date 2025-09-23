@@ -9,6 +9,7 @@ type Payment {
   nationalId: String!
   phone: String!
   state: String
+  email: String
   paymentDate: DateTime
   proofUrl: String!
   paymentMethod: String!
@@ -67,6 +68,9 @@ type Raffle {
   price: Float!
   award: Float!
   status: String!
+  showDate: Boolean
+  showProgress: Boolean
+  minTickets: Float
   available: Float
   sold: Float
   progress: Float
@@ -134,6 +138,7 @@ type Query {
   ticket(id: String!): Ticket!
   payments: [Payment!]!
   payment(id: String!): Payment!
+  paymentByNationalId(nationalId: String!): Payment!
   paymentMethods: [PaymentMethod!]!
   paymentMethodsByDomain(domain: String!): [PaymentMethod!]!
   paymentMethod(id: String!): PaymentMethod!
@@ -161,6 +166,7 @@ type Mutation {
   deletePaymentMethod(id: String!): PaymentMethod!
   uploadImage(file: Upload!, options: UploadOptionsInput): UploadResponse!
   uploadFile(file: Upload!): String!
+  executeSeed: Boolean!
 }
 
 input CreateUserInput {
@@ -202,6 +208,9 @@ input CreateRaffleInput {
   banner: String!
   totalTickets: Int!
   price: Int!
+  showDate: Boolean
+  showProgress: Boolean
+  minTickets: Int
   award: Int!
   status: RaffleStatus
   drawDate: DateTime!
@@ -220,6 +229,9 @@ input UpdateRaffleInput {
   banner: String
   totalTickets: Int
   price: Int
+  showDate: Boolean
+  showProgress: Boolean
+  minTickets: Int
   award: Int
   status: RaffleStatus
   drawDate: DateTime
@@ -256,10 +268,10 @@ input CreatePaymentInput {
   nationalId: String!
   phone: String!
   amount: Float!
+  email: String
   state: String
   proofUrl: String!
   paymentMethod: String!
-  paymentDate: DateTime
   ticketIds: [String!]!
   status: PaymentStatus
 }
@@ -269,10 +281,10 @@ input UpdatePaymentInput {
   nationalId: String
   phone: String
   amount: Float
+  email: String
   state: String
   proofUrl: String
   paymentMethod: String
-  paymentDate: DateTime
   ticketIds: [String!]
   status: PaymentStatus
 }

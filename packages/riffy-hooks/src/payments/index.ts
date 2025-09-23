@@ -1,5 +1,5 @@
 export { usePayments } from './usePayments';
-export { usePayment } from './usePayment';
+export { usePaymentByNationalId } from './usePaymentByNationalId';
 export { useDeletePayment } from './useDeletePayment';
 export { useUpdatePayment } from './useUpdatePayment';
 export { useCreatePayment } from './useCreatePayment';

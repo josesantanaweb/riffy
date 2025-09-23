@@ -20,17 +20,19 @@ const RafflePage = (): ReactElement => {
   const router = useRouter();
   const { raffleId } = useParams();
   const { data: raffle, loading } = useRaffle(raffleId as string);
-  const { setPayment } = useStore();
+  const { setCart } = useStore();
   const [selectedTickets, setSelectedTickets] = useState<string[]>([]);
 
   useEffect(() => {
-    setPayment({
+    setCart({
       ticketIds: selectedTickets,
       amount: (raffle?.price || 0) * selectedTickets.length,
       price: raffle?.price || 0,
       totalTickets: selectedTickets.length,
+      raffleTitle: raffle?.title,
+      raffleId: raffle?.id,
     });
-  }, [selectedTickets, setPayment, raffle]);
+  }, [selectedTickets, setCart, raffle]);
 
   const handlePay = () => router.push(ROUTES.PAYMENT);
 
@@ -44,17 +46,15 @@ const RafflePage = (): ReactElement => {
       <div className="flex flex-col gap-5 p-5">
         <RaffleTitle title={raffle?.title} loading={loading} />
 
-        {loading ? (
-          <div className="w-full h-12 bg-base-600 animate-pulse rounded-lg" />
-        ) : (
+        {raffle?.showDate && (
           <Alert
             message={formatDate(raffle?.drawDate)}
             icon="calendar"
-            type="info"
+            type="default"
           />
         )}
 
-        <RaffleProgress raffle={raffle} loading={loading} />
+        {raffle?.showProgress && <RaffleProgress raffle={raffle} />}
 
         <div className="flex flex-col gap-1 my-3">
           <h2 className="text-lg font-semibold text-white">Lista de Tickets</h2>
@@ -71,16 +71,23 @@ const RafflePage = (): ReactElement => {
         />
 
         <Alert
-          message="La compra minima es de 1 ticket "
+          message={`La compra minima es de ${raffle?.minTickets} tickets`}
           icon="info-circle"
           type="warning"
         />
 
-        <Total totalTickets={selectedTickets.length} price={raffle?.price} />
+        <div className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-md p-5 bg-base-800 z-50 flex flex-col gap-3 pb-[calc(1.25rem+env(safe-area-inset-bottom))]">
+          <Total totalTickets={selectedTickets.length} price={raffle?.price} />
 
-        <Button variant="primary" isFull disabled={selectedTickets.length < 2} onClick={handlePay}>
-          Pagar
-        </Button>
+          <Button
+            variant="primary"
+            isFull
+            disabled={selectedTickets.length < raffle?.minTickets}
+            onClick={handlePay}
+          >
+            Pagar
+          </Button>
+        </div>
       </div>
     </div>
   );

@@ -25,8 +25,6 @@ const DEFAULT_VALUES: FormData = {
   paypalEmail: undefined,
 };
 
-const OWNER_ID = 'cmf1myuv20000fmqj1lgf2end';
-
 const PaymentMethodsForm = () => {
   const methods = useForm<FormData>({
     resolver: zodResolver(paymentMethodSchema),
@@ -36,9 +34,8 @@ const PaymentMethodsForm = () => {
 
   const {
     handleSubmit,
-    formState: { errors, isValid, isSubmitting },
+    formState: { isValid, isSubmitting },
     reset,
-    watch,
   } = methods;
 
   const router = useRouter();
@@ -68,7 +65,6 @@ const PaymentMethodsForm = () => {
     try {
       const paymentMethodInput: CreatePaymentMethodInput = {
         type: data.type,
-        ownerId: OWNER_ID,
         ...(data.type === PaymentMethodType.PAGO_MOVIL ? {
           bankName: data.bankName,
           phoneNumber: data.phoneNumber,
@@ -99,8 +95,7 @@ const PaymentMethodsForm = () => {
       }
 
       router.push(ROUTES.PAYMENT_METHODS.LIST);
-    } catch (error) {
-      console.error('Error guardando método de pago:', error);
+    } catch {
       toast.error('Error guardando método de pago');
     }
   };

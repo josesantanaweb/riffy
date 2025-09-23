@@ -37,6 +37,9 @@ export type IconName =
   | 'list'
   | 'copy'
   | 'time'
+  | 'logout'
+  | 'spinner'
+  | 'check-circle'
   | 'dots';
 
 interface IconProps {

@@ -24,6 +24,7 @@ export const ROUTES = {
     CREATE: '/payment-methods/create',
     EDIT: (id: string) => `/payment-methods/edit/${id}`,
   },
+  LOGOUT: '/logout',
 };
 
 export const MENU = [
@@ -51,5 +52,10 @@ export const MENU = [
     label: 'Metodos de pago',
     icon: 'credit-card',
     path: ROUTES.PAYMENT_METHODS.LIST,
+  },
+  {
+    label: 'Cerrar sesión',
+    icon: 'logout',
+    path: ROUTES.LOGOUT,
   },
 ];

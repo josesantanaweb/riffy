@@ -1,11 +1,12 @@
 'use client';
 import { Icon, Logo } from '@riffy/components';
+import Link from 'next/link';
 import { useUserByDomain } from '@riffy/hooks';
 import { useEffect } from 'react';
 import { useStore } from '@/store';
 
 const Navbar = () => {
-  const { data: user, loading } = useUserByDomain('demo.com');
+  const { data: user, loading } = useUserByDomain(String(process.env.NEXT_PUBLIC_DEFAULT_DOMAIN));
   const { setUser, setLoading } = useStore();
 
   useEffect(() => {
@@ -16,43 +17,34 @@ const Navbar = () => {
     }
   }, [user, loading]);
 
-  const handleWhatsapp = () => {
-    if (user?.whatsapp) {
-      window.open(`https://wa.me/+58${user.whatsapp}`, '_blank');
-    }
-  };
-
-  const handleInstagram = () => {
-    if (user?.instagram) {
-      window.open(`https://www.instagram.com/${user.instagram}`, '_blank');
-    }
-  };
-
-  const handleTiktok = () => {
-    if (user?.tiktok) {
-      window.open(`https://www.tiktok.com/@${user.tiktok}`, '_blank');
-    }
-  };
-
   return (
     <div className="w-full h-[70px] flex items-center justify-between px-5 bg-base-800">
       <Logo className="w-[64px]" src={user?.logo} loading={loading} />
       <div className="flex items-center gap-3">
-        <Icon
-          name="instagram"
-          className="text-white text-2xl"
-          onClick={handleInstagram}
-        />
-        <Icon
-          name="tiktok"
-          className="text-white text-2xl"
-          onClick={handleTiktok}
-        />
-        <Icon
-          name="whatsapp"
-          className="text-white text-2xl"
-          onClick={handleWhatsapp}
-        />
+          <Link
+            href={`https://www.instagram.com/${user?.instagram}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-white text-2xl hover:text-gray-300 transition-colors"
+          >
+            <Icon name="instagram" className="text-white text-2xl" />
+          </Link>
+          <Link
+            href={`https://www.tiktok.com/@${user?.tiktok}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-white text-2xl hover:text-gray-300 transition-colors"
+          >
+            <Icon name="tiktok" className="text-white text-2xl" />
+          </Link>
+          <Link
+            href={`https://wa.me/+58${user?.whatsapp}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-white text-2xl hover:text-gray-300 transition-colors"
+          >
+            <Icon name="whatsapp" className="text-white text-2xl" />
+          </Link>
       </div>
     </div>
   );

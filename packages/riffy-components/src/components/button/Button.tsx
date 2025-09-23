@@ -30,25 +30,27 @@ const BUTTON_SIZES = {
     height: 'h-9',
     padding: 'px-4',
     textSize: 'text-xs',
+    fontWeight: 'font-medium',
     textTransform: 'capitalize',
   },
   md: {
     height: 'h-10',
     padding: 'px-5',
     textSize: 'text-sm',
+    fontWeight: 'font-medium',
     textTransform: 'capitalize',
   },
   lg: {
     height: 'h-12',
     padding: 'px-6',
     textSize: 'text-base',
+    fontWeight: 'font-semibold',
     textTransform: 'uppercase',
   },
 } as const;
 
 const BASE_BUTTON_CLASSES = [
   'rounded-lg',
-  'font-medium',
   'transition-all',
   'flex',
   'gap-2',
@@ -78,6 +80,7 @@ const Button = ({
     sizeConfig.height,
     sizeConfig.padding,
     sizeConfig.textSize,
+    sizeConfig.fontWeight,
     sizeConfig.textTransform,
     disabled && DISABLED_CLASSES,
     isFull ? 'w-full' : 'w-auto',

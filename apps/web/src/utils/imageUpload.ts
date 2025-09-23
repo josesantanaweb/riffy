@@ -21,8 +21,10 @@ export const uploadImageToS3 = async (
     formData.append('folder', options.folder);
   }
 
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
-  const response = await fetch(`${apiUrl}/api/s3/upload`, {
+  // const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost';
+  // const response = await fetch(`${apiUrl}/api/s3/upload`, {
+  const response = await fetch(`${apiUrl}/s3/upload`, {
     method: 'POST',
     body: formData,
   });

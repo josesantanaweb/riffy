@@ -3,7 +3,7 @@ import React from 'react';
 import { Icon, IconName } from '@riffy/components';
 import type { ReactElement } from 'react';
 
-export type AlertType = 'success' | 'error' | 'warning' | 'info';
+export type AlertType = 'success' | 'error' | 'warning' | 'default';
 
 interface AlertProps {
   type?: AlertType;
@@ -17,31 +17,18 @@ const Alert = ({
   icon
 }: AlertProps): ReactElement => {
 
-  const ALERT_STYLES = {
-    success: 'bg-gradient-to-r from-success-500/10 to-transparent',
-    error: 'bg-gradient-to-r from-error-500/10 to-transparent',
-    warning: 'bg-gradient-to-r from-warning-500/10 to-transparent',
-    info: '',
-  } as const;
-
   const TEXT_COLORS = {
     success: 'text-success-500',
     error: 'text-error-500',
     warning: 'text-warning-500',
-    info: 'text-primary-500',
+    default: 'text-white',
   } as const;
 
-  const alertStyle = ALERT_STYLES[type || 'info'];
-  const textColor = TEXT_COLORS[type || 'info'];
-
-  const dynamicStyle = type === 'info' ? {
-    background: 'linear-gradient(to right, color-mix(in srgb, var(--primary-500, #00D4FF) 20%, transparent), transparent)'
-  } : {};
+  const textColor = TEXT_COLORS[type || 'default'];
 
   return (
     <div
-      className={`flex items-center gap-2 px-4 py-3 rounded-xl ${alertStyle}`}
-      style={dynamicStyle}
+      className="flex items-center gap-2 px-4 py-3 rounded-xl bg-base-600"
     >
       <Icon
         name={icon as IconName}

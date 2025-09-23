@@ -41,6 +41,18 @@ export class PaymentsResolver {
   }
 
   /**
+   * Obtiene un payment por su número de cédula.
+   * @param nationalId Número de cédula a buscar
+   * @returns Un objeto Payment si existe, si no lanza NotFoundException
+   */
+  @Query(() => Payment, { name: 'paymentByNationalId' })
+  getByNationalId(
+    @Args('nationalId', { type: () => String }) nationalId: string,
+  ): Promise<Payment> {
+    return this.PaymentService.findByNationalId(nationalId);
+  }
+
+  /**
    * Crea un nuevo payment.
    * @param input Datos del nuevo payment
    * @returns El objeto Payment creado

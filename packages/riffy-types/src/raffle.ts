@@ -16,6 +16,9 @@ export interface Raffle {
   totalTickets: number;
   award: number;
   price: number;
+  showDate?: boolean;
+  showProgress?: boolean;
+  minTickets?: number;
   drawDate?: string | null;
   createdAt?: string;
   updatedAt?: string;
@@ -35,7 +38,9 @@ export interface CreateRaffleInput {
   totalTickets: number;
   status?: string;
   description?: string;
-  ownerId: string;
+  showDate?: boolean;
+  showProgress?: boolean;
+  minTickets?: number;
 }
 
 export type UpdateRaffleInput = Partial<CreateRaffleInput>;

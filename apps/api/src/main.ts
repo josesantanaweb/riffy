@@ -2,22 +2,34 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
-import * as express from 'express';
+import { ExpressAdapter } from '@nestjs/platform-express';
+import express from 'express';
 
 async function bootstrap(): Promise<void> {
-  const app = await NestFactory.create(AppModule);
+  const server = express();
+
+  server.use(express.json({ limit: '100mb' }));
+  server.use(express.urlencoded({ limit: '100mb', extended: true }));
+
+  const app = await NestFactory.create(AppModule, new ExpressAdapter(server));
 
   app.setGlobalPrefix('api');
-  app.use(express.json({ limit: '100mb' }));
-  app.use(express.urlencoded({ limit: '100mb', extended: true }));
+
+  const isProduction = process.env.NODE_ENV === 'production';
 
   app.enableCors({
-    origin: (
-      _origin: string | undefined,
-      callback: (err: Error | null, allow?: boolean) => void,
-    ) => {
-      callback(null, true);
-    },
+    origin: isProduction
+      ? [
+          'http://64.23.183.4:3000',
+          'http://64.23.183.4:3001',
+          'http://64.23.183.4',
+        ]
+      : (
+          _origin: string | undefined,
+          callback: (err: Error | null, allow?: boolean) => void,
+        ): void => {
+          callback(null, true);
+        },
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
     allowedHeaders: [

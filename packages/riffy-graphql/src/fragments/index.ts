@@ -43,6 +43,9 @@ export const RAFFLES_FRAGMENT = gql`
     id
     title
     description
+    showDate
+    showProgress
+    minTickets
     totalTickets
     price
     award
@@ -71,6 +74,7 @@ export const PAYMENT_BASIC_FRAGMENT = gql`
     id
     buyerName
     nationalId
+    email
     phone
     state
     paymentDate
@@ -97,6 +101,8 @@ export const PAYMENT_FRAGMENT = gql`
   fragment PaymentFragment on Payment {
     id
     buyerName
+    nationalId
+    email
     phone
     state
     paymentDate

@@ -25,6 +25,18 @@ export class CreateRaffleInput {
   @Field(() => Int)
   price: number;
 
+  @IsOptional()
+  @Field(() => Boolean, { nullable: true })
+  showDate?: boolean;
+
+  @IsOptional()
+  @Field(() => Boolean, { nullable: true })
+  showProgress?: boolean;
+
+  @IsOptional()
+  @Field(() => Int, { nullable: true })
+  minTickets?: number;
+
   @IsInt()
   @Field(() => Int)
   award: number;

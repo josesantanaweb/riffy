@@ -18,7 +18,7 @@ interface RaffleCardProps {
 
 const RaffleCard = ({ raffle, loading }: RaffleCardProps): ReactElement => {
   const router = useRouter();
-  const isCompleted = raffle.status === RaffleStatus.COMPLETED;
+  const isCompleted = raffle?.status === RaffleStatus.COMPLETED;
 
   const handleBuyTicket = () => router.push(ROUTES.RAFFLES.RAFFLE(raffle.id));
 
@@ -33,13 +33,15 @@ const RaffleCard = ({ raffle, loading }: RaffleCardProps): ReactElement => {
       <div className="flex flex-col gap-5 p-5">
         <RaffleTitle title={raffle.title} loading={loading} />
 
-        <Alert
-          message={!isCompleted ? formatDate(raffle.drawDate) : 'Completada'}
-          icon="calendar"
-          type={!isCompleted ? undefined : 'success'}
-        />
+        {raffle.showDate && (
+          <Alert
+            message={!isCompleted ? formatDate(raffle.drawDate) : 'Completada'}
+            icon="calendar"
+            type={!isCompleted ? 'default' : 'success'}
+          />
+        )}
 
-        <RaffleProgress raffle={raffle} />
+        {raffle.showProgress && <RaffleProgress raffle={raffle} />}
 
         <div className="flex flex-col gap-3 mt-4">
           {!isCompleted && (

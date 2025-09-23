@@ -12,7 +12,7 @@ const TicketGrid = ({
   selectedTickets,
   onTicketSelect,
 }: TicketGridProps) => (
-  <div className="grid grid-cols-5 gap-2 overflow-y-auto max-h-[300px]">
+  <div className="grid grid-cols-5 gap-2 overflow-y-auto max-h-[300px] scrollbar-transparent">
     {tickets.map(ticket => {
       const isSelected = selectedTickets.includes(ticket.id);
       const isSold = ticket.status === TicketStatus.SOLD;

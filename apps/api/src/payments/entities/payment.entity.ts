@@ -22,6 +22,9 @@ export class Payment {
   @Field({ nullable: true })
   state?: string;
 
+  @Field({ nullable: true })
+  email?: string;
+
   @Field(() => GraphQLISODateTime, { nullable: true })
   paymentDate?: Date;
 

@@ -5,13 +5,16 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useStore } from '@/store';
 import SidebarItem from './SidebarItem';
 import { IconName, Icon } from '@riffy/components';
-import { ASSETS, MENU } from '@/constants';
+import { ASSETS, MENU, ROUTES } from '@/constants';
 import { Logo } from '@riffy/components';
 
 const Sidebar: React.FC = () => {
   const { collapseSidebar, isMobileSidebarOpen, setMobileSidebarOpen } =
     useStore();
   const [openDropdowns, setOpenDropdowns] = useState<Set<string>>(new Set());
+
+  const logoutItem = MENU.find(item => item.path === ROUTES.LOGOUT);
+  const menuItems = MENU.filter(item => item.path !== ROUTES.LOGOUT);
 
   const toggleDropdown = (label: string) => {
     setOpenDropdowns(prev => {
@@ -24,6 +27,7 @@ const Sidebar: React.FC = () => {
       return newSet;
     });
   };
+
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -45,31 +49,48 @@ const Sidebar: React.FC = () => {
   }, [isMobileSidebarOpen, setMobileSidebarOpen]);
 
   const desktopSidebarClasses = clsx(
-    'bg-base-700 h-full transition-all duration-300 pt-10 flex-shrink-0 hidden lg:block relative z-10',
+    'bg-base-700 h-screen transition-all duration-300 pt-10 flex-shrink-0 hidden lg:block relative z-10',
     collapseSidebar ? 'w-[80px]' : 'w-[230px]',
   );
 
   return (
     <>
       <div className={desktopSidebarClasses}>
-        <div className="flex flex-col justify-center items-center">
-          {!collapseSidebar && (
-            <span className="mb-2 px-4 uppercase text-sm text-base-300 font-medium text-left w-full">
-              Menu
-            </span>
-          )}
+        <div
+          className="flex flex-col"
+          style={{ height: 'calc(100% - 52px)' }}
+        >
+          <div className="flex flex-col items-center w-full flex-1">
+            {!collapseSidebar && (
+              <span className="mb-2 px-4 uppercase text-sm text-base-300 font-medium text-left w-full">
+                Menu
+              </span>
+            )}
 
-          <div className="flex flex-col w-full items-center">
-            {MENU.map(item => (
+            <div className="flex flex-col w-full items-center">
+              {menuItems.map(item => (
+                <SidebarItem
+                  key={item.label}
+                  item={{ ...item, icon: item.icon as IconName }}
+                  isOpen={openDropdowns.has(item.label)}
+                  toggleDropdown={toggleDropdown}
+                  isCollapse={collapseSidebar}
+                />
+              ))}
+            </div>
+          </div>
+
+          {logoutItem && (
+            <div className="w-full px-4 pb-4 mt-auto">
               <SidebarItem
-                key={item.label}
-                item={{ ...item, icon: item.icon as IconName }}
-                isOpen={openDropdowns.has(item.label)}
+                key={logoutItem.label}
+                item={{ ...logoutItem, icon: logoutItem.icon as IconName }}
+                isOpen={false}
                 toggleDropdown={toggleDropdown}
                 isCollapse={collapseSidebar}
               />
-            ))}
-          </div>
+            </div>
+          )}
         </div>
       </div>
 
@@ -93,7 +114,7 @@ const Sidebar: React.FC = () => {
             animate={{ x: 0 }}
             exit={{ x: '-100%' }}
             transition={{ duration: 0.3, ease: 'easeInOut' }}
-            className="fixed left-0 top-0 w-[280px] h-screen bg-base-700 lg:hidden lg:pt-4 z-50"
+            className="fixed left-0 top-0 w-[280px] h-screen bg-base-700 lg:hidden z-50 flex flex-col"
           >
             <div className="flex items-center justify-between pr-3 pl-6 py-2 lg:py-0 mb-4">
               <Logo className="w-[64px]" src={ASSETS.IMAGES.LOGO} />
@@ -105,8 +126,8 @@ const Sidebar: React.FC = () => {
               </button>
             </div>
 
-            <div className="flex flex-col w-full items-center">
-              {MENU.map(item => (
+            <div className="flex flex-col w-full items-center flex-1 px-4">
+              {menuItems.map(item => (
                 <SidebarItem
                   key={item.label}
                   item={{ ...item, icon: item.icon as IconName }}
@@ -117,6 +138,19 @@ const Sidebar: React.FC = () => {
                 />
               ))}
             </div>
+
+            {logoutItem && (
+              <div className="w-full px-4 pb-4 mt-auto">
+                <SidebarItem
+                  key={logoutItem.label}
+                  item={{ ...logoutItem, icon: logoutItem.icon as IconName }}
+                  isOpen={false}
+                  toggleDropdown={toggleDropdown}
+                  isCollapse={false}
+                  onItemClick={() => setMobileSidebarOpen(false)}
+                />
+              </div>
+            )}
           </motion.div>
         )}
       </AnimatePresence>
