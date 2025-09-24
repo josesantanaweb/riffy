@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import type { ReactElement } from 'react';
 import { useParams } from 'next/navigation';
 import PageHeader from '../common/page-header';
@@ -12,10 +12,15 @@ const TicketsPage = (): ReactElement => {
   const [nationalId, setNationalId] = useState<string>('');
   const [searchTriggered, setSearchTriggered] = useState<boolean>(false);
 
-  const { data: tickets, raffle, loading } = useTicketsByNationalId(
-    raffleId,
-    searchTriggered ? nationalId : '',
-  );
+  const {
+    data: tickets,
+    raffle,
+    loading,
+  } = useTicketsByNationalId(raffleId, searchTriggered ? nationalId : '');
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const handleSearchNationalId = () => {
     if (nationalId.trim().length > 0) {
@@ -50,9 +55,12 @@ const TicketsPage = (): ReactElement => {
             onClick={handleSearchNationalId}
             onChange={handleNationalIdChange}
           />
-          <p className="text-sm font-medium text-base-300 text-right">
-            {tickets?.length} {tickets?.length === 1 ? 'boleto' : 'boletos'} encontrados
-          </p>
+          {searchTriggered && !loading && tickets.length > 0 && (
+            <p className="text-sm font-medium text-base-300 text-right">
+              {tickets?.length} {tickets?.length === 1 ? 'boleto' : 'boletos'}{' '}
+              encontrados
+            </p>
+          )}
         </div>
 
         {searchTriggered && !loading && tickets.length === 0 && (
