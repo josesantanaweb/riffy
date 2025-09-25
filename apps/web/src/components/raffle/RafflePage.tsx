@@ -15,6 +15,7 @@ import { RaffleStatus } from '@riffy/types';
 import RaffleBanner from '@/components/common/raffle-banner';
 import RaffleTitle from '@/components/common/raffle-title';
 import { ROUTES } from '@/constants';
+import { useIsIPhone } from '@/hooks';
 
 const RafflePage = (): ReactElement => {
   const router = useRouter();
@@ -22,6 +23,7 @@ const RafflePage = (): ReactElement => {
   const { data: raffle, loading } = useRaffle(raffleId as string);
   const { setCart } = useStore();
   const [selectedTickets, setSelectedTickets] = useState<string[]>([]);
+  const isIPhone = useIsIPhone();
 
   useEffect(() => {
     setCart({
@@ -37,7 +39,7 @@ const RafflePage = (): ReactElement => {
   const handlePay = () => router.push(ROUTES.PAYMENT);
 
   return (
-    <div className="w-full h-full flex flex-col">
+    <div className={`w-full h-full flex flex-col ${isIPhone ? 'pb-20' : ''}`}>
       <RaffleBanner
         banner={raffle?.banner}
         isCompleted={raffle?.status === RaffleStatus.COMPLETED}

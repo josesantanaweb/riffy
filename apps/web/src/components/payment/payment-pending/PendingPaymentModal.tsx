@@ -9,6 +9,7 @@ import { formatDate } from '@/utils';
 import { Payment } from '@riffy/types';
 import { useRouter } from 'next/navigation';
 import { useStore } from '@/store';
+import { useIsIPhone } from '@/hooks';
 
 interface PendingPaymentProps {
   isOpen: boolean;
@@ -21,6 +22,7 @@ const PendingPayment = ({
 }: PendingPaymentProps): ReactElement => {
   const router = useRouter();
   const { cart } = useStore();
+  const isIPhone = useIsIPhone();
 
   const handleClose = () => router.push(ROUTES.RAFFLES.LIST);
 
@@ -37,8 +39,7 @@ const PendingPayment = ({
           />
 
           <motion.div
-            className="relative w-full bg-base-800 rounded-t-3xl z-10 p-8"
-            style={{ height: '75vh' }}
+            className={`relative w-full bg-base-800 rounded-t-3xl z-10 p-8 ${isIPhone ? '80vh' : '75vh'}`}
             initial={{ y: '100%' }}
             animate={{ y: 0 }}
             exit={{ y: '100%' }}
