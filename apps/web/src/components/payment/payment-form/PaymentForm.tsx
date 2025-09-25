@@ -309,7 +309,7 @@ const PaymentForm = (): ReactElement => {
         </div>
       </div>
 
-      <div className="w-full max-w-md p-5 bg-base-800 flex flex-col gap-3">
+      <div className="w-full max-w-md bg-base-800 flex flex-col gap-3">
         <Total
           totalTickets={cart?.totalTickets || 0}
           price={cart?.price || null}
@@ -322,7 +322,7 @@ const PaymentForm = (): ReactElement => {
           className="mt-3"
           disabled={!isValid || isUploadingImage}
         >
-          {isUploadingImage ? 'Creando pago...' : 'Pagar'}
+          {isUploadingImage ? 'Realizando compra...' : 'Pagar'}
         </Button>
       </div>
       {createdPayment && (
