@@ -5,6 +5,7 @@ import { Button, Icon, Logo } from '@riffy/components';
 import { useStore } from '@/store';
 import { Ticket as ITicket, Raffle } from '@riffy/types';
 import { formatDate } from '@/utils';
+import { generateTicketImage } from '@/utils';
 import Image from 'next/image';
 
 interface TicketProps {
@@ -56,11 +57,56 @@ const Ticket = ({ ticket, raffle }: TicketProps): ReactElement => {
     }
   };
 
-  const ticketStatus = getTicketStatus('winner');
+  const ticketStatus = getTicketStatus(ticket.status);
+
+  const handleDownload = async () => {
+    try {
+      const ticketElement = document.querySelector(`[data-ticket-id="${ticket.id}"]`) as HTMLElement;
+
+      if (!ticketElement) {
+        throw new Error('No se encontró el elemento del ticket');
+      }
+
+      const originalText = 'Descargar';
+      const button = document.querySelector(`[data-ticket-id="${ticket.id}"]`)?.parentElement?.querySelector('button');
+      if (button) {
+        button.textContent = 'Descargando...';
+        button.disabled = true;
+      }
+
+      await new Promise(resolve => setTimeout(resolve, 500));
+
+      const blob = await generateTicketImage(ticketElement);
+
+      const downloadLink = document.createElement('a');
+      downloadLink.href = URL.createObjectURL(blob);
+      downloadLink.download = `boleto-${ticket.number}.png`;
+      downloadLink.click();
+
+      setTimeout(() => {
+        URL.revokeObjectURL(downloadLink.href);
+      }, 1000);
+
+      if (button) {
+        button.textContent = originalText;
+        button.disabled = false;
+      }
+
+    } catch {
+      const button = document.querySelector(`[data-ticket-id="${ticket.id}"]`)?.parentElement?.querySelector('button');
+      if (button) {
+        button.textContent = 'Descargar';
+        button.disabled = false;
+      }
+    }
+  };
 
   return (
-    <div className="relative">
-      <div className="relative bg-base-700 rounded-2xl overflow-hidden">
+    <div className="relative flex flex-col gap-3 items-center">
+      <div
+        className="relative bg-base-700 rounded-2xl overflow-hidden w-full"
+        data-ticket-id={ticket.id}
+      >
         <div className="absolute left-0 top-[200px] bg-base-800 transform -translate-y-1/2 -translate-x-1/2 w-8 h-8 rounded-full" />
         <div className="absolute right-0 top-[200px] bg-base-800 transform -translate-y-1/2 translate-x-1/2 w-8 h-8 rounded-full" />
 
@@ -78,8 +124,8 @@ const Ticket = ({ ticket, raffle }: TicketProps): ReactElement => {
           </div>
         </div>
 
-        <div className="p-6 h-[360px] flex items-center justify-center flex-col gap-8">
-          <div className="flex flex-col gap-3 w-full justify-start">
+        <div className="p-6 h-[310px] flex items-center flex-col">
+          <div className="flex flex-col gap-6 w-full justify-start">
             <div className="flex items-center gap-3">
               <div className="w-12 h-12 overflow-hidden rounded-lg">
                 <Image
@@ -97,17 +143,25 @@ const Ticket = ({ ticket, raffle }: TicketProps): ReactElement => {
                 </h2>
               </div>
             </div>
-            <div className="flex flex-col gap-1">
-              <p className="text-base-200 text-sm">Nombre:</p>
-              <h2 className="text-base font-medium text-white capitalize">
-                {ticket.payment?.buyerName}
-              </h2>
-            </div>
-            <div className="flex items-center justify-between">
+            <div className="grid grid-cols-2 justify-between">
               <div className="flex flex-col gap-1">
-                <p className="text-base-200 text-sm">Fecha de compra:</p>
-                <h2 className="text-base font-medium text-white">
-                  {formatDate(ticket.payment?.paymentDate)}
+                <p className="text-base-200 text-sm">Nombre:</p>
+                <h2 className="text-base font-medium text-white capitalize">
+                  {ticket.payment?.buyerName}
+                </h2>
+              </div>
+              <div className="flex flex-col gap-1">
+                <p className="text-base-200 text-sm">Cedula:</p>
+                <h2 className="text-base font-medium text-white capitalize">
+                  {ticket.payment?.nationalId}
+                </h2>
+              </div>
+            </div>
+            <div className="grid grid-cols-2 justify-between">
+              <div className="flex flex-col gap-1">
+                <p className="text-base-200 text-sm">Precio:</p>
+                <h2 className="text-base font-medium text-white capitalize">
+                  {ticket.payment?.amount}
                 </h2>
               </div>
               <div className="flex flex-col gap-1">
@@ -117,18 +171,21 @@ const Ticket = ({ ticket, raffle }: TicketProps): ReactElement => {
                 </h2>
               </div>
             </div>
-          </div>
-          <div className="flex flex-col gap-5 w-full">
-            <Button variant="primary" size="lg">
-              <Icon name="download" className="text-white text-lg" />
-              Descargar
-            </Button>
-            <Button variant="default" size="lg">
-              <Icon name="whatsapp" className="text-white text-xl" />
-              Compartir
-            </Button>
+            <div className="flex flex-col gap-1">
+              <p className="text-base-200 text-sm">Fecha de compra:</p>
+              <h2 className="text-base font-medium text-white">
+                {formatDate(ticket.payment?.paymentDate)}
+              </h2>
+            </div>
           </div>
         </div>
+      </div>
+
+      <div className="flex flex-col gap-3 w-[90%]">
+        <Button variant="primary" size="lg" onClick={handleDownload}>
+          <Icon name="download" className="text-white text-lg" />
+          Descargar
+        </Button>
       </div>
     </div>
   );
