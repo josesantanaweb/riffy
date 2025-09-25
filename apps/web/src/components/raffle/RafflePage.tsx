@@ -39,7 +39,7 @@ const RafflePage = (): ReactElement => {
   const handlePay = () => router.push(ROUTES.PAYMENT);
 
   return (
-    <div className={`w-full h-full flex flex-col ${isIPhone ? 'pb-20' : ''}`}>
+    <div className={`w-full h-full flex flex-col ${isIPhone ? 'pb-16' : ''}`}>
       <RaffleBanner
         banner={raffle?.banner}
         isCompleted={raffle?.status === RaffleStatus.COMPLETED}

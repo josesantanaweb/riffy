@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { useEffect } from 'react';
 import type { ReactElement } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button, Icon } from '@riffy/components';
@@ -24,6 +24,18 @@ const PendingPayment = ({
   const { cart } = useStore();
   const isIPhone = useIsIPhone();
 
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isOpen]);
+
   const handleClose = () => router.push(ROUTES.RAFFLES.LIST);
 
   return (
@@ -39,7 +51,7 @@ const PendingPayment = ({
           />
 
           <motion.div
-            className={`relative w-full bg-base-800 rounded-t-3xl z-10 p-8 ${isIPhone ? '80vh' : '75vh'}`}
+            className={`relative w-full bg-base-800 rounded-t-3xl z-10 px-6 py-8 ${isIPhone ? '80vh' : '75vh'}`}
             initial={{ y: '100%' }}
             animate={{ y: 0 }}
             exit={{ y: '100%' }}

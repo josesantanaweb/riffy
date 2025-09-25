@@ -4,12 +4,14 @@ import type { ReactElement } from 'react';
 import RaffleCard from './raffle-card';
 import Skeleton from './skeleton';
 import { useStore } from '@/store';
+import { useIsIPhone } from '@/hooks';
 
 const RafflesPage = (): ReactElement => {
   const { user, loading } = useStore();
+  const isIPhone = useIsIPhone();
 
   return (
-    <div className="w-full h-full flex flex-col gap-5 py-5 px-5">
+    <div className={`w-full h-full flex flex-col gap-5 py-5 px-5 ${isIPhone ? 'pb-16' : ''}`}>
       {loading &&
         Array.from({ length: 3 }).map((_, index) => <Skeleton key={index} />)}
 
