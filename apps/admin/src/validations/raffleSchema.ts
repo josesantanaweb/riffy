@@ -46,8 +46,8 @@ export const createRaffleSchema = z.object({
     .string()
     .optional()
     .refine(
-      val => !val || (!isNaN(Number(val)) && Number(val) > 0),
-      'Debe ser un número mayor a 0',
+      val => !val || (!isNaN(Number(val)) && Number(val) >= 1 && Number(val) <= 3),
+      'El mínimo de boletos debe estar entre 1 y 3',
     ),
 });
 
