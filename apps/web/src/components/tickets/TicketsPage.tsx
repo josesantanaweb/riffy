@@ -6,8 +6,10 @@ import PageHeader from '../common/page-header';
 import Search from '../common/search';
 import Tickets from './tickets/Tickets';
 import { useTicketsByNationalId } from '@riffy/hooks';
+import { useIsIPhone } from '@/hooks';
 
 const TicketsPage = (): ReactElement => {
+  const isIPhone = useIsIPhone();
   const raffleId = useParams().raffleId as string | undefined;
   const [nationalId, setNationalId] = useState<string>('');
   const [searchTriggered, setSearchTriggered] = useState<boolean>(false);
@@ -39,7 +41,7 @@ const TicketsPage = (): ReactElement => {
 
   return (
     <div
-      className="w-full h-full flex flex-col px-5 py-5 gap-3"
+      className={`w-full h-full flex flex-col px-5 py-5 gap-3 ${isIPhone ? 'pb-24' : ''}`}
       style={{
         overflowX: 'hidden',
         touchAction: 'pan-y',
