@@ -3,7 +3,7 @@ import React from 'react';
 import type { ReactElement } from 'react';
 import { Icon } from '@riffy/components';
 import NavUser from '../nav-user';
-import NavNotification from '../nav-notifications';
+import Notifications from '../notifications';
 import NavBrand from '../nav-brand';
 import { useStore } from '@/store';
 import { useProfile } from '@riffy/hooks';
@@ -26,9 +26,9 @@ const Navbar = (): ReactElement => {
           className="text-base-300 cursor-pointer hover:text-white transition-colors hidden lg:block"
           onClick={() => setCollapseSidebar(!collapseSidebar)}
         />
-        <div className="flex gap-6 items-center">
-          <NavNotification />
-          <NavUser name={profile?.name} role={profile?.role} />
+        <div className="flex gap-6 items-center h-full">
+          <Notifications />
+          <NavUser profile={profile} />
         </div>
       </div>
     </div>

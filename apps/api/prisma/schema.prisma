@@ -24,6 +24,7 @@ model User {
   whatsapp       String?
   domain         String          @unique
   paymentMethods PaymentMethod[]
+  notifications  Notification[]
   raffles        Raffle[]
 }
 
@@ -63,7 +64,7 @@ model Payment {
   phone         String
   state         String?
   proofUrl      String
-  paymentDate   DateTime?      @default(now())
+  paymentDate   DateTime?     @default(now())
   email         String?
   status        PaymentStatus @default(PENDING)
   createdAt     DateTime      @default(now())
@@ -87,6 +88,21 @@ model PaymentMethod {
   updatedAt   DateTime          @updatedAt
   ownerId     String
   owner       User              @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+}
+
+model Notification {
+  id          String             @id @default(cuid())
+  description String
+  status      NotificationStatus @default(UNREAD)
+  createdAt   DateTime           @default(now())
+  updatedAt   DateTime           @updatedAt
+  ownerId     String
+  owner       User               @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+}
+
+enum NotificationStatus {
+  READ
+  UNREAD
 }
 
 enum PaymentStatus {

@@ -38,6 +38,9 @@ export class RafflesService {
         tickets: true,
         owner: true,
       },
+      orderBy: {
+        createdAt: 'desc',
+      },
     });
 
     return raffles.map((raffle) => {

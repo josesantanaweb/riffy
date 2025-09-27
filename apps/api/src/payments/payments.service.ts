@@ -3,11 +3,34 @@ import { PrismaService } from '../prisma/prisma.service';
 import { Payment } from './entities/payment.entity';
 import { CreatePaymentInput } from './inputs/create-payment.input';
 import { UpdatePaymentInput } from './inputs/update-payment.input';
-import { PaymentStatus, TicketStatus } from '@prisma/client';
+import {
+  PaymentStatus,
+  TicketStatus,
+  NotificationStatus,
+  Role,
+} from '@prisma/client';
+import { NotificationsService } from '../notifications/notifications.service';
+
+interface PaymentWithTicketsAndRaffle {
+  id: string;
+  buyerName: string;
+  tickets: Array<{
+    id: string;
+    number: string;
+    raffle: {
+      id: string;
+      title: string;
+      ownerId: string;
+    };
+  }>;
+}
 
 @Injectable()
 export class PaymentsService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private notificationsService: NotificationsService,
+  ) {}
 
   /**
    * Obtiene todos los payments registradas en la base de datos.
@@ -17,6 +40,9 @@ export class PaymentsService {
     const payments = await this.prisma.payment.findMany({
       include: {
         tickets: true,
+      },
+      orderBy: {
+        createdAt: 'desc',
       },
     });
     return payments;
@@ -94,10 +120,16 @@ export class PaymentsService {
       return await tx.payment.findUnique({
         where: { id: newPayment.id },
         include: {
-          tickets: true,
+          tickets: {
+            include: {
+              raffle: true,
+            },
+          },
         },
       });
     });
+
+    await this.createNotificationForPayment(payment);
 
     return payment;
   }
@@ -180,5 +212,39 @@ export class PaymentsService {
       },
     });
     return payment;
+  }
+
+  /**
+   * Crea una notificación cuando se realiza un pago.
+   * @param payment Payment con tickets y rifa incluidos
+   */
+  private async createNotificationForPayment(
+    payment: PaymentWithTicketsAndRaffle,
+  ): Promise<void> {
+    if (!payment.tickets || payment.tickets.length === 0) {
+      return;
+    }
+
+    const raffle = payment.tickets[0]?.raffle;
+    if (!raffle) {
+      return;
+    }
+
+    const ticketNumbers = payment.tickets
+      .map((ticket) => `#${ticket.number}`)
+      .join(', ');
+
+    const description = `${payment.buyerName} compro el boleto ${ticketNumbers} de la ${raffle.title}`;
+
+    await this.notificationsService.create(
+      {
+        description,
+        status: NotificationStatus.UNREAD,
+      },
+      {
+        id: raffle.ownerId,
+        role: Role.OWNER,
+      },
+    );
   }
 }

@@ -1,5 +1,11 @@
-import  OwnerForm from "@/components/owners/owners-form";
+import OwnerForm from "@/components/owners/owners-form";
+import { RoleGuard } from "@/components/common/guards";
+import { Role } from "@riffy/types";
 
-const EditOwnerPage = () => <OwnerForm />;
+const EditOwnerPage = () => (
+  <RoleGuard requiredRole={Role.ADMIN}>
+    <OwnerForm />
+  </RoleGuard>
+);
 
 export default EditOwnerPage;

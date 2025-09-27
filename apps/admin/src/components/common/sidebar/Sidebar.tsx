@@ -7,14 +7,20 @@ import SidebarItem from './SidebarItem';
 import { IconName, Icon } from '@riffy/components';
 import { ASSETS, MENU, ROUTES } from '@/constants';
 import { Logo } from '@riffy/components';
+import { useRole } from '@/hooks';
+import { filterMenuByRole } from '@/utils';
 
 const Sidebar: React.FC = () => {
   const { collapseSidebar, isMobileSidebarOpen, setMobileSidebarOpen } =
     useStore();
   const [openDropdowns, setOpenDropdowns] = useState<Set<string>>(new Set());
+  const { userRole } = useRole();
 
   const logoutItem = MENU.find(item => item.path === ROUTES.LOGOUT);
-  const menuItems = MENU.filter(item => item.path !== ROUTES.LOGOUT);
+  const menuItems = filterMenuByRole(
+    MENU.filter(item => item.path !== ROUTES.LOGOUT),
+    userRole
+  );
 
   const toggleDropdown = (label: string) => {
     setOpenDropdowns(prev => {
@@ -27,7 +33,6 @@ const Sidebar: React.FC = () => {
       return newSet;
     });
   };
-
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -49,17 +54,14 @@ const Sidebar: React.FC = () => {
   }, [isMobileSidebarOpen, setMobileSidebarOpen]);
 
   const desktopSidebarClasses = clsx(
-    'bg-base-700 h-screen transition-all duration-300 pt-10 flex-shrink-0 hidden lg:block relative z-10',
+    'bg-base-700 h-screen transition-all duration-300 pt-10 flex-shrink-0 hidden lg:block',
     collapseSidebar ? 'w-[80px]' : 'w-[230px]',
   );
 
   return (
-    <>
+    <div className="bg-base-700">
       <div className={desktopSidebarClasses}>
-        <div
-          className="flex flex-col"
-          style={{ height: 'calc(100% - 52px)' }}
-        >
+        <div className="flex flex-col" style={{ height: 'calc(100% - 52px)' }}>
           <div className="flex flex-col items-center w-full flex-1">
             {!collapseSidebar && (
               <span className="mb-2 px-4 uppercase text-sm text-base-300 font-medium text-left w-full">
@@ -154,7 +156,7 @@ const Sidebar: React.FC = () => {
           </motion.div>
         )}
       </AnimatePresence>
-    </>
+    </div>
   );
 };
 

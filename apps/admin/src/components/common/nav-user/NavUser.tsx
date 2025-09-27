@@ -2,19 +2,19 @@
 import React from 'react';
 import { Avatar } from '@riffy/components';
 import type { ReactElement } from 'react';
+import { User } from '@riffy/types';
 
 interface NavUserProps {
-  name: string;
-  role: string;
+  profile: User;
 }
 
-const NavUser = ({ name, role }: NavUserProps): ReactElement => {
+const NavUser = ({ profile }: NavUserProps): ReactElement => {
   return (
     <div className="flex items-center gap-3 cursor-pointer">
-      <Avatar name={name} size={35} />
+      <Avatar name={profile?.name} src={profile?.logo} size={35} />
       <div className="flex flex-col">
-        <span className="text-white text-sm font-medium">{name}</span>
-        <span className="text-base-300 text-xs font-medium">{role}</span>
+        <span className="text-white text-sm font-medium capitalize">{profile?.name}</span>
+        <span className="text-base-300 text-xs font-medium">{profile?.role}</span>
       </div>
     </div>
   );

@@ -13,6 +13,7 @@ import { RafflesModule } from './raffles/raffles.module';
 import { TicketsModule } from './tickets/tickets.module';
 import { PaymentsModule } from './payments/payments.module';
 import { PaymentMethodsModule } from './payment-methods/payment-methods.module';
+import { NotificationsModule } from './notifications/notifications.module';
 import { S3Module } from './s3/s3.module';
 import { SeedsModule } from './seeds/seeds.module';
 import './enums/role.enum';
@@ -21,6 +22,7 @@ import './enums/raffle-status.enum';
 import './enums/ticket-status.enum';
 import './enums/payment-status.enum';
 import './enums/payment-method-type.enum';
+import './enums/notification-status.enum';
 
 @Module({
   imports: [
@@ -43,6 +45,7 @@ import './enums/payment-method-type.enum';
     PaymentMethodsModule,
     S3Module,
     SeedsModule,
+    NotificationsModule,
   ],
 })
 export class AppModule {}

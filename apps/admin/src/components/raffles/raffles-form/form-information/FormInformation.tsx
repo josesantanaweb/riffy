@@ -156,11 +156,13 @@ const FormInformation = ({ isUpdating = false }: FormInformationProps) => {
 
               <div className="flex gap-4 items-center w-full flex-wrap lg:flex-nowrap">
                 <div className="w-full lg:w-1/2 flex items-center gap-10">
-                     <Switch
-                       checked={formValues.showDate || false}
-                       onChange={value => setValue('showDate', value, { shouldValidate: false })}
-                       label="Mostrar fecha"
-                     />
+                  <Switch
+                    checked={formValues.showDate || false}
+                    onChange={value =>
+                      setValue('showDate', value, { shouldValidate: false })
+                    }
+                    label="Mostrar fecha"
+                  />
                   <Switch
                     checked={formValues.showProgress || false}
                     onChange={value =>
@@ -169,7 +171,20 @@ const FormInformation = ({ isUpdating = false }: FormInformationProps) => {
                     label="Mostrar progreso"
                   />
                 </div>
-                <div className="w-full lg:w-1/2">1</div>
+                <div className="w-full lg:w-1/2">
+                  <Input
+                    label="Minimo de boletos"
+                    isRequired
+                    min={1}
+                    max={3}
+                    placeholder="Ingresa el minimo de boletos"
+                    inputSize="md"
+                    type="number"
+                    value={formValues.minTickets || ''}
+                    {...register('minTickets')}
+                    error={errors.minTickets?.message}
+                  />
+                </div>
               </div>
             </div>
           </motion.div>

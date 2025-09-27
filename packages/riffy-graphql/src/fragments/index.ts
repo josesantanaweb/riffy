@@ -116,3 +116,13 @@ export const PAYMENT_FRAGMENT = gql`
     }
   }
 `;
+
+export const NOTIFICATION_FRAGMENT = gql`
+  fragment NotificationFragment on Notification {
+    id
+    description
+    status
+    createdAt
+    updatedAt
+  }
+`;
