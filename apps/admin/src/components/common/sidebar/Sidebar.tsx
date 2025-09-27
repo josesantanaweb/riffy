@@ -7,14 +7,20 @@ import SidebarItem from './SidebarItem';
 import { IconName, Icon } from '@riffy/components';
 import { ASSETS, MENU, ROUTES } from '@/constants';
 import { Logo } from '@riffy/components';
+import { useRole } from '@/hooks';
+import { filterMenuByRole } from '@/utils';
 
 const Sidebar: React.FC = () => {
   const { collapseSidebar, isMobileSidebarOpen, setMobileSidebarOpen } =
     useStore();
   const [openDropdowns, setOpenDropdowns] = useState<Set<string>>(new Set());
+  const { userRole } = useRole();
 
   const logoutItem = MENU.find(item => item.path === ROUTES.LOGOUT);
-  const menuItems = MENU.filter(item => item.path !== ROUTES.LOGOUT);
+  const menuItems = filterMenuByRole(
+    MENU.filter(item => item.path !== ROUTES.LOGOUT),
+    userRole
+  );
 
   const toggleDropdown = (label: string) => {
     setOpenDropdowns(prev => {

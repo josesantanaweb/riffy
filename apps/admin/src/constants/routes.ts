@@ -27,7 +27,17 @@ export const ROUTES = {
   LOGOUT: '/logout',
 };
 
-export const MENU = [
+import { Role } from '@riffy/types';
+
+export interface MenuItem {
+  label: string;
+  icon: string;
+  path: string;
+  requiredRole?: Role;
+  requiredRoles?: Role[];
+}
+
+export const MENU: MenuItem[] = [
   {
     label: 'Dashboard',
     icon: 'home',
@@ -37,11 +47,13 @@ export const MENU = [
     label: 'Rifas',
     icon: 'gift',
     path: ROUTES.RAFFLES.LIST,
+    requiredRoles: [Role.ADMIN, Role.OWNER],
   },
   {
     label: 'Dueños',
     icon: 'user',
     path: ROUTES.OWNERS.LIST,
+    requiredRole: Role.ADMIN,
   },
   {
     label: 'Pagos',
@@ -52,6 +64,7 @@ export const MENU = [
     label: 'Metodos de pago',
     icon: 'credit-card',
     path: ROUTES.PAYMENT_METHODS.LIST,
+    requiredRole: Role.OWNER,
   },
   {
     label: 'Cerrar sesión',
