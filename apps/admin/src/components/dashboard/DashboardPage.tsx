@@ -26,7 +26,7 @@ const DashboardPage = () => {
             </div>
           </div>
           <Button size="md" variant="primary" onClick={handleCreateRaffle}>
-            <Icon name="plus" className="text-sm" />
+            <Icon name="plus" className="text-lg text-center w-[14px]" />
             Nueva Rifa
           </Button>
         </div>

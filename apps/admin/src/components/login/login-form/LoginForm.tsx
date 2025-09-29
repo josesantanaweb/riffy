@@ -6,13 +6,17 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { loginSchema, type FormData } from '@/validations/auth';
 import { Input, Button, Logo } from '@riffy/components';
 import { useToast } from '@/hooks/useToast';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import { useAuth } from '@riffy/hooks';
 
 const LoginForm = () => {
   const methods = useForm<FormData>({
     resolver: zodResolver(loginSchema),
     mode: 'onChange',
+    // defaultValues: {
+    //   email: 'demo@riffy.com',
+    //   password: '12345678',
+    // },
   });
 
   const {
@@ -22,7 +26,6 @@ const LoginForm = () => {
     watch,
   } = methods;
 
-  const router = useRouter();
   const searchParams = useSearchParams();
   const toast = useToast();
   const { login } = useAuth();
@@ -40,7 +43,10 @@ const LoginForm = () => {
     try {
       await login({ email, password });
       toast.success('Inicio de sesión exitoso');
-      router.push(redirectUrl);
+
+      window.scrollTo(0, 0);
+
+      window.location.href = redirectUrl;
     } catch (error) {
       // eslint-disable-next-line no-console
       console.error(error);

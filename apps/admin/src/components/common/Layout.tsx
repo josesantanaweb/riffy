@@ -1,4 +1,5 @@
 'use client';
+import { useEffect } from 'react';
 import Sidebar from '@/components/common/sidebar';
 import Navbar from './navbar';
 import { useStore } from '@/store';
@@ -14,6 +15,10 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       : '230px 1fr'
     : '1fr';
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <main className="relative w-full h-screen flex flex-col">
       <Navbar />
@@ -27,7 +32,11 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       >
         <Sidebar />
 
-        <div className="bg-base-800 h-full overflow-auto">{children}</div>
+        <div className="bg-base-800 h-ful">
+          <div className="min-h-full">
+            {children}
+          </div>
+        </div>
       </div>
     </main>
   );
