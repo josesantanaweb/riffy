@@ -121,6 +121,25 @@ type Notification {
   ownerId: String
 }
 
+type Plan {
+  id: ID!
+  name: String!
+  description: [String!]!
+  price: Float!
+  maxRaffles: Float!
+  maxTickets: Float!
+  type: PlanType!
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+"""The status of the plan"""
+enum PlanType {
+  BASIC
+  PREMIUM
+  ONE_TIME
+}
+
 type UploadResponse {
   url: String!
   key: String!
@@ -148,6 +167,8 @@ type Query {
   paymentMethod(id: String!): PaymentMethod!
   notifications: [Notification!]!
   notification(id: String!): Notification!
+  plans: [Plan!]!
+  plan(id: String!): Plan!
 }
 
 type Mutation {
@@ -175,6 +196,9 @@ type Mutation {
   executeSeed: Boolean!
   updateNotificationsStatus(ids: [String!]!, status: NotificationStatus!): String!
   updateNotificationStatus(id: String!, status: NotificationStatus!): Notification!
+  createPlan(input: CreatePlanInput!): Plan!
+  updatePlan(id: String!, input: UpdatePlanInput!): Plan!
+  deletePlan(id: String!): Plan!
 }
 
 input CreateUserInput {
@@ -324,4 +348,22 @@ input UploadOptionsInput {
 enum NotificationStatus {
   READ
   UNREAD
+}
+
+input CreatePlanInput {
+  name: String!
+  description: [String!]!
+  price: Float!
+  maxRaffles: Float
+  maxTickets: Float
+  type: PlanType!
+}
+
+input UpdatePlanInput {
+  name: String
+  description: [String!]
+  price: Float
+  maxRaffles: Float
+  maxTickets: Float
+  type: PlanType
 }

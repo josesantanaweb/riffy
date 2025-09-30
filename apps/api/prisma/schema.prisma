@@ -24,8 +24,9 @@ model User {
   whatsapp       String?
   domain         String          @unique
   paymentMethods PaymentMethod[]
-  notifications  Notification[]
   raffles        Raffle[]
+  notification   Notification[]
+  subscription   Subscription?
 }
 
 model Raffle {
@@ -98,6 +99,44 @@ model Notification {
   updatedAt   DateTime           @updatedAt
   ownerId     String
   owner       User               @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+}
+
+model Plan {
+  id          String  @id @default(cuid())
+  name        String  @unique
+  description String[]
+  price       Float
+  maxRaffles    Int?           @default(0)
+  maxTickets    Int?           @default(0)
+  type          PlanType
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  subscriptions Subscription[]
+}
+
+model Subscription {
+  id        String             @id @default(cuid())
+  planId    String
+  startDate DateTime           @default(now())
+  endDate   DateTime?
+  status    SubscriptionStatus @default(ACTIVE)
+
+  ownerId String @unique
+  owner   User   @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+
+  plan Plan @relation(fields: [planId], references: [id], onDelete: Cascade)
+}
+
+enum PlanType {
+  BASIC
+  PREMIUM
+  ONE_TIME
+}
+
+enum SubscriptionStatus {
+  ACTIVE
+  EXPIRED
+  CANCELED
 }
 
 enum NotificationStatus {
