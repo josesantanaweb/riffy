@@ -16,3 +16,4 @@ export {
   UPDATE_NOTIFICATION_STATUS,
   UPDATE_NOTIFICATIONS_STATUS,
 } from './notification';
+export { UPDATE_TICKET_STATUS } from './tickets';

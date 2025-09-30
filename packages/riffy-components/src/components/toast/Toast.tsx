@@ -28,7 +28,7 @@ const Toast = ({ t, message, type }: ToastProps) => {
     >
       <span className={`${colors} w-1 h-full absolute left-0 top-0`} />
       <div className="flex items-center justify-between min-w-[250px]">
-        <p className="text-base font-medium text-white">{message}</p>
+        <p className="text-base text-white">{message}</p>
         <button
           onClick={() => toast.dismiss(t.id)}
           className="text-white cursor-pointer"

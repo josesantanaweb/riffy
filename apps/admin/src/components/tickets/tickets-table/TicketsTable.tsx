@@ -5,7 +5,6 @@ import DataTable from '@/components/common/data-table';
 import { TableAction, TableButton } from '@/components/common/data-table/types';
 import {
   createColumn,
-  createDateColumn,
   TABLE_CLASSES,
   mapTicketStatusToStatusType,
   mapTicketStatusToLabel,
@@ -18,7 +17,7 @@ interface TicketsTableProps {
   data: Ticket[];
   onEdit?: (ticket: Ticket) => void;
   onDelete?: (ticket: Ticket) => void;
-  onView?: (ticket: Ticket) => void;
+  onMarkAsWinner?: (ticket: Ticket) => void;
   onAdd?: () => void;
   onDownload?: () => void;
 }
@@ -27,7 +26,7 @@ const TicketsTable = ({
   data,
   onEdit,
   onDelete,
-  onView,
+  onMarkAsWinner,
   onAdd,
   onDownload,
 }: TicketsTableProps) => {
@@ -74,12 +73,12 @@ const TicketsTable = ({
   ];
 
   const actions: TableAction<Ticket>[] = [
-    ...(onView
+    ...(onMarkAsWinner
       ? [
           {
-            label: 'Ver Boletos',
-            icon: 'ticket',
-            onClick: onView,
+            label: 'Marcar como ganador',
+            icon: 'check-circle',
+            onClick: onMarkAsWinner,
           },
         ]
       : []),

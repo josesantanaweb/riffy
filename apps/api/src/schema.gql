@@ -161,6 +161,7 @@ type Mutation {
   deleteRaffle(id: String!): Raffle!
   createTicket(input: CreateTicketInput!): Ticket!
   updateTicket(id: String!, input: UpdateTicketInput!): Ticket!
+  updateTicketStatus(id: String!, status: TicketStatus!): Ticket!
   deleteTicket(id: String!): Ticket!
   createPayment(input: CreatePaymentInput!): Payment!
   updatePayment(id: String!, input: UpdatePaymentInput!): Payment!

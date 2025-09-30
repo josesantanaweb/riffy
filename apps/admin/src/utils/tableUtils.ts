@@ -1,6 +1,11 @@
 import { ColumnDef } from '@tanstack/react-table';
 import { BadgeStatus } from '@riffy/components';
-import { PaymentStatus, RaffleStatus, TicketStatus, UserStatus } from '@riffy/types';
+import {
+  PaymentStatus,
+  RaffleStatus,
+  TicketStatus,
+  UserStatus,
+} from '@riffy/types';
 import { formatCurrency, formatDate } from '@/utils';
 
 export const TABLE_CLASSES = {
@@ -101,6 +106,10 @@ export function mapTicketStatusToLabel(status: string): string {
       return 'Reservado';
     case TicketStatus.SOLD:
       return 'Vendido';
+    case TicketStatus.WINNER:
+      return 'Ganador';
+    case TicketStatus.LOSER:
+      return 'Perdedor';
     default:
       return status;
   }
@@ -117,7 +126,9 @@ export function mapUserStatusToStatusType(status: UserStatus): BadgeStatus {
   }
 }
 
-export function mapPaymentStatusToStatusType(status: PaymentStatus): BadgeStatus {
+export function mapPaymentStatusToStatusType(
+  status: PaymentStatus,
+): BadgeStatus {
   switch (status) {
     case PaymentStatus.PENDING:
       return BadgeStatus.WARNING;
@@ -150,6 +161,8 @@ export function mapTicketStatusToStatusType(status: TicketStatus): BadgeStatus {
     case TicketStatus.RESERVED:
       return BadgeStatus.ERROR;
     case TicketStatus.SOLD:
+      return BadgeStatus.WARNING;
+    case TicketStatus.WINNER:
       return BadgeStatus.SUCCESS;
     default:
       return BadgeStatus.DEFAULT;

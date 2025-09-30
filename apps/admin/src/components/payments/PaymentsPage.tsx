@@ -34,8 +34,7 @@ const PaymentsPage = () => {
       try {
         await updatePaymentStatus(payment.id, newStatus);
         toast.success(messages.success);
-      } catch (error) {
-        console.error('Error updating payment status:', error);
+      } catch {
         toast.error(messages.error);
       }
     }
