@@ -1,5 +1,5 @@
 'use client';
-import RafflesTable from './raffles-table/RafflesTable';
+import RafflesTable from './table/RafflesTable';
 import { useRouter } from 'next/navigation';
 import { useRaffles, useDeleteRaffle } from '@riffy/hooks';
 import { useToast } from '@/hooks';

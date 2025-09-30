@@ -1,7 +1,7 @@
 'use client';
 import { useParams } from 'next/navigation';
 import { useTicketsByRaffle } from '@riffy/hooks';
-import TicketsTable from './tickets-table';
+import TicketsTable from './table';
 import PageHeader from '@/components/common/page-header';
 import { Ticket, TicketStatus } from '@riffy/types';
 import { useToast } from '@/hooks';

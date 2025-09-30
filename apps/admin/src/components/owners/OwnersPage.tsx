@@ -4,7 +4,7 @@ import { useUsers, useDeleteUser } from '@riffy/hooks';
 import { useToast } from '@/hooks';
 import { ROUTES } from '@/constants';
 import { User, Role } from '@riffy/types';
-import OwnersTable from './owners-table/OwnersTable';
+import OwnersTable from './table';
 import PageHeader from '../common/page-header';
 
 const OwnersPage = () => {
@@ -20,8 +20,7 @@ const OwnersPage = () => {
     try {
       await deleteUser(user.id);
       toast.success('Usuario eliminado exitosamente!!');
-    } catch (error) {
-      console.error(error);
+    } catch {
       toast.error('Error al eliminar el usuario.');
     }
   };

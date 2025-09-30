@@ -1,4 +1,4 @@
-import OwnerForm from "@/components/owners/owners-form";
+import OwnerForm from "@/components/owners/form";
 import { RoleGuard } from "@/components/common/guards";
 import { Role } from "@riffy/types";
 

@@ -1,5 +1,5 @@
 'use client';
-import PaymentsTable from './payments-table/PaymentsTable';
+import PaymentsTable from './table/PaymentsTable';
 import { usePayments } from '@riffy/hooks';
 import { useToast } from '@/hooks';
 import { useUpdatePaymentStatus } from '@riffy/hooks';
