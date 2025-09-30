@@ -3,11 +3,13 @@ import React from 'react';
 import { ColumnDef } from '@tanstack/react-table';
 import DataTable from '@/components/common/data-table';
 import { TableAction, TableButton } from '@/components/common/data-table/types';
+import TableSkeleton from '@/components/common/skeleton/TableSkeleton';
 import { createColumn, TABLE_CLASSES } from '@/utils';
 import { PaymentMethod } from '@riffy/types';
 
 interface PaymentMethodsTableProps {
   data: PaymentMethod[];
+  loading?: boolean;
   onEdit?: (payment: PaymentMethod) => void;
   onAdd?: () => void;
   onDelete?: (payment: PaymentMethod) => void;
@@ -16,6 +18,7 @@ interface PaymentMethodsTableProps {
 
 const PaymentMethodsTable = ({
   data,
+  loading,
   onEdit,
   onAdd,
   onDelete,
@@ -74,6 +77,17 @@ const PaymentMethodsTable = ({
         ]
       : []),
   ];
+
+  if (loading) {
+    return (
+      <TableSkeleton
+        rows={8}
+        columns={7}
+        showActions={true}
+        showPagination={true}
+      />
+    );
+  }
 
   return (
     <DataTable
