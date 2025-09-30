@@ -4,7 +4,6 @@ import { ColumnDef } from '@tanstack/react-table';
 import DataTable from '@/components/common/data-table';
 import { TableAction, TableButton } from '@/components/common/data-table/types';
 import {
-  createColumn,
   createCurrencyColumn,
   createDateColumn,
   TABLE_CLASSES,
@@ -13,10 +12,12 @@ import {
 } from '@/utils';
 import { Badge } from '@riffy/components';
 import MediaDisplay from '@/components/common/media-display';
+import TableSkeleton from '@/components/common/skeleton/TableSkeleton';
 import { Raffle, RaffleStatus } from '@riffy/types';
 
 interface RafflesTableProps {
   data: Raffle[];
+  loading?: boolean;
   onEdit?: (raffle: Raffle) => void;
   onDelete?: (raffle: Raffle) => void;
   onView?: (raffle: Raffle) => void;
@@ -26,6 +27,7 @@ interface RafflesTableProps {
 
 const RafflesTable = ({
   data,
+  loading,
   onEdit,
   onDelete,
   onView,
@@ -177,6 +179,17 @@ const RafflesTable = ({
         ]
       : []),
   ];
+
+  if (loading) {
+    return (
+      <TableSkeleton
+        rows={10}
+        columns={11}
+        showActions={true}
+        showPagination={true}
+      />
+    );
+  }
 
   return (
     <DataTable

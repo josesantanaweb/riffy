@@ -12,10 +12,12 @@ import {
   mapPaymentStatusToStatusType,
   mapPaymentStatusToLabel,
 } from '@/utils';
+import TableSkeleton from '@/components/common/skeleton/TableSkeleton';
 import { Payment, PaymentStatus, Ticket } from '@riffy/types';
 
 interface PaymentsTableProps {
   data: Payment[];
+  loading?: boolean;
   onMarkAsVerified?: (payment: Payment) => void;
   onMarkAsDenied?: (payment: Payment) => void;
   onDownload?: () => void;
@@ -23,6 +25,7 @@ interface PaymentsTableProps {
 
 const PaymentsTable = ({
   data,
+  loading,
   onMarkAsVerified,
   onMarkAsDenied,
   onDownload,
@@ -152,6 +155,17 @@ const PaymentsTable = ({
         ]
       : []),
   ];
+
+  if (loading) {
+    return (
+      <TableSkeleton
+        rows={10}
+        columns={11}
+        showActions={true}
+        showPagination={true}
+      />
+    );
+  }
 
   return (
     <DataTable

@@ -11,10 +11,12 @@ import {
 } from '@/utils';
 import { Badge } from '@riffy/components';
 import MediaDisplay from '@/components/common/media-display';
+import TableSkeleton from '@/components/common/skeleton/TableSkeleton';
 import { Payment, Ticket, TicketStatus } from '@riffy/types';
 
 interface TicketsTableProps {
   data: Ticket[];
+  loading?: boolean;
   onEdit?: (ticket: Ticket) => void;
   onDelete?: (ticket: Ticket) => void;
   onMarkAsWinner?: (ticket: Ticket) => void;
@@ -24,6 +26,7 @@ interface TicketsTableProps {
 
 const TicketsTable = ({
   data,
+  loading,
   onEdit,
   onDelete,
   onMarkAsWinner,
@@ -48,7 +51,11 @@ const TicketsTable = ({
       header: 'Comprador',
       cell: info => {
         const payment = info.getValue() as Payment;
-        return payment?.buyerName ? <MediaDisplay label={payment?.buyerName} image={undefined} /> : 'N/A';
+        return payment?.buyerName ? (
+          <MediaDisplay label={payment?.buyerName} image={undefined} />
+        ) : (
+          'N/A'
+        );
       },
       meta: {
         className: TABLE_CLASSES.cell,
@@ -125,6 +132,17 @@ const TicketsTable = ({
         ]
       : []),
   ];
+
+  if (loading) {
+    return (
+      <TableSkeleton
+        rows={10}
+        columns={4}
+        showActions={true}
+        showPagination={true}
+      />
+    );
+  }
 
   return (
     <DataTable

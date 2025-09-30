@@ -81,8 +81,8 @@ const PaymentMethodsTable = ({
   if (loading) {
     return (
       <TableSkeleton
-        rows={8}
-        columns={7}
+        rows={10}
+        columns={8}
         showActions={true}
         showPagination={true}
       />
