@@ -1,4 +1,10 @@
-import { IsString, IsNumber, IsEnum, IsArray } from 'class-validator';
+import {
+  IsString,
+  IsNumber,
+  IsEnum,
+  IsArray,
+  IsOptional,
+} from 'class-validator';
 import { InputType, Field } from '@nestjs/graphql';
 import { PlanType } from '@prisma/client';
 
@@ -17,13 +23,15 @@ export class CreatePlanInput {
   @Field(() => Number)
   price: number;
 
+  @IsOptional()
   @IsNumber()
   @Field(() => Number, { nullable: true })
-  maxRaffles: number;
+  maxRaffles?: number;
 
+  @IsOptional()
   @IsNumber()
   @Field(() => Number, { nullable: true })
-  maxTickets: number;
+  maxTickets?: number;
 
   @IsEnum(PlanType)
   @Field(() => PlanType)

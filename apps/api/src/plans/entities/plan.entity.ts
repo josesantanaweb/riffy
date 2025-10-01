@@ -15,11 +15,11 @@ export class Plan {
   @Field()
   price: number;
 
-  @Field()
-  maxRaffles: number;
+  @Field({ nullable: true })
+  maxRaffles?: number;
 
-  @Field()
-  maxTickets: number;
+  @Field({ nullable: true })
+  maxTickets?: number;
 
   @Field(() => PlanType)
   type: PlanType;

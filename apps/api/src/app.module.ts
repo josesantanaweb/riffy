@@ -14,6 +14,7 @@ import { TicketsModule } from './tickets/tickets.module';
 import { PaymentsModule } from './payments/payments.module';
 import { PaymentMethodsModule } from './payment-methods/payment-methods.module';
 import { NotificationsModule } from './notifications/notifications.module';
+import { SubscriptionsModule } from './subscriptions/subscriptions.module';
 import { PlansModule } from './plans/plans.module';
 
 import { S3Module } from './s3/s3.module';
@@ -26,6 +27,7 @@ import './enums/payment-status.enum';
 import './enums/payment-method-type.enum';
 import './enums/notification-status.enum';
 import './enums/plan-type.enum';
+import './enums/subscription-status.enum';
 
 @Module({
   imports: [
@@ -46,6 +48,7 @@ import './enums/plan-type.enum';
     TicketsModule,
     PaymentsModule,
     PaymentMethodsModule,
+    SubscriptionsModule,
     S3Module,
     SeedsModule,
     NotificationsModule,
