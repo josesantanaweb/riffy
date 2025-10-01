@@ -40,6 +40,7 @@ export type IconName =
   | 'logout'
   | 'spinner'
   | 'check-circle'
+  | 'file'
   | 'dots';
 
 interface IconProps {

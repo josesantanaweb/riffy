@@ -50,7 +50,7 @@ const FormInformation = () => {
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.25, ease: 'easeInOut' }}
           >
-            <div className="flex flex-col px-6 py-4 w-full gap-6">
+            <div className="flex flex-col px-6 pt-4 pb-8 w-full gap-6">
               <div className="flex gap-4 items-center w-full flex-wrap lg:flex-nowrap">
                 <div className="w-full lg:w-1/2">
                   <Input

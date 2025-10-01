@@ -190,3 +190,4 @@ input[type='number'] {
 .icon-logout:before { content: '\e84e'; } /* '' */
 .icon-spinner:before { content: '\e84f'; } /* '' */
 .icon-check-circle:before { content: '\e850'; } /* '' */
+.icon-file:before { content: '\e851'; } /* '' */

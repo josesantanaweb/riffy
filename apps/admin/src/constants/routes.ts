@@ -24,6 +24,11 @@ export const ROUTES = {
     CREATE: '/payment-methods/create',
     EDIT: (id: string) => `/payment-methods/edit/${id}`,
   },
+  PLANS: {
+    LIST: `/plans`,
+    CREATE: '/plans/create',
+    EDIT: (id: string) => `/plans/edit/${id}`,
+  },
   LOGOUT: '/logout',
 };
 
@@ -65,6 +70,12 @@ export const MENU: MenuItem[] = [
     icon: 'credit-card',
     path: ROUTES.PAYMENT_METHODS.LIST,
     requiredRole: Role.OWNER,
+  },
+  {
+    label: 'Planes',
+    icon: 'file',
+    path: ROUTES.PLANS.LIST,
+    requiredRole: Role.ADMIN,
   },
   {
     label: 'Cerrar sesión',

@@ -9,6 +9,7 @@ import {
   createColumn,
   TABLE_CLASSES,
   createDateColumn,
+  createCurrencyColumn,
   mapPaymentStatusToStatusType,
   mapPaymentStatusToLabel,
 } from '@/utils';
@@ -72,7 +73,7 @@ const PaymentsTable = ({
         headerClassName: TABLE_CLASSES.header,
       },
     },
-    createColumn('state', 'Estado'),
+    createCurrencyColumn('amount', 'Monto'),
     createColumn('paymentMethod', 'Metodo de Pago'),
     createDateColumn('paymentDate', 'Fecha de Pago'),
     {
@@ -160,7 +161,7 @@ const PaymentsTable = ({
     return (
       <TableSkeleton
         rows={10}
-        columns={11}
+        columns={8}
         showActions={true}
         showPagination={true}
       />

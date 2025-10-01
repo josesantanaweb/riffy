@@ -3,7 +3,7 @@ import { RoleGuard } from "@/components/common/guards";
 import { Role } from "@riffy/types";
 
 const EditOwnerPage = () => (
-  <RoleGuard requiredRole={Role.ADMIN}>
+  <RoleGuard requiredRole={Role.ADMIN} showUnauthorized={true}>
     <OwnerForm />
   </RoleGuard>
 );

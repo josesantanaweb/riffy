@@ -104,6 +104,7 @@ export const PAYMENT_FRAGMENT = gql`
     nationalId
     email
     phone
+    amount
     state
     paymentDate
     proofUrl
@@ -124,5 +125,17 @@ export const NOTIFICATION_FRAGMENT = gql`
     status
     createdAt
     updatedAt
+  }
+`;
+
+export const PLAN_FRAGMENT = gql`
+  fragment PlanFragment on Plan {
+    name
+    id
+    description
+    price
+    maxRaffles
+    maxTickets
+    type
   }
 `;

@@ -6,7 +6,7 @@ import {
   TicketStatus,
   UserStatus,
 } from '@riffy/types';
-import { formatCurrency, formatDate } from '@/utils';
+import { Currency, formatCurrency, formatDate } from '@/utils';
 
 export const TABLE_CLASSES = {
   cell: 'px-4 h-14 font-medium text-white text-sm',
@@ -32,11 +32,12 @@ export function createColumn<T>(
 export function createCurrencyColumn<T>(
   accessorKey: keyof T,
   header: string,
+  currency: Currency = 'VES',
 ): ColumnDef<T> {
   return {
     accessorKey,
     header,
-    cell: info => formatCurrency(info.getValue() as number),
+    cell: info => formatCurrency(info.getValue() as number, currency),
     meta: {
       className: TABLE_CLASSES.cell,
       headerClassName: TABLE_CLASSES.header,

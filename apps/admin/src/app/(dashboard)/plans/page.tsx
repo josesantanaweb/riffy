@@ -1,11 +1,11 @@
-import Owners from '@/components/owners';
 import { RoleGuard } from '@/components/common/guards';
+import Plans from '@/components/plans';
 import { Role } from '@riffy/types';
 
-const OwnersPage = () => (
+const PlansPage = () => (
   <RoleGuard requiredRole={Role.ADMIN} showUnauthorized={true}>
-    <Owners />
+    <Plans />
   </RoleGuard>
 );
 
-export default OwnersPage;
+export default PlansPage;

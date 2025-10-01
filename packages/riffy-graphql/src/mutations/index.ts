@@ -17,3 +17,5 @@ export {
   UPDATE_NOTIFICATIONS_STATUS,
 } from './notification';
 export { UPDATE_TICKET_STATUS } from './tickets';
+export { CREATE_PLAN, UPDATE_PLAN, DELETE_PLAN } from './plans';
+
