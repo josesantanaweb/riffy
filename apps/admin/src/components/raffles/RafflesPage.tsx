@@ -19,13 +19,14 @@ const RafflesPage = () => {
   const handleView = (raffle: Raffle) => router.push(ROUTES.TICKETS.LIST(raffle.id));
 
   const handleDelete = async (raffle: Raffle) => {
-    try {
-      await deleteRaffle(raffle.id);
-      toast.success('Rifa eliminada exitosamente!!');
-    } catch (error) {
-      // eslint-disable-next-line no-console
-      console.error(error)
-      toast.error('Error al eliminar la rifa.');
+    const confirm = window.confirm('¿Estás seguro de querer eliminar esta rifa?');
+    if (confirm) {
+      try {
+        await deleteRaffle(raffle.id);
+        toast.success('Rifa eliminada exitosamente!!');
+      } catch {
+        toast.error('Error al eliminar la rifa.');
+      }
     }
   };
 

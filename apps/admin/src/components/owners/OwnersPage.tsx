@@ -17,11 +17,16 @@ const OwnersPage = () => {
   const handleEdit = (user: User) => router.push(ROUTES.OWNERS.EDIT(user.id));
 
   const handleDelete = async (user: User) => {
-    try {
-      await deleteUser(user.id);
-      toast.success('Usuario eliminado exitosamente!!');
-    } catch {
-      toast.error('Error al eliminar el usuario.');
+    const confirm = window.confirm(
+      '¿Estás seguro de querer eliminar este usuario?',
+    );
+    if (confirm) {
+      try {
+        await deleteUser(user.id);
+        toast.success('Usuario eliminado exitosamente!!');
+      } catch {
+        toast.error('Error al eliminar el usuario.');
+      }
     }
   };
 

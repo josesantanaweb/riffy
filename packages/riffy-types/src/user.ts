@@ -1,5 +1,6 @@
 import { PaymentMethod } from "./payment";
 import { Raffle } from "./raffle";
+import { Subscription } from "./subscription";
 
 export enum Role {
   ADMIN = 'ADMIN',
@@ -24,6 +25,7 @@ export interface User {
   status?: UserStatus | null;
   raffles?: Raffle[] | null;
   paymentMethods?: PaymentMethod[] | null;
+  subscription?: Subscription | null;
 }
 
 export interface CreateUserInput {
@@ -37,6 +39,7 @@ export interface CreateUserInput {
   logo?: string | null;
   role?: Role | null;
   status?: UserStatus | null;
+  planId?: string | null;
 }
 
 export type UpdateUserInput = Partial<CreateUserInput>;

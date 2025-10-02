@@ -75,52 +75,6 @@ type Raffle {
   ownerId: String!
 }
 
-type User {
-  id: ID!
-  name: String!
-  domain: String!
-  password: String
-  email: String!
-  logo: String
-  brandColor: String
-  whatsapp: String
-  instagram: String
-  tiktok: String
-  role: Role
-  status: UserStatus
-  createdAt: DateTime
-  updatedAt: DateTime
-  raffles: [Raffle!]
-  paymentMethods: [PaymentMethod!]
-}
-
-"""Roles de usuario"""
-enum Role {
-  ADMIN
-  OWNER
-}
-
-"""The status of the user"""
-enum UserStatus {
-  ACTIVE
-  INACTIVE
-}
-
-type AuthResponse {
-  accessToken: String!
-  user: User!
-}
-
-type Notification {
-  id: ID!
-  description: String!
-  status: String!
-  createdAt: DateTime!
-  updatedAt: DateTime!
-  owner: User
-  ownerId: String
-}
-
 type Plan {
   id: ID!
   name: String!
@@ -153,6 +107,53 @@ enum SubscriptionStatus {
   ACTIVE
   EXPIRED
   CANCELED
+}
+
+type User {
+  id: ID!
+  name: String!
+  domain: String!
+  password: String
+  email: String!
+  logo: String
+  brandColor: String
+  whatsapp: String
+  instagram: String
+  tiktok: String
+  role: Role
+  status: UserStatus
+  createdAt: DateTime
+  updatedAt: DateTime
+  raffles: [Raffle!]
+  paymentMethods: [PaymentMethod!]
+  subscription: Subscription
+}
+
+"""Roles de usuario"""
+enum Role {
+  ADMIN
+  OWNER
+}
+
+"""The status of the user"""
+enum UserStatus {
+  ACTIVE
+  INACTIVE
+}
+
+type AuthResponse {
+  accessToken: String!
+  user: User!
+}
+
+type Notification {
+  id: ID!
+  description: String!
+  status: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  owner: User
+  ownerId: String
 }
 
 type UploadResponse {
@@ -233,6 +234,7 @@ input CreateUserInput {
   instagram: String
   role: Role
   status: UserStatus
+  planId: String
 }
 
 input UpdateUserInput {
@@ -247,6 +249,7 @@ input UpdateUserInput {
   instagram: String
   role: Role
   status: UserStatus
+  planId: String
 }
 
 input LoginInput {

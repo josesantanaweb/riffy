@@ -7,6 +7,7 @@ import { JwtStrategy } from './strategies/jwt.strategy';
 
 import { AuthService } from './auth.service';
 import { PrismaService } from '../prisma/prisma.service';
+import { SubscriptionsService } from '../subscriptions/subscriptions.service';
 import { UsersService } from '../users/users.service';
 import { AuthResolver } from './auth.resolver';
 @Module({
@@ -16,6 +17,7 @@ import { AuthResolver } from './auth.resolver';
     JwtStrategy,
     UsersService,
     PrismaService,
+    SubscriptionsService,
   ],
   exports: [JwtStrategy, PassportModule, JwtModule],
   imports: [

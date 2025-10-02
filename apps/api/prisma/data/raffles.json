@@ -6,7 +6,7 @@
     "totalTickets": 100,
     "price": 10,
     "award": 1000,
-    "drawDate": "2025-01-01T00:00:00.000Z",
+    "drawDate": "2026-01-01T00:00:00.000Z",
     "status": "ACTIVE",
     "showDate": true,
     "showProgress": true,

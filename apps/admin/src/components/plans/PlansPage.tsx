@@ -16,11 +16,14 @@ const PlansPage = () => {
   const handleEdit = (plan: Plan) => router.push(ROUTES.PLANS.EDIT(plan.id));
 
   const handleDelete = async (plan: Plan) => {
-    try {
-      await deletePlan(plan.id);
-      toast.success('Plan eliminado exitosamente!!');
-    } catch {
-      toast.error('Error al eliminar el plan.');
+    const confirm = window.confirm('¿Estás seguro de querer eliminar este plan?');
+    if (confirm) {
+      try {
+        await deletePlan(plan.id);
+        toast.success('Plan eliminado exitosamente!!');
+      } catch {
+        toast.error('Error al eliminar el plan.');
+      }
     }
   };
 

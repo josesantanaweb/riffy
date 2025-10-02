@@ -16,7 +16,7 @@ model User {
   createdAt      DateTime        @default(now())
   updatedAt      DateTime        @updatedAt
   role           Role            @default(OWNER)
-  brandColor     String?         @default("00D4FF")
+  brandColor     String?         @default("#00D4FF")
   logo           String?
   status         UserStatus      @default(ACTIVE)
   instagram      String?
@@ -102,10 +102,10 @@ model Notification {
 }
 
 model Plan {
-  id          String  @id @default(cuid())
-  name        String  @unique
-  description String[]
-  price       Float
+  id            String         @id @default(cuid())
+  name          String         @unique
+  description   String[]
+  price         Float
   maxRaffles    Int?           @default(0)
   maxTickets    Int?           @default(0)
   type          PlanType
@@ -118,7 +118,7 @@ model Subscription {
   id        String             @id @default(cuid())
   planId    String
   startDate DateTime           @default(now())
-  endDate   DateTime?
+  endDate   DateTime?          @default(dbgenerated("(now() + '30 days'::interval)"))
   status    SubscriptionStatus @default(ACTIVE)
 
   ownerId String @unique

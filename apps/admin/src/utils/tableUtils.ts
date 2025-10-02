@@ -148,6 +148,8 @@ export function mapRaffleStatusToStatusType(status: RaffleStatus): BadgeStatus {
       return BadgeStatus.SUCCESS;
     case RaffleStatus.INACTIVE:
       return BadgeStatus.ERROR;
+    case RaffleStatus.PENDING:
+      return BadgeStatus.WARNING;
     case RaffleStatus.COMPLETED:
       return BadgeStatus.DEFAULT;
     default:

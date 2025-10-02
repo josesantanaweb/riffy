@@ -19,22 +19,23 @@ export const ownerSchema = z.object({
   brandColor: z
     .preprocess(emptyToUndefined, z
       .string()
-      .regex(/^#([0-9A-Fa-f]{3}){1,2}$/, 'Debe ser un color HEX válido')
+      .regex(/^#?([0-9A-Fa-f]{3}){1,2}$/, 'Debe ser un color HEX válido')
       .optional(),
     ),
   whatsapp: z.preprocess(
     emptyToUndefined,
-    z.string().min(8, 'Número inválido').optional(),
+    z.string().min(1, 'Número inválido').optional(),
   ),
   instagram: z.preprocess(emptyToUndefined, z.string().optional()),
   tiktok: z.preprocess(emptyToUndefined, z.string().optional()),
   logo: z.preprocess(
     emptyToUndefined,
-    z.string().url('Debe ser una URL válida').optional(),
+    z.string().optional(),
   ),
   logoFile: z.instanceof(File).nullable().optional(),
   status: z
     .preprocess(emptyToUndefined, z.nativeEnum(UserStatus).optional()),
+  planId: z.preprocess(emptyToUndefined, z.string().optional()),
 });
 
 export type FormData = z.infer<typeof ownerSchema>;

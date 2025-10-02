@@ -120,6 +120,23 @@ const OwnersTable = ({
         headerClassName: TABLE_CLASSES.header,
       },
     },
+    {
+      accessorKey: 'subscription.plan.name',
+      header: 'Plan',
+      cell: info => {
+        const row = info.row.original;
+        const planName = row.subscription?.plan?.name;
+        return (
+          <span className="text-sm text-white">
+            {planName || 'Sin plan'}
+          </span>
+        );
+      },
+      meta: {
+        className: TABLE_CLASSES.cell,
+        headerClassName: TABLE_CLASSES.header,
+      },
+    },
   ];
 
   const actions: TableAction<User>[] = [

@@ -5,8 +5,11 @@ import { useFormContext } from 'react-hook-form';
 import { Icon, Input, Select } from '@riffy/components';
 import type { FormData } from '@/validations/ownerSchema';
 import { UserStatus } from '@riffy/types';
+import { usePlans } from '@riffy/hooks';
+import ColorInput from '@/components/common/color-input';
 
 const FormInformation = () => {
+  const { data: plans } = usePlans();
   const [isCollapse, setIsCollapse] = useState(true);
 
   const {
@@ -20,6 +23,11 @@ const FormInformation = () => {
     { value: 'ACTIVE', label: 'Activo' },
     { value: 'INACTIVE', label: 'Inactivo' },
   ];
+
+  const plansOptions = plans?.map(plan => ({
+    value: plan.id,
+    label: plan.name,
+  }));
 
   const handleCollapse = () => setIsCollapse(prev => !prev);
 
@@ -90,14 +98,15 @@ const FormInformation = () => {
                   />
                 </div>
                 <div className="w-full lg:w-1/2">
-                  <Input
+                  <ColorInput
                     label="Color de Marca"
                     placeholder="#000000"
-                    inputSize="md"
-                    type="text"
                     value={formValues.brandColor || ''}
-                    {...register('brandColor')}
-                    error={errors.brandColor?.message}
+                    register={register}
+                    name="brandColor"
+                    error={errors.brandColor}
+                    onChange={(value) => setValue('brandColor', value, { shouldValidate: true })}
+                    inputSize="md"
                   />
                 </div>
               </div>
@@ -145,6 +154,23 @@ const FormInformation = () => {
                     value={formValues.status || ''}
                     onChange={value =>
                       setValue('status', value as UserStatus, {
+                        shouldValidate: false,
+                      })
+                    }
+                  />
+                </div>
+              </div>
+
+              <div className="flex gap-4 items-center w-full flex-wrap lg:flex-nowrap">
+                <div className="w-full lg:w-1/2">
+                  <Select
+                    label="Plan"
+                    placeholder="Selecciona el plan"
+                    size="md"
+                    options={plansOptions}
+                    value={formValues.planId || ''}
+                    onChange={value =>
+                      setValue('planId', value as string, {
                         shouldValidate: false,
                       })
                     }

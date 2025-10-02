@@ -24,8 +24,12 @@ const RaffleProgress = ({
   return (
     <div className="flex flex-col gap-4">
       <div className="flex items-center justify-between">
-        <p className="text-sm text-primary-500 font-medium">{progressText}</p>
-        <p className="text-sm text-success-500 font-medium">{ticketsText}</p>
+        <p
+          className={`text-sm font-medium ${isCompleted ? 'text-success-500' : 'text-primary-500'}`}
+        >
+          {progressText}
+        </p>
+        <p className="text-sm text-white font-medium">{ticketsText}</p>
       </div>
 
       <ProgressBar progress={displayProgress || 0} />

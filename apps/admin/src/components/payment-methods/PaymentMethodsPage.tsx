@@ -19,11 +19,14 @@ const PaymentMethods = () => {
     router.push(ROUTES.PAYMENT_METHODS.EDIT(payment.id));
 
   const handleDelete = async (payment: PaymentMethod) => {
-    try {
-      await deletePaymentMethod(payment.id);
-      toast.success('Metodo de Pago eliminado exitosamente!!');
-    } catch {
-      toast.error('Error al eliminar el metodo de pago.');
+    const confirm = window.confirm('¿Estás seguro de querer eliminar este metodo de pago?');
+    if (confirm) {
+      try {
+        await deletePaymentMethod(payment.id);
+        toast.success('Metodo de Pago eliminado exitosamente!!');
+      } catch {
+        toast.error('Error al eliminar el metodo de pago.');
+      }
     }
   };
 

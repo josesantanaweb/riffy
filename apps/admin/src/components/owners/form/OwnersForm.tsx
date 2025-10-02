@@ -25,6 +25,7 @@ const DEFAULT_VALUES: FormData = {
   logo: '',
   logoFile: null,
   status: UserStatus.ACTIVE,
+  planId: '',
 };
 
 const OwnersForm = () => {
@@ -32,13 +33,13 @@ const OwnersForm = () => {
 
   const methods = useForm<FormData>({
     resolver: zodResolver(ownerSchema),
-    mode: 'onTouched',
+    mode: 'onChange',
     defaultValues: DEFAULT_VALUES,
   });
 
   const {
     handleSubmit,
-    formState: { errors, isValid, isSubmitting },
+    formState: { isValid, isSubmitting },
     reset,
     watch,
   } = methods;
@@ -54,6 +55,7 @@ const OwnersForm = () => {
 
   useEffect(() => {
     if (!ownerData) return;
+
     reset({
       name: ownerData.name ?? '',
       email: ownerData.email ?? '',
@@ -65,6 +67,7 @@ const OwnersForm = () => {
       logo: ownerData.logo ?? '',
       logoFile: null,
       status: ownerData.status ?? UserStatus.ACTIVE,
+      planId: ownerData.subscription?.plan?.id ?? '',
     });
   }, [ownerData, reset]);
 
@@ -85,8 +88,7 @@ const OwnersForm = () => {
         setIsUploadingImage(true);
         try {
           finalLogoUrl = await uploadImageToS3(logoFile, { folder: 'owners' });
-        } catch (uploadError) {
-          console.error('Error subiendo logo:', uploadError);
+        } catch {
           toast.error('Error subiendo el logo');
           setIsUploadingImage(false);
           return;
@@ -121,8 +123,7 @@ const OwnersForm = () => {
       }
 
       router.push(ROUTES.OWNERS.LIST);
-    } catch (error) {
-      console.error('Error guardando dueño:', error);
+    } catch {
       toast.error('Error guardando dueño');
     }
   };
@@ -161,7 +162,7 @@ const OwnersForm = () => {
                 variant="primary"
                 size="md"
                 type="submit"
-                disabled={!isValid || isSubmitting || isCreating || isUploadingImage}
+                disabled={!isValid || isSubmitting || isCreating || isUploadingImage || (!isUpdating && !watch('password'))}
               >
                 {isUploadingImage
                   ? 'Subiendo imagen...'

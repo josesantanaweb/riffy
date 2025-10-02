@@ -172,6 +172,8 @@ export class RafflesService {
 
   /**
    * Elimina los datos de una rifa existente.
+   * Esto eliminará automáticamente todos los tickets asociados y
+   * los pagos que queden huérfanos (sin tickets asociados).
    * @param id ID de la rifa a eliminar
    * @param user Usuario que elimina la rifa
    * @returns La rifa eliminada
@@ -183,11 +185,28 @@ export class RafflesService {
       throw new ForbiddenException('No tienes permiso para eliminar esta rifa');
     }
 
-    await this.prisma.raffle.delete({
-      where: {
-        id,
-      },
+    return await this.prisma.$transaction(async (tx) => {
+      const tickets = await tx.ticket.findMany({
+        where: { raffleId: id },
+        select: { paymentId: true },
+      });
+
+      await tx.raffle.delete({
+        where: { id },
+      });
+
+      const paymentIds = tickets.map((t) => t.paymentId).filter(Boolean);
+
+      if (paymentIds.length > 0) {
+        await tx.payment.deleteMany({
+          where: {
+            id: { in: paymentIds },
+            tickets: { none: {} },
+          },
+        });
+      }
+
+      return raffle;
     });
-    return raffle;
   }
 }
