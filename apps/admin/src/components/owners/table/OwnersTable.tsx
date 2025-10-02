@@ -17,7 +17,6 @@ interface OwnersTableProps {
   data: User[];
   onEdit?: (owner: User) => void;
   onDelete?: (owner: User) => void;
-  onView?: (owner: User) => void;
   onAdd?: () => void;
 }
 
@@ -25,7 +24,6 @@ const OwnersTable = ({
   data,
   onEdit,
   onDelete,
-  onView,
   onAdd,
 }: OwnersTableProps) => {
   const columns: ColumnDef<User>[] = [
@@ -125,15 +123,6 @@ const OwnersTable = ({
   ];
 
   const actions: TableAction<User>[] = [
-    ...(onView
-      ? [
-          {
-            label: 'Ver Boletos',
-            icon: 'ticket',
-            onClick: onView,
-          },
-        ]
-      : []),
     ...(onEdit
       ? [
           {

@@ -95,8 +95,12 @@ const PaymentsTable = ({
         const handleWhatsApp = () =>
           window.open(`https://wa.me/${info.getValue() as string}`, '_blank');
         return (
-          <button className="cursor-pointer" onClick={handleWhatsApp}>
+          <button
+            className="cursor-pointer flex items-center gap-1"
+            onClick={handleWhatsApp}
+          >
             <Icon name="whatsapp" className="text-2xl" />
+            <p>{info.getValue() as string}</p>
           </button>
         );
       },

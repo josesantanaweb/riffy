@@ -131,7 +131,7 @@ const RafflesTable = ({
       ? [
           {
             label: 'Ver Boletos',
-            icon: 'search',
+            icon: 'ticket',
             onClick: onView,
           },
         ]

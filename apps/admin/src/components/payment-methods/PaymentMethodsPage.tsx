@@ -2,6 +2,7 @@
 import { useRouter } from 'next/navigation';
 import { usePaymentMethods, useDeletePaymentMethod } from '@riffy/hooks';
 import { useToast } from '@/hooks';
+import { useRole } from '@/hooks/useRole';
 import { ROUTES } from '@/constants';
 import { PaymentMethod } from '@riffy/types';
 import PageHeader from '@/components/common/page-header';
@@ -12,6 +13,7 @@ const PaymentMethods = () => {
   const toast = useToast();
   const { data, loading } = usePaymentMethods();
   const { deletePaymentMethod } = useDeletePaymentMethod();
+  const { isOwner } = useRole();
 
   const handleEdit = (payment: PaymentMethod) =>
     router.push(ROUTES.PAYMENT_METHODS.EDIT(payment.id));
@@ -36,7 +38,7 @@ const PaymentMethods = () => {
           loading={loading}
           onDelete={handleDelete}
           onEdit={handleEdit}
-          onAdd={handleAdd}
+          onAdd={isOwner ? handleAdd : undefined}
         />
       </div>
     </div>

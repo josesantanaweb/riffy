@@ -55,7 +55,7 @@ model Ticket {
   status    TicketStatus @default(AVAILABLE)
   raffleId  String
   paymentId String?
-  payment   Payment?     @relation(fields: [paymentId], references: [id])
+  payment   Payment?     @relation(fields: [paymentId], references: [id], onDelete: SetNull)
   raffle    Raffle       @relation(fields: [raffleId], references: [id], onDelete: Cascade)
 }
 

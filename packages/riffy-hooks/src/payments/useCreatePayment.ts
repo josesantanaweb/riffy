@@ -6,7 +6,7 @@ export const useCreatePayment = () => {
   const [createPaymentMutation, { data, error, loading }] = useMutation(
     CREATE_PAYMENT,
     {
-      refetchQueries: ['Payments'],
+      refetchQueries: ['Payments', 'UserByDomain'],
       awaitRefetchQueries: true,
     },
   );

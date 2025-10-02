@@ -166,7 +166,7 @@ input[type='number'] {
 .icon-gift:before { content: '\e836'; } /* '' */
 .icon-home:before { content: '\e837'; } /* '' */
 .icon-user:before { content: '\e838'; } /* '' */
-.icon-ticket:before { content: '\e839'; } /* '' */
+.icon-ticket:before { content: '\e852'; } /* '' */
 .icon-confetti:before { content: '\e83a'; } /* '' */
 .icon-trash:before { content: '\e83b'; } /* '' */
 .icon-download:before { content: '\e83c'; } /* '' */
