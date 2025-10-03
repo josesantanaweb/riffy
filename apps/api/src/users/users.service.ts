@@ -1,6 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { SubscriptionsService } from '../subscriptions/subscriptions.service';
 import { Role, TicketStatus } from '@prisma/client';
 import { User } from './entities/user.entity';
 import { CreateUserInput } from './inputs/create-user.input';
@@ -9,10 +8,7 @@ import { hash } from 'argon2';
 
 @Injectable()
 export class UsersService {
-  constructor(
-    private prisma: PrismaService,
-    private subscriptionsService: SubscriptionsService,
-  ) {}
+  constructor(private prisma: PrismaService) {}
 
   /**
    * Obtiene todos los usuarios registrados en la base de datos, o filtra por rol si se especifica.
@@ -23,11 +19,7 @@ export class UsersService {
     return await this.prisma.user.findMany({
       where: role ? { role } : {},
       include: {
-        subscription: {
-          include: {
-            plan: true,
-          },
-        },
+        plan: true,
       },
     });
   }
@@ -44,11 +36,7 @@ export class UsersService {
         id,
       },
       include: {
-        subscription: {
-          include: {
-            plan: true,
-          },
-        },
+        plan: true,
       },
     });
 
@@ -128,7 +116,7 @@ export class UsersService {
 
   /**
    * Crea un nuevo usuario.
-   * También crea automáticamente una suscripción con el plan básico.
+   * También asigna automáticamente el plan básico al usuario.
    * @param data Datos del nuevo usuario
    * @returns El usuario creado
    */
@@ -137,28 +125,19 @@ export class UsersService {
     const hashedPassword = await hash(password);
 
     return await this.prisma.$transaction(async (tx) => {
-      const newUser = await tx.user.create({
-        data: {
-          password: hashedPassword,
-          ...user,
-        },
-      });
-
       const basicPlan = await tx.plan.findFirst({
         where: {
           type: 'BASIC',
         },
       });
 
-      if (basicPlan) {
-        await tx.subscription.create({
-          data: {
-            ownerId: newUser.id,
-            planId: basicPlan.id,
-            status: 'ACTIVE',
-          },
-        });
-      }
+      const newUser = await tx.user.create({
+        data: {
+          password: hashedPassword,
+          ...user,
+          planId: basicPlan?.id,
+        },
+      });
 
       return newUser;
     });
@@ -166,51 +145,12 @@ export class UsersService {
 
   /**
    * Actualiza los datos de un usuario existente.
-   * Si se proporciona planId, también actualiza la suscripción del usuario.
    * @param id ID del usuario a actualizar
    * @param data Datos nuevos para el usuario
    * @returns El usuario actualizado
    */
   async update(id: string, data: UpdateUserInput): Promise<User> {
-    const { planId, password, ...userData } = data;
-
-    if (planId) {
-      return await this.prisma.$transaction(async (tx) => {
-        const updatedUser = await tx.user.update({
-          where: { id },
-          data: userData,
-        });
-
-        if (password) {
-          const hashedPassword = await hash(password);
-          await tx.user.update({
-            where: { id },
-            data: { password: hashedPassword },
-          });
-        }
-
-        const existingSubscription = await tx.subscription.findUnique({
-          where: { ownerId: id },
-        });
-
-        if (existingSubscription) {
-          await tx.subscription.update({
-            where: { ownerId: id },
-            data: { planId },
-          });
-        } else {
-          await tx.subscription.create({
-            data: {
-              ownerId: id,
-              planId,
-              status: 'ACTIVE',
-            },
-          });
-        }
-
-        return updatedUser;
-      });
-    }
+    const { password, ...userData } = data;
 
     const updateData: Partial<CreateUserInput> = { ...userData };
 

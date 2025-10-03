@@ -67,7 +67,7 @@ const OwnersForm = () => {
       logo: ownerData.logo ?? '',
       logoFile: null,
       status: ownerData.status ?? UserStatus.ACTIVE,
-      planId: ownerData.subscription?.plan?.id ?? '',
+      planId: ownerData?.plan?.id ?? '',
     });
   }, [ownerData, reset]);
 

@@ -13,11 +13,7 @@ export class PlansService {
    * @returns Arreglo de plans
    */
   async findAll(): Promise<Plan[]> {
-    const plans = await this.prisma.plan.findMany({
-      include: {
-        subscriptions: true,
-      },
-    });
+    const plans = await this.prisma.plan.findMany({});
     return plans;
   }
 
@@ -31,9 +27,6 @@ export class PlansService {
     const plan = await this.prisma.plan.findUnique({
       where: {
         id,
-      },
-      include: {
-        subscriptions: true,
       },
     });
 

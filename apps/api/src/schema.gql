@@ -94,21 +94,6 @@ enum PlanType {
   ONE_TIME
 }
 
-type Subscription {
-  id: ID!
-  startDate: DateTime
-  endDate: DateTime
-  status: SubscriptionStatus
-  plan: Plan
-}
-
-"""The status of the subscription"""
-enum SubscriptionStatus {
-  ACTIVE
-  EXPIRED
-  CANCELED
-}
-
 type User {
   id: ID!
   name: String!
@@ -126,7 +111,7 @@ type User {
   updatedAt: DateTime
   raffles: [Raffle!]
   paymentMethods: [PaymentMethod!]
-  subscription: Subscription
+  plan: Plan
 }
 
 """Roles de usuario"""
@@ -181,8 +166,6 @@ type Query {
   paymentMethods: [PaymentMethod!]!
   paymentMethodsByDomain(domain: String!): [PaymentMethod!]!
   paymentMethod(id: String!): PaymentMethod!
-  subscriptions: [Subscription!]!
-  subscription(id: String!): Subscription!
   notifications: [Notification!]!
   notification(id: String!): Notification!
   plans: [Plan!]!
@@ -209,9 +192,6 @@ type Mutation {
   createPaymentMethod(input: CreatePaymentMethodInput!): PaymentMethod!
   updatePaymentMethod(id: String!, input: UpdatePaymentMethodInput!): PaymentMethod!
   deletePaymentMethod(id: String!): PaymentMethod!
-  createSubscription(input: CreateSubscriptionInput!): Subscription!
-  updateSubscription(id: String!, input: UpdateSubscriptionInput!): Subscription!
-  deleteSubscription(id: String!): Subscription!
   uploadImage(file: Upload!, options: UploadOptionsInput): UploadResponse!
   uploadFile(file: Upload!): String!
   executeSeed: Boolean!
@@ -357,22 +337,6 @@ input UpdatePaymentMethodInput {
   nationalId: String
   binanceId: String
   paypalEmail: String
-}
-
-input CreateSubscriptionInput {
-  status: SubscriptionStatus
-  endDate: DateTime
-  startDate: DateTime
-  ownerId: String!
-  planId: String!
-}
-
-input UpdateSubscriptionInput {
-  status: SubscriptionStatus
-  endDate: DateTime
-  startDate: DateTime
-  ownerId: String
-  planId: String
 }
 
 """The `Upload` scalar type represents a file upload."""

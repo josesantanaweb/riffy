@@ -28,19 +28,6 @@ export const PLAN_FRAGMENT = gql`
   }
 `;
 
-export const SUBSCRIPTION_FRAGMENT = gql`
-  fragment SubscriptionFragment on Subscription {
-    id
-    startDate
-    endDate
-    status
-    plan {
-      ...PlanFragment
-    }
-  }
-  ${PLAN_FRAGMENT}
-`;
-
 export const USERS_FRAGMENT = gql`
   fragment UserFragment on User {
     id
@@ -59,12 +46,12 @@ export const USERS_FRAGMENT = gql`
     paymentMethods {
       ...PaymentMethodsFragment
     }
-    subscription {
-      ...SubscriptionFragment
+    plan {
+      ...PlanFragment
     }
   }
   ${PAYMENT_METHODS_FRAGMENT}
-  ${SUBSCRIPTION_FRAGMENT}
+  ${PLAN_FRAGMENT}
 `;
 
 export const RAFFLES_FRAGMENT = gql`

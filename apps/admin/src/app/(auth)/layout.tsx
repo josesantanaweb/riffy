@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 
 import '@riffy/components/styles/globals.css';
-import Providers from '@/components/providers';
+import Providers from '@/components/common/providers';
 import { PublicGuard } from '@/components/common/guards';
 
 export const metadata: Metadata = {

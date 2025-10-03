@@ -121,11 +121,11 @@ const OwnersTable = ({
       },
     },
     {
-      accessorKey: 'subscription.plan.name',
+      accessorKey: 'plan.name',
       header: 'Plan',
       cell: info => {
         const row = info.row.original;
-        const planName = row.subscription?.plan?.name;
+        const planName = row?.plan?.name;
         return (
           <span className="text-sm text-white">
             {planName || 'Sin plan'}
