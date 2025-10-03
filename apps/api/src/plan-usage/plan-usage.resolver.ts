@@ -1,4 +1,4 @@
-import { Resolver, Mutation } from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 import { UseGuards } from '@nestjs/common';
 import { PlanUsageService } from './plan-usage.service';
 import { PlanUsage } from './entities/plan-usage.entity';
@@ -13,6 +13,19 @@ export class PlanUsageResolver {
   constructor(private readonly planUsageService: PlanUsageService) {}
 
   /**
+   * Obtiene el uso de plan del usuario actual.
+   * @param user Usuario autenticado
+   * @returns El registro de PlanUsage del usuario o null si no existe
+   */
+  @UseGuards(GqlAuthGuard)
+  @Query(() => PlanUsage, { name: 'myPlanUsage', nullable: true })
+  getMyPlanUsage(
+    @CurrentUser() user: { id: string },
+  ): Promise<PlanUsage | null> {
+    return this.planUsageService.findByUserId(user.id);
+  }
+
+  /**
    * Resetea el uso de plan del usuario actual (útil para renovaciones).
    * @param user Usuario autenticado
    * @returns El registro de PlanUsage reseteado
@@ -21,7 +34,7 @@ export class PlanUsageResolver {
   @UseGuards(RolesGuard)
   @UseGuards(GqlAuthGuard)
   @Mutation(() => PlanUsage, { name: 'resetPlanUsage' })
-  reset(@CurrentUser() user: { id: string }): Promise<PlanUsage> {
-    return this.planUsageService.resetUsage(user.id);
+  reset(@Args('id', { type: () => String }) id: string): Promise<PlanUsage> {
+    return this.planUsageService.resetUsage(id);
   }
 }

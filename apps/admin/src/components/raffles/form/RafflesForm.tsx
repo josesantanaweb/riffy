@@ -9,6 +9,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { createRaffleSchema, type FormData } from '@/validations/raffleSchema';
 import { ROUTES } from '@/constants';
 import { uploadImageToS3 } from '@/utils/imageUpload';
+import { extractErrorMessage } from '@/utils';
 import FormImages from './form-image';
 import FormInformation from './form-information';
 import PageHeader from '@/components/common/page-header';
@@ -77,8 +78,19 @@ const RafflesForm = () => {
   const handleBack = useCallback(() => router.back(), [router]);
 
   const onSubmit = async (data: FormData) => {
-    const { title, status, description, price, award, totalTickets, drawDate, bannerFile, showDate, showProgress, minTickets } =
-      data;
+    const {
+      title,
+      status,
+      description,
+      price,
+      award,
+      totalTickets,
+      drawDate,
+      bannerFile,
+      showDate,
+      showProgress,
+      minTickets,
+    } = data;
 
     try {
       let finalBannerUrl = data.banner || DEFAULT_BANNER;
@@ -86,7 +98,9 @@ const RafflesForm = () => {
       if (bannerFile) {
         setIsUploadingImage(true);
         try {
-          finalBannerUrl = await uploadImageToS3(bannerFile, { folder: 'raffles' });
+          finalBannerUrl = await uploadImageToS3(bannerFile, {
+            folder: 'raffles',
+          });
         } catch {
           finalBannerUrl = DEFAULT_BANNER;
         } finally {
@@ -117,8 +131,9 @@ const RafflesForm = () => {
       }
 
       router.push(ROUTES.RAFFLES.LIST);
-    } catch {
-      toast.error('Error guardando rifa');
+    } catch (error: unknown) {
+      const errorMessage = extractErrorMessage(error);
+      toast.error(errorMessage);
     }
   };
 
@@ -154,13 +169,15 @@ const RafflesForm = () => {
                 variant="primary"
                 size="md"
                 type="submit"
-                disabled={!isValid || isSubmitting || isCreating || isUploadingImage}
+                disabled={
+                  !isValid || isSubmitting || isCreating || isUploadingImage
+                }
               >
                 {isSubmitting || isCreating
                   ? 'Guardando...'
                   : isUploadingImage
-                  ? 'Subiendo imagen...'
-                  : 'Guardar'}
+                    ? 'Subiendo imagen...'
+                    : 'Guardar'}
               </Button>
             </div>
           </div>

@@ -85,6 +85,22 @@ export const RAFFLES_FRAGMENT = gql`
   ${USERS_FRAGMENT}
 `;
 
+export const PLAN_USAGE_FRAGMENT = gql`
+  fragment PlanUsageFragment on PlanUsage {
+    id
+    currentRaffles
+    currentTickets
+    plan {
+      ...PlanFragment
+    }
+    owner {
+      ...UserFragment
+    }
+  }
+  ${PLAN_FRAGMENT}
+  ${USERS_FRAGMENT}
+`;
+
 export const PAYMENT_BASIC_FRAGMENT = gql`
   fragment PaymentBasicFragment on Payment {
     id
