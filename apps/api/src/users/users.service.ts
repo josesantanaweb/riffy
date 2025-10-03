@@ -121,23 +121,39 @@ export class UsersService {
    * @returns El usuario creado
    */
   async create(data: CreateUserInput): Promise<User> {
-    const { password, ...user } = data;
+    const { password, planId, ...user } = data;
     const hashedPassword = await hash(password);
 
     return await this.prisma.$transaction(async (tx) => {
-      const basicPlan = await tx.plan.findFirst({
-        where: {
-          type: 'BASIC',
-        },
-      });
+      let finalPlanId = planId;
+
+      if (!finalPlanId) {
+        const basicPlan = await tx.plan.findFirst({
+          where: {
+            type: 'BASIC',
+          },
+        });
+        finalPlanId = basicPlan?.id;
+      }
 
       const newUser = await tx.user.create({
         data: {
           password: hashedPassword,
           ...user,
-          planId: basicPlan?.id,
+          planId: finalPlanId,
         },
       });
+
+      if (finalPlanId) {
+        await tx.planUsage.create({
+          data: {
+            ownerId: newUser.id,
+            planId: finalPlanId,
+            currentRaffles: 0,
+            currentTickets: 0,
+          },
+        });
+      }
 
       return newUser;
     });
@@ -151,16 +167,48 @@ export class UsersService {
    */
   async update(id: string, data: UpdateUserInput): Promise<User> {
     const { password, ...userData } = data;
-
     const updateData: Partial<CreateUserInput> = { ...userData };
 
     if (password) {
       updateData.password = await hash(password);
     }
 
-    return await this.prisma.user.update({
-      where: { id },
-      data: updateData,
+    return await this.prisma.$transaction(async (tx) => {
+      const currentUser = await tx.user.findUnique({
+        where: { id },
+        select: { planId: true },
+      });
+
+      const updatedUser = await tx.user.update({
+        where: { id },
+        data: updateData,
+      });
+
+      if (userData.planId && userData.planId !== currentUser?.planId) {
+        const existingUsage = await tx.planUsage.findUnique({
+          where: { ownerId: id },
+        });
+
+        if (existingUsage) {
+          await tx.planUsage.update({
+            where: { ownerId: id },
+            data: {
+              planId: userData.planId,
+            },
+          });
+        } else {
+          await tx.planUsage.create({
+            data: {
+              ownerId: id,
+              planId: userData.planId,
+              currentRaffles: 0,
+              currentTickets: 0,
+            },
+          });
+        }
+      }
+
+      return updatedUser;
     });
   }
 

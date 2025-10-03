@@ -126,6 +126,18 @@ enum UserStatus {
   INACTIVE
 }
 
+type PlanUsage {
+  id: ID!
+  currentRaffles: Float!
+  currentTickets: Float
+  createdAt: DateTime
+  updatedAt: DateTime
+  ownerId: String!
+  planId: [String!]!
+  owner: User
+  plan: DateTime
+}
+
 type AuthResponse {
   accessToken: String!
   user: User!
@@ -176,6 +188,7 @@ type Mutation {
   createUser(input: CreateUserInput!): User!
   updateUser(id: String!, input: UpdateUserInput!): User!
   deleteUser(id: String!): User!
+  resetPlanUsage: PlanUsage!
   register(input: CreateUserInput!): AuthResponse!
   login(input: LoginInput!): AuthResponse!
   createRaffle(input: CreateRaffleInput!): Raffle!

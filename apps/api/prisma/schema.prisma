@@ -28,19 +28,21 @@ model User {
   notification   Notification[]
   planId         String?
   plan           Plan?           @relation(fields: [planId], references: [id])
+  planUsage      PlanUsage?
 }
 
 model Plan {
-  id          String   @id @default(cuid())
-  name        String   @unique
+  id          String      @id @default(cuid())
+  name        String      @unique
   description String[]
   price       Float
-  maxRaffles  Int?     @default(0)
-  maxTickets  Int?     @default(0)
+  maxRaffles  Int?        @default(0)
+  maxTickets  Int?        @default(0)
   type        PlanType
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
   owners      User[]
+  planUsages  PlanUsage[]
 }
 
 model Raffle {
@@ -113,6 +115,18 @@ model Notification {
   updatedAt   DateTime           @updatedAt
   ownerId     String
   owner       User               @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+}
+
+model PlanUsage {
+  id             String   @id @default(cuid())
+  ownerId        String   @unique
+  planId         String
+  currentRaffles Int      @default(0)
+  currentTickets Int      @default(0)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  owner          User     @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  plan           Plan     @relation(fields: [planId], references: [id], onDelete: Cascade)
 }
 
 enum PlanType {

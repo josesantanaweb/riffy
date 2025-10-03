@@ -6,7 +6,7 @@ export const useUpdateUser = () => {
   const [updateUserMutation, { data, error, loading }] = useMutation(
     UPDATE_USER,
     {
-      refetchQueries: ['Users'],
+      refetchQueries: ['Users', 'User'],
       awaitRefetchQueries: true,
     },
   );

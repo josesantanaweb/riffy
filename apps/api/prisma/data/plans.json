@@ -7,7 +7,7 @@
       "✔️ Incluye dominio personalizado para tu negocio o rifa."
     ],
     "price": 50,
-    "maxRaffles": 100,
+    "maxRaffles": 1,
     "maxTickets": 100,
     "type": "BASIC"
   },

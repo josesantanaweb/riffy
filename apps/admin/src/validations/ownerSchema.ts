@@ -10,6 +10,9 @@ export const ownerSchema = z.object({
   email: z
     .string({ required_error: 'El email es requerido' })
     .email('El email no es válido'),
+  domain: z
+    .string({ required_error: 'El dominio es requerido' })
+    .min(2, 'El dominio debe tener al menos 2 caracteres'),
   password: z
     .preprocess(emptyToUndefined, z
       .string()

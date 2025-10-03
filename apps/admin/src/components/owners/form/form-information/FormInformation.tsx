@@ -98,15 +98,13 @@ const FormInformation = () => {
                   />
                 </div>
                 <div className="w-full lg:w-1/2">
-                  <ColorInput
-                    label="Color de Marca"
-                    placeholder="#000000"
-                    value={formValues.brandColor || ''}
-                    register={register}
-                    name="brandColor"
-                    error={errors.brandColor}
-                    onChange={(value) => setValue('brandColor', value, { shouldValidate: true })}
+                  <Input
+                    label="Dominio"
+                    placeholder="Ej: www.example.com"
                     inputSize="md"
+                    value={formValues.domain || ''}
+                    {...register('domain')}
+                    error={errors.domain?.message}
                   />
                 </div>
               </div>
@@ -174,6 +172,20 @@ const FormInformation = () => {
                         shouldValidate: false,
                       })
                     }
+                  />
+                </div>
+                <div className="w-full lg:w-1/2">
+                  <ColorInput
+                    label="Color de Marca"
+                    placeholder="#000000"
+                    value={formValues.brandColor || ''}
+                    register={register}
+                    name="brandColor"
+                    error={errors.brandColor}
+                    onChange={value =>
+                      setValue('brandColor', value, { shouldValidate: true })
+                    }
+                    inputSize="md"
                   />
                 </div>
               </div>

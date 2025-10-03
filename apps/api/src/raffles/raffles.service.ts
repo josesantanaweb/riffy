@@ -4,6 +4,7 @@ import {
   ForbiddenException,
 } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
+import { PlanUsageService } from '../plan-usage/plan-usage.service';
 import { Raffle } from './entities/raffle.entity';
 import { CreateRaffleInput } from './inputs/create-raffle.input';
 import { UpdateRaffleInput } from './inputs/update-raffle.input';
@@ -11,7 +12,10 @@ import { TicketStatus, Role } from '@prisma/client';
 
 @Injectable()
 export class RafflesService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private planUsageService: PlanUsageService,
+  ) {}
 
   /**
    * Obtiene todas las rifas registradas en la base de datos.
@@ -116,6 +120,7 @@ export class RafflesService {
    * Crea una nueva rifa.
    * El propietario (ownerId) se asigna automáticamente al usuario logueado.
    * Genera automáticamente todos los tickets numerados para la rifa.
+   * Valida y actualiza automáticamente el uso del plan del usuario.
    * @param data Datos de la nueva rifa (sin ownerId)
    * @param user Usuario logueado que será el propietario de la rifa
    * @returns La rifa creada con todos sus tickets
@@ -125,21 +130,28 @@ export class RafflesService {
     user: { id: string; role: Role },
   ): Promise<Raffle> {
     const { totalTickets } = data;
-
     const ownerId = user.id;
 
-    const raffleData = { ...data, ownerId };
+    await this.planUsageService.validateAndIncrementRaffles(ownerId);
+    await this.planUsageService.validateAndIncrementTickets(
+      ownerId,
+      totalTickets,
+    );
 
-    const raffle = await this.prisma.raffle.create({ data: raffleData });
+    const raffle = await this.prisma.$transaction(async (tx) => {
+      const raffleData = { ...data, ownerId };
+      const newRaffle = await tx.raffle.create({ data: raffleData });
 
-    const maxLength = totalTickets.toString().length;
+      const maxLength = totalTickets.toString().length;
+      const tickets = Array.from({ length: totalTickets }, (_, i) => ({
+        number: `${i + 1}`.padStart(maxLength, '0'),
+        raffleId: newRaffle.id,
+      }));
 
-    const tickets = Array.from({ length: totalTickets }, (_, i) => ({
-      number: `${i + 1}`.padStart(maxLength, '0'),
-      raffleId: raffle.id,
-    }));
+      await tx.ticket.createMany({ data: tickets });
 
-    await this.prisma.ticket.createMany({ data: tickets });
+      return newRaffle;
+    });
 
     return raffle;
   }

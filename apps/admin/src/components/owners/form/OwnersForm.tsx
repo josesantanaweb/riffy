@@ -19,6 +19,7 @@ const DEFAULT_VALUES: FormData = {
   email: '',
   password: '',
   brandColor: '',
+  domain: '',
   whatsapp: '',
   instagram: '',
   tiktok: '',
@@ -60,6 +61,7 @@ const OwnersForm = () => {
       name: ownerData.name ?? '',
       email: ownerData.email ?? '',
       password: '',
+      domain: ownerData.domain ?? '',
       brandColor: ownerData.brandColor ?? '',
       whatsapp: ownerData.whatsapp ?? '',
       instagram: ownerData.instagram ?? '',
@@ -103,11 +105,13 @@ const OwnersForm = () => {
         password: rest.password || '',
         brandColor: rest.brandColor,
         whatsapp: rest.whatsapp,
+        domain: rest.domain,
         instagram: rest.instagram,
         tiktok: rest.tiktok,
         logo: finalLogoUrl,
         role: Role.OWNER,
         status: rest.status,
+        planId: rest.planId,
       };
 
       if (isUpdating && ownerData?.id) {
@@ -139,9 +143,9 @@ const OwnersForm = () => {
         <div className="p-6 flex-col flex gap-6">
           <PageHeader
             title={
-              isUpdating ? 'Editar Dueño de Rifa' : 'Crear Dueño de Rifa'
+              isUpdating ? 'Editar Dueño' : 'Crear Dueño'
             }
-            subtitle="Gestión de Dueños de Rifa"
+            subtitle="Gestión de Dueños"
             showBackButton
           />
           <div className="flex flex-col gap-6 w-full">

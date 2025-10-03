@@ -16,6 +16,7 @@ export interface User {
   id: string;
   name: string;
   email: string;
+  domain: string;
   brandColor?: string | null;
   whatsapp?: string | null;
   tiktok?: string | null;
@@ -32,6 +33,7 @@ export interface CreateUserInput {
   name: string;
   email: string;
   password: string;
+  domain: string;
   brandColor?: string | null;
   whatsapp?: string | null;
   instagram?: string | null;

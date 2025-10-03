@@ -1,9 +1,11 @@
 import { Module } from '@nestjs/common';
 import { RafflesService } from './raffles.service';
 import { RafflesResolver } from './raffles.resolver';
-import { PrismaService } from '../prisma/prisma.service';
+import { PrismaModule } from '../prisma/prisma.module';
+import { PlanUsageModule } from '../plan-usage/plan-usage.module';
 
 @Module({
-  providers: [RafflesResolver, RafflesService, PrismaService],
+  imports: [PrismaModule, PlanUsageModule],
+  providers: [RafflesResolver, RafflesService],
 })
 export class RafflesModule {}

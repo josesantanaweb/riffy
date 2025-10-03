@@ -8,6 +8,7 @@ import { JwtStrategy } from './strategies/jwt.strategy';
 import { AuthService } from './auth.service';
 import { PrismaService } from '../prisma/prisma.service';
 import { UsersService } from '../users/users.service';
+import { PlanUsageService } from '../plan-usage/plan-usage.service';
 import { AuthResolver } from './auth.resolver';
 @Module({
   providers: [
@@ -16,6 +17,7 @@ import { AuthResolver } from './auth.resolver';
     JwtStrategy,
     UsersService,
     PrismaService,
+    PlanUsageService,
   ],
   exports: [JwtStrategy, PassportModule, JwtModule],
   imports: [
