@@ -83,7 +83,7 @@ const DataTable = <T extends Record<string, any>>({
   }, [data, search, searchFields]);
 
   const table = useReactTable({
-    data: filteredData,
+    data: filteredData || [],
     columns: columnsWithActions,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: enablePagination
@@ -121,7 +121,7 @@ const DataTable = <T extends Record<string, any>>({
     }
   };
 
-  const allSelected = selected.size === data.length && data.length > 0;
+  const allSelected = selected.size === data?.length && data.length > 0;
 
   return (
     <div className="flex flex-col gap-6 w-full">
@@ -169,7 +169,7 @@ const DataTable = <T extends Record<string, any>>({
               {button.icon && (
                 <Icon
                   name={button.icon as IconName}
-                  className={`${button.icon === 'plus' ? 'text-lg text-center w-[14px]' : 'text-sm'}`}
+                  className={`${button.icon === 'plus' ? 'text-lg text-center w-[14px] flex justify-center' : 'text-sm'}`}
                 />
               )}
               {button.label}

@@ -11,7 +11,7 @@ import { CreatePaymentInput } from './inputs/create-payment.input';
 
 @Resolver()
 export class PaymentsResolver {
-  constructor(private readonly PaymentService: PaymentsService) {}
+  constructor(private readonly paymentsService: PaymentsService) {}
 
   /**
    * Obtiene todos los payments registrados.
@@ -23,7 +23,7 @@ export class PaymentsResolver {
   @UseGuards(GqlAuthGuard)
   @Query(() => [Payment], { name: 'payments' })
   getAll(): Promise<Payment[]> {
-    return this.PaymentService.findAll();
+    return this.paymentsService.findAll();
   }
 
   /**
@@ -37,7 +37,7 @@ export class PaymentsResolver {
   @UseGuards(GqlAuthGuard)
   @Query(() => Payment, { name: 'payment' })
   getOne(@Args('id', { type: () => String }) id: string): Promise<Payment> {
-    return this.PaymentService.findOne(id);
+    return this.paymentsService.findOne(id);
   }
 
   /**
@@ -49,7 +49,7 @@ export class PaymentsResolver {
   getByNationalId(
     @Args('nationalId', { type: () => String }) nationalId: string,
   ): Promise<Payment> {
-    return this.PaymentService.findByNationalId(nationalId);
+    return this.paymentsService.findByNationalId(nationalId);
   }
 
   /**
@@ -62,7 +62,7 @@ export class PaymentsResolver {
     @Args('input', { type: () => CreatePaymentInput })
     input: CreatePaymentInput,
   ): Promise<Payment> {
-    return this.PaymentService.create(input);
+    return this.paymentsService.create(input);
   }
 
   /**
@@ -81,7 +81,7 @@ export class PaymentsResolver {
     @Args('input', { type: () => UpdatePaymentInput })
     input: UpdatePaymentInput,
   ): Promise<Payment> {
-    return this.PaymentService.update(id, input);
+    return this.paymentsService.update(id, input);
   }
 
   /**
@@ -99,7 +99,7 @@ export class PaymentsResolver {
     @Args('id', { type: () => String }) id: string,
     @Args('status', { type: () => PaymentStatus }) status: PaymentStatus,
   ): Promise<Payment> {
-    return this.PaymentService.updateStatus(id, status);
+    return this.paymentsService.updateStatus(id, status);
   }
 
   /**
@@ -113,6 +113,6 @@ export class PaymentsResolver {
   @UseGuards(GqlAuthGuard)
   @Mutation(() => Payment, { name: 'deletePayment' })
   delete(@Args('id', { type: () => String }) id: string): Promise<Payment> {
-    return this.PaymentService.delete(id);
+    return this.paymentsService.delete(id);
   }
 }

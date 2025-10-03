@@ -16,7 +16,7 @@ model User {
   createdAt      DateTime        @default(now())
   updatedAt      DateTime        @updatedAt
   role           Role            @default(OWNER)
-  brandColor     String?         @default("00D4FF")
+  brandColor     String?         @default("#00D4FF")
   logo           String?
   status         UserStatus      @default(ACTIVE)
   instagram      String?
@@ -24,8 +24,25 @@ model User {
   whatsapp       String?
   domain         String          @unique
   paymentMethods PaymentMethod[]
-  notifications  Notification[]
   raffles        Raffle[]
+  notification   Notification[]
+  planId         String?
+  plan           Plan?           @relation(fields: [planId], references: [id])
+  planUsage      PlanUsage?
+}
+
+model Plan {
+  id          String      @id @default(cuid())
+  name        String      @unique
+  description String[]
+  price       Float
+  maxRaffles  Int?        @default(0)
+  maxTickets  Int?        @default(0)
+  type        PlanType
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  owners      User[]
+  planUsages  PlanUsage[]
 }
 
 model Raffle {
@@ -54,7 +71,7 @@ model Ticket {
   status    TicketStatus @default(AVAILABLE)
   raffleId  String
   paymentId String?
-  payment   Payment?     @relation(fields: [paymentId], references: [id])
+  payment   Payment?     @relation(fields: [paymentId], references: [id], onDelete: SetNull)
   raffle    Raffle       @relation(fields: [raffleId], references: [id], onDelete: Cascade)
 }
 
@@ -98,6 +115,24 @@ model Notification {
   updatedAt   DateTime           @updatedAt
   ownerId     String
   owner       User               @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+}
+
+model PlanUsage {
+  id             String   @id @default(cuid())
+  ownerId        String   @unique
+  planId         String
+  currentRaffles Int      @default(0)
+  currentTickets Int      @default(0)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  owner          User     @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  plan           Plan     @relation(fields: [planId], references: [id], onDelete: Cascade)
+}
+
+enum PlanType {
+  BASIC
+  PREMIUM
+  ONE_TIME
 }
 
 enum NotificationStatus {

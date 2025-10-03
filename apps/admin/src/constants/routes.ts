@@ -12,9 +12,6 @@ export const ROUTES = {
     CREATE: '/owners/create',
     EDIT: (id: string) => `/owners/edit/${id}`,
   },
-  TICKETS: {
-    LIST: (raffleId: string) => `/raffles/${raffleId}/tickets`,
-  },
   PAYMENTS: {
     LIST: `/payments`,
     CREATE: '/payments/create',
@@ -23,6 +20,16 @@ export const ROUTES = {
     LIST: `/payment-methods`,
     CREATE: '/payment-methods/create',
     EDIT: (id: string) => `/payment-methods/edit/${id}`,
+  },
+  PLANS: {
+    LIST: `/plans`,
+    CREATE: '/plans/create',
+    EDIT: (id: string) => `/plans/edit/${id}`,
+  },
+  TICKETS: {
+    LIST: `/tickets`,
+    CREATE: '/tickets/create',
+    EDIT: (id: string) => `/tickets/edit/${id}`,
   },
   LOGOUT: '/logout',
 };
@@ -50,6 +57,12 @@ export const MENU: MenuItem[] = [
     requiredRoles: [Role.ADMIN, Role.OWNER],
   },
   {
+    label: 'Boletos',
+    icon: 'ticket',
+    path: ROUTES.TICKETS.LIST,
+    requiredRoles: [Role.ADMIN, Role.OWNER],
+  },
+  {
     label: 'Dueños',
     icon: 'user',
     path: ROUTES.OWNERS.LIST,
@@ -65,6 +78,12 @@ export const MENU: MenuItem[] = [
     icon: 'credit-card',
     path: ROUTES.PAYMENT_METHODS.LIST,
     requiredRole: Role.OWNER,
+  },
+  {
+    label: 'Planes',
+    icon: 'file',
+    path: ROUTES.PLANS.LIST,
+    requiredRole: Role.ADMIN,
   },
   {
     label: 'Cerrar sesión',

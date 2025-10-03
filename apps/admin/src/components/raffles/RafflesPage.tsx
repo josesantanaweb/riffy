@@ -1,5 +1,5 @@
 'use client';
-import RafflesTable from './raffles-table/RafflesTable';
+import RafflesTable from './table/RafflesTable';
 import { useRouter } from 'next/navigation';
 import { useRaffles, useDeleteRaffle } from '@riffy/hooks';
 import { useToast } from '@/hooks';
@@ -16,16 +16,17 @@ const RafflesPage = () => {
   const handleEdit = (raffle: Raffle) =>
     router.push(ROUTES.RAFFLES.EDIT(raffle.id));
 
-  const handleView = (raffle: Raffle) => router.push(ROUTES.TICKETS.LIST(raffle.id));
+  const handleView = () => router.push(ROUTES.TICKETS.LIST);
 
   const handleDelete = async (raffle: Raffle) => {
-    try {
-      await deleteRaffle(raffle.id);
-      toast.success('Rifa eliminada exitosamente!!');
-    } catch (error) {
-      // eslint-disable-next-line no-console
-      console.error(error)
-      toast.error('Error al eliminar la rifa.');
+    const confirm = window.confirm('¿Estás seguro de querer eliminar esta rifa?');
+    if (confirm) {
+      try {
+        await deleteRaffle(raffle.id);
+        toast.success('Rifa eliminada exitosamente!!');
+      } catch {
+        toast.error('Error al eliminar la rifa.');
+      }
     }
   };
 

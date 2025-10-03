@@ -18,7 +18,7 @@ const Navbar = () => {
   }, [user, loading]);
 
   return (
-    <div className="w-full h-[70px] flex items-center justify-between px-5 bg-black">
+    <div className="w-full h-[70px] flex items-center justify-between px-5 bg-base-900">
       <Logo className="w-[64px]" src={user?.logo} loading={loading} />
       <div className="flex items-center gap-3">
           <Link

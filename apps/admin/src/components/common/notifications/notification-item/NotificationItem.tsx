@@ -2,10 +2,12 @@
 import React, { useState, useRef, useEffect } from 'react';
 import type { ReactElement } from 'react';
 import { Icon } from '@riffy/components';
+import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { Notification, NotificationStatus } from '@riffy/types';
 import { formatRelativeTime } from '@/utils';
 import { useUpdateNotification } from '@riffy/hooks';
+import { ROUTES } from '@/constants';
 
 interface NotificationItemProps {
   notification: Notification;
@@ -14,12 +16,14 @@ interface NotificationItemProps {
 const NotificationItem = ({
   notification,
 }: NotificationItemProps): ReactElement => {
+  const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const { updateNotification } = useUpdateNotification();
 
   const handleMarkReadNotification = () => {
     updateNotification(notification.id, NotificationStatus.READ);
+    router.push(ROUTES.PAYMENTS.LIST);
   };
 
   useEffect(() => {

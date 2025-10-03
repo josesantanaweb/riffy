@@ -3,6 +3,7 @@ import { PrismaService } from '../prisma/prisma.service';
 import { Ticket } from './entities/ticket.entity';
 import { CreateTicketInput } from './inputs/create-ticket.input';
 import { UpdateTicketInput } from './inputs/update-ticket.input';
+import { TicketStatus } from '@prisma/client';
 
 @Injectable()
 export class TicketsService {
@@ -32,6 +33,9 @@ export class TicketsService {
       },
       include: {
         payment: true,
+      },
+      orderBy: {
+        number: 'asc',
       },
     });
     return tickets;
@@ -103,6 +107,22 @@ export class TicketsService {
       where: { id },
       data,
     });
+  }
+
+  /**
+   * Actualiza el status de un ticket existente.
+   * @param id ID del ticket a actualizar
+   * @param status Nuevo estado del ticket
+   * @returns El ticket actualizado
+   */
+  async updateStatus(id: string, status: TicketStatus): Promise<Ticket> {
+    await this.findOne(id);
+    const updatedTicket = await this.prisma.ticket.update({
+      where: { id },
+      data: { status },
+    });
+
+    return updatedTicket;
   }
 
   /**

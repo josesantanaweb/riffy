@@ -55,4 +55,9 @@ export class CreateUserInput {
   @IsOptional()
   @Field(() => UserStatus, { nullable: true })
   status?: UserStatus;
+
+  @IsString()
+  @IsOptional()
+  @Field(() => String, { nullable: true })
+  planId?: string;
 }

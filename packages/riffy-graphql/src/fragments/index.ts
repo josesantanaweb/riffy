@@ -16,6 +16,18 @@ export const PAYMENT_METHODS_FRAGMENT = gql`
   }
 `;
 
+export const PLAN_FRAGMENT = gql`
+  fragment PlanFragment on Plan {
+    name
+    id
+    description
+    price
+    maxRaffles
+    maxTickets
+    type
+  }
+`;
+
 export const USERS_FRAGMENT = gql`
   fragment UserFragment on User {
     id
@@ -34,8 +46,12 @@ export const USERS_FRAGMENT = gql`
     paymentMethods {
       ...PaymentMethodsFragment
     }
+    plan {
+      ...PlanFragment
+    }
   }
   ${PAYMENT_METHODS_FRAGMENT}
+  ${PLAN_FRAGMENT}
 `;
 
 export const RAFFLES_FRAGMENT = gql`
@@ -66,6 +82,22 @@ export const RAFFLES_FRAGMENT = gql`
       ...UserFragment
     }
   }
+  ${USERS_FRAGMENT}
+`;
+
+export const PLAN_USAGE_FRAGMENT = gql`
+  fragment PlanUsageFragment on PlanUsage {
+    id
+    currentRaffles
+    currentTickets
+    plan {
+      ...PlanFragment
+    }
+    owner {
+      ...UserFragment
+    }
+  }
+  ${PLAN_FRAGMENT}
   ${USERS_FRAGMENT}
 `;
 
@@ -104,6 +136,7 @@ export const PAYMENT_FRAGMENT = gql`
     nationalId
     email
     phone
+    amount
     state
     paymentDate
     proofUrl

@@ -2,7 +2,12 @@ import { Injectable, Logger } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { loadJson } from '../utils/loadJson';
 import { hash } from 'argon2';
-import { Role, PaymentMethodType, RaffleStatus } from '@prisma/client';
+import {
+  Role,
+  PaymentMethodType,
+  RaffleStatus,
+  PlanType,
+} from '@prisma/client';
 
 interface UserSeedData {
   name: string;
@@ -41,6 +46,15 @@ interface RaffleSeedData {
   minTickets?: number;
 }
 
+interface PlanSeedData {
+  name: string;
+  description: string[];
+  price: number;
+  maxRaffles: number;
+  maxTickets: number;
+  type: PlanType;
+}
+
 @Injectable()
 export class SeedsService {
   private readonly logger = new Logger(SeedsService.name);
@@ -69,6 +83,7 @@ export class SeedsService {
       await this.seedUsers();
       await this.seedPaymentMethods();
       await this.seedRaffles();
+      await this.seedPlans();
     } catch (error) {
       this.logger.error('Error durante el seeding:', error);
       throw error;
@@ -79,6 +94,7 @@ export class SeedsService {
 
   private async deleteDatabase(): Promise<void> {
     await this.prisma.ticket.deleteMany({});
+    await this.prisma.plan.deleteMany({});
     await this.prisma.raffle.deleteMany({});
     await this.prisma.paymentMethod.deleteMany({});
     await this.prisma.user.deleteMany({});
@@ -171,6 +187,13 @@ export class SeedsService {
       } catch {
         //
       }
+    }
+  }
+
+  async seedPlans(): Promise<void> {
+    const plans = loadJson<PlanSeedData[]>('plans.json');
+    for (const plan of plans) {
+      await this.prisma.plan.create({ data: plan });
     }
   }
 }

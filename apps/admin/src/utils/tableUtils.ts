@@ -1,7 +1,12 @@
 import { ColumnDef } from '@tanstack/react-table';
 import { BadgeStatus } from '@riffy/components';
-import { PaymentStatus, RaffleStatus, TicketStatus, UserStatus } from '@riffy/types';
-import { formatCurrency, formatDate } from '@/utils';
+import {
+  PaymentStatus,
+  RaffleStatus,
+  TicketStatus,
+  UserStatus,
+} from '@riffy/types';
+import { Currency, formatCurrency, formatDate } from '@/utils';
 
 export const TABLE_CLASSES = {
   cell: 'px-4 h-14 font-medium text-white text-sm',
@@ -27,11 +32,12 @@ export function createColumn<T>(
 export function createCurrencyColumn<T>(
   accessorKey: keyof T,
   header: string,
+  currency: Currency = 'VES',
 ): ColumnDef<T> {
   return {
     accessorKey,
     header,
-    cell: info => formatCurrency(info.getValue() as number),
+    cell: info => formatCurrency(info.getValue() as number, currency),
     meta: {
       className: TABLE_CLASSES.cell,
       headerClassName: TABLE_CLASSES.header,
@@ -101,6 +107,10 @@ export function mapTicketStatusToLabel(status: string): string {
       return 'Reservado';
     case TicketStatus.SOLD:
       return 'Vendido';
+    case TicketStatus.WINNER:
+      return 'Ganador';
+    case TicketStatus.LOSER:
+      return 'Perdedor';
     default:
       return status;
   }
@@ -117,7 +127,9 @@ export function mapUserStatusToStatusType(status: UserStatus): BadgeStatus {
   }
 }
 
-export function mapPaymentStatusToStatusType(status: PaymentStatus): BadgeStatus {
+export function mapPaymentStatusToStatusType(
+  status: PaymentStatus,
+): BadgeStatus {
   switch (status) {
     case PaymentStatus.PENDING:
       return BadgeStatus.WARNING;
@@ -136,6 +148,8 @@ export function mapRaffleStatusToStatusType(status: RaffleStatus): BadgeStatus {
       return BadgeStatus.SUCCESS;
     case RaffleStatus.INACTIVE:
       return BadgeStatus.ERROR;
+    case RaffleStatus.PENDING:
+      return BadgeStatus.WARNING;
     case RaffleStatus.COMPLETED:
       return BadgeStatus.DEFAULT;
     default:
@@ -150,6 +164,8 @@ export function mapTicketStatusToStatusType(status: TicketStatus): BadgeStatus {
     case TicketStatus.RESERVED:
       return BadgeStatus.ERROR;
     case TicketStatus.SOLD:
+      return BadgeStatus.WARNING;
+    case TicketStatus.WINNER:
       return BadgeStatus.SUCCESS;
     default:
       return BadgeStatus.DEFAULT;

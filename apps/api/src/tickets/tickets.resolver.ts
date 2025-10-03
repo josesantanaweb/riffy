@@ -2,7 +2,7 @@ import { Args, Query, Resolver, Mutation } from '@nestjs/graphql';
 import { UseGuards } from '@nestjs/common';
 import { GqlAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { Roles } from '../auth/decorators/roles.decorator';
-import { Role } from '@prisma/client';
+import { Role, TicketStatus } from '@prisma/client';
 import { TicketsService } from './tickets.service';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { Ticket } from './entities/ticket.entity';
@@ -100,6 +100,24 @@ export class TicketsResolver {
     @Args('input', { type: () => UpdateTicketInput }) input: UpdateTicketInput,
   ): Promise<Ticket> {
     return this.TicketsService.update(id, input);
+  }
+
+  /**
+   * Actualiza el status de un ticket.
+   * Roles requeridos: ADMIN
+   * @param id ID del ticket a actualizar
+   * @param status Nuevo estado del ticket
+   * @returns El objeto Ticket actualizado
+   */
+  @Roles(Role.ADMIN, Role.OWNER)
+  @UseGuards(RolesGuard)
+  @UseGuards(GqlAuthGuard)
+  @Mutation(() => Ticket, { name: 'updateTicketStatus' })
+  updateStatus(
+    @Args('id', { type: () => String }) id: string,
+    @Args('status', { type: () => TicketStatus }) status: TicketStatus,
+  ): Promise<Ticket> {
+    return this.TicketsService.updateStatus(id, status);
   }
 
   /**

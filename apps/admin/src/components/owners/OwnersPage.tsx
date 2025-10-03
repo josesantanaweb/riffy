@@ -4,7 +4,7 @@ import { useUsers, useDeleteUser } from '@riffy/hooks';
 import { useToast } from '@/hooks';
 import { ROUTES } from '@/constants';
 import { User, Role } from '@riffy/types';
-import OwnersTable from './owners-table/OwnersTable';
+import OwnersTable from './table';
 import PageHeader from '../common/page-header';
 
 const OwnersPage = () => {
@@ -17,12 +17,16 @@ const OwnersPage = () => {
   const handleEdit = (user: User) => router.push(ROUTES.OWNERS.EDIT(user.id));
 
   const handleDelete = async (user: User) => {
-    try {
-      await deleteUser(user.id);
-      toast.success('Usuario eliminado exitosamente!!');
-    } catch (error) {
-      console.error(error);
-      toast.error('Error al eliminar el usuario.');
+    const confirm = window.confirm(
+      '¿Estás seguro de querer eliminar este usuario?',
+    );
+    if (confirm) {
+      try {
+        await deleteUser(user.id);
+        toast.success('Usuario eliminado exitosamente!!');
+      } catch {
+        toast.error('Error al eliminar el usuario.');
+      }
     }
   };
 

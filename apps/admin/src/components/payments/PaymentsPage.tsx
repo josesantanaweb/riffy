@@ -1,5 +1,5 @@
 'use client';
-import PaymentsTable from './payments-table/PaymentsTable';
+import PaymentsTable from './table/PaymentsTable';
 import { usePayments } from '@riffy/hooks';
 import { useToast } from '@/hooks';
 import { useUpdatePaymentStatus } from '@riffy/hooks';
@@ -34,8 +34,7 @@ const PaymentsPage = () => {
       try {
         await updatePaymentStatus(payment.id, newStatus);
         toast.success(messages.success);
-      } catch (error) {
-        console.error('Error updating payment status:', error);
+      } catch {
         toast.error(messages.error);
       }
     }

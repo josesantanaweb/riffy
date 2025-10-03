@@ -1,0 +1,197 @@
+'use client';
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { useFormContext } from 'react-hook-form';
+import { Icon, Input, Select, Editor, DateInput } from '@riffy/components';
+import type { FormData } from '@/validations/raffleSchema';
+import Switch from '@/components/common/switch';
+
+interface FormInformationProps {
+  isUpdating?: boolean;
+}
+
+const FormInformation = ({ isUpdating = false }: FormInformationProps) => {
+  const [isCollapse, setIsCollapse] = useState(true);
+
+  const {
+    register,
+    formState: { errors },
+    watch,
+    setValue,
+  } = useFormContext<FormData>();
+
+  const statusOptions = [
+    { value: 'ACTIVE', label: 'Activo' },
+    { value: 'PENDING', label: 'Pendiente' },
+    { value: 'COMPLETED', label: 'Finalizada' },
+  ];
+
+  const handleCollapse = () => setIsCollapse(prev => !prev);
+
+  const formValues = watch();
+  const descriptionValue = formValues.description || '';
+
+  const isTicketsDisabled = isUpdating && formValues.status !== 'PENDING';
+
+  const handleDescriptionChange = (value: string) => {
+    setValue('description', value, { shouldValidate: true });
+  };
+
+  return (
+    <div className="bg-base-700 rounded-xl relative">
+      <div
+        className={`flex justify-between items-center px-6 pt-4 pb-8 ${isCollapse ? 'border-b border-base-600' : ''}`}
+      >
+        <div className="flex items-center gap-2">
+          <Icon name="info-circle" className="text-2xl text-base-300" />
+          <h5 className="text-base text-white">Información de rifa</h5>
+        </div>
+        <button
+          className={`cursor-pointer text-base-300 transition-transform ${isCollapse ? 'rotate-180' : ''}`}
+          onClick={handleCollapse}
+        >
+          <Icon name="chevron-down" className="text-2xl" />
+        </button>
+      </div>
+      <AnimatePresence initial={true}>
+        {isCollapse && (
+          <motion.div
+            key="info-content"
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.25, ease: 'easeInOut' }}
+            className="overflow-hidden"
+          >
+            <div className="flex flex-col px-6 pt-4 pb-8 w-full gap-6">
+              <div className="flex gap-4 items-center w-full flex-wrap lg:flex-nowrap">
+                <div className="w-full lg:w-1/2">
+                  <Input
+                    label="Título"
+                    isRequired
+                    placeholder="Ingresa un titulo"
+                    inputSize="md"
+                    value={formValues.title || ''}
+                    {...register('title')}
+                    error={errors.title?.message}
+                  />
+                </div>
+                <div className="w-full lg:w-1/2">
+                  <DateInput
+                    label="Fecha del sorteo"
+                    date={new Date(formValues.drawDate)}
+                    setDate={date =>
+                      setValue('drawDate', date, {
+                        shouldValidate: true,
+                      })
+                    }
+                  />
+                </div>
+              </div>
+
+              <div className="flex gap-4 items-center w-full flex-wrap lg:flex-nowrap">
+                <div className="w-full lg:w-1/2">
+                  <Input
+                    label="Precio del boleto"
+                    isRequired
+                    placeholder="Ingresa el precio del boleto"
+                    inputSize="md"
+                    type="number"
+                    value={formValues.price || ''}
+                    {...register('price')}
+                    error={errors.price?.message}
+                  />
+                </div>
+                <div className="w-full lg:w-1/2">
+                  <Input
+                    label="Valor del premio"
+                    isRequired
+                    placeholder="Ingresa el valor del premio"
+                    inputSize="md"
+                    type="number"
+                    value={formValues.award || ''}
+                    {...register('award')}
+                    error={errors.award?.message}
+                  />
+                </div>
+              </div>
+
+              <div className="flex gap-4 items-center w-full flex-wrap lg:flex-nowrap">
+                <div className="w-full lg:w-1/2">
+                  <Input
+                    label="Cantidad de boletos"
+                    isRequired
+                    placeholder="Ingresa la cantidad de boletos"
+                    inputSize="md"
+                    type="number"
+                    value={formValues.totalTickets || ''}
+                    disabled={isTicketsDisabled}
+                    {...register('totalTickets')}
+                    error={errors.totalTickets?.message}
+                  />
+                </div>
+                <div className="w-full lg:w-1/2">
+                  <Select
+                    label="Estado"
+                    placeholder="Selecciona el estado"
+                    size="md"
+                    options={statusOptions}
+                    value={formValues.status || ''}
+                    onChange={value =>
+                      setValue('status', value, { shouldValidate: false })
+                    }
+                  />
+                </div>
+              </div>
+
+              <div className="flex gap-4 items-center w-full flex-wrap lg:flex-nowrap">
+                <div className="w-full">
+                  <Editor
+                    label="Descripción"
+                    value={descriptionValue}
+                    setValue={handleDescriptionChange}
+                  />
+                </div>
+              </div>
+
+              <div className="flex gap-4 items-center w-full flex-wrap lg:flex-nowrap">
+                <div className="w-full lg:w-1/2 flex items-center gap-10">
+                  <Switch
+                    checked={formValues.showDate || false}
+                    onChange={value =>
+                      setValue('showDate', value, { shouldValidate: false })
+                    }
+                    label="Mostrar fecha"
+                  />
+                  <Switch
+                    checked={formValues.showProgress || false}
+                    onChange={value =>
+                      setValue('showProgress', value, { shouldValidate: false })
+                    }
+                    label="Mostrar progreso"
+                  />
+                </div>
+                <div className="w-full lg:w-1/2">
+                  <Input
+                    label="Minimo de boletos"
+                    isRequired
+                    min={1}
+                    max={3}
+                    placeholder="Ingresa el minimo de boletos"
+                    inputSize="md"
+                    type="number"
+                    value={formValues.minTickets || ''}
+                    {...register('minTickets')}
+                    error={errors.minTickets?.message}
+                  />
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+};
+
+export default FormInformation;
