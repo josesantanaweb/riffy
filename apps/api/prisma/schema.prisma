@@ -123,6 +123,7 @@ model PlanUsage {
   planId         String
   currentRaffles Int      @default(0)
   currentTickets Int      @default(0)
+  status         PlanUsageStatus @default(ACTIVE)
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
   owner          User     @relation(fields: [ownerId], references: [id], onDelete: Cascade)
@@ -174,4 +175,10 @@ enum PaymentMethodType {
   PAGO_MOVIL
   BINANCE_PAY
   PAYPAL
+}
+
+enum PlanUsageStatus {
+  ACTIVE
+  EXHAUSTED
+  UNLIMITED
 }

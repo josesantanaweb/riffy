@@ -10,7 +10,6 @@ interface UsePlanUsageReturn {
   canCreateTickets: (requestedTickets: number) => boolean;
   raffleLimitMessage: string | null;
   ticketLimitMessage: (requestedTickets: number) => string | null;
-  isPlanUnlimited: boolean;
 }
 
 export const usePlanUsage = (): UsePlanUsageReturn => {
@@ -70,9 +69,6 @@ export const usePlanUsage = (): UsePlanUsageReturn => {
     return null;
   };
 
-  const isPlanUnlimited = planUsage?.plan?.type === 'PREMIUM' ||
-    (planUsage?.plan?.maxRaffles === null && planUsage?.plan?.maxTickets === null);
-
   return {
     data: planUsage || null,
     loading,
@@ -81,6 +77,5 @@ export const usePlanUsage = (): UsePlanUsageReturn => {
     canCreateTickets,
     raffleLimitMessage: raffleLimitMessage(),
     ticketLimitMessage,
-    isPlanUnlimited,
   };
 };

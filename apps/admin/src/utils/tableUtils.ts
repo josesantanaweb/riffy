@@ -2,6 +2,7 @@ import { ColumnDef } from '@tanstack/react-table';
 import { BadgeStatus } from '@riffy/components';
 import {
   PaymentStatus,
+  PlanUsageStatus,
   RaffleStatus,
   TicketStatus,
   UserStatus,
@@ -86,6 +87,15 @@ export function mapUserStatusToLabel(status: string): string {
   }
 }
 
+export function mapPlanUsageStatusToLabel(status: string): string {
+  switch (status) {
+    case PlanUsageStatus.ACTIVE:
+      return 'Activo';
+    case PlanUsageStatus.EXHAUSTED:
+      return 'Consumido';
+  }
+}
+
 export function mapPaymentStatusToLabel(status: string): string {
   switch (status) {
     case PaymentStatus.PENDING:
@@ -124,6 +134,15 @@ export function mapUserStatusToStatusType(status: UserStatus): BadgeStatus {
       return BadgeStatus.ERROR;
     default:
       return BadgeStatus.DEFAULT;
+  }
+}
+
+export function mapPlanUsageStatusToStatusType(status: PlanUsageStatus): BadgeStatus {
+  switch (status) {
+    case PlanUsageStatus.ACTIVE:
+      return BadgeStatus.SUCCESS;
+    case PlanUsageStatus.EXHAUSTED:
+      return BadgeStatus.ERROR;
   }
 }
 

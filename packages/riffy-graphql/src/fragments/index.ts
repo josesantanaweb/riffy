@@ -49,6 +49,12 @@ export const USERS_FRAGMENT = gql`
     plan {
       ...PlanFragment
     }
+    planUsage {
+      id
+      currentRaffles
+      currentTickets
+      status
+    }
   }
   ${PAYMENT_METHODS_FRAGMENT}
   ${PLAN_FRAGMENT}
@@ -90,6 +96,7 @@ export const PLAN_USAGE_FRAGMENT = gql`
     id
     currentRaffles
     currentTickets
+    status
     plan {
       ...PlanFragment
     }

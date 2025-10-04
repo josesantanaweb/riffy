@@ -2,6 +2,7 @@ import { Injectable, BadRequestException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreatePlanUsageInput } from './inputs/create-plan-usage.input';
 import { PlanUsage } from './entities/plan-usage.entity';
+import { PlanUsageStatus } from '@prisma/client';
 
 @Injectable()
 export class PlanUsageService {
@@ -45,12 +46,25 @@ export class PlanUsageService {
         planId: data.planId,
         currentRaffles: data.currentRaffles,
         currentTickets: data.currentTickets || 0,
+        status: PlanUsageStatus.ACTIVE, // Status inicial siempre ACTIVE
       },
       include: {
         owner: true,
         plan: true,
       },
     });
+
+    const newStatus = this.calculatePlanUsageStatus(planUsage);
+    if (newStatus !== planUsage.status) {
+      return this.prisma.planUsage.update({
+        where: { id: planUsage.id },
+        data: { status: newStatus },
+        include: {
+          owner: true,
+          plan: true,
+        },
+      });
+    }
 
     return planUsage;
   }
@@ -154,7 +168,7 @@ export class PlanUsageService {
   }
 
   /**
-   * Incrementa el contador de rifas creadas por el usuario.
+   * Incrementa el contador de rifas creadas por el usuario y actualiza el status.
    * @param userId ID del usuario
    */
   async incrementRaffles(userId: string): Promise<void> {
@@ -166,10 +180,11 @@ export class PlanUsageService {
         },
       },
     });
+    await this.updatePlanUsageStatus(userId);
   }
 
   /**
-   * Incrementa el contador de tickets creados por el usuario.
+   * Incrementa el contador de tickets creados por el usuario y actualiza el status.
    * @param userId ID del usuario
    * @param amount Cantidad de tickets a incrementar
    */
@@ -182,6 +197,8 @@ export class PlanUsageService {
         },
       },
     });
+
+    await this.updatePlanUsageStatus(userId);
   }
 
   /**
@@ -234,17 +251,32 @@ export class PlanUsageService {
     });
 
     if (existingUsage) {
-      return await this.prisma.planUsage.update({
+      const updatedUsage = await this.prisma.planUsage.update({
         where: { ownerId: userId },
         data: {
           currentRaffles: 0,
           currentTickets: 0,
+          status: PlanUsageStatus.ACTIVE,
         },
         include: {
           owner: true,
           plan: true,
         },
       });
+
+      const newStatus = this.calculatePlanUsageStatus(updatedUsage);
+      if (newStatus !== updatedUsage.status) {
+        return this.prisma.planUsage.update({
+          where: { ownerId: userId },
+          data: { status: newStatus },
+          include: {
+            owner: true,
+            plan: true,
+          },
+        });
+      }
+
+      return updatedUsage;
     } else {
       const user = await this.prisma.user.findUnique({
         where: { id: userId },
@@ -255,18 +287,94 @@ export class PlanUsageService {
         throw new BadRequestException('El usuario no tiene un plan asignado');
       }
 
-      return await this.prisma.planUsage.create({
+      const newUsage = await this.prisma.planUsage.create({
         data: {
           ownerId: userId,
           planId: user.plan.id,
           currentRaffles: 0,
           currentTickets: 0,
+          status: PlanUsageStatus.ACTIVE, // Status inicial
         },
         include: {
           owner: true,
           plan: true,
         },
       });
+
+      const newStatus = this.calculatePlanUsageStatus(newUsage);
+      if (newStatus !== newUsage.status) {
+        return this.prisma.planUsage.update({
+          where: { id: newUsage.id },
+          data: { status: newStatus },
+          include: {
+            owner: true,
+            plan: true,
+          },
+        });
+      }
+
+      return newUsage;
     }
+  }
+
+  /**
+   * Actualiza manualmente el status del plan usage de un usuario.
+   * Útil para sincronizar el status cuando cambia el plan del usuario.
+   * @param userId ID del usuario
+   * @returns PlanUsage actualizado
+   */
+  async updateStatus(userId: string): Promise<PlanUsage> {
+    return this.updatePlanUsageStatus(userId);
+  }
+
+  /**
+   * Calcula el status del plan usage basado en los límites del plan
+   * @param planUsage Registro de plan usage con plan incluido
+   * @returns PlanUsageStatus calculado
+   */
+  private calculatePlanUsageStatus(planUsage: PlanUsage): PlanUsageStatus {
+    const { plan, currentRaffles, currentTickets } = planUsage;
+
+    if (
+      plan?.type === 'PREMIUM' ||
+      (plan?.maxRaffles === null && plan?.maxTickets === null)
+    ) {
+      return PlanUsageStatus.UNLIMITED;
+    }
+
+    const isRafflesExhausted =
+      plan?.maxRaffles && currentRaffles >= plan.maxRaffles;
+    const isTicketsExhausted =
+      plan?.maxTickets && currentTickets >= plan.maxTickets;
+
+    if (isRafflesExhausted || isTicketsExhausted) {
+      return PlanUsageStatus.EXHAUSTED;
+    }
+
+    return PlanUsageStatus.ACTIVE;
+  }
+
+  /**
+   * Actualiza el status del plan usage basado en los límites actuales
+   * @param userId ID del usuario
+   * @returns PlanUsage actualizado
+   */
+  private async updatePlanUsageStatus(userId: string): Promise<PlanUsage> {
+    const planUsage = await this.prisma.planUsage.findUnique({
+      where: { ownerId: userId },
+      include: { plan: true },
+    });
+
+    if (!planUsage) {
+      throw new BadRequestException('Plan usage no encontrado');
+    }
+
+    const newStatus = this.calculatePlanUsageStatus(planUsage);
+
+    return this.prisma.planUsage.update({
+      where: { ownerId: userId },
+      data: { status: newStatus },
+      include: { plan: true, owner: true },
+    });
   }
 }

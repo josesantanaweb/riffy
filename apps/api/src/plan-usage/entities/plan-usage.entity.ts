@@ -1,6 +1,7 @@
-import { ObjectType, Field, ID, GraphQLISODateTime } from '@nestjs/graphql';
+import { ObjectType, Field, ID } from '@nestjs/graphql';
 import { Plan } from '../../plans/entities/plan.entity';
 import { User } from '../../users/entities/user.entity';
+import { PlanUsageStatus } from '@prisma/client';
 
 @ObjectType()
 export class PlanUsage {
@@ -22,12 +23,15 @@ export class PlanUsage {
   @Field()
   ownerId: string;
 
+  @Field(() => PlanUsageStatus)
+  status: PlanUsageStatus;
+
   @Field(() => [String])
   planId: string;
 
-  @Field({ nullable: true })
-  owner: User;
+  @Field(() => User, { nullable: true })
+  owner?: User;
 
-  @Field(() => GraphQLISODateTime, { nullable: true })
-  plan: Plan;
+  @Field(() => Plan, { nullable: true })
+  plan?: Plan;
 }

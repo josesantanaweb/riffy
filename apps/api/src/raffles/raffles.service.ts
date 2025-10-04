@@ -2,6 +2,7 @@ import {
   Injectable,
   NotFoundException,
   ForbiddenException,
+  BadRequestException,
 } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { PlanUsageService } from '../plan-usage/plan-usage.service';
@@ -132,11 +133,19 @@ export class RafflesService {
     const { totalTickets } = data;
     const ownerId = user.id;
 
-    await this.planUsageService.validateAndIncrementRaffles(ownerId);
-    await this.planUsageService.validateAndIncrementTickets(
+    const raffleValidation =
+      await this.planUsageService.canCreateRaffle(ownerId);
+    if (!raffleValidation.canCreate) {
+      throw new BadRequestException(raffleValidation.message);
+    }
+
+    const ticketValidation = await this.planUsageService.canCreateTickets(
       ownerId,
       totalTickets,
     );
+    if (!ticketValidation.canCreate) {
+      throw new BadRequestException(ticketValidation.message);
+    }
 
     const raffle = await this.prisma.$transaction(async (tx) => {
       const raffleData = { ...data, ownerId };
@@ -149,6 +158,9 @@ export class RafflesService {
       }));
 
       await tx.ticket.createMany({ data: tickets });
+
+      await this.planUsageService.incrementRaffles(ownerId);
+      await this.planUsageService.incrementTickets(ownerId, totalTickets);
 
       return newRaffle;
     });

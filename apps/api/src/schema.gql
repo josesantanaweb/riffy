@@ -94,6 +94,26 @@ enum PlanType {
   ONE_TIME
 }
 
+type PlanUsage {
+  id: ID!
+  currentRaffles: Float!
+  currentTickets: Float
+  createdAt: DateTime
+  updatedAt: DateTime
+  ownerId: String!
+  status: PlanUsageStatus!
+  planId: [String!]!
+  owner: User
+  plan: Plan
+}
+
+"""The status of the plan usage"""
+enum PlanUsageStatus {
+  ACTIVE
+  EXHAUSTED
+  UNLIMITED
+}
+
 type User {
   id: ID!
   name: String!
@@ -112,6 +132,7 @@ type User {
   raffles: [Raffle!]
   paymentMethods: [PaymentMethod!]
   plan: Plan
+  planUsage: PlanUsage
 }
 
 """Roles de usuario"""
@@ -124,18 +145,6 @@ enum Role {
 enum UserStatus {
   ACTIVE
   INACTIVE
-}
-
-type PlanUsage {
-  id: ID!
-  currentRaffles: Float!
-  currentTickets: Float
-  createdAt: DateTime
-  updatedAt: DateTime
-  ownerId: String!
-  planId: [String!]!
-  owner: User
-  plan: DateTime
 }
 
 type AuthResponse {
