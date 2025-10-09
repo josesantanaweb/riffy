@@ -3,7 +3,7 @@ import { useState } from 'react';
 import PaymentsTable from './table/PaymentsTable';
 import { usePayments, useRaffles } from '@riffy/hooks';
 import { useUpdatePaymentStatus } from '@riffy/hooks';
-import ConfirmPayment from './confirm-payment/ConfirmPayment';
+import PaymentDetail from './payment-detail/PaymentDetail';
 import { Payment, PaymentStatus } from '@riffy/types';
 import PageHeader from '@/components/common/page-header';
 import { Select } from '@riffy/components';
@@ -75,11 +75,10 @@ const PaymentsPage = () => {
           onView={payment => handleOpenModal(payment)}
         />
 
-        <ConfirmPayment
+        <PaymentDetail
           isOpen={isOpen}
           setIsOpen={setIsOpen}
           payment={payment}
-
           onUpdateStatus={handleUpdatePaymentStatus}
         />
       </div>

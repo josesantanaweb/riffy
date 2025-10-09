@@ -33,7 +33,7 @@ const TicketDetail = ({
       case TicketStatus.SOLD:
         return { text: 'Vendido', color: 'text-white' };
       case TicketStatus.WINNER:
-        return { text: 'Ganador', color: 'text-warning-500' };
+        return { text: 'Ganador', color: 'text-success-500' };
       case TicketStatus.LOSER:
         return { text: 'Perdedor', color: 'text-danger-500' };
       case TicketStatus.PREMIUM:

@@ -42,18 +42,13 @@ const TicketsFooter = ({
           </div>
         ))}
       </div>
-      <div className="flex items-center gap-5">
-        <p className="text-sm text-base-300">
-          {currentPage} de {totalPages}
-        </p>
-        <Pagination
-          currentPage={currentPage}
-          totalPages={totalPages}
-          totalTickets={totalTickets}
-          onPrevPage={onPrevPage}
-          onNextPage={onNextPage}
-        />
-      </div>
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        totalTickets={totalTickets}
+        onPrevPage={onPrevPage}
+        onNextPage={onNextPage}
+      />
     </div>
   );
 };

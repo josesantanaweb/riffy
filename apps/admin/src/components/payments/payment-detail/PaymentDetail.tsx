@@ -7,19 +7,19 @@ import { Payment, PaymentStatus } from '@riffy/types';
 import { formatCurrency, formatDate } from '@/utils';
 import Image from 'next/image';
 
-interface ConfirmPaymentProps {
+interface PaymentDetailProps {
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
   payment?: Payment | null;
   onUpdateStatus?: (paymentId: string, status: PaymentStatus) => void;
 }
 
-const ConfirmPayment = ({
+const PaymentDetail = ({
   isOpen,
   setIsOpen,
   payment,
   onUpdateStatus,
-}: ConfirmPaymentProps): ReactElement => {
+}: PaymentDetailProps): ReactElement => {
   const handleClose = () => setIsOpen(false);
 
   const handleApprove = () => {
@@ -76,7 +76,7 @@ const ConfirmPayment = ({
             >
               <div className="flex border-b border-base-600 px-6 py-4 items-center justify-between">
                 <h3 className="text-white font-semibold text-xl">
-                  Aprobar pago
+                  Detalle del pago
                 </h3>
                 <motion.button
                   onClick={handleClose}
@@ -201,4 +201,4 @@ const ConfirmPayment = ({
   );
 };
 
-export default ConfirmPayment;
+export default PaymentDetail;
