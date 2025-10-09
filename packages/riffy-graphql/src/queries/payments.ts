@@ -2,8 +2,8 @@ import { gql } from '@apollo/client';
 import { PAYMENT_FRAGMENT } from '../fragments';
 
 export const GET_PAYMENTS = gql`
-  query Payments {
-    payments {
+  query Payments($raffleId: String) {
+    payments(raffleId: $raffleId) {
       ...PaymentFragment
     }
   }

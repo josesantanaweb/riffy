@@ -16,14 +16,18 @@ export class PaymentsResolver {
   /**
    * Obtiene todos los payments registrados.
    * Roles requeridos: ADMIN, OWNER
+   * @param raffleId Filtro opcional por raffleId
    * Retorna: Un array de objetos Payment
    */
   @Roles(Role.ADMIN, Role.OWNER)
   @UseGuards(RolesGuard)
   @UseGuards(GqlAuthGuard)
   @Query(() => [Payment], { name: 'payments' })
-  getAll(): Promise<Payment[]> {
-    return this.paymentsService.findAll();
+  getAll(
+    @Args('raffleId', { type: () => String, nullable: true })
+    raffleId?: string,
+  ): Promise<Payment[]> {
+    return this.paymentsService.findAll(raffleId);
   }
 
   /**

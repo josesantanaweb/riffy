@@ -25,7 +25,7 @@ const PaymentProof = ({ proofUrl }: PaymentProofProps): ReactElement => {
         onClick={handleOpen}
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
-        transition={{ type: "spring", stiffness: 300, damping: 20 }}
+        transition={{ type: 'spring', stiffness: 300, damping: 20 }}
       >
         <Image
           src={proofUrl}
@@ -52,19 +52,19 @@ const PaymentProof = ({ proofUrl }: PaymentProofProps): ReactElement => {
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.8, opacity: 0 }}
               transition={{
-                type: "spring",
+                type: 'spring',
                 stiffness: 300,
                 damping: 30,
-                duration: 0.3
+                duration: 0.3,
               }}
-              onClick={(e) => e.stopPropagation()}
+              onClick={e => e.stopPropagation()}
             >
               <motion.button
                 onClick={handleClose}
-                className="absolute top-2 right-2 bg-base-600/80 hover:bg-base-600/100 rounded-full p-1 shadow z-10"
-                whileHover={{ scale: 1.1, backgroundColor: "rgba(0,0,0,0.8)" }}
+                className="absolute top-2 right-2 bg-base-600 hover:bg-base-600/80 rounded-full p-1 shadow z-10 w-[33px] h-[33px] flex items-center justify-center"
+                whileHover={{ scale: 1.1, backgroundColor: 'rgba(0,0,0,0.8)' }}
                 whileTap={{ scale: 0.9 }}
-                transition={{ type: "spring", stiffness: 400, damping: 17 }}
+                transition={{ type: 'spring', stiffness: 400, damping: 17 }}
               >
                 <Icon name="close" className="text-2xl text-white" />
               </motion.button>
@@ -72,14 +72,19 @@ const PaymentProof = ({ proofUrl }: PaymentProofProps): ReactElement => {
               <motion.div
                 initial={{ scale: 0.9 }}
                 animate={{ scale: 1 }}
-                transition={{ delay: 0.1, type: "spring", stiffness: 300, damping: 25 }}
+                transition={{
+                  delay: 0.1,
+                  type: 'spring',
+                  stiffness: 300,
+                  damping: 25,
+                }}
               >
                 <Image
                   src={proofUrl}
                   alt="Comprobante"
                   width={500}
                   height={500}
-                  className="max-w-[90vw] max-h-[90vh] rounded-lg"
+                  className="max-w-[90vw] max-h-[90vh] rounded-lg object-cover"
                 />
               </motion.div>
             </motion.div>

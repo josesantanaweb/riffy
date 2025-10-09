@@ -154,7 +154,11 @@ export const PAYMENT_FRAGMENT = gql`
       number
       status
     }
+    raffle {
+      ...RaffleFragment
+    }
   }
+  ${RAFFLES_FRAGMENT}
 `;
 
 export const NOTIFICATION_FRAGMENT = gql`

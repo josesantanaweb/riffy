@@ -41,6 +41,10 @@ export class CreatePaymentInput {
   @Field(() => [String])
   ticketIds: string[];
 
+  @IsString()
+  @Field(() => String)
+  raffleId: string;
+
   @IsOptional()
   @Field(() => PaymentStatus, { nullable: true })
   status?: PaymentStatus;
