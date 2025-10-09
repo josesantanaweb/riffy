@@ -2,6 +2,7 @@ import { ColumnDef } from '@tanstack/react-table';
 import { BadgeStatus } from '@riffy/components';
 import {
   PaymentStatus,
+  PlanUsageStatus,
   RaffleStatus,
   TicketStatus,
   UserStatus,
@@ -86,6 +87,15 @@ export function mapUserStatusToLabel(status: string): string {
   }
 }
 
+export function mapPlanUsageStatusToLabel(status: string): string {
+  switch (status) {
+    case PlanUsageStatus.ACTIVE:
+      return 'Activo';
+    case PlanUsageStatus.EXHAUSTED:
+      return 'Consumido';
+  }
+}
+
 export function mapPaymentStatusToLabel(status: string): string {
   switch (status) {
     case PaymentStatus.PENDING:
@@ -103,14 +113,14 @@ export function mapTicketStatusToLabel(status: string): string {
   switch (status) {
     case TicketStatus.AVAILABLE:
       return 'Disponible';
-    case TicketStatus.RESERVED:
-      return 'Reservado';
     case TicketStatus.SOLD:
       return 'Vendido';
     case TicketStatus.WINNER:
       return 'Ganador';
     case TicketStatus.LOSER:
       return 'Perdedor';
+    case TicketStatus.PREMIUM:
+      return 'Premium';
     default:
       return status;
   }
@@ -124,6 +134,17 @@ export function mapUserStatusToStatusType(status: UserStatus): BadgeStatus {
       return BadgeStatus.ERROR;
     default:
       return BadgeStatus.DEFAULT;
+  }
+}
+
+export function mapPlanUsageStatusToStatusType(
+  status: PlanUsageStatus,
+): BadgeStatus {
+  switch (status) {
+    case PlanUsageStatus.ACTIVE:
+      return BadgeStatus.SUCCESS;
+    case PlanUsageStatus.EXHAUSTED:
+      return BadgeStatus.ERROR;
   }
 }
 
@@ -161,12 +182,12 @@ export function mapTicketStatusToStatusType(status: TicketStatus): BadgeStatus {
   switch (status) {
     case TicketStatus.AVAILABLE:
       return BadgeStatus.INFO;
-    case TicketStatus.RESERVED:
-      return BadgeStatus.ERROR;
     case TicketStatus.SOLD:
       return BadgeStatus.WARNING;
     case TicketStatus.WINNER:
       return BadgeStatus.SUCCESS;
+    case TicketStatus.PREMIUM:
+      return BadgeStatus.DEFAULT;
     default:
       return BadgeStatus.DEFAULT;
   }

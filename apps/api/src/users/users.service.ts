@@ -1,14 +1,18 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { Role, TicketStatus } from '@prisma/client';
+import { Role, TicketStatus, PlanUsageStatus } from '@prisma/client';
 import { User } from './entities/user.entity';
 import { CreateUserInput } from './inputs/create-user.input';
 import { UpdateUserInput } from './inputs/update-user.input';
 import { hash } from 'argon2';
+import { PlanUsageService } from '../plan-usage/plan-usage.service';
 
 @Injectable()
 export class UsersService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private planUsageService: PlanUsageService,
+  ) {}
 
   /**
    * Obtiene todos los usuarios registrados en la base de datos, o filtra por rol si se especifica.
@@ -20,6 +24,7 @@ export class UsersService {
       where: role ? { role } : {},
       include: {
         plan: true,
+        planUsage: true,
       },
     });
   }
@@ -37,6 +42,7 @@ export class UsersService {
       },
       include: {
         plan: true,
+        planUsage: true,
       },
     });
 
@@ -70,6 +76,7 @@ export class UsersService {
           },
         },
         paymentMethods: true,
+        planUsage: true,
       },
     });
 
@@ -151,6 +158,7 @@ export class UsersService {
             planId: finalPlanId,
             currentRaffles: 0,
             currentTickets: 0,
+            status: PlanUsageStatus.ACTIVE,
           },
         });
       }
@@ -203,9 +211,20 @@ export class UsersService {
               planId: userData.planId,
               currentRaffles: 0,
               currentTickets: 0,
+              status: PlanUsageStatus.ACTIVE,
             },
           });
         }
+
+        setImmediate((): void => {
+          void (async (): Promise<void> => {
+            try {
+              await this.planUsageService.updateStatus(id);
+            } catch {
+              // console.error('Error updating plan usage status:', error);
+            }
+          })();
+        });
       }
 
       return updatedUser;

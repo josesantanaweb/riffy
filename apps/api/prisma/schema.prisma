@@ -63,6 +63,7 @@ model Raffle {
   status       RaffleStatus @default(ACTIVE)
   owner        User         @relation(fields: [ownerId], references: [id], onDelete: Cascade)
   tickets      Ticket[]
+  payments     Payment[]
 }
 
 model Ticket {
@@ -89,6 +90,8 @@ model Payment {
   paymentMethod String?
   nationalId    String?
   amount        Float?
+  raffleId      String?
+  raffle        Raffle?       @relation(fields: [raffleId], references: [id], onDelete: Cascade)
   tickets       Ticket[]
 }
 
@@ -118,15 +121,16 @@ model Notification {
 }
 
 model PlanUsage {
-  id             String   @id @default(cuid())
-  ownerId        String   @unique
+  id             String          @id @default(cuid())
+  ownerId        String          @unique
   planId         String
-  currentRaffles Int      @default(0)
-  currentTickets Int      @default(0)
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
-  owner          User     @relation(fields: [ownerId], references: [id], onDelete: Cascade)
-  plan           Plan     @relation(fields: [planId], references: [id], onDelete: Cascade)
+  currentRaffles Int             @default(0)
+  currentTickets Int             @default(0)
+  status         PlanUsageStatus @default(ACTIVE)
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+  owner          User            @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  plan           Plan            @relation(fields: [planId], references: [id], onDelete: Cascade)
 }
 
 enum PlanType {
@@ -154,8 +158,8 @@ enum RaffleStatus {
 
 enum TicketStatus {
   AVAILABLE
-  RESERVED
   SOLD
+  PREMIUM
   WINNER
   LOSER
 }
@@ -174,4 +178,10 @@ enum PaymentMethodType {
   PAGO_MOVIL
   BINANCE_PAY
   PAYPAL
+}
+
+enum PlanUsageStatus {
+  ACTIVE
+  EXHAUSTED
+  UNLIMITED
 }

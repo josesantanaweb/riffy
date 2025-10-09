@@ -36,9 +36,9 @@ const Ticket = ({ ticket, raffle }: TicketProps): ReactElement => {
           color: 'text-danger-500',
           bgColor: 'bg-danger/20',
         };
-      case 'reserve':
+      case 'premium':
         return {
-          text: 'Reservado',
+          text: 'Premium',
           color: 'text-base-300',
           bgColor: 'bg-base-300/20',
         };

@@ -5,6 +5,7 @@ import { useFormContext } from 'react-hook-form';
 import { Icon, Input, Select, Editor, DateInput } from '@riffy/components';
 import type { FormData } from '@/validations/raffleSchema';
 import Switch from '@/components/common/switch';
+import { usePlanUsage } from '@riffy/hooks';
 
 interface FormInformationProps {
   isUpdating?: boolean;
@@ -19,6 +20,8 @@ const FormInformation = ({ isUpdating = false }: FormInformationProps) => {
     watch,
     setValue,
   } = useFormContext<FormData>();
+
+  const { canCreateRaffle, data: planUsage } = usePlanUsage();
 
   const statusOptions = [
     { value: 'ACTIVE', label: 'Activo' },
@@ -64,6 +67,30 @@ const FormInformation = ({ isUpdating = false }: FormInformationProps) => {
             className="overflow-hidden"
           >
             <div className="flex flex-col px-6 pt-4 pb-8 w-full gap-6">
+              {!isUpdating && planUsage?.plan && (
+                <div className="bg-base-600 rounded-lg p-4 mb-2">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <Icon name="info-circle" className="text-base-300" />
+                      <span className="text-sm text-base-300">
+                        Límites de tu plan
+                      </span>
+                    </div>
+                    <div className="flex gap-4 text-sm">
+                      <div
+                        className={`${canCreateRaffle ? 'text-green-400' : 'text-red-400'}`}
+                      >
+                        Rifas: {planUsage.currentRaffles}/
+                        {planUsage.plan.maxRaffles || '∞'}
+                      </div>
+                      <div className="text-base-300">
+                        Tickets: {planUsage.currentTickets}/
+                        {planUsage.plan.maxTickets || '∞'}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
               <div className="flex gap-4 items-center w-full flex-wrap lg:flex-nowrap">
                 <div className="w-full lg:w-1/2">
                   <Input
@@ -129,6 +156,7 @@ const FormInformation = ({ isUpdating = false }: FormInformationProps) => {
                     {...register('totalTickets')}
                     error={errors.totalTickets?.message}
                   />
+
                 </div>
                 <div className="w-full lg:w-1/2">
                   <Select

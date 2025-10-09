@@ -1,5 +1,6 @@
 import { Ticket } from './ticket';
 import { User } from './user';
+import { Raffle } from './raffle';
 
 export enum PaymentStatus {
   PENDING = 'PENDING',
@@ -31,6 +32,7 @@ export interface Payment {
   proofUrl?: string | null;
   status?: PaymentStatus | null;
   tickets?: Ticket[] | null;
+  raffle?: Raffle | null;
 }
 
 export interface CreatePaymentInput {
@@ -44,6 +46,7 @@ export interface CreatePaymentInput {
   proofUrl: string;
   status?: PaymentStatus | null;
   ticketIds: string[];
+  raffleId: string;
 }
 
 export type UpdatePaymentInput = Partial<CreatePaymentInput>;

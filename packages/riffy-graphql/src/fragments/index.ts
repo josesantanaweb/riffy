@@ -49,6 +49,12 @@ export const USERS_FRAGMENT = gql`
     plan {
       ...PlanFragment
     }
+    planUsage {
+      id
+      currentRaffles
+      currentTickets
+      status
+    }
   }
   ${PAYMENT_METHODS_FRAGMENT}
   ${PLAN_FRAGMENT}
@@ -90,6 +96,7 @@ export const PLAN_USAGE_FRAGMENT = gql`
     id
     currentRaffles
     currentTickets
+    status
     plan {
       ...PlanFragment
     }
@@ -125,7 +132,11 @@ export const TICKETS_FRAGMENT = gql`
     payment {
       ...PaymentBasicFragment
     }
+    raffle {
+      ...RaffleFragment
+    }
   }
+  ${RAFFLES_FRAGMENT}
   ${PAYMENT_BASIC_FRAGMENT}
 `;
 
@@ -147,7 +158,11 @@ export const PAYMENT_FRAGMENT = gql`
       number
       status
     }
+    raffle {
+      ...RaffleFragment
+    }
   }
+  ${RAFFLES_FRAGMENT}
 `;
 
 export const NOTIFICATION_FRAGMENT = gql`

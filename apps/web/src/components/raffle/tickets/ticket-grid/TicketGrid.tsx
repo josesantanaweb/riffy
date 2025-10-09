@@ -1,5 +1,5 @@
-import { Ticket, TicketStatus } from "@riffy/types";
-import TicketButton from "../ticket-button";
+import { Ticket, TicketStatus } from '@riffy/types';
+import TicketButton from '../ticket-button';
 
 interface TicketGridProps {
   tickets: Ticket[];
@@ -15,14 +15,17 @@ const TicketGrid = ({
   <div className="grid grid-cols-5 gap-2 overflow-y-auto max-h-[300px] scrollbar-transparent">
     {tickets.map(ticket => {
       const isSelected = selectedTickets.includes(ticket.id);
-      const isSold = ticket.status === TicketStatus.SOLD;
+      const isNotAvailable =
+        ticket.status === TicketStatus.SOLD ||
+        ticket.status === TicketStatus.PREMIUM ||
+        ticket.status === TicketStatus.WINNER
 
       return (
         <TicketButton
           key={ticket.id}
           ticket={ticket}
           isSelected={isSelected}
-          isSold={isSold}
+          isNotAvailable={isNotAvailable}
           onSelect={onTicketSelect}
         />
       );

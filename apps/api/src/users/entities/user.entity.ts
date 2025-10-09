@@ -3,6 +3,7 @@ import { Role, UserStatus } from '@prisma/client';
 import { PaymentMethod } from '../../payment-methods/entities/payment-method.entity';
 import { Raffle } from '../../raffles/entities/raffle.entity';
 import { Plan } from '../../plans/entities/plan.entity';
+import { PlanUsage } from '../../plan-usage/entities/plan-usage.entity';
 
 @ObjectType()
 export class User {
@@ -56,4 +57,7 @@ export class User {
 
   @Field(() => Plan, { nullable: true })
   plan?: Plan;
+
+  @Field(() => PlanUsage, { nullable: true })
+  planUsage?: PlanUsage;
 }

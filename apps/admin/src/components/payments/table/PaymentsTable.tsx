@@ -19,16 +19,14 @@ import { Payment, PaymentStatus, Ticket } from '@riffy/types';
 interface PaymentsTableProps {
   data: Payment[];
   loading?: boolean;
-  onMarkAsVerified?: (payment: Payment) => void;
-  onMarkAsDenied?: (payment: Payment) => void;
+  onView?: (payment: Payment) => void;
   onDownload?: () => void;
 }
 
 const PaymentsTable = ({
   data,
   loading,
-  onMarkAsVerified,
-  onMarkAsDenied,
+  onView,
   onDownload,
 }: PaymentsTableProps) => {
   const columns: ColumnDef<Payment>[] = [
@@ -128,21 +126,12 @@ const PaymentsTable = ({
   ];
 
   const actions: TableAction<Payment>[] = [
-    ...(onMarkAsVerified
+    ...(onView
       ? [
           {
-            label: 'Marcar como verificado',
-            icon: 'check-circle',
-            onClick: onMarkAsVerified,
-          },
-        ]
-      : []),
-    ...(onMarkAsDenied
-      ? [
-          {
-            label: 'Marcar como no verificado',
-            icon: 'close',
-            onClick: onMarkAsDenied,
+            label: 'Ver pago',
+            icon: 'search',
+            onClick: onView,
           },
         ]
       : []),

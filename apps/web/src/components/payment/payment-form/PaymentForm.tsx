@@ -178,6 +178,7 @@ const PaymentForm = (): ReactElement => {
         proofUrl: finalProofUrl,
         ticketIds: cart?.ticketIds || [],
         amount: (cart?.price || 0) * (cart?.totalTickets || 0),
+        raffleId: cart?.raffleId || '',
       });
 
       if (result.errors) {
@@ -197,7 +198,7 @@ const PaymentForm = (): ReactElement => {
     <form className="form" onSubmit={handleSubmit(onSubmit)}>
       <Alert
         message={getAlertMessage()}
-        icon={isExistingUser ? "check-circle" : "info-circle"}
+        icon={isExistingUser ? 'check-circle' : 'info-circle'}
         type={getAlertType}
       />
       <div className="relative min-h-[400px] flex flex-col gap-3 mt-3">

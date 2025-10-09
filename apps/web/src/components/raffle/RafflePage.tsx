@@ -78,7 +78,7 @@ const RafflePage = (): ReactElement => {
           type="warning"
         />
 
-        <div className="w-full max-w-md p-5 bg-base-800 flex flex-col gap-3">
+        <div className="w-full max-w-md py-5 bg-base-800 flex flex-col gap-3">
           <Total totalTickets={selectedTickets.length} price={raffle?.price} />
 
           <Button

@@ -24,7 +24,7 @@ const NavBrand = ({ collapseSidebar }: NavBrandProps): ReactElement => {
   return (
     <div
       className={clsx(
-        'w-full transition-all justify-center items-center flex h-full',
+        'w-full transition-all justify-center items-center h-[52px] hidden lg:flex',
         collapseClass,
       )}
     >

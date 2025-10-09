@@ -1,37 +1,98 @@
 'use client';
-import { useParams } from 'next/navigation';
-import { useTicketsByRaffle } from '@riffy/hooks';
-import TicketsTable from './table';
+import { useState, useEffect } from 'react';
+import { useRaffles, useTicketsByRaffle } from '@riffy/hooks';
+import { Input, Select } from '@riffy/components';
 import PageHeader from '@/components/common/page-header';
-import { Ticket, TicketStatus } from '@riffy/types';
-import { useToast } from '@/hooks';
-import { useUpdateTicketStatus } from '@riffy/hooks';
+import TicketDetail from './ticket-detail';
+import { Ticket } from '@riffy/types';
+import TicketsGrid from './tickets-grid';
+import TicketsFooter from './tickets-footer';
+import { useTickets } from '@/hooks';
 
 const Tickets = () => {
-  const toast = useToast();
-  const raffleId = useParams().raffleId as string | undefined;
-  const { updateTicketStatus } = useUpdateTicketStatus();
+  const [selectedRaffleId, setSelectedRaffleId] = useState<string>('');
+  const [search, setSearch] = useState<string>('');
+  const [isOpen, setIsOpen] = useState(false);
+  const [selectedTicket, setSelectedTicket] = useState<Ticket | null>(null);
 
-  const { data } = useTicketsByRaffle(raffleId);
+  const { data: raffles } = useRaffles();
+  const { data: tickets, loading } = useTicketsByRaffle(selectedRaffleId);
 
-  const onMarkAsWinner = async (ticket: Ticket) => {
-    const confirm = window.confirm('¿Estás seguro de querer marcar como ganador este boleto?');
-    if (confirm) {
-      try {
-        await updateTicketStatus(ticket.id, TicketStatus.WINNER);
-        toast.success('Boletos marcados como ganador exitosamente!!');
-      } catch {
-        toast.error('Error al marcar como ganador el boleto.');
-      }
+  const {
+    currentTickets,
+    totalPages,
+    currentPage,
+    nextPage,
+    prevPage,
+    totalTickets,
+  } = useTickets({
+    tickets,
+    ticketsPerPage: 50,
+  });
+
+  const rafflesOptions = raffles?.map(raffle => ({
+    value: raffle.id,
+    label: raffle.title,
+  }));
+
+  useEffect(() => {
+    if (raffles && raffles.length > 0 && !selectedRaffleId) {
+      setSelectedRaffleId(raffles[0].id);
     }
+  }, [raffles, selectedRaffleId]);
+
+  const handleSelect = (ticket: Ticket) => {
+    setIsOpen(true);
+    setSelectedTicket(ticket);
   };
 
   return (
     <div className="p-6 flex-col flex gap-6">
       <PageHeader title="Boletos" subtitle="Lista de Boletos" />
-      <div className="flex flex-col w-full bg-base-700 rounded-xl p-6">
-        <TicketsTable data={data || []} onMarkAsWinner={onMarkAsWinner} />
+      <div className="flex flex-col w-full bg-base-700 rounded-xl p-6 gap-5">
+        <div className="flex justify-between items-end w-full">
+          <div className="w-full sm:w-[25%]">
+            <Select
+              options={rafflesOptions}
+              label="Selecciona una rifa"
+              value={selectedRaffleId}
+              onChange={setSelectedRaffleId}
+              size="md"
+              placeholder="Elige una rifa..."
+            />
+          </div>
+          <div className="w-full sm:w-[25%]">
+            <Input
+              icon="search"
+              iconPosition="left"
+              placeholder="Buscar boleto"
+              inputSize="md"
+              value={search}
+              onChange={e => setSearch(e.target.value)}
+            />
+          </div>
+        </div>
+
+        <TicketsGrid
+          tickets={currentTickets}
+          loading={loading}
+          onSelect={handleSelect}
+          search={search}
+        />
+
+        <TicketsFooter
+          currentPage={currentPage}
+          totalPages={totalPages}
+          totalTickets={totalTickets}
+          onPrevPage={prevPage}
+          onNextPage={nextPage}
+        />
       </div>
+      <TicketDetail
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
+        ticket={selectedTicket}
+      />
     </div>
   );
 };

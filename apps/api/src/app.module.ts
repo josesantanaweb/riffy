@@ -27,6 +27,7 @@ import './enums/payment-status.enum';
 import './enums/payment-method-type.enum';
 import './enums/notification-status.enum';
 import './enums/plan-type.enum';
+import './enums/plan-usage-status.enum';
 
 @Module({
   imports: [

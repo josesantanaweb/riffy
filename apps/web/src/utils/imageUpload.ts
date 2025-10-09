@@ -12,7 +12,7 @@ interface S3UploadResponse {
 
 export const uploadImageToS3 = async (
   file: File,
-  options: UploadToS3Options = {}
+  options: UploadToS3Options = {},
 ): Promise<string> => {
   const formData = new FormData();
   formData.append('file', file);
@@ -21,17 +21,17 @@ export const uploadImageToS3 = async (
     formData.append('folder', options.folder);
   }
 
-  // const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost';
-  // const response = await fetch(`${apiUrl}/api/s3/upload`, {
-  const response = await fetch(`${apiUrl}/s3/upload`, {
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
+  const uploadUrl = `${apiUrl}/api/s3/upload`;
+
+  const response = await fetch(uploadUrl, {
     method: 'POST',
     body: formData,
   });
 
   if (!response.ok) {
     const errorText = await response.text();
-    throw new Error(`Error al subir imagen: ${errorText}`);
+    throw new Error(`Error al subir imagen (${response.status}): ${errorText}`);
   }
 
   const result: S3UploadResponse = await response.json();

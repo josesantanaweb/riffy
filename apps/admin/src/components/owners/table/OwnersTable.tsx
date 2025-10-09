@@ -9,9 +9,11 @@ import {
   TABLE_CLASSES,
   mapUserStatusToStatusType,
   mapUserStatusToLabel,
+  mapPlanUsageStatusToStatusType,
+  mapPlanUsageStatusToLabel,
 } from '@/utils';
 import MediaDisplay from '@/components/common/media-display';
-import { User, UserStatus } from '@riffy/types';
+import { User, UserStatus, PlanUsageStatus } from '@riffy/types';
 
 interface OwnersTableProps {
   data: User[];
@@ -20,12 +22,7 @@ interface OwnersTableProps {
   onAdd?: () => void;
 }
 
-const OwnersTable = ({
-  data,
-  onEdit,
-  onDelete,
-  onAdd,
-}: OwnersTableProps) => {
+const OwnersTable = ({ data, onEdit, onDelete, onAdd }: OwnersTableProps) => {
   const columns: ColumnDef<User>[] = [
     {
       accessorKey: 'id',
@@ -94,7 +91,10 @@ const OwnersTable = ({
       header: 'TikTok',
       cell: info => {
         const handleTikTok = () =>
-          window.open(`https://www.tiktok.com/@${info.getValue() as string}`, '_blank');
+          window.open(
+            `https://www.tiktok.com/@${info.getValue() as string}`,
+            '_blank',
+          );
         return (
           <button className="cursor-pointer" onClick={handleTikTok}>
             <Icon name="tiktok" className="text-2xl" />
@@ -127,11 +127,23 @@ const OwnersTable = ({
         const row = info.row.original;
         const planName = row?.plan?.name;
         return (
-          <span className="text-sm text-white">
-            {planName || 'Sin plan'}
-          </span>
+          <span className="text-sm text-white">{planName || 'Sin plan'}</span>
         );
       },
+      meta: {
+        className: TABLE_CLASSES.cell,
+        headerClassName: TABLE_CLASSES.header,
+      },
+    },
+    {
+      accessorKey: 'planUsage.status',
+      header: 'Estado del plan',
+      cell: info => (
+        <Badge
+          status={mapPlanUsageStatusToStatusType(info.getValue() as PlanUsageStatus)}
+          label={mapPlanUsageStatusToLabel(info.getValue() as string)}
+        />
+      ),
       meta: {
         className: TABLE_CLASSES.cell,
         headerClassName: TABLE_CLASSES.header,

@@ -21,7 +21,7 @@ const PendingPayment = ({
   data,
 }: PendingPaymentProps): ReactElement => {
   const router = useRouter();
-  const { cart } = useStore();
+  const { cart, user } = useStore();
   const isIPhone = useIsIPhone();
 
   useEffect(() => {
@@ -37,6 +37,8 @@ const PendingPayment = ({
   }, [isOpen]);
 
   const handleClose = () => router.push(ROUTES.RAFFLES.LIST);
+
+  const handleHelp = () => window.open(`https://wa.me/58${user.whatsapp}`, '_blank');
 
   return (
     <AnimatePresence>
@@ -139,7 +141,7 @@ const PendingPayment = ({
                   <Button variant="primary" onClick={handleClose}>
                     Aceptar
                   </Button>
-                  <Button variant="default" onClick={handleClose}>
+                  <Button variant="default" onClick={handleHelp}>
                     <Icon name="whatsapp" className="text-white text-2xl" />
                     Ayuda
                   </Button>

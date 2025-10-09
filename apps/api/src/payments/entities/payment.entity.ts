@@ -1,6 +1,7 @@
 import { ObjectType, Field, ID, GraphQLISODateTime } from '@nestjs/graphql';
 import { PaymentStatus } from '@prisma/client';
 import { Ticket } from 'src/tickets/entities/ticket.entity';
+import { Raffle } from 'src/raffles/entities/raffle.entity';
 
 @ObjectType()
 export class Payment {
@@ -39,4 +40,7 @@ export class Payment {
 
   @Field(() => [Ticket], { nullable: true })
   tickets?: Ticket[];
+
+  @Field(() => Raffle, { nullable: true })
+  raffle?: Raffle;
 }

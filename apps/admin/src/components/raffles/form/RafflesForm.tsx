@@ -2,7 +2,7 @@
 import React, { useEffect, useCallback, useState } from 'react';
 import { Button } from '@riffy/components';
 import { useRouter, useParams } from 'next/navigation';
-import { useCreateRaffle, useRaffle, useUpdateRaffle } from '@riffy/hooks';
+import { useCreateRaffle, useRaffle, useUpdateRaffle, usePlanUsage } from '@riffy/hooks';
 import { useToast } from '@/hooks';
 import { useForm, FormProvider } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -52,6 +52,7 @@ const RafflesForm = () => {
   const { data: raffleData } = useRaffle(raffleId);
   const { createRaffle, loading: isCreating } = useCreateRaffle();
   const { updateRaffle } = useUpdateRaffle();
+  const { canCreateRaffle, canCreateTickets, raffleLimitMessage, ticketLimitMessage } = usePlanUsage();
 
   const isUpdating = Boolean(raffleData);
 
@@ -91,6 +92,20 @@ const RafflesForm = () => {
       showProgress,
       minTickets,
     } = data;
+
+    if (!isUpdating) {
+      if (!canCreateRaffle) {
+        toast.error(raffleLimitMessage || 'No puedes crear más rifas con tu plan actual');
+        return;
+      }
+
+      const ticketValidation = canCreateTickets(Number(totalTickets));
+      if (!ticketValidation) {
+        const ticketMessage = ticketLimitMessage(Number(totalTickets));
+        toast.error(ticketMessage || 'No puedes crear esa cantidad de tickets con tu plan actual');
+        return;
+      }
+    }
 
     try {
       let finalBannerUrl = data.banner || DEFAULT_BANNER;

@@ -34,12 +34,15 @@ export class PaymentsService {
 
   /**
    * Obtiene todos los payments registradas en la base de datos.
+   * @param raffleId Filtro opcional por raffleId
    * @returns Arreglo de payments
    */
-  async findAll(): Promise<Payment[]> {
+  async findAll(raffleId?: string): Promise<Payment[]> {
     const payments = await this.prisma.payment.findMany({
+      where: raffleId ? { raffleId } : undefined,
       include: {
         tickets: true,
+        raffle: true,
       },
       orderBy: {
         createdAt: 'desc',
@@ -61,6 +64,7 @@ export class PaymentsService {
       },
       include: {
         tickets: true,
+        raffle: true,
       },
     });
 

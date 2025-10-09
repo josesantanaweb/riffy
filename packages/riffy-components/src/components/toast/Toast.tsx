@@ -27,7 +27,7 @@ const Toast = ({ t, message, type }: ToastProps) => {
       className="relative overflow-hidden rounded-lg shadow-lg pl-6 pr-3 py-4 bg-base-600"
     >
       <span className={`${colors} w-1 h-full absolute left-0 top-0`} />
-      <div className="flex items-center justify-between min-w-[250px]">
+      <div className="flex items-center justify-between min-w-[250px] max-w-[300px]">
         <p className="text-base text-white">{message}</p>
         <button
           onClick={() => toast.dismiss(t.id)}

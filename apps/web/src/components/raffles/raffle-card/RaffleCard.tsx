@@ -25,7 +25,7 @@ const RaffleCard = ({ raffle, loading }: RaffleCardProps): ReactElement => {
   const handleVerifyTicket = () => router.push(ROUTES.RAFFLES.VERIFY_TICKET(raffle.id));
 
   return (
-    <div className="flex flex-col bg-base-700 rounded-xl overflow-hidden">
+    <div className="flex flex-col bg-base-700 rounded-xl">
       <RaffleBanner
         banner={raffle?.banner}
         isCompleted={raffle?.status === RaffleStatus.COMPLETED}
