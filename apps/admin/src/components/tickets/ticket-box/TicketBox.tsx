@@ -14,11 +14,11 @@ const TicketBox = ({ ticket, onSelect }: TicketBoxProps) => {
       case TicketStatus.SOLD:
         return 'bg-base-600 text-base-300 hover:bg-base-600/50 line-through';
       case TicketStatus.WINNER:
-        return 'bg-success-500 text-white hover:bg-success-500/50';
+        return 'bg-success-500/30 text-white hover:bg-success-500/50';
       case TicketStatus.LOSER:
-        return 'bg-danger-500 text-white hover:bg-danger-500/50';
+        return 'bg-danger-500/30 text-white hover:bg-danger-500/50';
       case TicketStatus.PREMIUM:
-        return 'bg-base-200 text-white hover:bg-base-200/50';
+        return 'bg-base-200/30 text-white hover:bg-base-200/50';
       default:
         return 'text-white';
     }

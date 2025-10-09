@@ -3,9 +3,11 @@ import { useState, useEffect } from 'react';
 import { useRaffles, useTicketsByRaffle } from '@riffy/hooks';
 import { Input, Select } from '@riffy/components';
 import PageHeader from '@/components/common/page-header';
-import TicketBox from './ticket-box';
 import TicketDetail from './ticket-detail';
 import { Ticket } from '@riffy/types';
+import TicketsGrid from './tickets-grid';
+import TicketsFooter from './tickets-footer';
+import { useTickets } from '@/hooks';
 
 const Tickets = () => {
   const [selectedRaffleId, setSelectedRaffleId] = useState<string>('');
@@ -16,6 +18,18 @@ const Tickets = () => {
   const { data: raffles } = useRaffles();
   const { data: tickets, loading } = useTicketsByRaffle(selectedRaffleId);
 
+  const {
+    currentTickets,
+    totalPages,
+    currentPage,
+    nextPage,
+    prevPage,
+    totalTickets,
+  } = useTickets({
+    tickets,
+    ticketsPerPage: 50,
+  });
+
   const rafflesOptions = raffles?.map(raffle => ({
     value: raffle.id,
     label: raffle.title,
@@ -25,7 +39,7 @@ const Tickets = () => {
     if (raffles && raffles.length > 0 && !selectedRaffleId) {
       setSelectedRaffleId(raffles[0].id);
     }
-  }, [raffles]);
+  }, [raffles, selectedRaffleId]);
 
   const handleSelect = (ticket: Ticket) => {
     setIsOpen(true);
@@ -59,37 +73,20 @@ const Tickets = () => {
           </div>
         </div>
 
-        {selectedRaffleId ? (
-          <div>
-            {loading ? (
-              <div className="flex justify-center items-center h-32">
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-500"></div>
-              </div>
-            ) : tickets && tickets.length > 0 ? (
-              <div className="grid grid-cols-10 gap-2">
-                {tickets
-                  .filter(
-                    ticket =>
-                      search === '' ||
-                      ticket.number
-                        .toLowerCase()
-                        .includes(search.toLowerCase()),
-                  )
-                  .map(ticket => (
-                    <TicketBox ticket={ticket} onSelect={handleSelect} />
-                  ))}
-              </div>
-            ) : (
-              <div className="flex justify-center items-center h-32 text-base-300">
-                <p>No se encontraron boletos para esta rifa</p>
-              </div>
-            )}
-          </div>
-        ) : (
-          <div className="flex justify-center items-center h-32 text-base-300">
-            <p>Selecciona una rifa para ver los boletos</p>
-          </div>
-        )}
+        <TicketsGrid
+          tickets={currentTickets}
+          loading={loading}
+          onSelect={handleSelect}
+          search={search}
+        />
+
+        <TicketsFooter
+          currentPage={currentPage}
+          totalPages={totalPages}
+          totalTickets={totalTickets}
+          onPrevPage={prevPage}
+          onNextPage={nextPage}
+        />
       </div>
       <TicketDetail
         isOpen={isOpen}
