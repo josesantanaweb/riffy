@@ -132,7 +132,11 @@ export const TICKETS_FRAGMENT = gql`
     payment {
       ...PaymentBasicFragment
     }
+    raffle {
+      ...RaffleFragment
+    }
   }
+  ${RAFFLES_FRAGMENT}
   ${PAYMENT_BASIC_FRAGMENT}
 `;
 

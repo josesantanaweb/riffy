@@ -1,53 +1,66 @@
 'use client';
-import React from 'react';
+import React, { useState } from 'react';
 import type { ReactElement } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Button, Icon } from '@riffy/components';
-import { Payment, PaymentStatus } from '@riffy/types';
+import { Button, Icon, Select } from '@riffy/components';
+import { Ticket, TicketStatus } from '@riffy/types';
+import { useToast } from '@/hooks';
+import { useUpdateTicketStatus } from '@riffy/hooks';
 import { formatCurrency, formatDate } from '@/utils';
-import Image from 'next/image';
 
-interface ConfirmPaymentProps {
+interface TicketDetailProps {
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
-  payment?: Payment | null;
-  onUpdateStatus?: (paymentId: string, status: PaymentStatus) => void;
+  ticket?: Ticket | null;
 }
 
-const ConfirmPayment = ({
+const TicketDetail = ({
   isOpen,
   setIsOpen,
-  payment,
-  onUpdateStatus,
-}: ConfirmPaymentProps): ReactElement => {
+  ticket,
+}: TicketDetailProps): ReactElement => {
+  const toast = useToast();
+  const { updateTicketStatus } = useUpdateTicketStatus();
+  const [status, setStatus] = useState<string>(
+    ticket?.status || TicketStatus.WINNER,
+  );
   const handleClose = () => setIsOpen(false);
 
-  const handleApprove = () => {
-    if (payment?.id && onUpdateStatus) {
-      onUpdateStatus(payment.id, PaymentStatus.VERIFIED);
-    }
-  };
-
-  const handleReject = () => {
-    if (payment?.id && onUpdateStatus) {
-      onUpdateStatus(payment.id, PaymentStatus.DENIED);
-    }
-  };
-
-  const getStatusDisplay = (status: PaymentStatus) => {
+  const getStatusDisplay = (status: TicketStatus | string) => {
     switch (status) {
-      case PaymentStatus.VERIFIED:
-        return { text: 'Verificado', color: 'text-success-500' };
-      case PaymentStatus.DENIED:
-        return { text: 'Rechazado', color: 'text-danger-500' };
-      case PaymentStatus.PENDING:
-        return { text: 'Pendiente', color: 'text-warning-500' };
+      case TicketStatus.AVAILABLE:
+        return { text: 'Disponible', color: 'text-white' };
+      case TicketStatus.SOLD:
+        return { text: 'Vendido', color: 'text-white' };
+      case TicketStatus.WINNER:
+        return { text: 'Ganador', color: 'text-warning-500' };
+      case TicketStatus.LOSER:
+        return { text: 'Perdedor', color: 'text-danger-500' };
+      case TicketStatus.PREMIUM:
+        return { text: 'Premium', color: 'text-base-300' };
       default:
         return { text: status, color: 'text-white' };
     }
   };
 
-  if (!payment || !payment.raffle) return null;
+  const ticketStatusOptions = [
+    TicketStatus.WINNER,
+    TicketStatus.LOSER,
+    TicketStatus.PREMIUM,
+  ].map(status => ({
+    value: status,
+    label: getStatusDisplay(status).text,
+  }));
+
+  const handleSave = async () => {
+    try {
+      await updateTicketStatus(ticket.id, status as TicketStatus);
+      toast.success(`Estado actualizado a ${status} exitosamente`);
+      setIsOpen(false);
+    } catch {
+      toast.error('Error al actualizar el estado del ticket');
+    }
+  };
 
   return (
     <div className="relative">
@@ -62,7 +75,7 @@ const ConfirmPayment = ({
             onClick={handleClose}
           >
             <motion.div
-              className="relative w-[650px] bg-base-700 rounded-xl"
+              className="relative w-[480px] bg-base-700 rounded-xl"
               initial={{ scale: 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.8, opacity: 0 }}
@@ -76,7 +89,7 @@ const ConfirmPayment = ({
             >
               <div className="flex border-b border-base-600 px-6 py-4 items-center justify-between">
                 <h3 className="text-white font-semibold text-xl">
-                  Aprobar pago
+                  Detalle del boleto
                 </h3>
                 <motion.button
                   onClick={handleClose}
@@ -98,7 +111,7 @@ const ConfirmPayment = ({
                       <div className="flex flex-col gap-1">
                         <p className="text-base-200 text-sm">Rifa:</p>
                         <h2 className="text-base font-medium text-white">
-                          {payment?.raffle?.title}
+                          {ticket.raffle?.title}
                         </h2>
                       </div>
                     </div>
@@ -106,13 +119,13 @@ const ConfirmPayment = ({
                       <div className="flex flex-col gap-1">
                         <p className="text-base-200 text-sm">Nombre:</p>
                         <h2 className="text-base font-medium text-white">
-                          {payment?.buyerName}
+                          {ticket.payment?.buyerName || 'N/A'}
                         </h2>
                       </div>
                       <div className="flex flex-col gap-1 items-end">
                         <p className="text-base-200 text-sm">Cedula:</p>
                         <h2 className="text-base font-medium text-white">
-                          {payment?.nationalId}
+                          {ticket.payment?.nationalId || 'N/A'}
                         </h2>
                       </div>
                     </div>
@@ -120,7 +133,7 @@ const ConfirmPayment = ({
                       <div className="flex flex-col gap-1">
                         <p className="text-base-200 text-sm">Telefono:</p>
                         <h2 className="text-base font-medium text-white">
-                          {payment?.phone}
+                          {ticket.payment?.phone || 'N/A'}
                         </h2>
                       </div>
                       <div className="flex flex-col gap-1 items-end">
@@ -128,7 +141,9 @@ const ConfirmPayment = ({
                           Fecha de compra:
                         </p>
                         <h2 className="text-base font-medium text-white">
-                          {formatDate(payment?.paymentDate)}
+                          {ticket.payment?.paymentDate
+                            ? formatDate(ticket.payment?.paymentDate)
+                            : 'N/A'}
                         </h2>
                       </div>
                     </div>
@@ -136,15 +151,15 @@ const ConfirmPayment = ({
                       <div className="flex flex-col gap-1">
                         <p className="text-base-200 text-sm">Boletos #</p>
                         <h2 className="text-base font-medium text-white">
-                          {payment?.tickets
-                            ?.map(ticket => ticket.number)
-                            .join(', ')}
+                          {ticket.number || 'N/A'}
                         </h2>
                       </div>
                       <div className="flex flex-col gap-1 items-end">
                         <p className="text-base-200 text-sm">Monto:</p>
                         <h2 className="text-base font-medium text-white">
-                          {formatCurrency(payment?.amount)}
+                          {ticket.payment?.amount
+                            ? formatCurrency(ticket.payment?.amount)
+                            : 'N/A'}
                         </h2>
                       </div>
                     </div>
@@ -152,44 +167,38 @@ const ConfirmPayment = ({
                       <div className="flex flex-col gap-1">
                         <p className="text-base-200 text-sm">Estado:</p>
                         <h2
-                          className={`text-base font-medium ${getStatusDisplay(payment?.status).color}`}
+                          className={`text-base font-medium ${getStatusDisplay(ticket.status).color}`}
                         >
-                          {getStatusDisplay(payment?.status).text}
+                          {getStatusDisplay(ticket.status).text}
                         </h2>
                       </div>
                     </div>
-                  </div>
-                  <div className="w-[200px] h-[440px] rounded-md overflow-hidden flex-shrink-0">
-                    <Image
-                      src={payment?.proofUrl}
-                      width={300}
-                      height={500}
-                      alt="comprobante"
-                      className="w-full h-full object-fill"
-                    />
+                    <div className="flex">
+                      <Select
+                        options={ticketStatusOptions}
+                        label="Selecciona un estado"
+                        value={status}
+                        onChange={setStatus}
+                        size="md"
+                        placeholder="Elige un estado..."
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
 
               <div className="flex border-t border-base-600 px-6 py-4 items-center justify-end">
                 <div className="flex items-center gap-3">
-                  <Button
-                    variant="default"
-                    size="md"
-                    onClick={handleReject}
-                    disabled={payment.status !== PaymentStatus.PENDING}
-                  >
-                    <Icon name="close" className=" text-lg" />
-                    Rechazar pago
+                  <Button variant="default" size="md" onClick={handleClose}>
+                    Cancelar
                   </Button>
                   <Button
                     variant="success"
                     size="md"
-                    onClick={handleApprove}
-                    disabled={payment.status !== PaymentStatus.PENDING}
+                    onClick={handleSave}
+                    disabled={status.trim() === ticket?.status?.trim()}
                   >
-                    <Icon name="check-circle" className=" text-lg" />
-                    Aceptar pago
+                    Guardar
                   </Button>
                 </div>
               </div>
@@ -201,4 +210,4 @@ const ConfirmPayment = ({
   );
 };
 
-export default ConfirmPayment;
+export default TicketDetail;

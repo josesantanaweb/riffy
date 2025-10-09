@@ -305,8 +305,8 @@ input CreateTicketInput {
 """The status of the ticket"""
 enum TicketStatus {
   AVAILABLE
-  RESERVED
   SOLD
+  PREMIUM
   WINNER
   LOSER
 }

@@ -113,14 +113,14 @@ export function mapTicketStatusToLabel(status: string): string {
   switch (status) {
     case TicketStatus.AVAILABLE:
       return 'Disponible';
-    case TicketStatus.RESERVED:
-      return 'Reservado';
     case TicketStatus.SOLD:
       return 'Vendido';
     case TicketStatus.WINNER:
       return 'Ganador';
     case TicketStatus.LOSER:
       return 'Perdedor';
+    case TicketStatus.PREMIUM:
+      return 'Premium';
     default:
       return status;
   }
@@ -137,7 +137,9 @@ export function mapUserStatusToStatusType(status: UserStatus): BadgeStatus {
   }
 }
 
-export function mapPlanUsageStatusToStatusType(status: PlanUsageStatus): BadgeStatus {
+export function mapPlanUsageStatusToStatusType(
+  status: PlanUsageStatus,
+): BadgeStatus {
   switch (status) {
     case PlanUsageStatus.ACTIVE:
       return BadgeStatus.SUCCESS;
@@ -180,12 +182,12 @@ export function mapTicketStatusToStatusType(status: TicketStatus): BadgeStatus {
   switch (status) {
     case TicketStatus.AVAILABLE:
       return BadgeStatus.INFO;
-    case TicketStatus.RESERVED:
-      return BadgeStatus.ERROR;
     case TicketStatus.SOLD:
       return BadgeStatus.WARNING;
     case TicketStatus.WINNER:
       return BadgeStatus.SUCCESS;
+    case TicketStatus.PREMIUM:
+      return BadgeStatus.DEFAULT;
     default:
       return BadgeStatus.DEFAULT;
   }

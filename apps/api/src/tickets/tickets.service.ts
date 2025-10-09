@@ -33,6 +33,7 @@ export class TicketsService {
       },
       include: {
         payment: true,
+        raffle: true,
       },
       orderBy: {
         number: 'asc',

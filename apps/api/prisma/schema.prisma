@@ -158,8 +158,8 @@ enum RaffleStatus {
 
 enum TicketStatus {
   AVAILABLE
-  RESERVED
   SOLD
+  PREMIUM
   WINNER
   LOSER
 }
