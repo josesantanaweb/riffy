@@ -4,12 +4,12 @@ import { Ticket } from "@riffy/types";
 const TicketButton = ({
   ticket,
   isSelected,
-  isSold,
+  isNotAvailable,
   onSelect,
 }: {
   ticket: Ticket;
   isSelected: boolean;
-  isSold: boolean;
+  isNotAvailable: boolean;
   onSelect: (ticket: Ticket) => void;
 }) => {
   const BUTTON_STYLES = {
@@ -26,12 +26,12 @@ const TicketButton = ({
     default: BUTTON_STYLES.default,
   }
 
-  const buttonStyles = cn(getButtonStyles.base, getButtonStyles[isSold ? 'sold' : isSelected ? 'selected' : 'default']);
+  const buttonStyles = cn(getButtonStyles.base, getButtonStyles[isNotAvailable ? 'sold' : isSelected ? 'selected' : 'default']);
 
   return (
     <button
       onClick={() => onSelect(ticket)}
-      disabled={isSold}
+      disabled={isNotAvailable}
       className={buttonStyles}
     >
       {ticket.number}

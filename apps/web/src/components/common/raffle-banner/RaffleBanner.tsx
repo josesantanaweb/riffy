@@ -16,7 +16,7 @@ const RaffleBanner = ({
 }: RaffleBannerProps): ReactElement => {
   return (
     <div
-      className={`w-full h-[340px] relative overflow-hidden ${isCompleted ? 'saturate-0' : ''}`}
+      className={`w-full h-[340px] relative ${isCompleted ? 'saturate-0' : ''}`}
     >
       {loading ? (
         <div className="w-full h-full bg-base-600 rounded-md animate-pulse" />
