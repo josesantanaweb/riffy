@@ -63,14 +63,11 @@ export class S3Service {
       const folder = options?.folder || 'uploads';
       const fileKey = `${folder}/${fileName}`;
 
-      const acl = 'public-read';
-
       const command = new PutObjectCommand({
         Bucket: this.bucket,
         Key: fileKey,
         Body: file.buffer,
         ContentType: file.mimetype,
-        ACL: acl,
         Metadata: {
           originalName: this.sanitizeHeaderValue(file.originalname),
           uploadedAt: new Date().toISOString(),
