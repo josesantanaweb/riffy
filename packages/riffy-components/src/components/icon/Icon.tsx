@@ -41,6 +41,8 @@ export type IconName =
   | 'spinner'
   | 'check-circle'
   | 'file'
+  | 'sun'
+  | 'moon'
   | 'dots';
 
 interface IconProps {

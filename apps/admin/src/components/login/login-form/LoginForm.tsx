@@ -7,7 +7,7 @@ import { loginSchema, type FormData } from '@/validations/auth';
 import { Input, Button, Logo } from '@riffy/components';
 import { useToast } from '@/hooks/useToast';
 import { useSearchParams } from 'next/navigation';
-import { useAuth } from '@riffy/hooks';
+import { useAuth, useTheme } from '@riffy/hooks';
 
 const LoginForm = () => {
   const methods = useForm<FormData>({
@@ -28,14 +28,13 @@ const LoginForm = () => {
 
   const searchParams = useSearchParams();
   const toast = useToast();
+  const { theme } = useTheme();
   const { login } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
-
   const redirectUrl = searchParams.get('redirect') || '/';
 
   const email = watch('email');
   const password = watch('password');
-
 
   const onSubmit = async (data: FormData) => {
     const { email, password } = data;
@@ -54,6 +53,8 @@ const LoginForm = () => {
     }
   };
 
+  const logoSrc = theme === 'dark' ? ASSETS.IMAGES.LOGO : ASSETS.IMAGES.LOGO_BLACK;
+
   return (
     <div className="p-6 w-full lg:w-[40%] h-full flex justify-center items-center">
       <form
@@ -61,9 +62,12 @@ const LoginForm = () => {
         className="lg:w-[80%] justify-center flex-col flex items-start gap-6"
       >
         <div className="flex flex-col gap-6">
-          <Logo className="w-[64px]" src={ASSETS.IMAGES.LOGO} />
+          <Logo
+            className="w-[64px]"
+            src={logoSrc}
+          />
           <div className="flex flex-col gap-2">
-            <h1 className="text-2xl font-medium text-white">
+            <h1 className="text-2xl font-medium dark:text-white text-primary">
               Inicio de sesión
             </h1>
             <p className="text-base-300 text-base">

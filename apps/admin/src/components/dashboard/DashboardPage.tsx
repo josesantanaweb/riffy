@@ -19,7 +19,7 @@ const DashboardPage = () => {
           <div className="flex items-center gap-3">
             <Avatar name={profile?.name} src={profile?.logo} size={45} className="rounded-md" />
             <div className="flex flex-col gap-1">
-              <h3 className="text-base font-medium text-white">Hola {profile?.name}</h3>
+              <h3 className="text-base font-medium text-primary">Hola {profile?.name}</h3>
               <p className="text-sm text-base-300">
                 Anilisis y estadisticas de tus rifas
               </p>
@@ -31,37 +31,37 @@ const DashboardPage = () => {
           </Button>
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-6">
-          <div className="flex items-center justify-between gap-4 bg-base-700 rounded-xl p-6">
+          <div className="flex items-center justify-between gap-4 dark:bg-base-700 bg-base-800 rounded-xl p-6">
             <div className="flex flex-col gap-2">
               <h2 className="text-2xl font-medium text-primary-500">10</h2>
-              <p className="text-sm text-white">Rifas Creadas</p>
+              <p className="text-sm dark:text-white text-primary">Rifas Creadas</p>
             </div>
             <span className="flex items-center justify-center bg-primary-500/10 rounded-full w-12 h-12">
               <Icon name="ticket" className="text-primary-500 text-2xl" />
             </span>
           </div>
-          <div className="flex items-center justify-between gap-4 bg-base-700 rounded-xl p-6">
+          <div className="flex items-center justify-between gap-4 dark:bg-base-700 bg-base-800 rounded-xl p-6">
             <div className="flex flex-col gap-2">
               <h2 className="text-2xl font-medium text-primary-500">1.500</h2>
-              <p className="text-sm text-white">Boletos Vendidos</p>
+              <p className="text-sm dark:text-white text-primary">Boletos Vendidos</p>
             </div>
             <span className="flex items-center justify-center bg-primary-500/10 rounded-full w-12 h-12">
               <Icon name="credit-card" className="text-primary-500 text-2xl" />
             </span>
           </div>
-          <div className="flex items-center justify-between gap-4 bg-base-700 rounded-xl p-6">
+          <div className="flex items-center justify-between gap-4 dark:bg-base-700 bg-base-800 rounded-xl p-6">
             <div className="flex flex-col gap-2">
               <h2 className="text-2xl font-medium text-primary-500">11.000</h2>
-              <p className="text-sm text-white">Premios Repartidos</p>
+              <p className="text-sm dark:text-white text-primary">Premios Repartidos</p>
             </div>
             <span className="flex items-center justify-center bg-primary-500/10 rounded-full w-12 h-12">
               <Icon name="gift" className="text-primary-500 text-2xl" />
             </span>
           </div>
-          <div className="flex items-center justify-between gap-4 bg-base-700 rounded-xl p-6">
+          <div className="flex items-center justify-between gap-4 dark:bg-base-700 bg-base-800 rounded-xl p-6">
             <div className="flex flex-col gap-2">
               <h2 className="text-2xl font-medium text-primary-500">5.200</h2>
-              <p className="text-sm text-white">Ganadores</p>
+              <p className="text-sm dark:text-white text-primary">Ganadores</p>
             </div>
             <span className="flex items-center justify-center bg-primary-500/10 rounded-full w-12 h-12">
               <Icon name="user" className="text-primary-500 text-2xl" />

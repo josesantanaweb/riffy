@@ -6,7 +6,7 @@ const LoginPreview = () => {
   return (
     <div className="bg-base-600 rounded-xl p-6 w-[60%] h-full hidden lg:flex flex-col items-center justify-center gap-10">
       <div className="flex flex-col items-center justify-center gap-2">
-        <h4 className="text-3xl font-semibold text-white">
+        <h4 className="text-3xl font-semibold dark:text-white text-primary">
           Gestiona tus rifas de manera simple y profesional
         </h4>
         <p className="text-base-300 text-base">

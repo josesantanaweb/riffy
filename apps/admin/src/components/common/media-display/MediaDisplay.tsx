@@ -14,7 +14,7 @@ const MediaDisplay: React.FC<MediaDisplayProps> = ({
   return (
     <div className="flex items-center gap-3">
       <Avatar src={image} name={label} className="rounded-md" size={35} />
-      <span className="text-sm font-medium text-white line-clamp-1">
+      <span className="text-sm font-medium line-clamp-1">
         {label.charAt(0).toUpperCase() + label.slice(1)}
       </span>
     </div>

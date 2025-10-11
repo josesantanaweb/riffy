@@ -57,7 +57,7 @@ const PaymentsPage = () => {
   return (
     <div className="p-6 flex-col flex gap-6">
       <PageHeader title="Pagos" subtitle="Lista de Pagos" />
-      <div className="flex flex-col w-full bg-base-700 rounded-xl p-6 gap-5">
+      <div className="flex flex-col w-full dark:bg-base-700 bg-base-800 rounded-xl p-6 gap-5">
         <div className="flex justify-between items-end w-[380px]">
           <Select
             options={rafflesOptions}
