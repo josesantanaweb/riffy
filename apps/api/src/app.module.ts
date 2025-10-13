@@ -16,6 +16,7 @@ import { PaymentMethodsModule } from './payment-methods/payment-methods.module';
 import { NotificationsModule } from './notifications/notifications.module';
 import { PlansModule } from './plans/plans.module';
 import { PlanUsageModule } from './plan-usage/plan-usage.module';
+import { DashboardModule } from './dashboard/dashboard.module';
 
 import { S3Module } from './s3/s3.module';
 import { SeedsModule } from './seeds/seeds.module';
@@ -53,6 +54,7 @@ import './enums/plan-usage-status.enum';
     NotificationsModule,
     PlansModule,
     PlanUsageModule,
+    DashboardModule,
   ],
 })
 export class AppModule {}

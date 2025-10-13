@@ -4,10 +4,27 @@ import PageHeader from '../common/page-header';
 import { Icon, Button, Avatar } from '@riffy/components';
 import { ROUTES } from '@/constants/routes';
 import { useProfile } from '@riffy/hooks';
+import EarningsChart from './earnings-chart';
+import ProgressChart from './progress-chart';
+import StateChart from './state-chart';
+import TopBuyers from './top-buyers';
+import LastPayments from './last-payments';
+import { useDashboardStats } from '@riffy/hooks';
+import { formatCurrency } from '@/utils';
 
 const DashboardPage = () => {
   const router = useRouter();
   const { data: profile } = useProfile();
+  const { data: dashboardStats } = useDashboardStats();
+
+  const totalRaffles = dashboardStats?.totalRaffles || 0;
+  const soldTickets = dashboardStats?.soldTickets || 0;
+  const unsoldTickets = dashboardStats?.unsoldTickets || 0;
+  const totalWinners = dashboardStats?.totalWinners || 0;
+  const totalEarnings = dashboardStats?.totalEarnings || 0;
+  const topBuyers = dashboardStats?.topBuyers || [];
+  const paymentsByState = dashboardStats?.paymentsByState || [];
+  const lastPayments = dashboardStats?.lastPayments || [];
 
   const handleCreateRaffle = () => router.push(ROUTES.RAFFLES.CREATE);
 
@@ -17,64 +34,91 @@ const DashboardPage = () => {
       <div className="flex flex-col gap-6 mt-4">
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-3">
-            <Avatar name={profile?.name} src={profile?.logo} size={45} className="rounded-md" />
+            <Avatar
+              name={profile?.name}
+              src={profile?.logo}
+              size={45}
+              className="rounded-md"
+            />
             <div className="flex flex-col gap-1">
-              <h3 className="text-base font-medium text-white">Hola {profile?.name}</h3>
+              <h3 className="text-base font-medium dark:text-white text-primary">
+                Hola {profile?.name}
+              </h3>
               <p className="text-sm text-base-300">
                 Anilisis y estadisticas de tus rifas
               </p>
             </div>
           </div>
           <Button size="md" variant="primary" onClick={handleCreateRaffle}>
-            <Icon name="plus" className="text-lg text-center w-[14px] flex justify-center" />
+            <Icon
+              name="plus"
+              className="text-lg text-center w-[14px] flex justify-center"
+            />
             Nueva Rifa
           </Button>
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-6">
-          <div className="flex items-center justify-between gap-4 bg-base-700 rounded-xl p-6">
+          <div className="flex items-center justify-between gap-4 dark:bg-base-700 bg-base-800 rounded-xl p-6">
             <div className="flex flex-col gap-2">
-              <h2 className="text-2xl font-medium text-primary-500">10</h2>
-              <p className="text-sm text-white">Rifas Creadas</p>
+              <h2 className="text-2xl font-medium text-primary-500">
+                {totalEarnings}
+              </h2>
+              <p className="text-sm dark:text-white text-primary">
+                Total de ventas
+              </p>
             </div>
-            <span className="flex items-center justify-center bg-primary-500/10 rounded-full w-12 h-12">
-              <Icon name="ticket" className="text-primary-500 text-2xl" />
+            <span className="flex items-center justify-center bg-primary-500 rounded-full w-12 h-12">
+              <Icon name="credit-card" className="text-white text-2xl" />
             </span>
           </div>
-          <div className="flex items-center justify-between gap-4 bg-base-700 rounded-xl p-6">
+          <div className="flex items-center justify-between gap-4 dark:bg-base-700 bg-base-800 rounded-xl p-6">
             <div className="flex flex-col gap-2">
-              <h2 className="text-2xl font-medium text-primary-500">1.500</h2>
-              <p className="text-sm text-white">Boletos Vendidos</p>
+              <h2 className="text-2xl font-medium text-primary-500">
+                {formatCurrency(soldTickets,'VES')}
+              </h2>
+              <p className="text-sm dark:text-white text-primary">
+                Boletos Vendidos
+              </p>
             </div>
-            <span className="flex items-center justify-center bg-primary-500/10 rounded-full w-12 h-12">
-              <Icon name="credit-card" className="text-primary-500 text-2xl" />
+            <span className="flex items-center justify-center bg-primary-500 rounded-full w-12 h-12">
+              <Icon name="gift" className="text-white text-2xl" />
             </span>
           </div>
-          <div className="flex items-center justify-between gap-4 bg-base-700 rounded-xl p-6">
+          <div className="flex items-center justify-between gap-4 dark:bg-base-700 bg-base-800 rounded-xl p-6">
             <div className="flex flex-col gap-2">
-              <h2 className="text-2xl font-medium text-primary-500">11.000</h2>
-              <p className="text-sm text-white">Premios Repartidos</p>
+              <h2 className="text-2xl font-medium text-primary-500">
+                {totalRaffles}
+              </h2>
+              <p className="text-sm dark:text-white text-primary">
+                Rifas Creadas
+              </p>
             </div>
-            <span className="flex items-center justify-center bg-primary-500/10 rounded-full w-12 h-12">
-              <Icon name="gift" className="text-primary-500 text-2xl" />
+            <span className="flex items-center justify-center bg-primary-500 rounded-full w-12 h-12">
+              <Icon name="gift" className="text-white text-2xl" />
             </span>
           </div>
-          <div className="flex items-center justify-between gap-4 bg-base-700 rounded-xl p-6">
+          <div className="flex items-center justify-between gap-4 dark:bg-base-700 bg-base-800 rounded-xl p-6">
             <div className="flex flex-col gap-2">
-              <h2 className="text-2xl font-medium text-primary-500">5.200</h2>
-              <p className="text-sm text-white">Ganadores</p>
+              <h2 className="text-2xl font-medium text-primary-500">
+                {totalWinners}
+              </h2>
+              <p className="text-sm dark:text-white text-primary">
+                Total de ganadores
+              </p>
             </div>
-            <span className="flex items-center justify-center bg-primary-500/10 rounded-full w-12 h-12">
-              <Icon name="user" className="text-primary-500 text-2xl" />
+            <span className="flex items-center justify-center bg-primary-500 rounded-full w-12 h-12">
+              <Icon name="user" className="text-white text-2xl" />
             </span>
           </div>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
-          <div className="md:col-span-2 xl:col-span-2 bg-base-700 rounded-xl p-6 min-h-[300px]" />
-          <div className="md:col-span-1 xl:col-span-1 bg-base-700 rounded-xl p-6 min-h-[300px]" />
-          <div className="md:col-span-1 xl:col-span-1 bg-base-700 rounded-xl p-6 min-h-[300px]" />
+          <EarningsChart />
+          <ProgressChart sold={soldTickets} unsold={unsoldTickets} />
+          <StateChart paymentsByState={paymentsByState} />
         </div>
-        <div className="flex w-full gap-6 items-center">
-          <div className="flex flex-col w-full bg-base-700 rounded-xl p-6 min-h-[300px]" />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+          <TopBuyers topBuyers={topBuyers} />
+          <LastPayments payments={lastPayments} />
         </div>
       </div>
     </div>

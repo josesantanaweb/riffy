@@ -16,7 +16,7 @@ const PageHeader = ({ title, subtitle, showBackButton }: PageHeaderProps) => {
   return (
     <div className="flex w-full justify-between items-center">
       <div className="flex flex-col">
-        <h3 className="text-white text-lg font-semibold">{title}</h3>
+        <h3 className="dark:text-white text-primary text-lg font-semibold">{title}</h3>
         <Breadcrumb page={subtitle} />
       </div>
       {showBackButton && (
