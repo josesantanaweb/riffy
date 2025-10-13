@@ -28,13 +28,13 @@ const FormInformation = () => {
   const formValues = watch();
 
   return (
-    <div className="bg-base-700 rounded-xl relative">
+    <div className="dark:bg-base-700 bg-base-800 rounded-xl relative">
       <div
         className={`flex justify-between items-center px-6 py-4 ${isCollapse ? 'border-b border-base-600' : ''}`}
       >
         <div className="flex items-center gap-2">
           <Icon name="info-circle" className="text-2xl text-base-300" />
-          <h5 className="text-base text-white">Información del plan</h5>
+          <h5 className="text-base dark:text-white text-primary">Información del plan</h5>
         </div>
         <button
           className={`cursor-pointer text-base-300 transition-transform ${isCollapse ? 'rotate-180' : ''}`}

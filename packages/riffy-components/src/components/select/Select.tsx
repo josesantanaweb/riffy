@@ -125,7 +125,7 @@ const Select: React.FC<SelectProps> = ({
         label && 'gap-2',
       )}
     >
-      <label className="text-white text-sm">{label}</label>
+      <label className="dark:text-white text-base-300 text-sm">{label}</label>
       <div
         className={selectClasses}
         onClick={handleToggle}
@@ -170,7 +170,7 @@ const Select: React.FC<SelectProps> = ({
                   key={index}
                   className={cn(
                     'px-3 py-2 cursor-pointer text-sm transition-colors text-base-300',
-                    'hover:bg-base-600 hover:text-white',
+                    'hover:bg-base-600 dark:hover:text-white hover:text-base-300',
                     selectedOption?.value === option.value &&
                       'bg-base-600 text-base-300',
                     'first:rounded-t-lg last:rounded-b-lg',

@@ -62,7 +62,7 @@ const PaymentDetail = ({
             onClick={handleClose}
           >
             <motion.div
-              className="relative w-[650px] bg-base-700 rounded-xl"
+              className="relative w-[650px] dark:bg-base-700 bg-base-800 rounded-xl"
               initial={{ scale: 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.8, opacity: 0 }}
@@ -75,19 +75,19 @@ const PaymentDetail = ({
               onClick={e => e.stopPropagation()}
             >
               <div className="flex border-b border-base-600 px-6 py-4 items-center justify-between">
-                <h3 className="text-white font-semibold text-xl">
+                <h3 className="dark:text-white text-base-300 font-semibold text-xl">
                   Detalle del pago
                 </h3>
                 <motion.button
                   onClick={handleClose}
-                  className="bg-base-600 hover:bg-base-600/80 rounded-full p-1 shadow z-10 w-[33px] h-[33px] flex items-center justify-center"
+                  className="dark:bg-base-600 bg-base-400 dark:hover:bg-base-600/80 hover:bg-base-400/80 rounded-full p-1 shadow z-10 w-[33px] h-[33px] flex items-center justify-center"
                   whileHover={{
                     scale: 1.1,
                   }}
                   whileTap={{ scale: 0.9 }}
                   transition={{ type: 'spring', stiffness: 400, damping: 17 }}
                 >
-                  <Icon name="close" className="text-2xl text-white" />
+                  <Icon name="close" className="text-2xl dark:text-white text-base-300" />
                 </motion.button>
               </div>
 
@@ -96,8 +96,8 @@ const PaymentDetail = ({
                   <div className="flex flex-col w-full gap-5">
                     <div className="flex items-center justify-between w-full">
                       <div className="flex flex-col gap-1">
-                        <p className="text-base-200 text-sm">Rifa:</p>
-                        <h2 className="text-base font-medium text-white">
+                        <p className="text-base-300 text-sm">Rifa:</p>
+                        <h2 className="text-base font-medium dark:text-white text-primary">
                           {payment?.raffle?.title}
                         </h2>
                       </div>
@@ -105,13 +105,13 @@ const PaymentDetail = ({
                     <div className="flex items-center justify-between w-full">
                       <div className="flex flex-col gap-1">
                         <p className="text-base-200 text-sm">Nombre:</p>
-                        <h2 className="text-base font-medium text-white">
+                        <h2 className="text-base font-medium dark:text-white text-primary">
                           {payment?.buyerName}
                         </h2>
                       </div>
                       <div className="flex flex-col gap-1 items-end">
                         <p className="text-base-200 text-sm">Cedula:</p>
-                        <h2 className="text-base font-medium text-white">
+                        <h2 className="text-base font-medium dark:text-white text-primary">
                           {payment?.nationalId}
                         </h2>
                       </div>
@@ -119,7 +119,7 @@ const PaymentDetail = ({
                     <div className="flex items-center justify-between w-full">
                       <div className="flex flex-col gap-1">
                         <p className="text-base-200 text-sm">Telefono:</p>
-                        <h2 className="text-base font-medium text-white">
+                        <h2 className="text-base font-medium dark:text-white text-primary">
                           {payment?.phone}
                         </h2>
                       </div>
@@ -127,7 +127,7 @@ const PaymentDetail = ({
                         <p className="text-base-200 text-sm">
                           Fecha de compra:
                         </p>
-                        <h2 className="text-base font-medium text-white">
+                        <h2 className="text-base font-medium dark:text-white text-primary">
                           {formatDate(payment?.paymentDate)}
                         </h2>
                       </div>
@@ -135,7 +135,7 @@ const PaymentDetail = ({
                     <div className="flex items-center justify-between w-full">
                       <div className="flex flex-col gap-1">
                         <p className="text-base-200 text-sm">Boletos #</p>
-                        <h2 className="text-base font-medium text-white">
+                        <h2 className="text-base font-medium dark:text-white text-primary">
                           {payment?.tickets
                             ?.map(ticket => ticket.number)
                             .join(', ')}
@@ -143,7 +143,7 @@ const PaymentDetail = ({
                       </div>
                       <div className="flex flex-col gap-1 items-end">
                         <p className="text-base-200 text-sm">Monto:</p>
-                        <h2 className="text-base font-medium text-white">
+                        <h2 className="text-base font-medium dark:text-white text-primary">
                           {formatCurrency(payment?.amount)}
                         </h2>
                       </div>

@@ -110,7 +110,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
       sizeConfig.textSize,
       icon && iconPosition === 'right' && sizeConfig.inputPadding.right,
       icon && iconPosition === 'left' && sizeConfig.inputPadding.left,
-      props.disabled ? 'text-base-500' : 'text-white',
+      props.disabled ? 'text-base-500' : 'dark:text-white text-base-300',
       className,
     );
 
@@ -148,7 +148,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
         className={cn('flex flex-col', fullWidth && 'w-full', label && 'gap-2')}
         onClick={onClick}
       >
-        <label className="text-white text-sm">
+        <label className="dark:text-white text-base-300 text-sm">
           {label}{' '}
           {label && isRequired && <span className="text-danger-500">*</span>}
         </label>

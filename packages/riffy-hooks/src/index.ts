@@ -9,3 +9,5 @@ export * from "./upload";
 export * from "./notifications";
 export * from "./plans";
 export * from "./plan-usage";
+export * from "./theme";
+export * from "./dashboard";

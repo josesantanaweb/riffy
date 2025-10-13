@@ -53,7 +53,7 @@ const Sidebar: React.FC = () => {
   }, [isMobileSidebarOpen, setMobileSidebarOpen]);
 
   const desktopSidebarClasses = clsx(
-    'bg-base-700 h-screen transition-all duration-300 pt-5 flex-shrink-0 hidden lg:block',
+    'dark:bg-base-700 bg-base-800 h-screen transition-all duration-300 pt-5 flex-shrink-0 hidden lg:block',
     collapseSidebar ? 'w-[80px]' : 'w-[230px]',
   );
 

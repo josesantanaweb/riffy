@@ -47,7 +47,7 @@ const Switch = ({
        </button>
        {label && (
          <label
-           className="text-base text-white cursor-pointer select-none"
+           className="text-base dark:text-white text-base-300 cursor-pointer select-none"
            onClick={handleClick}
          >
            {label}

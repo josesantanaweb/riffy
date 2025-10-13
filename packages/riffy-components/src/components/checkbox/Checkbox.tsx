@@ -22,7 +22,7 @@ const Checkbox: React.FC<CheckboxProps> = ({
   const baseClasses =
     'w-5 h-5 border-2 rounded transition-all duration-200 ease-in-out';
   const customClasses = {
-    'border-base-500 bg-base-700': !disabled,
+    'border-base-500 dark:bg-base-700 bg-base-800': !disabled,
     'border-base-500 bg-base-500 cursor-not-allowed': disabled,
     'cursor-pointer': !disabled,
   };
