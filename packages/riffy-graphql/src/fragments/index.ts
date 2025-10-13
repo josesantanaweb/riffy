@@ -174,3 +174,35 @@ export const NOTIFICATION_FRAGMENT = gql`
     updatedAt
   }
 `;
+
+export const DASHBOARD_STATS_FRAGMENT = gql`
+  fragment DashboardStatsFragment on DashboardStats {
+    totalRaffles
+    soldTickets
+    unsoldTickets
+    totalWinners
+    totalEarnings
+    topBuyers {
+      buyerName
+      nationalId
+      totalTickets
+      totalSpent
+    }
+    paymentsByState {
+      state
+      percentage
+    }
+    lastPayments {
+      id
+      buyerName
+      amount
+      nationalId
+      status
+      paymentMethod
+      tickets {
+        ...TicketFragment
+      }
+    }
+  }
+  ${TICKETS_FRAGMENT}
+`;

@@ -7,3 +7,4 @@ export * from "./auth";
 export * from "./notification";
 export * from "./plan";
 export * from "./plan-usage";
+export * from "./dashboard";

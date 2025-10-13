@@ -163,6 +163,29 @@ type Notification {
   ownerId: String
 }
 
+type TopBuyer {
+  buyerName: String!
+  nationalId: String
+  totalTickets: Int!
+  totalSpent: Float!
+}
+
+type PaymentsByState {
+  state: String!
+  percentage: Int!
+}
+
+type DashboardStats {
+  totalRaffles: Int!
+  soldTickets: Int!
+  unsoldTickets: Int!
+  totalWinners: Int!
+  totalEarnings: Float!
+  topBuyers: [TopBuyer!]!
+  paymentsByState: [PaymentsByState!]!
+  lastPayments: [Payment!]!
+}
+
 type UploadResponse {
   url: String!
   key: String!
@@ -193,6 +216,7 @@ type Query {
   notification(id: String!): Notification!
   plans: [Plan!]!
   plan(id: String!): Plan!
+  dashboardStats: DashboardStats!
 }
 
 type Mutation {

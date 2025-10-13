@@ -6,3 +6,4 @@ export { GET_PAYMENT_METHODS, GET_PAYMENT_METHOD } from './paymentMethods';
 export { GET_NOTIFICATIONS } from './notifications';
 export { GET_PLANS, GET_PLAN } from './plans';
 export { GET_MY_PLAN_USAGE, GET_PLAN_USAGE } from './plan-usage';
+export { GET_DASHBOARD_STATS } from './dashboard';
