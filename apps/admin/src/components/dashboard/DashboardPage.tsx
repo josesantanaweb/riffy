@@ -81,7 +81,7 @@ const DashboardPage = () => {
               </p>
             </div>
             <span className="flex items-center justify-center bg-primary-500 rounded-full w-12 h-12">
-              <Icon name="gift" className="text-white text-2xl" />
+              <Icon name="ticket" className="text-white text-2xl" />
             </span>
           </div>
           <div className="flex items-center justify-between gap-4 dark:bg-base-700 bg-base-800 rounded-xl p-6">
