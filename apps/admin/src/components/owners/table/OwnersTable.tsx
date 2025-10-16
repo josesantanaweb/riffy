@@ -54,7 +54,7 @@ const OwnersTable = ({ data, onEdit, onDelete, onAdd }: OwnersTableProps) => {
       header: 'Whatsaap',
       cell: info => {
         const handleWhatsApp = () =>
-          window.open(`https://wa.me/${info.getValue() as string}`, '_blank');
+          window.open(`https://wa.me/+58${info.getValue() as string}`, '_blank');
         return (
           <button className="cursor-pointer" onClick={handleWhatsApp}>
             <Icon name="whatsapp" className="text-2xl" />

@@ -26,7 +26,7 @@ const PageHeader = ({ title, showTimer }: PageHeaderProps): ReactElement => {
       </div>
 
       <div className="flex items-center justify-between mb-3">
-        <p className="text-white text-xl font-medium">{title}</p>
+        <p className="dark:text-white text-primary text-xl font-medium">{title}</p>
         {showTimer && <Timer />}
       </div>
     </div>

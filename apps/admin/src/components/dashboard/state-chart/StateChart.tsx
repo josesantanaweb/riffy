@@ -34,35 +34,44 @@ const StateChart = ({ paymentsByState }: StateChartProps) => {
       <h3 className="text-base font-medium dark:text-white text-primary mb-6">
         Top 5 de ventas por estado
       </h3>
-      <motion.div
-        className="flex flex-col gap-6"
-        variants={containerVariants}
-        initial="hidden"
-        animate="visible"
-      >
-        {paymentsByState.map((state, index) => (
-          <motion.div
-            key={state.state}
-            className="flex flex-col gap-2"
-            variants={itemVariants}
-          >
-            <h6 className="text-sm dark:text-white text-primary">
-              {state.state}
-            </h6>
-            <div className="flex items-center gap-3">
-              <ProgressBar progress={state.percentage} delay={index * 0.15} />
-              <motion.p
-                className="text-sm dark:text-base-300 text-base-600"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: index * 0.15 + 0.5, duration: 0.3 }}
-              >
-                {state.percentage}%
-              </motion.p>
-            </div>
-          </motion.div>
-        ))}
-      </motion.div>
+      {paymentsByState.length === 0 && (
+        <div className="flex flex-col h-[300px] justify-center items-center">
+          <p className="text-base-300 text-sm flex items-center justify-center font-medium">
+            No hay ventas todavia
+          </p>
+        </div>
+      )}
+      {paymentsByState.length > 0 && (
+        <motion.div
+          className="flex flex-col gap-6"
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+        >
+          {paymentsByState.map((state, index) => (
+            <motion.div
+              key={state.state}
+              className="flex flex-col gap-2"
+              variants={itemVariants}
+            >
+              <h6 className="text-sm dark:text-white text-primary">
+                {state.state}
+              </h6>
+              <div className="flex items-center gap-3">
+                <ProgressBar progress={state.percentage} delay={index * 0.15} />
+                <motion.p
+                  className="text-sm dark:text-base-300 text-base-600"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: index * 0.15 + 0.5, duration: 0.3 }}
+                >
+                  {state.percentage}%
+                </motion.p>
+              </div>
+            </motion.div>
+          ))}
+        </motion.div>
+      )}
     </div>
   );
 };

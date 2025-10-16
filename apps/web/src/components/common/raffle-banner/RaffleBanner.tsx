@@ -21,13 +21,15 @@ const RaffleBanner = ({
       {loading ? (
         <div className="w-full h-full bg-base-600 rounded-md animate-pulse" />
       ) : (
-        <Image
-          src={banner}
-          alt="banner"
-          width={500}
-          height={500}
-          className="object-cover w-full h-full hover:scale-105 transition-all duration-300"
-        />
+        <div className="w-full h-full overflow-hidden">
+          <Image
+            src={banner}
+            alt="banner"
+            width={500}
+            height={500}
+            className="object-cover w-full h-full hover:scale-105 transition-all duration-300"
+          />
+        </div>
       )}
     </div>
   );

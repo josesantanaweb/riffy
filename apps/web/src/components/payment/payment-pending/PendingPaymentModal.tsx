@@ -77,7 +77,7 @@ const PendingPayment = ({
             <div className="flex flex-col gap-5 justify-between" style={{ height: 'calc(100% - 30px)' }}>
               <div className="flex flex-col gap-8 w-full">
                 <div className="flex flex-col gap-2">
-                  <h2 className="text-xl font-bold text-white">
+                  <h2 className="text-xl font-bold dark:text-white text-primary">
                     Pago en espera
                   </h2>
                   <p className="text-base-300 text-base">
@@ -88,20 +88,20 @@ const PendingPayment = ({
                 <div className="flex flex-col gap-3">
                   <div className="flex flex-col gap-1">
                     <p className="text-base-300 text-sm">Rifa:</p>
-                    <h2 className="text-base font-medium text-white">
+                    <h2 className="text-base font-medium dark:text-white text-primary">
                       {cart?.raffleTitle}
                     </h2>
                   </div>
                   <div className="grid grid-cols-2">
                     <div className="flex flex-col gap-1">
                       <p className="text-base-300 text-sm">Nombre:</p>
-                      <h2 className="text-base font-medium text-white">
+                      <h2 className="text-base font-medium dark:text-white text-primary-500">
                         {data.buyerName}
                       </h2>
                     </div>
                     <div className="flex flex-col gap-1">
                       <p className="text-base-300 text-sm">Cedula:</p>
-                      <h2 className="text-base font-medium text-white">
+                      <h2 className="text-base font-medium dark:text-white text-primary-500">
                         {data.nationalId}
                       </h2>
                     </div>
@@ -109,20 +109,20 @@ const PendingPayment = ({
                   <div className="grid grid-cols-2">
                     <div className="flex flex-col gap-1">
                       <p className="text-base-300 text-sm">Telefono:</p>
-                      <h2 className="text-base font-medium text-white">
+                      <h2 className="text-base font-medium dark:text-white text-primary-500">
                         {data.phone}
                       </h2>
                     </div>
                     <div className="flex flex-col gap-1">
                       <p className="text-base-300 text-sm">Fecha de compra:</p>
-                      <h2 className="text-base font-medium text-white">
+                      <h2 className="text-base font-medium dark:text-white text-primary-500">
                         {formatDate(data.paymentDate)}
                       </h2>
                     </div>
                   </div>
                   <div className="flex flex-col gap-1">
                     <p className="text-base-300 text-sm">Boletos #:</p>
-                    <h2 className="text-base font-medium text-white">
+                    <h2 className="text-base font-medium dark:text-white text-primary-500">
                       {data.tickets?.map(ticket => ticket.number).join(', ')}
                     </h2>
                   </div>

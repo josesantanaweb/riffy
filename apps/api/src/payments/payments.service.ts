@@ -10,6 +10,7 @@ import {
   Role,
 } from '@prisma/client';
 import { NotificationsService } from '../notifications/notifications.service';
+import { User } from '../users/entities/user.entity';
 
 interface PaymentWithTicketsAndRaffle {
   id: string;
@@ -34,12 +35,35 @@ export class PaymentsService {
 
   /**
    * Obtiene todos los payments registradas en la base de datos.
+   * @param user Usuario autenticado
    * @param raffleId Filtro opcional por raffleId
    * @returns Arreglo de payments
    */
-  async findAll(raffleId?: string): Promise<Payment[]> {
+  async findAll(user: User, raffleId?: string): Promise<Payment[]> {
+    let whereClause: Record<string, unknown> = {};
+
+    if (user.role !== Role.ADMIN) {
+      whereClause = {
+        ...whereClause,
+        tickets: {
+          some: {
+            raffle: {
+              ownerId: user.id,
+            },
+          },
+        },
+      };
+    }
+
+    if (raffleId) {
+      whereClause = {
+        ...whereClause,
+        raffleId,
+      };
+    }
+
     const payments = await this.prisma.payment.findMany({
-      where: raffleId ? { raffleId } : undefined,
+      where: whereClause,
       include: {
         tickets: true,
         raffle: true,
@@ -54,10 +78,11 @@ export class PaymentsService {
   /**
    * Busca un payment por su ID.
    * @param id ID del payment a buscar
+   * @param user Usuario autenticado
    * @throws NotFoundException si el payment no existe
    * @returns el payment encontrado
    */
-  async findOne(id: string): Promise<Payment> {
+  async findOne(id: string, user: User): Promise<Payment> {
     const payment = await this.prisma.payment.findUnique({
       where: {
         id,
@@ -70,6 +95,14 @@ export class PaymentsService {
 
     if (!payment) {
       throw new NotFoundException(`Payment with id ${id} not found`);
+    }
+
+    if (user.role !== Role.ADMIN) {
+      const isOwner = payment.raffle.ownerId === user.id;
+
+      if (!isOwner) {
+        throw new NotFoundException(`Payment with id ${id} not found`);
+      }
     }
 
     return payment;
@@ -142,10 +175,15 @@ export class PaymentsService {
    * Actualiza los datos de un payment existente.
    * @param id ID del payment a actualizar
    * @param data Datos nuevos para el payment
+   * @param user Usuario autenticado
    * @returns El payment actualizado
    */
-  async update(id: string, data: UpdatePaymentInput): Promise<Payment> {
-    await this.findOne(id);
+  async update(
+    id: string,
+    data: UpdatePaymentInput,
+    user: User,
+  ): Promise<Payment> {
+    await this.findOne(id, user);
     return await this.prisma.payment.update({
       where: { id },
       data,
@@ -156,10 +194,15 @@ export class PaymentsService {
    * Actualiza el estado de un payment y los tickets asociados.
    * @param id ID del payment a actualizar
    * @param status Nuevo estado del payment
+   * @param user Usuario autenticado
    * @returns El payment actualizado
    */
-  async updateStatus(id: string, status: PaymentStatus): Promise<Payment> {
-    const payment = await this.findOne(id);
+  async updateStatus(
+    id: string,
+    status: PaymentStatus,
+    user: User,
+  ): Promise<Payment> {
+    const payment = await this.findOne(id, user);
 
     return await this.prisma.$transaction(async (tx) => {
       const updatedPayment = await tx.payment.update({
@@ -206,10 +249,11 @@ export class PaymentsService {
   /**
    * Elimina los datos de un payment existente.
    * @param id ID del payment a eliminar
+   * @param user Usuario autenticado
    * @returns El payment eliminado
    */
-  async delete(id: string): Promise<Payment> {
-    const payment = await this.findOne(id);
+  async delete(id: string, user: User): Promise<Payment> {
+    const payment = await this.findOne(id, user);
     await this.prisma.payment.delete({
       where: {
         id,

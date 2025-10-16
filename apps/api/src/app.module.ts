@@ -5,7 +5,6 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { ScheduleModule } from '@nestjs/schedule';
 import { join } from 'path';
 import { ConfigModule } from '@nestjs/config';
-import { createGraphQLContext } from './common/utils/domain.utils';
 import { PrismaModule } from 'src/prisma/prisma.module';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
@@ -41,7 +40,7 @@ import './enums/plan-usage-status.enum';
       introspection: true,
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
       plugins: [ApolloServerPluginLandingPageLocalDefault({ footer: false })],
-      context: createGraphQLContext,
+      context: ({ req }) => ({ req }),
     }),
     UsersModule,
     AuthModule,

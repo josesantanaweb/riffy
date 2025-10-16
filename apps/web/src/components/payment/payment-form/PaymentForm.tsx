@@ -195,13 +195,13 @@ const PaymentForm = (): ReactElement => {
   };
 
   return (
-    <form className="form" onSubmit={handleSubmit(onSubmit)}>
+    <form className="form flex flex-col gap-3" onSubmit={handleSubmit(onSubmit)}>
       <Alert
         message={getAlertMessage()}
         icon={isExistingUser ? 'check-circle' : 'info-circle'}
         type={getAlertType}
       />
-      <div className="relative min-h-[400px] flex flex-col gap-3 mt-3">
+      <div className="relative min-h-[400px] flex flex-col gap-3">
         <div className="flex flex-col gap-3">
           <Search
             placeholder="Cédula de identidad"
@@ -310,7 +310,7 @@ const PaymentForm = (): ReactElement => {
         </div>
       </div>
 
-      <div className="w-full max-w-md bg-base-800 flex flex-col gap-3">
+      <div className="w-full max-w-md flex flex-col gap-3">
         <Total
           totalTickets={cart?.totalTickets || 0}
           price={cart?.price || null}
