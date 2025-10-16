@@ -1,7 +1,7 @@
 [
   {
     "name": "demo",
-    "domain": "demo.com",
+    "domain": "riffy.website.com",
     "email": "demo@riffy.com",
     "password": "12345678",
     "role": "OWNER",
@@ -13,7 +13,7 @@
   },
   {
     "name": "admin",
-    "domain": "admin.com",
+    "domain": "riffy.website.com",
     "email": "admin@riffy.com",
     "password": "12345678",
     "role": "ADMIN",
