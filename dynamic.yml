@@ -1,0 +1,118 @@
+# Configuración dinámica de Traefik
+http:
+  middlewares:
+    # Middleware para CORS
+    cors:
+      headers:
+        accessControlAllowMethods:
+          - GET
+          - POST
+          - PUT
+          - DELETE
+          - OPTIONS
+        accessControlAllowOriginList:
+          - "https://riffy.website"
+          - "https://admin.riffy.website"
+        accessControlAllowHeaders:
+          - "Content-Type"
+          - "Authorization"
+          - "X-Requested-With"
+        accessControlAllowCredentials: true
+        accessControlMaxAge: 86400
+
+    # Middleware para compresión
+    compress:
+      compress: {}
+
+    # Middleware para seguridad
+    security:
+      headers:
+        frameDeny: true
+        browserXssFilter: true
+        contentTypeNosniff: true
+        forceSTSHeader: true
+        stsIncludeSubdomains: true
+        stsPreload: true
+        stsSeconds: 31536000
+        customRequestHeaders:
+          X-Forwarded-Proto: "https"
+
+    # Middleware para rate limiting
+    rate-limit:
+      rateLimit:
+        burst: 100
+        average: 50
+
+    # Middleware para API
+    api-cors:
+      headers:
+        accessControlAllowMethods:
+          - GET
+          - POST
+          - OPTIONS
+        accessControlAllowOriginList:
+          - "https://riffy.website"
+          - "https://admin.riffy.website"
+        accessControlAllowHeaders:
+          - "Content-Type"
+          - "Authorization"
+        accessControlAllowCredentials: true
+
+  routers:
+    # Router para la aplicación web principal
+    web-router:
+      rule: "Host(`riffy.website`)"
+      service: web-service
+      middlewares:
+        - compress
+        - security
+        - rate-limit
+      tls:
+        certResolver: letsencrypt
+
+    # Router para el panel de administración
+    admin-router:
+      rule: "Host(`admin.riffy.website`)"
+      service: admin-service
+      middlewares:
+        - compress
+        - security
+        - rate-limit
+      tls:
+        certResolver: letsencrypt
+
+    # Router para la API GraphQL
+    api-graphql-router:
+      rule: "Host(`api.riffy.website`) && PathPrefix(`/graphql`)"
+      service: api-service
+      middlewares:
+        - api-cors
+        - rate-limit
+      tls:
+        certResolver: letsencrypt
+
+    # Router para la API REST
+    api-rest-router:
+      rule: "Host(`api.riffy.website`) && PathPrefix(`/api`)"
+      service: api-service
+      middlewares:
+        - api-cors
+        - rate-limit
+      tls:
+        certResolver: letsencrypt
+
+  services:
+    web-service:
+      loadBalancer:
+        servers:
+          - url: "http://web:3000"
+
+    admin-service:
+      loadBalancer:
+        servers:
+          - url: "http://admin:3001"
+
+    api-service:
+      loadBalancer:
+        servers:
+          - url: "http://api:4000"
