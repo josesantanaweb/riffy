@@ -68,6 +68,9 @@ export class DashboardService {
         raffle: {
           ownerId: userId,
         },
+        payment: {
+          status: 'VERIFIED',
+        },
       },
     });
   }

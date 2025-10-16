@@ -88,7 +88,7 @@ const ImageUpload = ({
           <button
             type="button"
             onClick={handleDeleteImage}
-            className="absolute top-2 right-2 opacity-70 hover:opacity-100 bg-base-700 hover:bg-base-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm z-20 transition-colors rotate-45"
+            className="absolute top-2 right-2 opacity-70 hover:opacity-100 dark:bg-base-700 bg-base-800 dark:text-white text-base-300 rounded-full w-6 h-6 flex items-center justify-center text-sm z-20 transition-colors rotate-45"
             title="Eliminar imagen"
           >
             <Icon name="plus" className="text-2xl" />

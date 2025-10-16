@@ -41,7 +41,7 @@ const TicketsPage = (): ReactElement => {
 
   return (
     <div
-      className={`w-full h-full flex flex-col px-5 py-5 gap-3 ${isIPhone ? 'pb-16' : ''}`}
+      className={`w-full h-full flex flex-col px-5 py-5 gap-3 bg-base-800 min-h-screen ${isIPhone ? 'pb-16' : ''}`}
       style={{
         overflowX: 'hidden',
         touchAction: 'pan-y',

@@ -10,7 +10,7 @@ const TicketBox = ({ ticket, onSelect }: TicketBoxProps) => {
   const getStatusColor = (status: TicketStatus) => {
     switch (status) {
       case TicketStatus.AVAILABLE:
-        return 'dark:bg-base-600 bg-base-700 dark:text-white text-base-300 dark:hover:bg-base-600/50 hover:bg-base-400/50';
+        return 'dark:bg-base-600 bg-base-400 dark:text-white text-base-300 dark:hover:bg-base-600/50 hover:bg-base-400/50';
       case TicketStatus.SOLD:
         return 'dark:bg-base-600 bg-base-500 text-base-300 hover:bg-base-600/50 line-through';
       case TicketStatus.WINNER:

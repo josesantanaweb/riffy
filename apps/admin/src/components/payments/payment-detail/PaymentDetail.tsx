@@ -97,7 +97,7 @@ const PaymentDetail = ({
                     <div className="flex items-center justify-between w-full">
                       <div className="flex flex-col gap-1">
                         <p className="text-base-300 text-sm">Rifa:</p>
-                        <h2 className="text-base font-medium dark:text-white text-primary">
+                        <h2 className="text-base font-medium dark:text-white text-primary line-clamp-1">
                           {payment?.raffle?.title}
                         </h2>
                       </div>

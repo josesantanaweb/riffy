@@ -139,7 +139,7 @@ const Select: React.FC<SelectProps> = ({
         }}
       >
         <div className="flex items-center justify-between w-full h-full">
-          <span className="text-base-300">
+          <span className="text-base-300 truncate flex-1 min-w-0">
             {selectedOption ? selectedOption.label : placeholder}
           </span>
           <motion.div
@@ -169,7 +169,7 @@ const Select: React.FC<SelectProps> = ({
                 <div
                   key={index}
                   className={cn(
-                    'px-3 py-2 cursor-pointer text-sm transition-colors text-base-300',
+                    'px-3 py-2 cursor-pointer text-sm transition-colors text-base-300 overflow-hidden',
                     'hover:bg-base-600 dark:hover:text-white hover:text-base-300',
                     selectedOption?.value === option.value &&
                       'bg-base-600 text-base-300',
@@ -185,7 +185,7 @@ const Select: React.FC<SelectProps> = ({
                     }
                   }}
                 >
-                  {option.label}
+                  <span className="truncate block">{option.label}</span>
                 </div>
               ))
             )}

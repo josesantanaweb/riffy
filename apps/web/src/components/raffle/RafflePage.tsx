@@ -45,7 +45,7 @@ const RafflePage = (): ReactElement => {
         isCompleted={raffle?.status === RaffleStatus.COMPLETED}
         loading={loading}
       />
-      <div className="flex flex-col gap-5 p-5">
+      <div className="flex flex-col gap-5 p-5 dark:bg-transparent bg-base-800">
         <RaffleTitle title={raffle?.title} loading={loading} />
 
         {raffle?.showDate && (
@@ -59,7 +59,7 @@ const RafflePage = (): ReactElement => {
         {raffle?.showProgress && <RaffleProgress raffle={raffle} />}
 
         <div className="flex flex-col gap-1 my-3">
-          <h2 className="text-lg font-semibold text-white">Lista de Tickets</h2>
+          <h2 className="text-lg font-semibold dark:text-white text-primary">Lista de Tickets</h2>
           <p className="text-sm text-base-300">
             Seleccione los números de la rifa
           </p>
@@ -78,7 +78,7 @@ const RafflePage = (): ReactElement => {
           type="warning"
         />
 
-        <div className="w-full max-w-md py-5 bg-base-800 flex flex-col gap-3">
+        <div className="w-full max-w-md py-5 flex flex-col gap-3">
           <Total totalTickets={selectedTickets.length} price={raffle?.price} />
 
           <Button

@@ -13,7 +13,7 @@ const RaffleTitle = ({ title, loading }: RaffleTitleProps): ReactElement => {
       {loading ? (
         <div className="w-[90%] h-[20px] bg-base-600 rounded-md animate-pulse" />
       ) : (
-        <h1 className="text-2xl font-bold text-white">{title}</h1>
+        <h1 className="text-2xl font-bold dark:text-white text-primary line-clamp-2">{title}</h1>
       )}
     </div>
   );

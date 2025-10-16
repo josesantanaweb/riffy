@@ -13,13 +13,13 @@ const TicketsHeader = ({
   <div className="flex items-center justify-between mb-3">
     <div className="flex items-center gap-2">
       <Icon name="shuffle" className="text-xl text-base-300" />
-      <h2 className="text-base font-medium text-white">Modo Aleatorio</h2>
+      <h2 className="text-base font-medium dark:text-white text-primary">Modo Aleatorio</h2>
     </div>
     <button
       className="flex items-center gap-2 hover:opacity-80 transition-opacity"
       onClick={onSort}
     >
-      <h2 className="text-base font-medium text-white">Ordenar:</h2>
+      <h2 className="text-base font-medium dark:text-white text-primary">Ordenar:</h2>
       <Icon
         name="sort"
         className={`text-xl text-base-300 transition-transform ${
