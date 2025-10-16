@@ -1,6 +1,48 @@
 version: '3.8'
 
 services:
+  # Traefik como reverse proxy principal
+  traefik:
+    image: traefik:v3.0
+    container_name: riffy-traefik
+    restart: unless-stopped
+    command:
+      - --api.dashboard=true
+      - --api.debug=true
+      - --log.level=INFO
+      - --providers.docker=true
+      - --providers.docker.exposedByDefault=false
+      - --providers.docker.network=riffy-network
+      - --providers.file.filename=/etc/traefik/dynamic.yml
+      - --providers.file.watch=true
+      - --entrypoints.web.address=:80
+      - --entrypoints.websecure.address=:443
+      - --entrypoints.web.http.redirections.entrypoint.to=websecure
+      - --entrypoints.web.http.redirections.entrypoint.scheme=https
+      - --entrypoints.web.http.redirections.entrypoint.permanent=true
+      - --certificatesresolvers.letsencrypt.acme.email=admin@riffy.website
+      - --certificatesresolvers.letsencrypt.acme.storage=/etc/traefik/acme.json
+      - --certificatesresolvers.letsencrypt.acme.httpchallenge.entrypoint=web
+      - --global.checknewversion=false
+      - --global.sendanonymoususage=false
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8080:8080"  # Dashboard de Traefik
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./traefik.yml:/etc/traefik/traefik.yml:ro
+      - ./dynamic.yml:/etc/traefik/dynamic.yml:ro
+      - ./ssl:/etc/traefik/ssl:ro
+      - traefik_acme:/etc/traefik
+    networks:
+      - riffy-network
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.traefik.rule=Host(`traefik.riffy.website`)"
+      - "traefik.http.routers.traefik.entrypoints=websecure"
+      - "traefik.http.routers.traefik.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.traefik.service=api@internal"
   # Base de datos PostgreSQL
   postgres:
     image: postgres:15-alpine
@@ -19,6 +61,8 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+    networks:
+      - riffy-network
 
   # Base de datos Redis (para caché y sesiones)
   redis:
@@ -34,6 +78,8 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+    networks:
+      - riffy-network
 
   # API (NestJS + GraphQL)
   api:
@@ -43,7 +89,7 @@ services:
     container_name: riffy-api
     restart: unless-stopped
     ports:
-      - "4000:4000"
+      - "5555:5555"  # Puerto temporal para Prisma Studio
     environment:
       - NODE_ENV=production
       - DATABASE_URL=${DATABASE_URL:-postgresql://riffy:riffy123@postgres:5432/riffy}
@@ -59,11 +105,21 @@ services:
         condition: service_healthy
       redis:
         condition: service_healthy
+      traefik:
+        condition: service_started
     healthcheck:
       test: ["CMD", "curl", "-f", "-X", "POST", "-H", "Content-Type: application/json", "-d", "{\"query\": \"{ __schema { types { name } } }\"}", "http://localhost:4000/graphql"]
       interval: 30s
       timeout: 10s
       retries: 3
+    networks:
+      - riffy-network
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.api.rule=Host(`api.riffy.website`)"
+      - "traefik.http.routers.api.entrypoints=websecure"
+      - "traefik.http.routers.api.tls.certresolver=letsencrypt"
+      - "traefik.http.services.api.loadbalancer.server.port=4000"
 
   # Aplicación Web (Next.js)
   web:
@@ -72,20 +128,28 @@ services:
       dockerfile: apps/web/Dockerfile
     container_name: riffy-web
     restart: unless-stopped
-    ports:
-      - "3000:3000"
     environment:
       - NODE_ENV=production
-      - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}
-      - NEXT_PUBLIC_GRAPHQL_ENDPOINT=${NEXT_PUBLIC_API_URL}/graphql
+      - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL:-https://api.riffy.website}
+      - NEXT_PUBLIC_GRAPHQL_ENDPOINT=${NEXT_PUBLIC_API_URL:-https://api.riffy.website}/graphql
     depends_on:
       api:
         condition: service_healthy
+      traefik:
+        condition: service_started
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:3000"]
       interval: 30s
       timeout: 10s
       retries: 3
+    networks:
+      - riffy-network
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.web.rule=Host(`riffy.website`)"
+      - "traefik.http.routers.web.entrypoints=websecure"
+      - "traefik.http.routers.web.tls.certresolver=letsencrypt"
+      - "traefik.http.services.web.loadbalancer.server.port=3000"
 
   # Panel de Administración (Next.js)
   admin:
@@ -94,43 +158,38 @@ services:
       dockerfile: apps/admin/Dockerfile
     container_name: riffy-admin
     restart: unless-stopped
-    ports:
-      - "3001:3001"
     environment:
       - NODE_ENV=production
-      - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}
-      - NEXT_PUBLIC_GRAPHQL_ENDPOINT=${NEXT_PUBLIC_API_URL}/graphql
+      - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL:-https://api.riffy.website}
+      - NEXT_PUBLIC_GRAPHQL_ENDPOINT=${NEXT_PUBLIC_API_URL:-https://api.riffy.website}/graphql
     depends_on:
       api:
         condition: service_healthy
+      traefik:
+        condition: service_started
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:3001"]
       interval: 30s
       timeout: 10s
       retries: 3
+    networks:
+      - riffy-network
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.admin.rule=Host(`admin.riffy.website`)"
+      - "traefik.http.routers.admin.entrypoints=websecure"
+      - "traefik.http.routers.admin.tls.certresolver=letsencrypt"
+      - "traefik.http.services.admin.loadbalancer.server.port=3001"
 
-  # Nginx como proxy reverso (opcional)
-  nginx:
-    image: nginx:alpine
-    container_name: riffy-nginx
-    restart: unless-stopped
-    ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf:ro
-      - ./ssl:/etc/nginx/ssl:ro
-    depends_on:
-      - web
-      - admin
-      - api
 
 volumes:
   postgres_data:
     driver: local
   redis_data:
     driver: local
+  traefik_acme:
+    driver: local
 
 networks:
-  default:
-    name: riffy-network
+  riffy-network:
+    driver: bridge
