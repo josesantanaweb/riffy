@@ -58,7 +58,7 @@ const PaymentsPage = () => {
     <div className="p-6 flex-col flex gap-6">
       <PageHeader title="Pagos" subtitle="Lista de Pagos" />
       <div className="flex flex-col w-full dark:bg-base-700 bg-base-800 rounded-xl p-6 gap-5">
-        <div className="flex justify-between items-end w-[380px]">
+        <div className="flex justify-between items-end w-full md:w-[380px]">
           <Select
             options={rafflesOptions}
             label="Selecciona una rifa"

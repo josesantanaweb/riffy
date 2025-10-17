@@ -33,7 +33,7 @@ const Pagination = ({
   };
 
   return (
-    <div className="flex items-center justify-between gap-5">
+    <div className="flex items-center justify-between gap-5 w-full md:w-auto">
       <div className="flex items-center gap-5">
         <span className="text-base-300 text-sm">
           Página {currentPage} de {totalPages}

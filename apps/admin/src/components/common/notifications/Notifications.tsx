@@ -62,7 +62,7 @@ const Notifications = (): ReactElement => {
   const handleRedirectToPayments = () => router.push(ROUTES.PAYMENTS.LIST);
 
   return (
-    <div className="relative h-full flex items-center" ref={dropdownRef}>
+    <div className="relative h-full flex items-center isolate" ref={dropdownRef}>
       <button
         className="relative"
         onClick={toggleDropdown}
@@ -99,7 +99,7 @@ const Notifications = (): ReactElement => {
               stiffness: 300,
               damping: 30,
             }}
-            className="flex flex-col gap-2 bg-base-700 rounded-xl absolute top-full right-0 min-w-[360px] border-t-2 border-primary-500 z-50 mt-2"
+            className="flex flex-col gap-2 bg-base-700 rounded-xl absolute top-full -right-[110px] md:right-0 min-w-[360px] border-t-2 border-primary-500 z-10 mt-2"
           >
             <div className="flex justify-between items-center border-b border-base-500 p-4">
               <p className="text-base text-white">Notificaciones</p>

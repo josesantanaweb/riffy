@@ -50,8 +50,8 @@ const Tickets = () => {
     <div className="p-6 flex-col flex gap-6">
       <PageHeader title="Boletos" subtitle="Lista de Boletos" />
       <div className="flex flex-col w-full dark:bg-base-700 bg-base-800 rounded-xl p-6 gap-5">
-        <div className="flex justify-between items-end w-full">
-          <div className="w-full sm:w-[25%]">
+        <div className="flex justify-between items-end w-full flex-col md:flex-row gap-3 md:gap-0">
+          <div className="w-full md:w-[25%]">
             <Select
               options={rafflesOptions}
               label="Selecciona una rifa"
@@ -61,7 +61,7 @@ const Tickets = () => {
               placeholder="Elige una rifa..."
             />
           </div>
-          <div className="w-full sm:w-[25%]">
+          <div className="w-full md:w-[25%]">
             <Input
               icon="search"
               iconPosition="left"

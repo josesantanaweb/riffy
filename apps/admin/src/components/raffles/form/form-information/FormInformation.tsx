@@ -69,14 +69,14 @@ const FormInformation = ({ isUpdating = false }: FormInformationProps) => {
             <div className="flex flex-col px-6 pt-4 pb-8 w-full gap-6">
               {!isUpdating && planUsage?.plan && (
                 <div className="bg-base-600 rounded-lg p-4 mb-2">
-                  <div className="flex items-center justify-between">
+                  <div className="flex items-center justify-center md:justify-between flex-col md:flex-row gap-2">
                     <div className="flex items-center gap-2">
                       <Icon name="info-circle" className="text-base-300" />
                       <span className="text-sm text-base-300">
                         Límites de tu plan
                       </span>
                     </div>
-                    <div className="flex gap-4 text-sm">
+                    <div className="flex gap-4 text-sm items-center">
                       <div
                         className={`${canCreateRaffle ? 'text-green-400' : 'text-red-400'}`}
                       >
@@ -183,7 +183,7 @@ const FormInformation = ({ isUpdating = false }: FormInformationProps) => {
               </div>
 
               <div className="flex gap-4 items-center w-full flex-wrap lg:flex-nowrap">
-                <div className="w-full lg:w-1/2 flex items-center gap-10">
+                <div className="w-full lg:w-1/2 flex items-start md:items-center gap-5 md:gap-10 flex-col md:flex-row">
                   <Switch
                     checked={formValues.showDate || false}
                     onChange={value =>

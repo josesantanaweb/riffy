@@ -10,7 +10,7 @@ interface NavUserProps {
 
 const NavUser = ({ profile }: NavUserProps): ReactElement => {
   return (
-    <div className="flex items-center gap-3 cursor-pointer">
+    <div className="flex items-center gap-3 cursor-pointer ml-2">
       <Avatar name={profile?.name} src={profile?.logo} size={35} />
       <div className="flex flex-col">
         <span className="dark:text-white text-primary text-sm font-medium capitalize">{profile?.name}</span>

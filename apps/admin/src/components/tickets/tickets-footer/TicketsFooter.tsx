@@ -33,11 +33,11 @@ const TicketsFooter = ({
   onNextPage,
 }: TicketsFooterProps) => {
   return (
-    <div className="flex w-full justify-between items-center">
+    <div className="flex w-full justify-between items-center flex-col md:flex-row gap-3 md:gap-0">
       <div className="flex items-center gap-5">
         {TICKET_LEGENDS.map(legend => (
           <div key={legend.label} className="flex items-center gap-2">
-            <span className={`${legend.color} w-2 h-2 rounded-full`} />
+            <span className={`${legend.color} w-2 h-2 rounded-full flex-shrink-0`} />
             <p className="text-base-300 text-sm">{legend.label}</p>
           </div>
         ))}

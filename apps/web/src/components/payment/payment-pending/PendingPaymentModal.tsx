@@ -53,7 +53,7 @@ const PendingPayment = ({
           />
 
           <motion.div
-            className={`relative w-full bg-base-800 rounded-t-3xl z-10 px-6 py-8 ${isIPhone ? '80vh' : '75vh'}`}
+            className={`relative w-full bg-base-800 rounded-t-3xl z-10 px-6 py-6 pb-8 ${isIPhone ? '80vh' : '75vh'}`}
             initial={{ y: '100%' }}
             animate={{ y: 0 }}
             exit={{ y: '100%' }}
@@ -74,7 +74,7 @@ const PendingPayment = ({
               />
             </button>
 
-            <div className="flex flex-col gap-5 justify-between" style={{ height: 'calc(100% - 30px)' }}>
+            <div className="flex flex-col gap-5 justify-between pt-2" style={{ height: 'calc(100% - 30px)' }}>
               <div className="flex flex-col gap-8 w-full">
                 <div className="flex flex-col gap-2">
                   <h2 className="text-xl font-bold dark:text-white text-primary">

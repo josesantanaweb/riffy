@@ -65,6 +65,15 @@ export const useAuth = () => {
         },
       });
 
+      if (result.errors && result.errors.length > 0) {
+        const firstError = result.errors[0];
+        throw new Error(firstError?.message || 'Error al iniciar sesión');
+      }
+
+      if (!result.data?.login?.accessToken) {
+        throw new Error('Error al iniciar sesión');
+      }
+
       return result;
     } catch (error) {
       throw error;

@@ -48,7 +48,7 @@ const TicketsGrid = ({
   }
 
   return (
-    <div className="grid grid-cols-10 gap-2">
+    <div className="grid grid-cols-5 md:grid-cols-10 gap-2">
       {filteredTickets.map(ticket => (
         <TicketBox key={ticket.id} ticket={ticket} onSelect={onSelect} />
       ))}

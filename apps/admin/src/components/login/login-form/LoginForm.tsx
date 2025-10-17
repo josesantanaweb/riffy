@@ -6,7 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { loginSchema, type FormData } from '@/validations/auth';
 import { Input, Button, Logo } from '@riffy/components';
 import { useToast } from '@/hooks/useToast';
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams, useRouter } from 'next/navigation';
 import { useAuth, useTheme } from '@riffy/hooks';
 
 const LoginForm = () => {
@@ -27,6 +27,7 @@ const LoginForm = () => {
   } = methods;
 
   const searchParams = useSearchParams();
+  const router = useRouter();
   const toast = useToast();
   const { theme } = useTheme();
   const { login } = useAuth();
@@ -43,9 +44,7 @@ const LoginForm = () => {
       await login({ email, password });
       toast.success('Inicio de sesión exitoso');
 
-      window.scrollTo(0, 0);
-
-      window.location.href = redirectUrl;
+      router.push(redirectUrl);
     } catch (error) {
       // eslint-disable-next-line no-console
       console.error(error);

@@ -30,7 +30,7 @@ const Switch = ({
         onClick={handleClick}
         disabled={disabled}
         className={`
-        relative inline-flex h-[25px] w-[45px] items-center rounded-full
+        relative inline-flex h-[25px] w-[45px] items-center rounded-full flex-shrink-0
         transition-colors duration-200 ease-in-out focus:outline-none
         ${checked ? 'bg-success-500' : 'bg-base-500'}
         ${disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}
@@ -39,7 +39,7 @@ const Switch = ({
       >
         <span
           className={`
-          inline-block h-4 w-4 transform rounded-full bg-white
+          inline-block h-4 w-4 transform rounded-full flex-shrink-0 bg-white
           transition-transform duration-200 ease-in-out
           ${checked ? 'translate-x-6' : 'translate-x-1'}
         `}
@@ -47,7 +47,7 @@ const Switch = ({
        </button>
        {label && (
          <label
-           className="text-base dark:text-white text-base-300 cursor-pointer select-none"
+           className="text-base dark:text-white text-base-300 cursor-pointer select-none leading-5"
            onClick={handleClick}
          >
            {label}
