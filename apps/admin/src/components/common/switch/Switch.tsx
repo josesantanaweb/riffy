@@ -40,32 +40,37 @@ const Switch = ({
   const currentSize = sizeClasses[size];
 
   return (
-    <button
-      type="button"
-      role="switch"
-      aria-checked={checked}
-      disabled={disabled}
-      onClick={onChange}
-      className={cn(
-        'relative inline-flex items-center rounded-full transition-all duration-300 ease-in-out focus:outline-none hover:scale-105 active:scale-95',
-        currentSize.container,
-        checked
-          ? 'bg-primary-500 shadow-lg shadow-primary-500/25'
-          : 'bg-base-500 hover:bg-base-400',
-        disabled && 'opacity-50 cursor-not-allowed hover:scale-100 active:scale-100',
-        className
-      )}
-    >
-      <span
+    <div className={cn('flex items-center gap-3', className)}>
+      <button
+        type="button"
+        role="switch"
+        aria-checked={checked}
+        disabled={disabled}
+        onClick={onChange}
         className={cn(
-          'inline-block rounded-full bg-white shadow-lg transform transition-all duration-300 ease-in-out',
-          currentSize.thumb,
-          currentSize.translate,
-          checked && 'shadow-md'
+          'relative flex items-center rounded-full transition-all duration-300 ease-in-out focus:outline-none hover:scale-105 active:scale-95',
+          currentSize.container,
+          checked
+            ? 'bg-primary-500 shadow-lg shadow-primary-500/25'
+            : 'bg-base-500 hover:bg-base-400',
+          disabled && 'opacity-50 cursor-not-allowed hover:scale-100 active:scale-100'
         )}
-      />
-      {label && <span className="text-sm">{label}</span>}
-    </button>
+      >
+        <span
+          className={cn(
+            'inline-block rounded-full bg-white shadow-lg transform transition-all duration-300 ease-in-out',
+            currentSize.thumb,
+            currentSize.translate,
+            checked && 'shadow-md'
+          )}
+        />
+      </button>
+      {label && (
+        <span className="text-sm text-base-300 dark:text-base-200 font-medium">
+          {label}
+        </span>
+      )}
+    </div>
   );
 };
 
