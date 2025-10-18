@@ -383,4 +383,8 @@ input[type='number'] {
   content: '\e855';
 }
 
+.icon-settings:before {
+  content: '\e804';
+}
+
 /* '' */

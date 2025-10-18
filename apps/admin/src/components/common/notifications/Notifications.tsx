@@ -99,10 +99,10 @@ const Notifications = (): ReactElement => {
               stiffness: 300,
               damping: 30,
             }}
-            className="flex flex-col gap-2 bg-base-700 rounded-xl absolute top-full -right-[110px] md:right-0 min-w-[360px] border-t-2 border-primary-500 z-10 mt-2"
+            className="flex flex-col gap-2 dark:bg-base-700 bg-base-800 rounded-xl absolute top-full -right-[110px] md:right-0 min-w-[360px] border-t-2 border-primary-500 z-10 mt-2"
           >
             <div className="flex justify-between items-center border-b border-base-500 p-4">
-              <p className="text-base text-white">Notificaciones</p>
+              <p className="text-base dark:text-white text-primary">Notificaciones</p>
               <button
                 className={`text-sm font-medium cursor-pointer transition-colors ${
                   isUpdating
@@ -116,7 +116,7 @@ const Notifications = (): ReactElement => {
               </button>
             </div>
             <motion.div
-              className="flex flex-col gap-2"
+              className="flex flex-col"
               initial="hidden"
               animate="visible"
               exit="hidden"

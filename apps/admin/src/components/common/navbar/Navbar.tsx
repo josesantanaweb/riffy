@@ -6,7 +6,6 @@ import NavUser from '../nav-user';
 import Notifications from '../notifications';
 import { useStore } from '@/store';
 import { useProfile } from '@riffy/hooks';
-import ThemeToggle from '../theme-toggle';
 
 const Navbar = (): ReactElement => {
   const { data: profile } = useProfile();
@@ -26,7 +25,6 @@ const Navbar = (): ReactElement => {
           onClick={() => setCollapseSidebar(!collapseSidebar)}
         />
         <div className="flex gap-2 items-center h-full">
-          <ThemeToggle />
           <Notifications />
           <NavUser profile={profile} />
         </div>

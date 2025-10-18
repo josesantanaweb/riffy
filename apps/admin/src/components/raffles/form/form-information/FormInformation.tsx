@@ -186,15 +186,15 @@ const FormInformation = ({ isUpdating = false }: FormInformationProps) => {
                 <div className="w-full lg:w-1/2 flex items-start md:items-center gap-5 md:gap-10 flex-col md:flex-row">
                   <Switch
                     checked={formValues.showDate || false}
-                    onChange={value =>
-                      setValue('showDate', value, { shouldValidate: false })
+                    onChange={() =>
+                      setValue('showDate', !formValues.showDate, { shouldValidate: false })
                     }
                     label="Mostrar fecha"
                   />
                   <Switch
                     checked={formValues.showProgress || false}
-                    onChange={value =>
-                      setValue('showProgress', value, { shouldValidate: false })
+                    onChange={() =>
+                      setValue('showProgress', !formValues.showProgress, { shouldValidate: false })
                     }
                     label="Mostrar progreso"
                   />
