@@ -1,11 +1,10 @@
 'use client';
 import React from 'react';
 import type { ReactElement } from 'react';
-import { Button, Icon, Logo } from '@riffy/components';
+import { Logo } from '@riffy/components';
 import { useStore } from '@/store';
 import { Ticket as ITicket, Raffle } from '@riffy/types';
 import { formatDate } from '@/utils';
-import { generateTicketImage } from '@/utils';
 import Image from 'next/image';
 
 interface TicketProps {
@@ -58,48 +57,6 @@ const Ticket = ({ ticket, raffle }: TicketProps): ReactElement => {
   };
 
   const ticketStatus = getTicketStatus(ticket.status);
-
-  const handleDownload = async () => {
-    try {
-      const ticketElement = document.querySelector(`[data-ticket-id="${ticket.id}"]`) as HTMLElement;
-
-      if (!ticketElement) {
-        throw new Error('No se encontró el elemento del ticket');
-      }
-
-      const originalText = 'Descargar';
-      const button = document.querySelector(`[data-ticket-id="${ticket.id}"]`)?.parentElement?.querySelector('button');
-      if (button) {
-        button.textContent = 'Descargando...';
-        button.disabled = true;
-      }
-
-      await new Promise(resolve => setTimeout(resolve, 500));
-
-      const blob = await generateTicketImage(ticketElement);
-
-      const downloadLink = document.createElement('a');
-      downloadLink.href = URL.createObjectURL(blob);
-      downloadLink.download = `boleto-${ticket.number}.png`;
-      downloadLink.click();
-
-      setTimeout(() => {
-        URL.revokeObjectURL(downloadLink.href);
-      }, 1000);
-
-      if (button) {
-        button.textContent = originalText;
-        button.disabled = false;
-      }
-
-    } catch {
-      const button = document.querySelector(`[data-ticket-id="${ticket.id}"]`)?.parentElement?.querySelector('button');
-      if (button) {
-        button.textContent = 'Descargar';
-        button.disabled = false;
-      }
-    }
-  };
 
   return (
     <div className="relative flex flex-col gap-3 items-center">
@@ -179,13 +136,6 @@ const Ticket = ({ ticket, raffle }: TicketProps): ReactElement => {
             </div>
           </div>
         </div>
-      </div>
-
-      <div className="flex flex-col gap-3 w-[90%]">
-        <Button variant="primary" size="lg" onClick={handleDownload}>
-          <Icon name="download" className="text-white text-lg" />
-          Descargar
-        </Button>
       </div>
     </div>
   );

@@ -11,7 +11,9 @@ interface EditorProps {
 const Editor = ({ value, setValue, label }: EditorProps) => {
   return (
     <div className="w-full gap-2 flex flex-col">
-      {label && <label className="text-white text-sm">{label}</label>}
+      {label && (
+        <label className="dark:text-white text-base-300 text-sm">{label}</label>
+      )}
       <ReactQuill
         theme="snow"
         value={value}

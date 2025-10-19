@@ -369,10 +369,6 @@ input[type='number'] {
   content: '\e851';
 }
 
-.icon-ticket:before {
-  content: '\e852';
-}
-
 /* '' */
 .icon-sun:before {
   content: '\e853';
@@ -381,6 +377,14 @@ input[type='number'] {
 /* '' */
 .icon-moon:before {
   content: '\e803';
+}
+
+.icon-ticket:before {
+  content: '\e855';
+}
+
+.icon-settings:before {
+  content: '\e804';
 }
 
 /* '' */

@@ -22,7 +22,7 @@ const Badge: React.FC<BadgeProps> = ({ status, className, label }) => {
   return (
     <span
       className={cn(
-        'inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium capitalize',
+        'inline-flex items-center px-2 py-1 rounded-md text-xs font-medium capitalize',
         styles.text,
         styles.bg,
         className,

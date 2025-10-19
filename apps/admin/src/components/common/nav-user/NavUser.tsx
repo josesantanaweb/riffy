@@ -1,21 +1,150 @@
 'use client';
-import React from 'react';
-import { Avatar } from '@riffy/components';
+import React, { useState, useRef, useEffect } from 'react';
+import { Avatar, Icon } from '@riffy/components';
 import type { ReactElement } from 'react';
 import { User } from '@riffy/types';
+import { motion, AnimatePresence } from 'framer-motion';
+import { useRouter } from 'next/navigation';
+import { useAuth, useTheme } from '@riffy/hooks';
+import Switch from '../switch/Switch';
 
 interface NavUserProps {
   profile: User;
 }
 
 const NavUser = ({ profile }: NavUserProps): ReactElement => {
+  const router = useRouter();
+  const [isOpen, setIsOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  const { logout } = useAuth();
+  const { theme, toggleTheme } = useTheme();
+  const toggleDropdown = () => setIsOpen(!isOpen);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setIsOpen(false);
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isOpen]);
+
+  const handleLogout = () => {
+    logout();
+    setIsOpen(false);
+  };
+
+  const handleProfile = () => {
+    router.push('/profile');
+    setIsOpen(false);
+  };
+
+  const handleSettings = () => {
+    setIsOpen(false);
+  };
+
   return (
-    <div className="flex items-center gap-3 cursor-pointer">
-      <Avatar name={profile?.name} src={profile?.logo} size={35} />
-      <div className="flex flex-col">
-        <span className="dark:text-white text-primary text-sm font-medium capitalize">{profile?.name}</span>
-        <span className="text-base-300 text-[10px] font-medium">{profile?.role}</span>
-      </div>
+    <div
+      className="relative h-full flex items-center isolate"
+      ref={dropdownRef}
+    >
+      <button
+        className="flex items-center gap-3 cursor-pointer ml-2"
+        onClick={toggleDropdown}
+        aria-label="Menú de usuario"
+      >
+        <Avatar name={profile?.name} src={profile?.logo} size={35} />
+        <div className="flex flex-col">
+          <span className="dark:text-white text-primary text-sm font-medium capitalize">
+            {profile?.name}
+          </span>
+          <span className="text-base-300 text-[10px] font-medium">
+            {profile?.role}
+          </span>
+        </div>
+        <Icon
+          name="chevron-down"
+          className={`text-base-300 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}
+        />
+      </button>
+
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -10, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -10, scale: 0.95 }}
+            transition={{
+              duration: 0.2,
+              ease: 'easeOut',
+              type: 'spring',
+              stiffness: 300,
+              damping: 30,
+            }}
+            className="flex flex-col dark:bg-base-700 bg-base-800  rounded-xl absolute top-full right-0 min-w-[290px] border-t-2 border-primary-500 z-10 mt-2"
+          >
+            <div className="flex items-center gap-3 p-4 bg-base-600">
+              <Avatar name={profile?.name} src={profile?.logo} size={40} />
+              <div className="flex flex-col">
+                <span className="dark:text-white text-primary text-base font-medium capitalize">
+                  {profile?.name}
+                </span>
+                <span className="text-base-300 text-sm font-medium">
+                  {profile?.role}
+                </span>
+              </div>
+            </div>
+
+            <div className="flex flex-col h-[180px]">
+              <button
+                onClick={handleProfile}
+                className="flex items-center gap-3 px-4 py-3 text-left text-base-300 dark:hover:text-white hover:bg-base-600 hover:text-base-300 transition-colors"
+              >
+                <Icon name="user" className="text-base" />
+                <span className="text-sm">Mi Perfil</span>
+              </button>
+
+              <button
+                onClick={handleSettings}
+                className="flex items-center gap-3 px-4 py-3 text-left text-base-300 dark:hover:text-white dark:hover:bg-base-600 hover:bg-base-600 transition-colors"
+              >
+                <Icon name="settings" className="text-base" />
+                <span className="text-sm">Configuración</span>
+              </button>
+
+              <div className="flex gap-5 px-4 py-3 text-left text-base-300 dark:hover:text-white dark:hover:bg-base-600 hover:bg-base-600 transition-colors w-full items-center">
+                <div className="flex gap-3 items-center">
+                  <Icon
+                    name={theme === 'dark' ? 'sun' : 'moon'}
+                    className="text-base"
+                  />
+                  <span className="text-sm">{theme === 'dark' ? 'Tema claro' : 'Tema oscuro'}</span>
+                </div>
+                <Switch checked={theme === 'dark'} onChange={toggleTheme} />
+              </div>
+            </div>
+            <div className="border-t border-base-500">
+              <button
+                onClick={handleLogout}
+                className="flex items-center gap-3 px-4 py-3 text-left text-base-300 dark:hover:text-white dark:hover:bg-base-600 hover:bg-base-600 transition-colors w-full"
+              >
+                <Icon name="logout" className="text-base" />
+                <span className="text-sm">Cerrar sesión</span>
+              </button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };

@@ -8,16 +8,21 @@ import { ASSETS, MENU, ROUTES } from '@/constants';
 import { Logo } from '@riffy/components';
 import { useRole } from '@/hooks';
 import { filterMenuByRole } from '@/utils';
+import { useTheme } from '@riffy/hooks';
 
 const MobileSidebar: React.FC = () => {
   const { isMobileSidebarOpen, setMobileSidebarOpen } = useStore();
   const [openDropdowns, setOpenDropdowns] = useState<Set<string>>(new Set());
   const { userRole } = useRole();
+  const { theme } = useTheme();
 
   const logoutItem = MENU.find(item => item.path === ROUTES.LOGOUT);
+
+  const logoSrc =
+    theme === 'dark' ? ASSETS.IMAGES.LOGO : ASSETS.IMAGES.LOGO_BLACK;
   const menuItems = filterMenuByRole(
     MENU.filter(item => item.path !== ROUTES.LOGOUT),
-    userRole
+    userRole,
   );
 
   const toggleDropdown = (label: string) => {
@@ -59,47 +64,47 @@ const MobileSidebar: React.FC = () => {
               zIndex: 999999,
               top: 0,
               height: '100vh',
-              position: 'fixed'
+              position: 'fixed',
             }}
           >
-          <div className="flex items-center justify-between pr-3 pl-6 py-2 lg:py-0 mb-4">
-            <Logo className="w-[64px]" src={ASSETS.IMAGES.LOGO} />
-            <button
-              onClick={() => setMobileSidebarOpen(false)}
-              className="p-2 rounded-lg hover:bg-base-600 transition-colors"
-            >
-              <Icon name="arrow-back" className="text-white text-xl" />
-            </button>
-          </div>
-
-          <div className="flex flex-col w-full items-center flex-1">
-            {menuItems.map(item => (
-              <SidebarItem
-                key={item.label}
-                item={{ ...item, icon: item.icon as IconName }}
-                isOpen={openDropdowns.has(item.label)}
-                toggleDropdown={toggleDropdown}
-                isCollapse={false}
-                onItemClick={() => setMobileSidebarOpen(false)}
-              />
-            ))}
-          </div>
-
-          {logoutItem && (
-            <div className="w-full px-4 pb-4 mt-auto">
-              <SidebarItem
-                key={logoutItem.label}
-                item={{ ...logoutItem, icon: logoutItem.icon as IconName }}
-                isOpen={false}
-                toggleDropdown={toggleDropdown}
-                isCollapse={false}
-                onItemClick={() => setMobileSidebarOpen(false)}
-              />
+            <div className="flex items-center justify-between pr-3 pl-6 py-2 lg:py-0 mb-4">
+              <Logo className="w-[64px]" src={logoSrc} />
+              <button
+                onClick={() => setMobileSidebarOpen(false)}
+                className="p-2 rounded-lg hover:bg-base-600 transition-colors"
+              >
+                <Icon name="arrow-back" className="dark:text-white text-base-300 text-xl" />
+              </button>
             </div>
-          )}
-        </motion.div>
-      )}
-    </AnimatePresence>
+
+            <div className="flex flex-col w-full items-center flex-1">
+              {menuItems.map(item => (
+                <SidebarItem
+                  key={item.label}
+                  item={{ ...item, icon: item.icon as IconName }}
+                  isOpen={openDropdowns.has(item.label)}
+                  toggleDropdown={toggleDropdown}
+                  isCollapse={false}
+                  onItemClick={() => setMobileSidebarOpen(false)}
+                />
+              ))}
+            </div>
+
+            {logoutItem && (
+              <div className="w-full px-4 pb-4 mt-auto">
+                <SidebarItem
+                  key={logoutItem.label}
+                  item={{ ...logoutItem, icon: logoutItem.icon as IconName }}
+                  isOpen={false}
+                  toggleDropdown={toggleDropdown}
+                  isCollapse={false}
+                  onItemClick={() => setMobileSidebarOpen(false)}
+                />
+              </div>
+            )}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </>
   );
 };

@@ -3,4 +3,3 @@ export * from './formatCurrency';
 export * from './cn';
 export * from './tokenStorage';
 export * from './formatTime';
-export * from './generateTicketImage';

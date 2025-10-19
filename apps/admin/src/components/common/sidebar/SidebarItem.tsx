@@ -70,7 +70,7 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
         )}
 
         <div className="flex items-center gap-1 justify-center">
-          <Icon name={item.icon} className="text-xl" />
+          <Icon name={item.icon} className="text-lg" />
           {!isCollapse && (
             <span className="font-medium text-sm">{item.label}</span>
           )}

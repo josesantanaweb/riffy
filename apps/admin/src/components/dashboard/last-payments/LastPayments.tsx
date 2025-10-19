@@ -27,7 +27,7 @@ const LastPayments = ({ payments }: LastPaymentsProps) => {
       )}
       {payments.length > 0 && (
         <div className="flex flex-col">
-          <div className="items-center bg-base-600 rounded-md h-9 grid grid-cols-5">
+          <div className="items-center bg-base-600 rounded-md h-9 grid grid-cols-4 md:grid-cols-5">
             <p className="text-base-300 text-sm flex items-center justify-center font-medium">
               Boleto N°
             </p>
@@ -37,7 +37,7 @@ const LastPayments = ({ payments }: LastPaymentsProps) => {
             <p className="text-base-300 text-sm flex items-center justify-center font-medium">
               Monto
             </p>
-            <p className="text-base-300 text-sm flex items-center justify-center font-medium">
+            <p className="text-base-300 hidden text-sm md:flex items-center justify-center font-medium">
               Metodo de pago
             </p>
             <p className="text-base-300 text-sm flex items-center justify-center font-medium">
@@ -45,17 +45,17 @@ const LastPayments = ({ payments }: LastPaymentsProps) => {
             </p>
           </div>
           {payments.map(payment => (
-            <div className="items-center py-2 grid grid-cols-5">
+            <div className="items-center py-2 grid grid-cols-4 md:grid-cols-5">
               <p className="dark:text-white text-base-300 text-sm flex items-center justify-center font-medium">
                 {payment.tickets?.map(ticket => ticket.number).join(', ')}
               </p>
-              <p className="dark:text-white text-base-300 text-sm flex items-center justify-center font-medium">
+              <p className="dark:text-white text-base-300 text-sm flex items-center justify-center font-medium max-w-[85px] truncate">
                 {payment.buyerName}
               </p>
               <p className="dark:text-white text-base-300 text-sm flex items-center justify-center font-medium">
                 {formatCurrency(payment.amount, 'VES')}
               </p>
-              <p className="dark:text-white text-base-300 text-sm flex items-center justify-center font-medium">
+              <p className="dark:text-white hidden text-base-300 text-sm md:flex items-center justify-center font-medium">
                 {payment.paymentMethod}
               </p>
               <div className="flex justify-center">

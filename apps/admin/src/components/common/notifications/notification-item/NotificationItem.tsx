@@ -68,7 +68,7 @@ const NotificationItem = ({
       </div>
       <div className="flex flex-col">
         <p
-          className={`text-sm text-medium ${notification.status === 'UNREAD' ? 'font-medium text-white' : 'font-normal text-base-300'}`}
+          className={`text-sm text-medium ${notification.status === 'UNREAD' ? 'font-medium dark:text-white text-primary' : 'font-normal dark:text-base-300 text-base-300'}`}
         >
           {notification.description}
         </p>
