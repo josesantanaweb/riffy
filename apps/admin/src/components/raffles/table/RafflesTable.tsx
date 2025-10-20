@@ -14,6 +14,7 @@ import { Badge } from '@riffy/components';
 import MediaDisplay from '@/components/common/media-display';
 import TableSkeleton from '@/components/common/skeleton/TableSkeleton';
 import { Raffle, RaffleStatus } from '@riffy/types';
+import { useBreakpoint } from '@/hooks';
 
 interface RafflesTableProps {
   data: Raffle[];
@@ -34,6 +35,8 @@ const RafflesTable = ({
   onAdd,
   onDownload,
 }: RafflesTableProps) => {
+  const { isDesktop } = useBreakpoint();
+
   const columns: ColumnDef<Raffle>[] = [
     {
       accessorKey: 'id',
@@ -184,8 +187,8 @@ const RafflesTable = ({
     return (
       <TableSkeleton
         rows={10}
-        columns={11}
-        showActions={true}
+        columns={isDesktop ? 11 : 2}
+        showActions={isDesktop ? true : false}
         showPagination={true}
       />
     );

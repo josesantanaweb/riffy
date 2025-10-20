@@ -5,6 +5,7 @@ import DataTable from '@/components/common/data-table';
 import { TableAction, TableButton } from '@/components/common/data-table/types';
 import TableSkeleton from '@/components/common/skeleton/TableSkeleton';
 import { createColumn, TABLE_CLASSES } from '@/utils';
+import { useBreakpoint } from '@/hooks';
 import { PaymentMethod } from '@riffy/types';
 
 interface PaymentMethodsTableProps {
@@ -23,6 +24,8 @@ const PaymentMethodsTable = ({
   onAdd,
   onDelete,
 }: PaymentMethodsTableProps) => {
+  const { isDesktop } = useBreakpoint();
+
   const columns: ColumnDef<PaymentMethod>[] = [
     {
       accessorKey: 'id',
@@ -82,8 +85,8 @@ const PaymentMethodsTable = ({
     return (
       <TableSkeleton
         rows={10}
-        columns={8}
-        showActions={true}
+        columns={isDesktop ? 8 : 2}
+        showActions={isDesktop ? true : false}
         showPagination={true}
       />
     );

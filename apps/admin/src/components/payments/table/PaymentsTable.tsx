@@ -14,6 +14,7 @@ import {
   mapPaymentStatusToLabel,
 } from '@/utils';
 import TableSkeleton from '@/components/common/skeleton/TableSkeleton';
+import { useBreakpoint } from '@/hooks';
 import { Payment, PaymentStatus, Ticket } from '@riffy/types';
 
 interface PaymentsTableProps {
@@ -29,6 +30,8 @@ const PaymentsTable = ({
   onView,
   onDownload,
 }: PaymentsTableProps) => {
+  const { isDesktop } = useBreakpoint();
+
   const columns: ColumnDef<Payment>[] = [
     {
       accessorKey: 'id',
@@ -154,8 +157,8 @@ const PaymentsTable = ({
     return (
       <TableSkeleton
         rows={10}
-        columns={8}
-        showActions={true}
+        columns={isDesktop ? 8 : 2}
+        showActions={isDesktop ? true : false}
         showPagination={true}
       />
     );

@@ -5,6 +5,7 @@ import type { ReactElement } from 'react';
 import { User } from '@riffy/types';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useRouter } from 'next/navigation';
+import { roleLabel } from '@/utils';
 import { useAuth, useTheme } from '@riffy/hooks';
 import Switch from '../switch/Switch';
 
@@ -64,12 +65,12 @@ const NavUser = ({ profile }: NavUserProps): ReactElement => {
         aria-label="Menú de usuario"
       >
         <Avatar name={profile?.name} src={profile?.logo} size={35} />
-        <div className="flex flex-col">
+        <div className="flex flex-col items-start">
           <span className="dark:text-white text-primary text-sm font-medium capitalize">
             {profile?.name}
           </span>
           <span className="text-base-300 text-[10px] font-medium">
-            {profile?.role}
+            {roleLabel(profile?.role)}
           </span>
         </div>
         <Icon

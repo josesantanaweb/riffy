@@ -1,3 +1,4 @@
+
 'use client';
 import React from 'react';
 import { ColumnDef } from '@tanstack/react-table';
@@ -9,9 +10,12 @@ import {
   createCurrencyColumn,
 } from '@/utils';
 import { Plan } from '@riffy/types';
+import { useBreakpoint } from '@/hooks';
+import TableSkeleton from '@/components/common/skeleton/TableSkeleton';
 
-interface OwnersTableProps {
+interface PlansTableProps {
   data: Plan[];
+  loading?: boolean;
   onEdit?: (plan: Plan) => void;
   onDelete?: (plan: Plan) => void;
   onAdd?: () => void;
@@ -19,10 +23,13 @@ interface OwnersTableProps {
 
 const PlansTable = ({
   data,
+  loading,
   onEdit,
   onDelete,
   onAdd,
-}: OwnersTableProps) => {
+}: PlansTableProps) => {
+  const { isDesktop } = useBreakpoint();
+
   const columns: ColumnDef<Plan>[] = [
     {
       accessorKey: 'id',
@@ -76,6 +83,17 @@ const PlansTable = ({
         ]
       : []),
   ];
+
+  if (loading) {
+    return (
+      <TableSkeleton
+        rows={10}
+        columns={isDesktop ? 8 : 2}
+        showActions={isDesktop ? true : false}
+        showPagination={true}
+      />
+    );
+  }
 
   return (
     <DataTable
