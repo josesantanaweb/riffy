@@ -1,18 +1,24 @@
 'use client';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import type { ReactElement } from 'react';
 import { Ticket } from '@riffy/types';
 import { useTickets } from '@/hooks';
+import { selectRandomTickets } from '@/utils';
 import Pagination from './pagination';
 import Skeleton from './skeleton';
 import TicketGrid from './ticket-grid';
 import TicketsHeader from './ticket-header';
+import RandomControls from './random-controls';
 
 interface TicketsProps {
   tickets: Ticket[];
   loading: boolean;
   selectedTickets: string[];
+  isRandomTickets: boolean;
   setSelectedTickets: React.Dispatch<React.SetStateAction<string[]>>;
+  setIsRandomTickets: React.Dispatch<React.SetStateAction<boolean>>;
+  minTickets?: number;
+  maxTickets?: number;
 }
 
 const Tickets = ({
@@ -20,6 +26,10 @@ const Tickets = ({
   loading,
   selectedTickets,
   setSelectedTickets,
+  isRandomTickets,
+  setIsRandomTickets,
+  minTickets,
+  maxTickets,
 }: TicketsProps): ReactElement => {
   const {
     currentTickets,
@@ -30,6 +40,21 @@ const Tickets = ({
     nextPage,
     prevPage,
   } = useTickets(tickets);
+
+  const [randomTicketsQuantity, setRandomTicketsQuantity] = useState<number>(
+    minTickets || 1,
+  );
+
+  const handleRandomTicket = (quantity: number) => {
+    const randomTicketIds = selectRandomTickets(tickets, quantity, true) as string[];
+    setSelectedTickets(randomTicketIds);
+  };
+
+  useEffect(() => {
+    if (isRandomTickets && randomTicketsQuantity > 0) {
+      handleRandomTicket(randomTicketsQuantity);
+    }
+  }, [isRandomTickets, randomTicketsQuantity, tickets]);
 
   const handleTicketSelect = (ticket: Ticket) => {
     setSelectedTickets(prev => {
@@ -43,25 +68,40 @@ const Tickets = ({
 
   return (
     <div className="flex flex-col gap-3 pb-12">
-      <TicketsHeader sortOrder={sortOrder} onSort={handleSort} />
+      <TicketsHeader
+        sortOrder={sortOrder}
+        onSort={handleSort}
+        isRandomTickets={isRandomTickets}
+        setIsRandomTickets={setIsRandomTickets}
+      />
 
-      {loading && <Skeleton />}
+      {!isRandomTickets && loading && <Skeleton />}
 
-      {!loading && (
-        <TicketGrid
-          tickets={currentTickets}
-          selectedTickets={selectedTickets}
-          onTicketSelect={handleTicketSelect}
+      {isRandomTickets && (
+        <RandomControls
+          ticketsQuantity={randomTicketsQuantity}
+          setTicketsQuantity={setRandomTicketsQuantity}
+          minTickets={minTickets}
+          maxTickets={maxTickets}
         />
       )}
 
-      <Pagination
-        currentPage={currentPage}
-        totalPages={totalPages}
-        totalTickets={tickets?.length || 0}
-        onPrevPage={prevPage}
-        onNextPage={nextPage}
-      />
+      {!loading && !isRandomTickets && (
+        <>
+          <TicketGrid
+            tickets={currentTickets}
+            selectedTickets={selectedTickets}
+            onTicketSelect={handleTicketSelect}
+          />
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            totalTickets={tickets?.length || 0}
+            onPrevPage={prevPage}
+            onNextPage={nextPage}
+          />
+        </>
+      )}
     </div>
   );
 };

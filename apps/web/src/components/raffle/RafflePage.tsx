@@ -16,14 +16,16 @@ import RaffleBanner from '@/components/common/raffle-banner';
 import RaffleTitle from '@/components/common/raffle-title';
 import { ROUTES } from '@/constants';
 import { useIsIPhone } from '@/hooks';
+import TicketTitle from './tickets/ticket-title/TicketTitle';
 
 const RafflePage = (): ReactElement => {
   const router = useRouter();
-  const { raffleId } = useParams();
-  const { data: raffle, loading } = useRaffle(raffleId as string);
-  const { setCart } = useStore();
-  const [selectedTickets, setSelectedTickets] = useState<string[]>([]);
   const isIPhone = useIsIPhone();
+  const { raffleId } = useParams();
+  const { setCart } = useStore();
+  const { data: raffle, loading } = useRaffle(raffleId as string);
+  const [selectedTickets, setSelectedTickets] = useState<string[]>([]);
+  const [isRandomTickets, setIsRandomTickets] = useState<boolean>(false);
 
   useEffect(() => {
     setCart({
@@ -35,6 +37,10 @@ const RafflePage = (): ReactElement => {
       raffleId: raffle?.id,
     });
   }, [selectedTickets, setCart, raffle]);
+
+  useEffect(() => {
+    setSelectedTickets([]);
+  }, [isRandomTickets]);
 
   const handlePay = () => router.push(ROUTES.PAYMENT);
 
@@ -58,18 +64,17 @@ const RafflePage = (): ReactElement => {
 
         {raffle?.showProgress && <RaffleProgress raffle={raffle} />}
 
-        <div className="flex flex-col gap-1 my-3">
-          <h2 className="text-lg font-semibold dark:text-white text-primary">Lista de Tickets</h2>
-          <p className="text-sm text-base-300">
-            Seleccione los números de la rifa
-          </p>
-        </div>
+        <TicketTitle isRandomTickets={isRandomTickets} />
 
         <Tickets
           tickets={raffle?.tickets || []}
           loading={loading}
           selectedTickets={selectedTickets}
           setSelectedTickets={setSelectedTickets}
+          isRandomTickets={isRandomTickets}
+          setIsRandomTickets={setIsRandomTickets}
+          minTickets={raffle?.minTickets}
+          maxTickets={raffle?.maxTickets}
         />
 
         <Alert
