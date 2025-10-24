@@ -18,7 +18,7 @@ const PageHeader = ({ title, showTimer }: PageHeaderProps): ReactElement => {
   return (
     <div className="flex flex-col gap-3">
       <div
-        className="flex items-center gap-3 text-base-300 w-full mb-3"
+        className="flex items-center gap-3 text-body-100 w-full mb-3"
         onClick={handleBack}
       >
         <Icon name="arrow-back" className="text-xl" />
@@ -26,7 +26,7 @@ const PageHeader = ({ title, showTimer }: PageHeaderProps): ReactElement => {
       </div>
 
       <div className="flex items-center justify-between mb-3">
-        <p className="dark:text-white text-primary text-xl font-medium">{title}</p>
+        <p className="text-title text-xl font-medium">{title}</p>
         {showTimer && <Timer />}
       </div>
     </div>

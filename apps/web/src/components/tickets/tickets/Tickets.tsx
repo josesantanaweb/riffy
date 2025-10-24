@@ -72,26 +72,6 @@ const Tickets = ({ tickets, raffle }: TicketsProps): ReactElement => {
           );
         })}
       </motion.div>
-
-      {/* {currentIndex > 0 && (
-        <button
-          className="absolute -left-5 top-1/2 transform -translate-y-1/2 bg-base-500/40 hover:bg-base-500 backdrop-blur-sm rounded-full p-2 w-10 h-10 flex items-center justify-center"
-          onClick={() => setCurrentIndex(currentIndex - 1)}
-        >
-          <Icon name="chevron-down" className="text-white text-3xl rotate-90" />
-        </button>
-      )} */}
-
-      {/* {currentIndex < tickets.length - 1 && (
-        <button
-          className={`absolute -right-5 top-1/2 transform -translate-y-1/2 bg-base-500/60 hover:bg-base-500/80 backdrop-blur-sm rounded-full p-2 w-10 h-10 flex items-center justify-center ${
-            currentIndex === 0 ? 'animate-bounce' : ''
-          }`}
-          onClick={() => setCurrentIndex(currentIndex + 1)}
-        >
-          <Icon name="chevron-down" className="text-white text-3xl -rotate-90" />
-        </button>
-      )} */}
     </div>
   );
 };

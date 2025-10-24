@@ -19,7 +19,7 @@ const RaffleBanner = ({
       className={`w-full h-[340px] relative ${isCompleted ? 'saturate-0' : ''}`}
     >
       {loading ? (
-        <div className="w-full h-full bg-base-600 rounded-md animate-pulse" />
+        <div className="w-full h-full bg-box-secondary rounded-md animate-pulse" />
       ) : (
         <div className="w-full h-full overflow-hidden">
           <Image

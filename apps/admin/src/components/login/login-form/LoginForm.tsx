@@ -66,10 +66,10 @@ const LoginForm = () => {
             src={logoSrc}
           />
           <div className="flex flex-col gap-2">
-            <h1 className="text-2xl font-medium dark:text-white text-primary">
+            <h1 className="text-2xl font-medium text-title">
               Inicio de sesión
             </h1>
-            <p className="text-base-300 text-base">
+            <p className="text-body-100 text-base">
               Accede al panel de Riffy usando tu correo electrónico y
               contraseña.
             </p>

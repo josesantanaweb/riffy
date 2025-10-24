@@ -9,7 +9,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <main className="relative w-full flex items-center justify-center overflow-hidden">
-      <div className="w-full md:max-w-md flex flex-col h-full dark:bg-base-800 bg-base-700">
+      <div className="w-full md:max-w-md flex flex-col h-full bg-box-primary">
         <Navbar />
         <div className="flex-1 safe-scroll">{children}</div>
       </div>

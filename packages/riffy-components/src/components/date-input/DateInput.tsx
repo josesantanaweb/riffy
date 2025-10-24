@@ -47,11 +47,11 @@ const DateInput = ({ label, date, setDate }: DateInputProps) => {
             classNames={{
               chevron: 'fill-base-300',
               month: 'text-base-200',
-              disabled: 'hover:bg-transparent hover:text-base-300',
+              disabled: 'hover:bg-transparent hover:text-body-100',
 
               caption_label: 'text-lg font-medium text-white capitalize',
 
-              day: 'rounded-md hover:bg-base-500 text-base-300 hover:text-white',
+              day: 'rounded-md hover:bg-base-500 text-body-100 hover:text-white',
             }}
             modifiersClassNames={{
               selected: 'bg-base-500 text-white',

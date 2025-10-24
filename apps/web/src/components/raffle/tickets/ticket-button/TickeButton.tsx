@@ -14,9 +14,9 @@ const TicketButton = ({
 }) => {
   const BUTTON_STYLES = {
     base: 'text-sm rounded-md p-2 h-10 flex items-center justify-center transition-colors',
-    sold: 'bg-base-700 text-base-300 line-through cursor-not-allowed',
+    sold: 'bg-primary text-body-100 line-through cursor-not-allowed',
     selected: 'bg-primary-500 text-white hover:bg-primary-600',
-    default: 'dark:bg-base-600 bg-base-400 dark:text-white text-base-300 dark:hover:bg-base-600/50 hover:bg-base-400/50',
+    default: 'bg-box-secondary text-body-100 hover:bg-box-secondary/50',
   } as const;
 
   const getButtonStyles = {

@@ -10,8 +10,8 @@ import {
 import { Currency, formatCurrency, formatDate } from '@/utils';
 
 export const TABLE_CLASSES = {
-  cell: 'px-4 h-14 font-medium dark:text-white text-base-200 text-sm',
-  header: 'px-4 py-3 text-left font-medium text-base-200 text-sm',
+  cell: 'px-4 h-14 font-medium text-body-100 text-sm',
+  header: 'px-4 py-3 text-left font-medium text-body-100 text-sm',
   actionsCell: 'px-4 h-14',
 } as const;
 

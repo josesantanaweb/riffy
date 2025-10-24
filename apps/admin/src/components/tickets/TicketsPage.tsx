@@ -49,7 +49,7 @@ const Tickets = () => {
   return (
     <div className="p-6 flex-col flex gap-6">
       <PageHeader title="Boletos" subtitle="Lista de Boletos" />
-      <div className="flex flex-col w-full dark:bg-base-700 bg-base-800 rounded-xl p-6 gap-5">
+      <div className="flex flex-col w-full bg-box-primary rounded-xl p-6 gap-5">
         <div className="flex justify-between items-end w-full flex-col md:flex-row gap-3 md:gap-0">
           <div className="w-full md:w-[25%]">
             <Select

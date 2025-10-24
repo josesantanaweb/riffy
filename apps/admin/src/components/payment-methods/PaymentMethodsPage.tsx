@@ -35,7 +35,7 @@ const PaymentMethods = () => {
   return (
     <div className="p-6 flex-col flex gap-6">
       <PageHeader title="Metodos de Pago" subtitle="Lista de Metodos de Pago" />
-      <div className="flex flex-col w-full dark:bg-base-700 bg-base-800 rounded-xl p-6">
+      <div className="flex flex-col w-full bg-box-primary rounded-xl p-6">
         <PaymentMethodsTable
           data={data || []}
           loading={loading}

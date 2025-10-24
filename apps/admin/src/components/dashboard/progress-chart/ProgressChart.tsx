@@ -25,8 +25,8 @@ const ProgressChart = ({ sold, unsold }: ProgressChartProps) => {
   const chartColors = [colors.sold, colors.unsold];
 
   return (
-    <div className="md:col-span-1 xl:col-span-1 dark:bg-base-700 bg-base-800 rounded-xl p-6 min-h-[400px] flex flex-col">
-      <h3 className="text-base font-medium dark:text-white text-primary mb-6">
+    <div className="md:col-span-1 xl:col-span-1 bg-box-primary rounded-xl p-6 min-h-[400px] flex flex-col">
+      <h3 className="text-base font-medium text-title mb-6">
         Progreso actual
       </h3>
 
@@ -58,7 +58,7 @@ const ProgressChart = ({ sold, unsold }: ProgressChartProps) => {
           </ResponsiveContainer>
 
           <div className="absolute inset-0 flex items-center justify-center">
-            <span className="text-2xl font-medium dark:text-white text-primary">
+            <span className="text-2xl font-medium text-title">
               {percentage}%
             </span>
           </div>

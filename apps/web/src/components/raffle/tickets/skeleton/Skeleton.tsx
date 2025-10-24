@@ -8,7 +8,7 @@ const Skeleton = (): ReactElement => {
       {Array.from({ length: 40 }, (_, i) => (
         <span
           key={i}
-          className="text-sm bg-base-600 rounded-md p-2 h-10 flex items-center justify-center animate-pulse"
+          className="text-sm bg-box-secondary rounded-md p-2 h-10 flex items-center justify-center animate-pulse"
         />
       ))}
     </div>

@@ -12,10 +12,10 @@ const TicketTitle = ({ isRandomTickets }: TicketTitleProps): ReactElement => {
 
   return (
     <div className="flex flex-col gap-1 my-3">
-      <h2 className="text-lg font-semibold dark:text-white text-primary">
+      <h2 className="text-lg font-semibold text-title">
         {title}
       </h2>
-      <p className="text-sm text-base-300">
+      <p className="text-sm text-body-100">
         {subtitle}
       </p>
     </div>

@@ -52,7 +52,7 @@ const Switch = ({
           currentSize.container,
           checked
             ? 'bg-primary-500 shadow-lg shadow-primary-500/25'
-            : 'bg-base-500 hover:bg-base-400',
+            : 'bg-primary-500/50',
           disabled && 'opacity-50 cursor-not-allowed hover:scale-100 active:scale-100'
         )}
       >
@@ -66,7 +66,7 @@ const Switch = ({
         />
       </button>
       {label && (
-        <span className="text-sm text-base-300 dark:text-base-200 font-medium">
+        <span className="text-sm text-body-100 font-medium">
           {label}
         </span>
       )}

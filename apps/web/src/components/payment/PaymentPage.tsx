@@ -10,7 +10,7 @@ const PaymentPage = (): ReactElement => {
 
   return (
     <div
-      className={`w-full h-full flex flex-col px-5 py-5 gap-3 dark:bg-transparent bg-base-800 ${isIPhone ? 'pb-16' : ''}`}
+      className={`w-full h-full flex flex-col px-5 py-5 gap-3 bg-box-primary ${isIPhone ? 'pb-16' : ''}`}
     >
       <PageHeader title="Datos del pago" showTimer />
       <PaymentForm />

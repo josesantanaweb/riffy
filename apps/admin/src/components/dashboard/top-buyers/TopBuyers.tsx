@@ -8,13 +8,13 @@ interface TopBuyersProps {
 
 const TopBuyers = ({ topBuyers }: TopBuyersProps) => {
   return (
-    <div className="flex flex-col dark:bg-base-700 bg-base-800 rounded-xl p-6 min-h-[300px]">
-      <h3 className="text-base font-medium dark:text-white text-primary mb-6">
+    <div className="flex flex-col bg-box-primary rounded-xl p-6 min-h-[300px]">
+      <h3 className="text-base font-medium text-title mb-6">
         Top Compradores
       </h3>
       {topBuyers.length === 0 && (
         <div className="flex flex-col h-[200px] justify-center items-center">
-          <p className="text-base-300 text-sm flex items-center justify-center font-medium">
+          <p className="text-body-100 text-sm flex items-center justify-center font-medium">
             No hay compradores todavia
           </p>
         </div>
@@ -23,17 +23,17 @@ const TopBuyers = ({ topBuyers }: TopBuyersProps) => {
         <div className="flex flex-col gap-3">
           {topBuyers.map(buyer => (
             <div
-              className="flex justify-between items-center dark:bg-base-600 bg-base-700 rounded-md py-2 px-6"
+              className="flex justify-between items-center bg-box-secondary rounded-md py-2 px-6"
               key={buyer.nationalId}
             >
               <div className="flex flex-col gap-1">
-                <h6 className="text-base dark:text-white text-primary capitalize">
+                <h6 className="text-base text-title capitalize">
                   {buyer.buyerName}
                 </h6>
-                <p className="text-sm text-base-300">{buyer.nationalId}</p>
+                <p className="text-sm text-body-100">{buyer.nationalId}</p>
               </div>
               <div className="flex flex-col gap-1">
-                <h6 className="text-sm dark:text-white text-primary">
+                <h6 className="text-sm text-title">
                   {buyer.totalTickets}{' '}
                   {buyer.totalTickets === 1 ? 'Boleto' : 'Boletos'}
                 </h6>

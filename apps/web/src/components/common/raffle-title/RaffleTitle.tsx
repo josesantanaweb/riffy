@@ -9,11 +9,11 @@ interface RaffleTitleProps {
 
 const RaffleTitle = ({ title, loading }: RaffleTitleProps): ReactElement => {
   return (
-    <div className="flex flex-col gap-2 border-b border-base-500 pb-4">
+    <div className="flex flex-col gap-2 border-b border-line-100 pb-4">
       {loading ? (
-        <div className="w-[90%] h-[20px] bg-base-600 rounded-md animate-pulse" />
+        <div className="w-[90%] h-[20px] bg-box-secondary rounded-md animate-pulse" />
       ) : (
-        <h1 className="text-2xl font-bold dark:text-white text-primary line-clamp-2">{title}</h1>
+        <h1 className="text-2xl font-bold text-title line-clamp-2">{title}</h1>
       )}
     </div>
   );

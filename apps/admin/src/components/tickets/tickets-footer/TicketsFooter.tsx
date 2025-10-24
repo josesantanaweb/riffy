@@ -12,7 +12,7 @@ export interface TicketsFooterProps {
 
 const TICKET_LEGENDS = [
   {
-    color: 'bg-base-200',
+    color: 'bg-box-primary',
     label: 'Boletos Premium',
   },
   {
@@ -37,8 +37,8 @@ const TicketsFooter = ({
       <div className="flex items-center gap-5">
         {TICKET_LEGENDS.map(legend => (
           <div key={legend.label} className="flex items-center gap-2">
-            <span className={`${legend.color} w-2 h-2 rounded-full flex-shrink-0`} />
-            <p className="text-base-300 text-sm">{legend.label}</p>
+            <span className={`${legend.color} w-2 h-2 rounded-full shrink-0`} />
+            <p className="text-body-100 text-sm">{legend.label}</p>
           </div>
         ))}
       </div>

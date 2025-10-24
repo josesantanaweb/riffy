@@ -51,7 +51,7 @@ const RafflePage = (): ReactElement => {
         isCompleted={raffle?.status === RaffleStatus.COMPLETED}
         loading={loading}
       />
-      <div className="flex flex-col gap-5 p-5 dark:bg-transparent bg-base-800">
+      <div className="flex flex-col gap-5 p-5 bg-box-primary">
         <RaffleTitle title={raffle?.title} loading={loading} />
 
         {raffle?.showDate && (

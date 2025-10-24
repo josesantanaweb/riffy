@@ -60,19 +60,19 @@ const NotificationItem = ({
           },
         },
       }}
-      className="flex items-center gap-3 px-4 py-2 cursor-pointer hover:bg-base-600 transition-colors duration-200"
+      className="flex items-center gap-3 px-4 py-2 cursor-pointer hover:bg-box-secondary transition-colors duration-200"
       onClick={handleMarkReadNotification}
     >
-      <div className="flex items-center justify-center w-10 h-10 rounded-full bg-primary-500 flex-shrink-0">
+      <div className="flex items-center justify-center w-10 h-10 rounded-full bg-primary-500 shrink-0">
         <Icon name="credit-card" className="text-white text-base" />
       </div>
       <div className="flex flex-col">
         <p
-          className={`text-sm text-medium ${notification.status === 'UNREAD' ? 'font-medium dark:text-white text-primary' : 'font-normal dark:text-base-300 text-base-300'}`}
+          className={`text-sm text-medium ${notification.status === 'UNREAD' ? 'font-medium text-title' : 'font-normal text-body-100'}`}
         >
           {notification.description}
         </p>
-        <p className="text-xs text-base-300">
+        <p className="text-xs text-body-100">
           {formatRelativeTime(notification.createdAt)}
         </p>
       </div>

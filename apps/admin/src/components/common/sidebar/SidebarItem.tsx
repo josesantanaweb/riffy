@@ -49,9 +49,9 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
     {
       'hover:text-primary-500': true,
       'text-primary-500': isActive || isOpen,
-      'text-base-300': !isActive && !isOpen,
-      'bg-base-500': isActive && isCollapse,
-      'justify-center mb-2 w-[45px] h-[45px] rounded-lg hover:bg-base-500':
+      'text-body-100': !isActive && !isOpen,
+      'bg-box-secondary': isActive && isCollapse,
+      'justify-center mb-2 w-[45px] h-[45px] rounded-lg hover:bg-box-secondary':
         isCollapse,
       'justify-between py-2 px-6 h-11 w-full': !isCollapse,
     },
@@ -81,7 +81,7 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
         <Tooltip
           id={`tooltip-${item.label}`}
           place="right"
-          className="!bg-base-500 !rounded-lg text-white px-2 py-1"
+          className="bg-box-secondary! rounded-lg! text-white px-2 py-1"
           offset={30}
         />
       )}

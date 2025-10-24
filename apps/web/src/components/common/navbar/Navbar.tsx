@@ -20,7 +20,7 @@ const Navbar = () => {
   }, [user, loading]);
 
   return (
-    <div className="w-full h-[70px] flex items-center justify-between px-5 dark:bg-black bg-base-800">
+    <div className="w-full h-[70px] flex items-center justify-between px-5 bg-navbar-bg">
       <Logo className="w-[64px]" src={user?.logo} loading={loading} />
       <div className="flex items-center gap-3">
         <Link
@@ -28,14 +28,14 @@ const Navbar = () => {
           target="_blank"
           rel="noopener noreferrer"
         >
-          <Icon name="instagram" className="dark:text-white text-base-300 text-2xl" />
+          <Icon name="instagram" className="text-body-100 text-2xl" />
         </Link>
         <Link
           href={`https://www.tiktok.com/@${user?.tiktok}`}
           target="_blank"
           rel="noopener noreferrer"
         >
-          <Icon name="tiktok" className="dark:text-white text-base-300 text-2xl" />
+          <Icon name="tiktok" className="text-body-100 text-2xl" />
         </Link>
         <button
           onClick={() =>
@@ -43,7 +43,7 @@ const Navbar = () => {
           }
           className="cursor-pointer"
         >
-          <Icon name="whatsapp" className="dark:text-white text-base-300 text-2xl" />
+          <Icon name="whatsapp" className="text-body-100 text-2xl" />
         </button>
       </div>
     </div>

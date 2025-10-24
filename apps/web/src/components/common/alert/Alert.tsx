@@ -16,14 +16,14 @@ const Alert = ({ type, message, icon }: AlertProps): ReactElement => {
     success: 'text-success-500',
     error: 'text-error-500',
     warning: 'text-warning-500',
-    default: 'dark:text-white text-base-300',
+    default: 'text-body-100',
   } as const;
 
   const BACKGROUND_COLORS = {
     success: 'bg-success-500/10',
     error: 'bg-error-500/10',
     warning: 'bg-warning-500/10',
-    default: 'dark:bg-base-600 bg-base-700',
+    default: 'bg-box-secondary',
   } as const;
 
   const textColor = TEXT_COLORS[type || 'default'];

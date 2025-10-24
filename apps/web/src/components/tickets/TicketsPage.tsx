@@ -41,7 +41,7 @@ const TicketsPage = (): ReactElement => {
 
   return (
     <div
-      className={`w-full h-full flex flex-col px-5 py-5 gap-3 bg-base-800 min-h-screen ${isIPhone ? 'pb-16' : ''}`}
+      className={`w-full h-full flex flex-col px-5 py-5 gap-3 bg-box-primary min-h-screen ${isIPhone ? 'pb-16' : ''}`}
       style={{
         overflowX: 'hidden',
         touchAction: 'pan-y',
@@ -58,7 +58,7 @@ const TicketsPage = (): ReactElement => {
             onChange={handleNationalIdChange}
           />
           {searchTriggered && !loading && tickets.length > 0 && (
-            <p className="text-sm font-medium text-base-300 text-right">
+            <p className="text-sm font-medium text-body-100 text-right">
               {tickets?.length} {tickets?.length === 1 ? 'boleto' : 'boletos'}{' '}
               encontrados
             </p>

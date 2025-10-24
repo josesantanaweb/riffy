@@ -32,7 +32,7 @@ const TicketsGrid = ({
   if (!tickets || tickets.length === 0) {
     return (
       <div className="flex items-center justify-center py-12">
-        <p className="text-base-300 text-lg">No hay boletos disponibles</p>
+        <p className="text-body-100 text-lg">No hay boletos disponibles</p>
       </div>
     );
   }
@@ -40,7 +40,7 @@ const TicketsGrid = ({
   if (filteredTickets.length === 0) {
     return (
       <div className="flex items-center justify-center py-12">
-        <p className="text-base-300 text-lg">
+        <p className="text-body-100 text-lg">
           No se encontraron boletos con "{search}"
         </p>
       </div>

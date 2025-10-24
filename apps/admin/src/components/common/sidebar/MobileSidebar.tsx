@@ -59,7 +59,7 @@ const MobileSidebar: React.FC = () => {
             animate={{ x: 0 }}
             exit={{ x: '-100%' }}
             transition={{ duration: 0.3, ease: 'easeInOut' }}
-            className="fixed left-0 top-0 w-[280px] h-screen bg-base-700 lg:hidden flex flex-col"
+            className="fixed left-0 top-0 w-[280px] h-screen bg-sidebar-bg lg:hidden flex flex-col"
             style={{
               zIndex: 999999,
               top: 0,
@@ -71,9 +71,9 @@ const MobileSidebar: React.FC = () => {
               <Logo className="w-[64px]" src={logoSrc} />
               <button
                 onClick={() => setMobileSidebarOpen(false)}
-                className="p-2 rounded-lg hover:bg-base-600 transition-colors"
+                className="p-2 rounded-lg hover:bg-box-secondary transition-colors"
               >
-                <Icon name="arrow-back" className="dark:text-white text-base-300 text-xl" />
+                <Icon name="arrow-back" className="text-body-100 text-xl" />
               </button>
             </div>
 

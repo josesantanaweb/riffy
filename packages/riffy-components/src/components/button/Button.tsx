@@ -19,7 +19,7 @@ interface ButtonProps {
 }
 
 const BUTTON_VARIANTS = {
-  default: 'dark:bg-base-600 bg-base-700 dark:text-white text-base-300 hover:bg-base-600/80',
+  default: 'bg-button-bg text-button-text hover:bg-button-bg',
   primary: 'bg-primary-500 text-white hover:bg-primary-500/90',
   danger: 'bg-danger-500/30 text-danger-500 hover:bg-danger-500/20',
   success: 'bg-success-500 text-white hover:bg-success-500/90',

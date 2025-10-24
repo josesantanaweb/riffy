@@ -12,18 +12,18 @@ const Total = ({ totalTickets, price }: TotalProps): ReactElement => {
   return (
     <div className="flex flex-col gap-2">
       <div className="flex items-center justify-between">
-        <p className="text-sm font-medium text-base-300">Cantidad</p>
-        <p className="text-sm font-medium dark:text-white text-primary">{totalTickets || 0}</p>
+        <p className="text-sm font-medium text-body-100">Cantidad</p>
+        <p className="text-sm font-medium text-title">{totalTickets || 0}</p>
       </div>
       <div className="flex items-center justify-between">
-        <p className="text-sm font-medium text-base-300">Precio por ticket</p>
-        <p className="text-sm font-medium dark:text-white text-primary">
+        <p className="text-sm font-medium text-body-100">Precio por ticket</p>
+        <p className="text-sm font-medium text-title">
           Bs {price?.toFixed(2) || 0}
         </p>
       </div>
       <div className="flex items-center justify-between">
-        <p className="text-base font-medium text-base-300">Total a pagar</p>
-        <p className="text-base font-medium dark:text-white text-primary">
+        <p className="text-base font-medium text-body-100">Total a pagar</p>
+        <p className="text-base font-medium text-title">
           Bs {isNaN(total) ? '0.00' : total.toFixed(2)}
         </p>
       </div>

@@ -53,19 +53,19 @@ const PendingPayment = ({
           />
 
           <motion.div
-            className={`relative w-full bg-base-800 rounded-t-3xl z-10 px-6 py-6 pb-8 ${isIPhone ? '80vh' : '75vh'}`}
+            className={`relative w-full bg-box-primary rounded-t-3xl z-10 px-6 py-6 pb-8 ${isIPhone ? '80vh' : '75vh'}`}
             initial={{ y: '100%' }}
             animate={{ y: 0 }}
             exit={{ y: '100%' }}
             transition={{ type: 'spring', damping: 25, stiffness: 200 }}
           >
             <div className="flex justify-center pt-3 pb-2">
-              <div className="w-12 h-1 bg-base-500 rounded-full" />
+              <div className="w-12 h-1 bg-box-secondary rounded-full" />
             </div>
 
             <button
               onClick={handleClose}
-              className="absolute top-4 right-4 z-10 w-10 h-10 rounded-full bg-base-600 hover:bg-base-600 transition-colors float-right"
+              className="absolute top-4 right-4 z-10 w-10 h-10 rounded-full bg-box-secondarytransition-colors float-right"
               aria-label="Cerrar modal"
             >
               <Icon
@@ -77,52 +77,52 @@ const PendingPayment = ({
             <div className="flex flex-col gap-5 justify-between pt-2" style={{ height: 'calc(100% - 30px)' }}>
               <div className="flex flex-col gap-8 w-full">
                 <div className="flex flex-col gap-2">
-                  <h2 className="text-xl font-bold dark:text-white text-primary">
+                  <h2 className="text-xl font-bold text-title">
                     Pago en espera
                   </h2>
-                  <p className="text-base-300 text-base">
+                  <p className="text-body-100 text-base">
                     Tu pago esta en proceso de verificación.
                   </p>
                 </div>
 
                 <div className="flex flex-col gap-3">
                   <div className="flex flex-col gap-1">
-                    <p className="text-base-300 text-sm">Rifa:</p>
-                    <h2 className="text-base font-medium dark:text-white text-primary">
+                    <p className="text-body-100 text-sm">Rifa:</p>
+                    <h2 className="text-base font-medium text-title">
                       {cart?.raffleTitle}
                     </h2>
                   </div>
                   <div className="grid grid-cols-2">
                     <div className="flex flex-col gap-1">
-                      <p className="text-base-300 text-sm">Nombre:</p>
-                      <h2 className="text-base font-medium dark:text-white text-primary-500">
+                      <p className="text-body-100 text-sm">Nombre:</p>
+                      <h2 className="text-base font-medium text-title">
                         {data.buyerName}
                       </h2>
                     </div>
                     <div className="flex flex-col gap-1">
-                      <p className="text-base-300 text-sm">Cedula:</p>
-                      <h2 className="text-base font-medium dark:text-white text-primary-500">
+                      <p className="text-body-100 text-sm">Cedula:</p>
+                      <h2 className="text-base font-medium text-title">
                         {data.nationalId}
                       </h2>
                     </div>
                   </div>
                   <div className="grid grid-cols-2">
                     <div className="flex flex-col gap-1">
-                      <p className="text-base-300 text-sm">Telefono:</p>
-                      <h2 className="text-base font-medium dark:text-white text-primary-500">
+                      <p className="text-body-100 text-sm">Telefono:</p>
+                      <h2 className="text-base font-medium text-title">
                         {data.phone}
                       </h2>
                     </div>
                     <div className="flex flex-col gap-1">
-                      <p className="text-base-300 text-sm">Fecha de compra:</p>
-                      <h2 className="text-base font-medium dark:text-white text-primary-500">
+                      <p className="text-body-100 text-sm">Fecha de compra:</p>
+                      <h2 className="text-base font-medium text-title">
                         {formatDate(data.paymentDate)}
                       </h2>
                     </div>
                   </div>
                   <div className="flex flex-col gap-1">
-                    <p className="text-base-300 text-sm">Boletos #:</p>
-                    <h2 className="text-base font-medium dark:text-white text-primary-500">
+                    <p className="text-body-100 text-sm">Boletos #:</p>
+                    <h2 className="text-base font-medium text-title">
                       {data.tickets?.map(ticket => ticket.number).join(', ')}
                     </h2>
                   </div>
@@ -136,7 +136,7 @@ const PendingPayment = ({
                 </div>
               </div>
 
-              <div className="flex-shrink-0 w-full">
+              <div className="shrink-0 w-full">
                 <div className="flex gap-3 justify-center flex-col">
                   <Button variant="primary" onClick={handleClose}>
                     Aceptar

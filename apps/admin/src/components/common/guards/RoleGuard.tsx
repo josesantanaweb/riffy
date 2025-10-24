@@ -70,11 +70,11 @@ export const RoleGuard = ({
             <h1 className="text-2xl font-bold text-error mb-4">
               Acceso No Autorizado
             </h1>
-            <p className="text-base-content/70 mb-6">
+            <p className="text-body-100 mb-6">
               No tienes permisos para acceder a esta sección.
             </p>
             <button
-              className="btn btn-primary"
+              className="bg-primary-500 text-white px-4 py-2 rounded-md"
               onClick={() => router.push(fallbackPath)}
             >
               Volver al Dashboard
