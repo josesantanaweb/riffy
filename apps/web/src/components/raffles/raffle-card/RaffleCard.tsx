@@ -8,8 +8,8 @@ import type { ReactElement } from 'react';
 import { Raffle, RaffleStatus } from '@riffy/types';
 import { formatDate } from '@/utils';
 import { ROUTES } from '@/constants/routes';
-import RaffleBanner from '@/components/common/raffle-banner';
-import RaffleTitle from '@/components/common/raffle-title';
+import RaffleBanner from '@/components/common/raffle/raffle-banner';
+import RaffleTitle from '@/components/common/raffle/raffle-title';
 
 interface RaffleCardProps {
   raffle: Raffle;

@@ -1,9 +1,10 @@
 'use client';
 import React from 'react';
 import type { ReactElement } from 'react';
-import { Icon } from '@riffy/components';
 import { useRouter } from 'next/navigation';
-import Timer from '../../common/timer';
+
+import { Icon } from '@riffy/components';
+import PaymentTimer from '@/components/common/payment-timer';
 
 interface PageHeaderProps {
   title: string;
@@ -26,8 +27,8 @@ const PageHeader = ({ title, showTimer }: PageHeaderProps): ReactElement => {
       </div>
 
       <div className="flex items-center justify-between mb-3">
-        <p className="text-title text-xl font-medium">{title}</p>
-        {showTimer && <Timer />}
+        <h4 className="text-title text-xl font-medium">{title}</h4>
+        {showTimer && <PaymentTimer />}
       </div>
     </div>
   );
