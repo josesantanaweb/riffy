@@ -12,7 +12,7 @@ import {
   usePaymentByNationalId,
 } from '@riffy/hooks';
 import { zodResolver } from '@hookform/resolvers/zod';
-import Total from '@/components/common/total';
+import Total from '@/components/common/total-box';
 import PaymentMethod from '../payment-method';
 import { useToast } from '@/hooks';
 import Alert from '@/components/common/alert/Alert';

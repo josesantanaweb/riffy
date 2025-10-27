@@ -3,7 +3,7 @@ import React from 'react';
 import { useRouter } from 'next/navigation';
 import { Button, Icon } from '@riffy/components';
 import Alert from '@/components/common/alert';
-import RaffleProgress from '@/components/common/raffle-progress';
+import RaffleProgress from '@/components/common/raffle/raffle-progress';
 import type { ReactElement } from 'react';
 import { Raffle, RaffleStatus } from '@riffy/types';
 import { formatDate } from '@/utils';

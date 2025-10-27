@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import type { ReactElement } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button, Icon } from '@riffy/components';
-import Total from '@/components/common/total/Total';
+import TotalBox from '@/components/common/total-box';
 import { ROUTES } from '@/constants';
 import { formatDate } from '@/utils';
 import { Payment } from '@riffy/types';
@@ -129,7 +129,7 @@ const PendingPayment = ({
                 </div>
 
                 <div className="flex flex-col gap-6">
-                  <Total
+                  <TotalBox
                     totalTickets={cart?.totalTickets}
                     price={cart?.price}
                   />

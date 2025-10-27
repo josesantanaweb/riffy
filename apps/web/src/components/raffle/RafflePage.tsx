@@ -6,8 +6,8 @@ import { useRouter } from 'next/navigation';
 import { Button } from '@riffy/components';
 import Alert from '@/components/common/alert/Alert';
 import Tickets from './tickets/Tickets';
-import RaffleProgress from '@/components/common/raffle-progress';
-import Total from '@/components/common/total';
+import RaffleProgress from '@/components/common/raffle/raffle-progress';
+import TotalBox from '@/components/common/total-box';
 import { useRaffle } from '@riffy/hooks';
 import { formatDate } from '@/utils';
 import { useStore } from '@/store';
@@ -84,7 +84,7 @@ const RafflePage = (): ReactElement => {
         />
 
         <div className="w-full max-w-md py-5 flex flex-col gap-3">
-          <Total totalTickets={selectedTickets.length} price={raffle?.price} />
+          <TotalBox totalTickets={selectedTickets.length} price={raffle?.price} />
 
           <Button
             variant="primary"

@@ -1,6 +1,6 @@
 'use client';
 import { motion } from 'framer-motion';
-import ProgressBar from '../../common/progress-bar/ProgressBar';
+import { ProgressBar } from '@riffy/components';
 import { PaymentsByState } from '@riffy/types';
 
 const containerVariants = {
@@ -58,7 +58,7 @@ const StateChart = ({ paymentsByState }: StateChartProps) => {
                 {state.state}
               </h6>
               <div className="flex items-center gap-3">
-                <ProgressBar progress={state.percentage} delay={index * 0.15} />
+                <ProgressBar progress={state.percentage} />
                 <motion.p
                   className="text-sm text-body-100"
                   initial={{ opacity: 0 }}
