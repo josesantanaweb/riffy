@@ -12,10 +12,10 @@ import {
   usePaymentByNationalId,
 } from '@riffy/hooks';
 import { zodResolver } from '@hookform/resolvers/zod';
-import Total from '@/components/common/total-box';
+import Total from '@/components/common/raffle/raffle-total';
 import PaymentMethod from '../payment-method';
 import { useToast } from '@/hooks';
-import Alert from '@/components/common/alert/Alert';
+import Alert from '@/components/common/raffle/raffle-alert';
 import Search from '@/components/common/search/Search';
 import PendingPayment from '../payment-pending';
 import { uploadImageToS3 } from '@/utils/imageUpload';
