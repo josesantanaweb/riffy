@@ -14,48 +14,50 @@ interface LastPaymentsProps {
 
 const LastPayments = ({ payments }: LastPaymentsProps) => {
   return (
-    <div className="flex flex-col dark:bg-base-700 bg-base-800 rounded-xl p-6 min-h-[300px]">
-      <h3 className="text-base font-medium dark:text-white text-primary mb-6">
+    <div className="flex flex-col bg-box-primary rounded-xl p-6 min-h-[300px]">
+      <h3 className="text-base font-medium text-title mb-6">
         Ultimos pagos
       </h3>
       {payments.length === 0 && (
         <div className="flex flex-col h-[200px] justify-center items-center">
-          <p className="text-base-300 text-sm flex items-center justify-center font-medium">
+          <p className="text-body-100 text-sm flex items-center justify-center font-medium">
             No hay pagos recientes
           </p>
         </div>
       )}
       {payments.length > 0 && (
         <div className="flex flex-col">
-          <div className="items-center bg-base-600 rounded-md h-9 grid grid-cols-4 md:grid-cols-5">
-            <p className="text-base-300 text-sm flex items-center justify-center font-medium">
+          <div className="items-center bg-box-secondary rounded-md h-9 grid grid-cols-4 md:grid-cols-5">
+            <p className="text-table-header-text text-sm flex items-center justify-center font-medium">
               Boleto N°
             </p>
-            <p className="text-base-300 text-sm flex items-center justify-center font-medium">
+            <p className="text-table-header-text text-sm flex items-center justify-center font-medium">
               Comprador
             </p>
-            <p className="text-base-300 text-sm flex items-center justify-center font-medium">
+            <p className="text-table-header-text text-sm flex items-center justify-center font-medium">
               Monto
             </p>
-            <p className="text-base-300 hidden text-sm md:flex items-center justify-center font-medium">
+            <p className="text-table-header-text hidden text-sm md:flex items-center justify-center font-medium">
               Metodo de pago
             </p>
-            <p className="text-base-300 text-sm flex items-center justify-center font-medium">
+            <p className="text-table-header-text text-sm flex items-center justify-center font-medium">
               Estado
             </p>
           </div>
           {payments.map(payment => (
             <div className="items-center py-2 grid grid-cols-4 md:grid-cols-5">
-              <p className="dark:text-white text-base-300 text-sm flex items-center justify-center font-medium">
-                {payment.tickets?.map(ticket => ticket.number).join(', ')}
+              <p className="text-table-text text-sm flex items-center justify-center font-medium">
+                {payment.tickets && payment.tickets.length > 1
+                  ? `${payment.tickets.length} tickets`
+                  : payment.tickets?.map(ticket => ticket.number).join(', ')}
               </p>
-              <p className="dark:text-white text-base-300 text-sm flex items-center justify-center font-medium max-w-[85px] truncate">
+              <p className="text-table-text text-sm flex items-center justify-center font-medium max-w-[85px] truncate">
                 {payment.buyerName}
               </p>
-              <p className="dark:text-white text-base-300 text-sm flex items-center justify-center font-medium">
+              <p className="text-table-text text-sm flex items-center justify-center font-medium">
                 {formatCurrency(payment.amount, 'VES')}
               </p>
-              <p className="dark:text-white hidden text-base-300 text-sm md:flex items-center justify-center font-medium">
+              <p className="hidden text-table-text text-sm md:flex items-center justify-center font-medium">
                 {payment.paymentMethod}
               </p>
               <div className="flex justify-center">

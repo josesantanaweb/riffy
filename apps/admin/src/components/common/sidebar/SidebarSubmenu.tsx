@@ -17,7 +17,7 @@ const SidebarSubmenu: React.FC<SidebarSubmenuProps> = ({
   const submenuClasses = clsx(
     'w-full rounded-lg overflow-hidden transition-all duration-300 flex flex-col',
     isOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0 my-0',
-    isCollapse ? 'items-center' : 'bg-base-500',
+    isCollapse ? 'items-center' : 'bg-box-secondary',
   );
 
   return (
@@ -31,9 +31,9 @@ const SidebarSubmenu: React.FC<SidebarSubmenuProps> = ({
             data-tooltip-id={tooltipId}
             data-tooltip-content={label}
             className={clsx(
-              'flex items-center gap-3 text-base-300 hover:text-white cursor-pointer rounded-lg',
+              'flex items-center gap-3 text-body-100 hover:text-white cursor-pointer rounded-lg',
               isCollapse
-                ? 'justify-center mb-2 bg-base-500 w-[45px] h-[45px]'
+                ? 'justify-center mb-2 bg-box-secondary w-[45px] h-[45px]'
                 : 'p-3',
             )}
           >
@@ -47,7 +47,7 @@ const SidebarSubmenu: React.FC<SidebarSubmenuProps> = ({
               <Tooltip
                 id={tooltipId}
                 place="right"
-                className="!bg-base-500 !rounded-lg text-white px-2 py-1"
+                className="bg-box-secondary! rounded-lg! text-white px-2 py-1"
                 offset={10}
               />
             )}

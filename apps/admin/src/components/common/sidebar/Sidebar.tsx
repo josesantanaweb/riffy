@@ -53,18 +53,18 @@ const Sidebar: React.FC = () => {
   }, [isMobileSidebarOpen, setMobileSidebarOpen]);
 
   const desktopSidebarClasses = clsx(
-    'dark:bg-base-700 bg-base-800 h-screen transition-all duration-300 pt-5 flex-shrink-0 hidden lg:block',
+    'bg-sidebar-bg h-screen transition-all duration-300 pt-5 shrink-0 hidden lg:block',
     collapseSidebar ? 'w-[80px]' : 'w-[230px]',
   );
 
   return (
-    <div className="bg-base-700 h-full fixed top-0 left-0">
+    <div className="bg-box-primary h-full fixed top-0 left-0">
       <NavBrand collapseSidebar={collapseSidebar} />
       <div className={desktopSidebarClasses}>
         <div className="flex flex-col" style={{ height: 'calc(100% - 52px)' }}>
           <div className="flex flex-col items-center w-full flex-1">
             {!collapseSidebar && (
-              <span className="mb-2 px-4 uppercase text-sm text-base-300 font-medium text-left w-full">
+              <span className="mb-2 px-4 uppercase text-sm text-body-100 font-medium text-left w-full">
                 Menu
               </span>
             )}

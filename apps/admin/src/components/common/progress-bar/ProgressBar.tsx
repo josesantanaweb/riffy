@@ -10,7 +10,7 @@ interface ProgressBarProps {
 
 const ProgressBar = ({ progress, delay = 0 }: ProgressBarProps): ReactElement => {
   return (
-    <div className="w-full h-[15px] bg-base-600 rounded-full overflow-hidden">
+    <div className="w-full h-[15px] bg-box-secondary rounded-full overflow-hidden">
       <motion.div
         className={`h-full rounded-full bg-primary-500`}
         initial={{ width: 0 }}

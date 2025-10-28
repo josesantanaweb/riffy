@@ -54,21 +54,20 @@
     "@riffy/eslint-config": "workspace:*",
     "@riffy/hooks": "workspace:*",
     "@riffy/jest-config": "workspace:*",
-    "@riffy/tailwind-config": "workspace:*",
     "@riffy/types": "workspace:*",
     "@riffy/typescript-config": "workspace:*",
+    "@tailwindcss/postcss": "^4.1.15",
     "@testing-library/jest-dom": "^6.4.5",
     "@testing-library/react": "^15.0.7",
     "@types/node": "^20.11.24",
     "@types/react": "^18.3.24",
     "@types/react-dom": "^18.3.7",
-    "autoprefixer": "^10.4.20",
     "eslint-plugin-import": "^2.32.0",
     "eslint-plugin-nestjs": "^1.2.3",
     "eslint-plugin-react": "^7.37.5",
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
     "postcss": "^8.5.3",
-    "tailwindcss": "^3.4.17"
+    "tailwindcss": "^4.1.15"
   }
 }

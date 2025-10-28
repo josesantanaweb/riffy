@@ -5,4 +5,5 @@ export * from './tokenStorage';
 export * from './roleUtils';
 export * from './dateUtils';
 export * from './errorHandling';
+export * from './roleLabel';
 

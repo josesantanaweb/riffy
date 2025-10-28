@@ -31,7 +31,7 @@ const getIconColor = (actionLabel: string, row: any): string => {
       return 'text-green-400';
     }
   }
-  return 'text-base-300';
+  return 'text-body-100';
 };
 
 const ActionMenu = <T extends Record<string, any>>({
@@ -59,7 +59,7 @@ const ActionMenu = <T extends Record<string, any>>({
             <Tooltip
               id={`tooltip-${action.label}`}
               place="top"
-              className="!bg-base-500 !rounded-lg text-white px-2 py-1"
+              className="bg-box-secondary! rounded-lg! text-white px-2 py-1"
               offset={30}
             />
           </button>

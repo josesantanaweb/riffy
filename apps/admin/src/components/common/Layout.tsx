@@ -18,12 +18,12 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <>
-      <main className="flex-1 transition-all duration-300 relative w-full h-screen bg-base-800">
+      <main className="flex-1 transition-all duration-300 relative w-full h-screen bg-admin-bg">
         <Sidebar />
 
         <div className={`min-h-screen h-full ${layoutClass}`}>
           <Navbar />
-          <div className="min-h-full dark:bg-base-800 bg-base-700">{children}</div>
+          <div className="min-h-full bg-admin-bg">{children}</div>
         </div>
       </main>
 

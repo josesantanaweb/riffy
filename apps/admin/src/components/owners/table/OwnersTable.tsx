@@ -12,17 +12,22 @@ import {
   mapPlanUsageStatusToStatusType,
   mapPlanUsageStatusToLabel,
 } from '@/utils';
+import { useBreakpoint } from '@/hooks';
+import TableSkeleton from '@/components/common/skeleton/TableSkeleton';
 import MediaDisplay from '@/components/common/media-display';
 import { User, UserStatus, PlanUsageStatus } from '@riffy/types';
 
 interface OwnersTableProps {
   data: User[];
+  loading?: boolean;
   onEdit?: (owner: User) => void;
   onDelete?: (owner: User) => void;
   onAdd?: () => void;
 }
 
-const OwnersTable = ({ data, onEdit, onDelete, onAdd }: OwnersTableProps) => {
+const OwnersTable = ({ data, loading, onEdit, onDelete, onAdd }: OwnersTableProps) => {
+  const { isDesktop } = useBreakpoint();
+
   const columns: ColumnDef<User>[] = [
     {
       accessorKey: 'id',
@@ -54,7 +59,10 @@ const OwnersTable = ({ data, onEdit, onDelete, onAdd }: OwnersTableProps) => {
       header: 'Whatsaap',
       cell: info => {
         const handleWhatsApp = () =>
-          window.open(`https://wa.me/+58${info.getValue() as string}`, '_blank');
+          window.open(
+            `https://wa.me/+58${info.getValue() as string}`,
+            '_blank',
+          );
         return (
           <button className="cursor-pointer" onClick={handleWhatsApp}>
             <Icon name="whatsapp" className="text-2xl" />
@@ -140,7 +148,9 @@ const OwnersTable = ({ data, onEdit, onDelete, onAdd }: OwnersTableProps) => {
       header: 'Estado del plan',
       cell: info => (
         <Badge
-          status={mapPlanUsageStatusToStatusType(info.getValue() as PlanUsageStatus)}
+          status={mapPlanUsageStatusToStatusType(
+            info.getValue() as PlanUsageStatus,
+          )}
           label={mapPlanUsageStatusToLabel(info.getValue() as string)}
         />
       ),
@@ -185,6 +195,17 @@ const OwnersTable = ({ data, onEdit, onDelete, onAdd }: OwnersTableProps) => {
         ]
       : []),
   ];
+
+  if (loading) {
+    return (
+      <TableSkeleton
+        rows={10}
+        columns={isDesktop ? 8 : 2}
+        showActions={isDesktop ? true : false}
+        showPagination={true}
+      />
+    );
+  }
 
   return (
     <DataTable

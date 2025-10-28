@@ -24,14 +24,14 @@ const Toast = ({ t, message, type }: ToastProps) => {
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: 40 }}
       transition={{ duration: 0.25, ease: 'easeOut' }}
-      className="relative overflow-hidden rounded-lg shadow-lg pl-6 pr-3 py-4 dark:bg-base-600 bg-base-800"
+      className="relative overflow-hidden rounded-lg shadow-lg pl-6 pr-3 py-4 dark:bg-base-600 bg-box-primary"
     >
       <span className={`${colors} w-1 h-full absolute left-0 top-0`} />
       <div className="flex items-center justify-between min-w-[250px] max-w-[300px]">
-        <p className="text-base dark:text-white text-base-300">{message}</p>
+        <p className="text-base dark:text-white text-body-100">{message}</p>
         <button
           onClick={() => toast.dismiss(t.id)}
-          className="dark:text-white text-base-300 cursor-pointer"
+          className="dark:text-white text-body-100 cursor-pointer"
         >
           <Icon name="close" className="text-xl" />
         </button>

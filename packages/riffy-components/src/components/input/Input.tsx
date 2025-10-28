@@ -56,10 +56,10 @@ const INPUT_SIZES = {
 
 const BASE_INPUT_CLASSES = [
   'border',
-  'border-base-500',
+  'border-input-border',
   'rounded-lg',
-  'bg-base-700',
-  'placeholder:text-base-300',
+  'bg-input-bg',
+  'placeholder:text-body-100',
   'focus:outline-none',
   'transition-colors',
 ].join(' ');
@@ -69,7 +69,7 @@ const ICON_BASE_CLASSES = [
   'top-1/2',
   'transform',
   '-translate-y-1/2',
-  'text-base-300',
+  'text-body-100',
   'cursor-pointer',
   'hover:text-white',
   'transition-colors',
@@ -110,7 +110,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
       sizeConfig.textSize,
       icon && iconPosition === 'right' && sizeConfig.inputPadding.right,
       icon && iconPosition === 'left' && sizeConfig.inputPadding.left,
-      props.disabled ? 'text-base-500' : 'dark:text-white text-base-300',
+      props.disabled ? 'text-base-500' : 'dark:text-white text-body-100',
       className,
     );
 
@@ -148,7 +148,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
         className={cn('flex flex-col', fullWidth && 'w-full', label && 'gap-2')}
         onClick={onClick}
       >
-        <label className="dark:text-white text-base-300 text-sm">
+        <label className="dark:text-white text-body-100 text-sm">
           {label}{' '}
           {label && isRequired && <span className="text-danger-500">*</span>}
         </label>
