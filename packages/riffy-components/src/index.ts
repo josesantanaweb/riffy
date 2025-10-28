@@ -16,3 +16,4 @@ export type { ToastType } from './components/toast';
 export { default as Logo } from './components/logo';
 export { default as Pagination } from './components/pagination';
 export { default as ImageUpload } from './components/image-upload';
+export { default as ProgressBar } from './components/progress-bar';

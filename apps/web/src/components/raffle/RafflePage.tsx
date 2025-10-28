@@ -4,16 +4,16 @@ import { useParams } from 'next/navigation';
 import type { ReactElement } from 'react';
 import { useRouter } from 'next/navigation';
 import { Button } from '@riffy/components';
-import Alert from '@/components/common/alert/Alert';
+import Alert from '@/components/common/raffle/raffle-alert';
 import Tickets from './tickets/Tickets';
-import RaffleProgress from '@/components/common/raffle-progress';
-import Total from '@/components/common/total';
+import RaffleProgress from '@/components/common/raffle/raffle-progress';
+import TotalBox from '@/components/common/raffle/raffle-total';
 import { useRaffle } from '@riffy/hooks';
 import { formatDate } from '@/utils';
 import { useStore } from '@/store';
 import { RaffleStatus } from '@riffy/types';
-import RaffleBanner from '@/components/common/raffle-banner';
-import RaffleTitle from '@/components/common/raffle-title';
+import RaffleBanner from '@/components/common/raffle/raffle-banner';
+import RaffleTitle from '@/components/common/raffle/raffle-title';
 import { ROUTES } from '@/constants';
 import { useIsIPhone } from '@/hooks';
 import TicketTitle from './tickets/ticket-title/TicketTitle';
@@ -51,7 +51,7 @@ const RafflePage = (): ReactElement => {
         isCompleted={raffle?.status === RaffleStatus.COMPLETED}
         loading={loading}
       />
-      <div className="flex flex-col gap-5 p-5 dark:bg-transparent bg-base-800">
+      <div className="flex flex-col gap-5 p-5 bg-box-primary">
         <RaffleTitle title={raffle?.title} loading={loading} />
 
         {raffle?.showDate && (
@@ -84,7 +84,7 @@ const RafflePage = (): ReactElement => {
         />
 
         <div className="w-full max-w-md py-5 flex flex-col gap-3">
-          <Total totalTickets={selectedTickets.length} price={raffle?.price} />
+          <TotalBox totalTickets={selectedTickets.length} price={raffle?.price} />
 
           <Button
             variant="primary"

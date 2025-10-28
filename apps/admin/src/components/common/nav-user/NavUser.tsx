@@ -66,16 +66,16 @@ const NavUser = ({ profile }: NavUserProps): ReactElement => {
       >
         <Avatar name={profile?.name} src={profile?.logo} size={35} />
         <div className="flex flex-col items-start">
-          <span className="dark:text-white text-primary text-sm font-medium capitalize">
+          <span className="text-title text-sm font-medium capitalize">
             {profile?.name}
           </span>
-          <span className="text-base-300 text-[10px] font-medium">
+          <span className="text-body-100 text-[10px] font-medium">
             {roleLabel(profile?.role)}
           </span>
         </div>
         <Icon
           name="chevron-down"
-          className={`text-base-300 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}
+          className={`text-body-100 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}
         />
       </button>
 
@@ -92,15 +92,15 @@ const NavUser = ({ profile }: NavUserProps): ReactElement => {
               stiffness: 300,
               damping: 30,
             }}
-            className="flex flex-col dark:bg-base-700 bg-base-800  rounded-xl absolute top-full right-0 min-w-[290px] border-t-2 border-primary-500 z-10 mt-2"
+            className="flex flex-col bg-navbar-user-bg shadow-lg rounded-xl absolute top-full right-0 min-w-[290px] border-t-2 border-primary-500 z-10 mt-2"
           >
-            <div className="flex items-center gap-3 p-4 bg-base-600">
+            <div className="flex items-center gap-3 p-4 bg-box-secondary">
               <Avatar name={profile?.name} src={profile?.logo} size={40} />
               <div className="flex flex-col">
-                <span className="dark:text-white text-primary text-base font-medium capitalize">
+                <span className="text-title text-base font-medium capitalize">
                   {profile?.name}
                 </span>
-                <span className="text-base-300 text-sm font-medium">
+                <span className="text-body-100 text-sm font-medium">
                   {profile?.role}
                 </span>
               </div>
@@ -109,7 +109,7 @@ const NavUser = ({ profile }: NavUserProps): ReactElement => {
             <div className="flex flex-col h-[180px]">
               <button
                 onClick={handleProfile}
-                className="flex items-center gap-3 px-4 py-3 text-left text-base-300 dark:hover:text-white hover:bg-base-600 hover:text-base-300 transition-colors"
+                className="flex items-center gap-3 px-4 py-3 text-left text-body-100 hover:bg-navbar-user-item-bg-hover transition-colors"
               >
                 <Icon name="user" className="text-base" />
                 <span className="text-sm">Mi Perfil</span>
@@ -117,13 +117,13 @@ const NavUser = ({ profile }: NavUserProps): ReactElement => {
 
               <button
                 onClick={handleSettings}
-                className="flex items-center gap-3 px-4 py-3 text-left text-base-300 dark:hover:text-white dark:hover:bg-base-600 hover:bg-base-600 transition-colors"
+                className="flex items-center gap-3 px-4 py-3 text-left text-body-100 hover:bg-navbar-user-item-bg-hov transition-colors"
               >
                 <Icon name="settings" className="text-base" />
                 <span className="text-sm">Configuración</span>
               </button>
 
-              <div className="flex gap-5 px-4 py-3 text-left text-base-300 dark:hover:text-white dark:hover:bg-base-600 hover:bg-base-600 transition-colors w-full items-center">
+              <div className="flex gap-5 px-4 py-3 text-left text-body-100 hover:bg-navbar-user-item-bg-hov transition-colors w-full items-center">
                 <div className="flex gap-3 items-center">
                   <Icon
                     name={theme === 'dark' ? 'sun' : 'moon'}
@@ -134,10 +134,10 @@ const NavUser = ({ profile }: NavUserProps): ReactElement => {
                 <Switch checked={theme === 'dark'} onChange={toggleTheme} />
               </div>
             </div>
-            <div className="border-t border-base-500">
+            <div className="border-t border-line-100">
               <button
                 onClick={handleLogout}
-                className="flex items-center gap-3 px-4 py-3 text-left text-base-300 dark:hover:text-white dark:hover:bg-base-600 hover:bg-base-600 transition-colors w-full"
+                className="flex items-center gap-3 px-4 py-3 text-left text-body-100 hover:bg-navbar-user-item-bg-hov transition-colors w-full"
               >
                 <Icon name="logout" className="text-base" />
                 <span className="text-sm">Cerrar sesión</span>

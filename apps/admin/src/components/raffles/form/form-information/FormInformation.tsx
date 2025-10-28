@@ -41,16 +41,16 @@ const FormInformation = ({ isUpdating = false }: FormInformationProps) => {
   };
 
   return (
-    <div className="dark:bg-base-700 bg-base-800 rounded-xl relative">
+    <div className="bg-box-primary rounded-xl relative">
       <div
-        className={`flex justify-between items-center px-6 py-4 ${isCollapse ? 'border-b border-base-600' : ''}`}
+        className={`flex justify-between items-center px-6 py-4 ${isCollapse ? 'border-b border-line-100' : ''}`}
       >
         <div className="flex items-center gap-2">
-          <Icon name="info-circle" className="text-2xl text-base-300" />
-          <h5 className="text-base dark:text-white text-primary">Información de rifa</h5>
+          <Icon name="info-circle" className="text-2xl text-body-100" />
+          <h5 className="text-base text-title">Información de rifa</h5>
         </div>
         <button
-          className={`cursor-pointer text-base-300 transition-transform ${isCollapse ? 'rotate-180' : ''}`}
+          className={`cursor-pointer text-body-100 transition-transform ${isCollapse ? 'rotate-180' : ''}`}
           onClick={handleCollapse}
         >
           <Icon name="chevron-down" className="text-2xl" />
@@ -68,11 +68,11 @@ const FormInformation = ({ isUpdating = false }: FormInformationProps) => {
           >
             <div className="flex flex-col px-6 pt-4 pb-8 w-full gap-6">
               {!isUpdating && planUsage?.plan && (
-                <div className="bg-base-600 rounded-lg p-4 mb-2">
+                <div className="bg-box-secondary rounded-lg p-4 mb-2">
                   <div className="flex items-center justify-center md:justify-between flex-col md:flex-row gap-2">
                     <div className="flex items-center gap-2">
-                      <Icon name="info-circle" className="text-base-300" />
-                      <span className="text-sm text-base-300">
+                      <Icon name="info-circle" className="text-body-100" />
+                      <span className="text-sm text-body-100">
                         Límites de tu plan
                       </span>
                     </div>
@@ -83,7 +83,7 @@ const FormInformation = ({ isUpdating = false }: FormInformationProps) => {
                         Rifas: {planUsage.currentRaffles}/
                         {planUsage.plan.maxRaffles || '∞'}
                       </div>
-                      <div className="text-base-300">
+                      <div className="text-body-100">
                         Tickets: {planUsage.currentTickets}/
                         {planUsage.plan.maxTickets || '∞'}
                       </div>

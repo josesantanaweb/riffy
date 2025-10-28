@@ -17,8 +17,8 @@ const Pagination = ({
   onNextPage,
 }: PaginationProps) => {
   const BUTTON_STYLES = {
-    base: 'gap-2 bg-base-600 rounded-md p-2 w-10 h-10 flex items-center justify-center transition-colors',
-    disabled: 'opacity-50 cursor-not-allowed text-base-300',
+    base: 'gap-2 bg-box-secondary rounded-md p-2 w-10 h-10 flex items-center justify-center transition-colors',
+    disabled: 'opacity-50 cursor-not-allowed text-body-100',
     enabled: 'hover:bg-primary-500 text-white',
   } as const;
 
@@ -35,7 +35,7 @@ const Pagination = ({
   return (
     <div className="flex items-center justify-between">
       <div className="flex items-center gap-5">
-        <span className="text-base-300 text-sm">
+        <span className="text-body-100 text-sm">
           Página {currentPage} de {totalPages}
         </span>
         <span className="font-medium text-primary-500 text-sm">

@@ -18,7 +18,7 @@ const Avatar = ({
   className,
   isLoading,
 }: AvatarProps): React.ReactElement => {
-  const customClass = cn('h-full w-full bg-base-800', className);
+  const customClass = cn('h-full w-full bg-box-primary', className);
   const showImage = src && src.trim() !== '';
   const safeName = typeof name === 'string' ? name : '';
   const trimmed = safeName.trim();

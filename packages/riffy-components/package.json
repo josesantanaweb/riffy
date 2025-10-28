@@ -4,10 +4,10 @@
   "private": true,
   "exports": {
     ".": "./src/index.ts",
-    "./styles/globals.css": "./src/styles/globals.css"
+    "./styles.css": "./src/styles.css"
   },
   "files": [
-    "dist"
+    "src"
   ],
   "sideEffects": [
     "**/*.css"
@@ -15,9 +15,7 @@
   "scripts": {
     "lint": "eslint . --max-warnings 0",
     "generate:component": "turbo gen react-component",
-    "build": "tailwindcss -i ./src/styles/globals.css -o ./dist/index.css",
     "check-types": "tsc --noEmit",
-    "dev": "tailwindcss -i ./src/styles/globals.css -o ./dist/index.css --watch",
     "test": "jest",
     "test:watch": "jest --watch"
   },
@@ -25,7 +23,6 @@
     "@jest/globals": "^29.7.0",
     "@riffy/eslint-config": "workspace:*",
     "@riffy/jest-config": "workspace:*",
-    "@riffy/tailwind-config": "workspace:*",
     "@riffy/typescript-config": "workspace:*",
     "@riffy/hooks": "workspace:*",
     "@testing-library/jest-dom": "^6.4.5",
@@ -35,8 +32,6 @@
     "@types/node": "^20.11.24",
     "@types/react": "^18.3.24",
     "@types/react-dom": "^18.3.7",
-    "autoprefixer": "^10.4.20",
-    "postcss": "^8.5.3",
     "typescript": "5.5.4",
     "@types/jest": "^29.5.14",
     "eslint": "^8.57.0",
@@ -54,7 +49,6 @@
     "tailwind-merge": "^3.2.0",
     "framer-motion": "^12.5.0",
     "react": "^18.2.0",
-    "tailwindcss": "^3.4.17",
     "react-dom": "^18.2.0",
     "next": "^14.2.4"
   }

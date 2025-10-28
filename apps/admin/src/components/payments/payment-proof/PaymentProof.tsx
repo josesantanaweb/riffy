@@ -61,12 +61,12 @@ const PaymentProof = ({ proofUrl }: PaymentProofProps): ReactElement => {
             >
               <motion.button
                 onClick={handleClose}
-                className="absolute top-2 right-2 bg-base-600 hover:bg-base-600/80 rounded-full p-1 shadow z-10 w-[33px] h-[33px] flex items-center justify-center"
+                className="absolute top-2 right-2 bg-box-secondary hover:bg-box-secondary/80 rounded-full p-1 shadow z-10 w-[33px] h-[33px] flex items-center justify-center"
                 whileHover={{ scale: 1.1, backgroundColor: 'rgba(0,0,0,0.8)' }}
                 whileTap={{ scale: 0.9 }}
                 transition={{ type: 'spring', stiffness: 400, damping: 17 }}
               >
-                <Icon name="close" className="text-2xl text-white" />
+                <Icon name="close" className="text-2xl text-body-100" />
               </motion.button>
 
               <motion.div

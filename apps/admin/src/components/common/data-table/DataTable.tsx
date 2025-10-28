@@ -57,7 +57,7 @@ const DataTable = <T extends Record<string, any>>({
         meta: {
           className: 'px-4 h-14',
           headerClassName:
-            'px-4 py-3 text-left font-medium text-base-200 text-sm',
+            'px-4 py-3 text-left font-medium text-body-100 text-sm',
         },
       });
     }
@@ -180,9 +180,9 @@ const DataTable = <T extends Record<string, any>>({
 
       <div className="overflow-x-auto -mx-2 sm:mx-0">
         <div className="min-w-full inline-block align-middle">
-          <div className="overflow-hidden rounded-lg border border-base-600">
-            <table className="min-w-full divide-y divide-base-600">
-              <thead className="bg-base-600">
+          <div className="overflow-hidden rounded-lg border border-line-100">
+            <table className="min-w-full divide-y divide-line-100">
+              <thead className="bg-table-header-bg">
                 <tr>
                   {enableSelection && (
                     <th className="px-4 py-3 text-left whitespace-nowrap">
@@ -208,11 +208,11 @@ const DataTable = <T extends Record<string, any>>({
                   ))}
                 </tr>
               </thead>
-              <tbody className="bg-base-700 divide-y divide-base-600">
+              <tbody className="bg-table-body-bg divide-y divide-line-100">
                 {table.getRowModel().rows.map(row => (
                   <tr
                     key={row.id}
-                    className="hover:bg-base-600 transition-colors"
+                    className="hover:bg-box-secondary transition-colors"
                   >
                     {enableSelection && (
                       <td className="px-4 py-3 whitespace-nowrap">

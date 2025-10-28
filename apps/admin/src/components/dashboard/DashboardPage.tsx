@@ -41,10 +41,10 @@ const DashboardPage = () => {
               className="rounded-md"
             />
             <div className="flex flex-col gap-1">
-              <h3 className="text-base font-medium dark:text-white text-primary">
+              <h3 className="text-base font-medium text-title">
                 Hola {profile?.name}
               </h3>
-              <p className="text-sm text-base-300">
+              <p className="text-sm text-body-100">
                 Anilisis y estadisticas de tus rifas
               </p>
             </div>
@@ -58,12 +58,12 @@ const DashboardPage = () => {
           </Button>
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-6">
-          <div className="flex items-center justify-between gap-4 dark:bg-base-700 bg-base-800 rounded-xl p-6">
+          <div className="flex items-center justify-between gap-4 bg-box-primary rounded-xl p-6">
             <div className="flex flex-col gap-2">
               <h2 className="text-2xl font-medium text-primary-500">
                 {totalEarnings}
               </h2>
-              <p className="text-sm dark:text-white text-primary">
+              <p className="text-sm text-title">
                 Total de ventas
               </p>
             </div>
@@ -71,12 +71,12 @@ const DashboardPage = () => {
               <Icon name="credit-card" className="text-white text-2xl" />
             </span>
           </div>
-          <div className="flex items-center justify-between gap-4 dark:bg-base-700 bg-base-800 rounded-xl p-6">
+          <div className="flex items-center justify-between gap-4 bg-box-primary rounded-xl p-6">
             <div className="flex flex-col gap-2">
               <h2 className="text-2xl font-medium text-primary-500">
                 {formatCurrency(soldTickets,'VES')}
               </h2>
-              <p className="text-sm dark:text-white text-primary">
+              <p className="text-sm text-title">
                 Boletos Vendidos
               </p>
             </div>
@@ -84,12 +84,12 @@ const DashboardPage = () => {
               <Icon name="ticket" className="text-white text-2xl" />
             </span>
           </div>
-          <div className="flex items-center justify-between gap-4 dark:bg-base-700 bg-base-800 rounded-xl p-6">
+          <div className="flex items-center justify-between gap-4 bg-box-primary rounded-xl p-6">
             <div className="flex flex-col gap-2">
               <h2 className="text-2xl font-medium text-primary-500">
                 {totalRaffles}
               </h2>
-              <p className="text-sm dark:text-white text-primary">
+              <p className="text-sm text-title">
                 Rifas Creadas
               </p>
             </div>
@@ -97,12 +97,12 @@ const DashboardPage = () => {
               <Icon name="gift" className="text-white text-2xl" />
             </span>
           </div>
-          <div className="flex items-center justify-between gap-4 dark:bg-base-700 bg-base-800 rounded-xl p-6">
+          <div className="flex items-center justify-between gap-4 bg-box-primary rounded-xl p-6">
             <div className="flex flex-col gap-2">
               <h2 className="text-2xl font-medium text-primary-500">
                 {totalWinners}
               </h2>
-              <p className="text-sm dark:text-white text-primary">
+              <p className="text-sm text-title">
                 Total de ganadores
               </p>
             </div>

@@ -57,7 +57,7 @@ const RandomControls = ({
         >
           <Icon name="minus" className="text-2xl" />
         </Button>
-        <div className="text-white text-lg bg-base-600 rounded-md w-full h-12 flex items-center justify-center">
+        <div className="text-white text-lg bg-box-secondary rounded-md w-full h-12 flex items-center justify-center">
           {ticketsQuantity}
         </div>
         <Button

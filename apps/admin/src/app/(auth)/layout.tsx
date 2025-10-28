@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 
-import '@riffy/components/styles/globals.css';
+import '@riffy/components/styles.css';
 import Providers from '@/components/common/providers';
 import { PublicGuard } from '@/components/common/guards';
 
@@ -20,7 +20,7 @@ export default function AuthLayout({
         <Providers>
           <PublicGuard>
             <main className="relative w-full h-screen flex flex-col justify-center items-center">
-              <div className="bg-base-800 h-full w-full">{children}</div>
+              <div className="bg-admin-bg h-full w-full">{children}</div>
             </main>
           </PublicGuard>
         </Providers>

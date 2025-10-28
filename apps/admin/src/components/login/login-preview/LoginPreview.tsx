@@ -4,12 +4,12 @@ import { ASSETS } from '@/constants';
 
 const LoginPreview = () => {
   return (
-    <div className="bg-base-600 rounded-xl p-6 w-[60%] h-full hidden lg:flex flex-col items-center justify-center gap-10">
+    <div className="bg-box-secondary rounded-xl p-6 w-[60%] h-full hidden lg:flex flex-col items-center justify-center gap-10">
       <div className="flex flex-col items-center justify-center gap-2">
-        <h4 className="text-3xl font-semibold dark:text-white text-primary">
+        <h4 className="text-3xl font-semibold text-title">
           Gestiona tus rifas de manera simple y profesional
         </h4>
-        <p className="text-base-300 text-base">
+        <p className="text-body-100 text-base">
           Accede a tu panel para crear, administrar y dar seguimiento a tus
           rifas en tiempo real.
         </p>

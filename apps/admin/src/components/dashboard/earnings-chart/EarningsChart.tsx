@@ -95,10 +95,10 @@ const EarningsChart = () => {
   }, [periodFilter]);
 
   return (
-    <div className="md:col-span-2 xl:col-span-2 dark:bg-base-700 bg-base-800 rounded-xl p-6 min-h-[400px]">
+    <div className="md:col-span-2 xl:col-span-2 bg-box-primary rounded-xl p-6 min-h-[400px]">
       <div className="flex justify-between items-start mb-6">
         <div className="flex flex-col gap-2">
-          <h3 className="text-base dark:text-white text-primary font-medium">Ganancias</h3>
+          <h3 className="text-base text-title font-medium">Ganancias</h3>
           <p className="text-xl font-medium text-primary-500">
             {formatCurrency(totalEarnings)}
           </p>

@@ -19,8 +19,8 @@ const TicketsHeader = ({
       className="flex items-center gap-2 p-2 rounded-md cursor-pointer"
       onClick={() => setIsRandomTickets(!isRandomTickets)}
     >
-      <Icon name="shuffle" className="text-xl text-base-300" />
-      <h2 className="text-base font-medium dark:text-white text-primary">
+      <Icon name="shuffle" className="text-xl text-body-100" />
+      <h2 className="text-base font-medium text-title">
         {isRandomTickets ? 'Modo Aleatorio' : 'Modo Manual'}
       </h2>
     </button>
@@ -29,12 +29,12 @@ const TicketsHeader = ({
         className="flex items-center gap-2"
         onClick={onSort}
       >
-        <h2 className="text-base font-medium dark:text-white text-primary">
+        <h2 className="text-base font-medium text-title">
           Ordenar:
         </h2>
         <Icon
           name="sort"
-          className={`text-xl text-base-300 transition-transform ${
+          className={`text-xl text-body-100 transition-transform ${
             sortOrder === 'desc' ? 'rotate-180' : ''
           }`}
         />

@@ -80,7 +80,7 @@ const Notifications = (): ReactElement => {
             repeatDelay: 3
           }}
         >
-          <Icon name="bell" className="text-base-300" />
+          <Icon name="bell" className="text-body-100" />
         </motion.div>
         <span className="w-4 h-4 rounded-full flex items-center justify-center text-white bg-primary-500 text-[10px] absolute -top-1 -right-1">
           {unreadCount}
@@ -99,15 +99,15 @@ const Notifications = (): ReactElement => {
               stiffness: 300,
               damping: 30,
             }}
-            className="flex flex-col gap-2 dark:bg-base-700 bg-base-800 rounded-xl absolute top-full -right-[110px] md:right-0 min-w-[360px] border-t-2 border-primary-500 z-10 mt-2"
+            className="flex flex-col gap-2 bg-notifications-bg shadow-lg rounded-xl absolute top-full -right-[110px] md:right-0 min-w-[360px] border-t-2 border-primary-500 z-10 mt-2"
           >
-            <div className="flex justify-between items-center border-b border-base-500 p-4">
-              <p className="text-base dark:text-white text-primary">Notificaciones</p>
+            <div className="flex justify-between items-center border-b border-line-100 p-4">
+              <p className="text-base text-title">Notificaciones</p>
               <button
                 className={`text-sm font-medium cursor-pointer transition-colors ${
                   isUpdating
-                    ? 'text-base-400 cursor-not-allowed'
-                    : 'text-base-300 hover:text-primary-500'
+                    ? 'text-body-100 cursor-not-allowed'
+                    : 'text-body-100 hover:text-primary-500'
                 }`}
                 onClick={handleMarkAllAsRead}
                 disabled={isUpdating || unreadCount === 0}
@@ -139,7 +139,7 @@ const Notifications = (): ReactElement => {
               ))}
               <motion.div
                 onClick={handleRedirectToPayments}
-                className="flex items-center justify-center p-4 border-t border-base-500"
+                className="flex items-center justify-center p-4 border-t border-line-100"
                 variants={{
                   hidden: { opacity: 0, y: 10 },
                   visible: {
