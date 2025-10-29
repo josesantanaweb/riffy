@@ -21,7 +21,6 @@ COPY packages/ ./packages/
 COPY apps/web/package.json ./apps/web/
 COPY apps/web/tsconfig.json ./apps/web/
 COPY apps/web/next.config.js ./apps/web/
-COPY apps/web/tailwind.config.ts ./apps/web/
 COPY apps/web/postcss.config.js ./apps/web/
 
 # Instalar dependencias
@@ -66,7 +65,6 @@ COPY packages/ ./packages/
 COPY apps/web/package.json ./apps/web/
 COPY apps/web/tsconfig.json ./apps/web/
 COPY apps/web/next.config.js ./apps/web/
-COPY apps/web/tailwind.config.ts ./apps/web/
 COPY apps/web/postcss.config.js ./apps/web/
 
 # Instalar solo dependencias de producción (saltar scripts de prepare)
