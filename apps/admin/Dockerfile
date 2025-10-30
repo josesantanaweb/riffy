@@ -21,7 +21,6 @@ COPY packages/ ./packages/
 COPY apps/admin/package.json ./apps/admin/
 COPY apps/admin/tsconfig.json ./apps/admin/
 COPY apps/admin/next.config.js ./apps/admin/
-COPY apps/admin/tailwind.config.ts ./apps/admin/
 COPY apps/admin/postcss.config.js ./apps/admin/
 
 # Instalar dependencias
@@ -66,7 +65,6 @@ COPY packages/ ./packages/
 COPY apps/admin/package.json ./apps/admin/
 COPY apps/admin/tsconfig.json ./apps/admin/
 COPY apps/admin/next.config.js ./apps/admin/
-COPY apps/admin/tailwind.config.ts ./apps/admin/
 COPY apps/admin/postcss.config.js ./apps/admin/
 
 # Instalar solo dependencias de producción (saltar scripts de prepare)

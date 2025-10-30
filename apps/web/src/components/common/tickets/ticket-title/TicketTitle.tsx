@@ -7,7 +7,7 @@ interface TicketTitleProps {
 }
 
 const TicketTitle = ({ isRandomTickets }: TicketTitleProps): ReactElement => {
-  const title = isRandomTickets ? 'Numero de Tickets' : 'Lista de Tickets';
+  const title = isRandomTickets ? 'Número de Tickets' : 'Lista de Tickets';
   const subtitle = isRandomTickets ? 'Seleccione la cantidad de tickets' : 'Seleccione los números de la rifa';
 
   return (

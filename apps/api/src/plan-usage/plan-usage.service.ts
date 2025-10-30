@@ -293,7 +293,7 @@ export class PlanUsageService {
           planId: user.plan.id,
           currentRaffles: 0,
           currentTickets: 0,
-          status: PlanUsageStatus.ACTIVE, // Status inicial
+          status: PlanUsageStatus.ACTIVE,
         },
         include: {
           owner: true,
