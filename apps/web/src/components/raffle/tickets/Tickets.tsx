@@ -6,9 +6,9 @@ import { useTickets } from '@/hooks';
 import { selectRandomTickets } from '@/utils';
 import Pagination from './pagination';
 import Skeleton from './skeleton';
-import TicketGrid from './ticket-grid';
+import TicketGrid from '../../common/tickets/ticket-grid';
 import TicketsHeader from './ticket-header';
-import RandomControls from './random-controls';
+import RandomInput from '../../common/tickets/random-input';
 
 interface TicketsProps {
   tickets: Ticket[];
@@ -78,7 +78,7 @@ const Tickets = ({
       {!isRandomTickets && loading && <Skeleton />}
 
       {isRandomTickets && (
-        <RandomControls
+        <RandomInput
           ticketsQuantity={randomTicketsQuantity}
           setTicketsQuantity={setRandomTicketsQuantity}
           minTickets={minTickets}

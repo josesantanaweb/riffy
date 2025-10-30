@@ -11,12 +11,12 @@ import TotalBox from '@/components/common/raffle/raffle-total';
 import { useRaffle } from '@riffy/hooks';
 import { formatDate } from '@/utils';
 import { useStore } from '@/store';
+import { useIsIPhone } from '@/hooks';
+import { ROUTES } from '@/constants';
 import { RaffleStatus } from '@riffy/types';
 import RaffleBanner from '@/components/common/raffle/raffle-banner';
 import RaffleTitle from '@/components/common/raffle/raffle-title';
-import { ROUTES } from '@/constants';
-import { useIsIPhone } from '@/hooks';
-import TicketTitle from './tickets/ticket-title/TicketTitle';
+import TicketTitle from '@/components/common/tickets/ticket-title';
 
 const RafflePage = (): ReactElement => {
   const router = useRouter();

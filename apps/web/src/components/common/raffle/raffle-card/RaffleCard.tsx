@@ -1,13 +1,14 @@
 'use client';
 import React from 'react';
+import type { ReactElement } from 'react';
 import { useRouter } from 'next/navigation';
 import { Button, Icon } from '@riffy/components';
-import Alert from '@/components/common/raffle/raffle-alert';
-import RaffleProgress from '@/components/common/raffle/raffle-progress';
-import type { ReactElement } from 'react';
 import { Raffle, RaffleStatus } from '@riffy/types';
 import { formatDate } from '@/utils';
 import { ROUTES } from '@/constants/routes';
+
+import RaffleAlert from '@/components/common/raffle/raffle-alert';
+import RaffleProgress from '@/components/common/raffle/raffle-progress';
 import RaffleBanner from '@/components/common/raffle/raffle-banner';
 import RaffleTitle from '@/components/common/raffle/raffle-title';
 
@@ -36,7 +37,7 @@ const RaffleCard = ({ raffle, loading }: RaffleCardProps): ReactElement => {
         <RaffleTitle title={raffle.title} loading={loading} />
 
         {raffle.showDate && (
-          <Alert
+          <RaffleAlert
             message={!isCompleted ? formatDate(raffle.drawDate) : 'Completada'}
             icon="calendar"
             type={!isCompleted ? 'default' : 'success'}
