@@ -3,9 +3,10 @@ import React from 'react';
 import type { ReactElement } from 'react';
 import { useStore } from '@/store';
 import { useIsIPhone } from '@/hooks';
+
 import RaffleCard from '../common/raffle/raffle-card';
-import Skeleton from './skeleton';
 import RafflesEmpty from '../common/raffle/raffles-empty';
+import Skeleton from './Skeleton';
 
 const RafflesPage = (): ReactElement => {
   const { user, loading } = useStore();

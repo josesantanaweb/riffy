@@ -4,10 +4,10 @@ import type { ReactElement } from 'react';
 import { Ticket } from '@riffy/types';
 import { useTickets } from '@/hooks';
 import { selectRandomTickets } from '@/utils';
-import Pagination from './pagination';
 import Skeleton from './skeleton';
-import TicketGrid from '../../common/tickets/ticket-grid';
 import TicketsHeader from './ticket-header';
+import TicketPagination from '../../common/tickets/ticket-pagination';
+import TicketGrid from '../../common/tickets/ticket-grid';
 import RandomInput from '../../common/tickets/random-input';
 
 interface TicketsProps {
@@ -93,7 +93,7 @@ const Tickets = ({
             selectedTickets={selectedTickets}
             onTicketSelect={handleTicketSelect}
           />
-          <Pagination
+          <TicketPagination
             currentPage={currentPage}
             totalPages={totalPages}
             totalTickets={tickets?.length || 0}

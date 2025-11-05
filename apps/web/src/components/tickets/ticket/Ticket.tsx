@@ -2,10 +2,10 @@
 import React from 'react';
 import type { ReactElement } from 'react';
 import { Logo } from '@riffy/components';
-import { useStore } from '@/store';
-import { Ticket as ITicket, Raffle } from '@riffy/types';
-import { formatDate } from '@/utils';
 import Image from 'next/image';
+import { useStore } from '@/store';
+import { formatDate } from '@/utils';
+import { Ticket as ITicket, Raffle } from '@riffy/types';
 
 interface TicketProps {
   ticket: ITicket;
