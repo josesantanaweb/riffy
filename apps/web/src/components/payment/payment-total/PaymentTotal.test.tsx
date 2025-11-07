@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 
-import TotalBox from './RaffleTotal';
+import TotalBox from './PaymentTotal';
 
 describe('<TotalBox />', () => {
   const defaultProps = {

@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import type { ReactElement } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button, Icon } from '@riffy/components';
-import TotalBox from '@/components/common/raffle/raffle-total';
+import TotalBox from '@/components/payment/payment-total';
 import { ROUTES } from '@/constants';
 import { formatDate } from '@/utils';
 import { Payment } from '@riffy/types';

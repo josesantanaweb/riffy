@@ -7,7 +7,7 @@ import { Button } from '@riffy/components';
 import Alert from '@/components/common/raffle/raffle-alert';
 import Tickets from './tickets/Tickets';
 import RaffleProgress from '@/components/common/raffle/raffle-progress';
-import TotalBox from '@/components/common/raffle/raffle-total';
+import TotalBox from '@/components/payment/payment-total';
 import { useRaffle } from '@riffy/hooks';
 import { formatDate } from '@/utils';
 import { useStore } from '@/store';

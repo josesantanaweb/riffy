@@ -2,12 +2,12 @@
 import React from 'react';
 import type { ReactElement } from 'react';
 
-interface TotalProps {
+interface PaymentTotalProps {
   totalTickets: number;
   price: number | null;
 }
 
-const Total = ({ totalTickets, price }: TotalProps): ReactElement => {
+const PaymentTotal = ({ totalTickets, price }: PaymentTotalProps): ReactElement => {
   const total = totalTickets * (price || 0);
   return (
     <div className="flex flex-col gap-2">
@@ -31,4 +31,4 @@ const Total = ({ totalTickets, price }: TotalProps): ReactElement => {
   );
 };
 
-export default Total;
+export default PaymentTotal;
