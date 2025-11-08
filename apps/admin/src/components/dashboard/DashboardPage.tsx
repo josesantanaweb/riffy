@@ -10,7 +10,7 @@ import StateChart from './state-chart';
 import TopBuyers from './top-buyers';
 import LastPayments from './last-payments';
 import { useDashboardStats } from '@riffy/hooks';
-import { formatCurrency } from '@/utils';
+import { formatCurrency } from '@riffy/utils';
 
 const DashboardPage = () => {
   const router = useRouter();
@@ -63,9 +63,7 @@ const DashboardPage = () => {
               <h2 className="text-2xl font-medium text-primary-500">
                 {totalEarnings}
               </h2>
-              <p className="text-sm text-title">
-                Total de ventas
-              </p>
+              <p className="text-sm text-title">Total de ventas</p>
             </div>
             <span className="flex items-center justify-center bg-primary-500 rounded-full w-12 h-12">
               <Icon name="credit-card" className="text-white text-2xl" />
@@ -74,11 +72,9 @@ const DashboardPage = () => {
           <div className="flex items-center justify-between gap-4 bg-box-primary rounded-xl p-6">
             <div className="flex flex-col gap-2">
               <h2 className="text-2xl font-medium text-primary-500">
-                {formatCurrency(soldTickets,'VES')}
+                {formatCurrency(soldTickets, 'VES')}
               </h2>
-              <p className="text-sm text-title">
-                Boletos Vendidos
-              </p>
+              <p className="text-sm text-title">Boletos Vendidos</p>
             </div>
             <span className="flex items-center justify-center bg-primary-500 rounded-full w-12 h-12">
               <Icon name="ticket" className="text-white text-2xl" />
@@ -89,9 +85,7 @@ const DashboardPage = () => {
               <h2 className="text-2xl font-medium text-primary-500">
                 {totalRaffles}
               </h2>
-              <p className="text-sm text-title">
-                Rifas Creadas
-              </p>
+              <p className="text-sm text-title">Rifas Creadas</p>
             </div>
             <span className="flex items-center justify-center bg-primary-500 rounded-full w-12 h-12">
               <Icon name="gift" className="text-white text-2xl" />
@@ -102,9 +96,7 @@ const DashboardPage = () => {
               <h2 className="text-2xl font-medium text-primary-500">
                 {totalWinners}
               </h2>
-              <p className="text-sm text-title">
-                Total de ganadores
-              </p>
+              <p className="text-sm text-title">Total de ganadores</p>
             </div>
             <span className="flex items-center justify-center bg-primary-500 rounded-full w-12 h-12">
               <Icon name="user" className="text-white text-2xl" />

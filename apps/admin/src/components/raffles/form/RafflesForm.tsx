@@ -8,7 +8,7 @@ import { useForm, FormProvider } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { createRaffleSchema, type FormData } from '@/validations/raffleSchema';
 import { ROUTES } from '@/constants';
-import { uploadImageToS3 } from '@/utils/imageUpload';
+import { imageUpload } from '@riffy/utils';
 import { extractErrorMessage } from '@/utils';
 import FormImages from './form-image';
 import FormInformation from './form-information';
@@ -113,7 +113,7 @@ const RafflesForm = () => {
       if (bannerFile) {
         setIsUploadingImage(true);
         try {
-          finalBannerUrl = await uploadImageToS3(bannerFile, {
+          finalBannerUrl = await imageUpload(bannerFile, {
             folder: 'raffles',
           });
         } catch {

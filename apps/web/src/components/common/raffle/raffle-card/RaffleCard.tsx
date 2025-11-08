@@ -4,7 +4,7 @@ import type { ReactElement } from 'react';
 import { useRouter } from 'next/navigation';
 import { Button, Icon } from '@riffy/components';
 import { Raffle, RaffleStatus } from '@riffy/types';
-import { formatDate } from '@/utils';
+import { formatDate } from '@riffy/utils';
 import { ROUTES } from '@/constants/routes';
 
 import RaffleAlert from '@/components/common/raffle/raffle-alert';

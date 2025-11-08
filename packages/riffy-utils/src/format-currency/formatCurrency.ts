@@ -1,4 +1,4 @@
-export type Currency = 'USD' | 'VES';
+import { Currency } from '@riffy/types';
 
 export const formatCurrency = (
   value: number,

@@ -1,6 +1,6 @@
 'use client';
 import { TopBuyer } from '@riffy/types';
-import { formatCurrency } from '@/utils';
+import { formatCurrency } from '@riffy/utils';
 
 interface TopBuyersProps {
   topBuyers: TopBuyer[];

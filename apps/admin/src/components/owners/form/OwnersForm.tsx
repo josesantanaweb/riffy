@@ -8,7 +8,7 @@ import { useToast } from '@/hooks';
 import { useForm, FormProvider } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ownerSchema, type FormData } from '@/validations/ownerSchema';
-import { uploadImageToS3 } from '@/utils/imageUpload';
+import { imageUpload } from '@riffy/utils';
 import { ROUTES } from '@/constants';
 import FormInformation from './form-information';
 import FormImages from './form-image';
@@ -89,7 +89,7 @@ const OwnersForm = () => {
       if (logoFile) {
         setIsUploadingImage(true);
         try {
-          finalLogoUrl = await uploadImageToS3(logoFile, { folder: 'owners' });
+          finalLogoUrl = await imageUpload(logoFile, { folder: 'owners' });
         } catch {
           toast.error('Error subiendo el logo');
           setIsUploadingImage(false);

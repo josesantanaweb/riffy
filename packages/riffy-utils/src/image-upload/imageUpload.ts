@@ -10,7 +10,7 @@ interface S3UploadResponse {
   size: number;
 }
 
-export const uploadImageToS3 = async (
+export const imageUpload = async (
   file: File,
   options: UploadToS3Options = {},
 ): Promise<string> => {

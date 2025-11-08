@@ -34,12 +34,12 @@ jest.mock('../../../store', () => ({
   }),
 }));
 
-jest.mock('../../../utils', () => ({
+jest.mock('@riffy/utils', () => ({
   formatDate: (dateString?: string) => {
     if (!dateString) return 'Fecha no disponible';
     return new Date(dateString).toLocaleDateString('es-ES');
   },
-  ...jest.requireActual('../../../utils'),
+  ...jest.requireActual('@riffy/utils'),
 }));
 
 describe('<Ticket />', () => {

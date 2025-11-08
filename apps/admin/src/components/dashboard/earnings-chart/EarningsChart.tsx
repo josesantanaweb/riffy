@@ -12,7 +12,7 @@ import {
 } from 'recharts';
 import { Button } from '@riffy/components';
 import { COLORS } from './colors';
-import { formatCurrency } from '@/utils';
+import { formatCurrency } from '@riffy/utils';
 
 const monthlyData = [
   { period: 'Ene', amount: 450 },

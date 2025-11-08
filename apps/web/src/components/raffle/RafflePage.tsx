@@ -9,7 +9,7 @@ import Tickets from './tickets/Tickets';
 import RaffleProgress from '@/components/common/raffle/raffle-progress';
 import TotalBox from '@/components/payment/payment-total';
 import { useRaffle } from '@riffy/hooks';
-import { formatDate } from '@/utils';
+import { formatDate } from '@riffy/utils';
 import { useStore } from '@/store';
 import { useIsIPhone } from '@/hooks';
 import { ROUTES } from '@/constants';

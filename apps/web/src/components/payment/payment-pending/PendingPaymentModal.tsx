@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Button, Icon } from '@riffy/components';
 import TotalBox from '@/components/payment/payment-total';
 import { ROUTES } from '@/constants';
-import { formatDate } from '@/utils';
+import { formatDate } from '@riffy/utils';
 import { Payment } from '@riffy/types';
 import { useRouter } from 'next/navigation';
 import { useStore } from '@/store';

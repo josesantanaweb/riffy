@@ -4,7 +4,7 @@ import type { ReactElement } from 'react';
 import { Logo } from '@riffy/components';
 import Image from 'next/image';
 import { useStore } from '@/store';
-import { formatDate } from '@/utils';
+import { formatDate } from '@riffy/utils';
 import { Ticket as ITicket, Raffle } from '@riffy/types';
 
 interface TicketProps {

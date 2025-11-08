@@ -13,7 +13,7 @@ import {
 } from '@riffy/hooks';
 import { useToast } from '@/hooks';
 import { useStore } from '@/store';
-import { uploadImageToS3 } from '@/utils/imageUpload';
+import { imageUpload } from '@riffy/utils';
 import Alert from '@/components/common/raffle/raffle-alert';
 import Search from '@/components/common/search/Search';
 import PaymentMethod from '@/components/payment/payment-method';
@@ -142,7 +142,7 @@ const PaymentForm = (): ReactElement => {
       if (data.proofFile) {
         setIsUploadingImage(true);
         try {
-          finalProofUrl = await uploadImageToS3(data.proofFile, {
+          finalProofUrl = await imageUpload(data.proofFile, {
             folder: 'payments',
           });
         } catch {

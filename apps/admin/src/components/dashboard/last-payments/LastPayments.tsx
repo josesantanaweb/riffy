@@ -2,8 +2,8 @@
 import {
   mapPaymentStatusToStatusType,
   mapPaymentStatusToLabel,
-  formatCurrency,
 } from '@/utils';
+import { formatCurrency } from '@riffy/utils';
 import { Badge } from '@riffy/components';
 import { PaymentStatus } from '@riffy/types';
 import { Payment } from '@riffy/types';
