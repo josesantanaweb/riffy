@@ -1,5 +1,5 @@
 import { Icon } from '@riffy/components';
-import { cn } from '@/utils';
+import { cn } from '@riffy/utils';
 
 interface PaginationProps {
   currentPage: number;

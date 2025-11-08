@@ -3,7 +3,7 @@ import React from 'react';
 import { forwardRef } from 'react';
 import Icon, { type IconName } from '../icon';
 
-import { cn } from '../../utils/cn';
+import { cn } from '@riffy/utils';
 
 interface InputProps {
   id?: string;

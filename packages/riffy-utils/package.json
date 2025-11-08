@@ -15,7 +15,9 @@
   "dependencies": {
     "@formkit/tempo": "^0.1.2",
     "@types/node": "^24.10.0",
-    "react": "^19.1.0"
+    "react": "^19.1.0",
+    "clsx": "^2.1.1",
+    "tailwind-merge": "^2.5.5"
   },
   "devDependencies": {
     "@riffy/graphql": "workspace:*",

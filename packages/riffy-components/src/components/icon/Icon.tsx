@@ -1,7 +1,6 @@
 'use client';
-import React from 'react';
 import type { ReactElement } from 'react';
-import { cn } from '../../utils/cn';
+import { cn } from '@riffy/utils';
 
 export type IconName =
   | 'credit-card'

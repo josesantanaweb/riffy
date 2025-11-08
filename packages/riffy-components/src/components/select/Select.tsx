@@ -2,7 +2,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Icon } from '@riffy/components';
-import { cn } from '../../utils/cn';
+import { cn } from '@riffy/utils';
 
 interface Option {
   value: string;

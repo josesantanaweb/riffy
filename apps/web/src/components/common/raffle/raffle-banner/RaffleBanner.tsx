@@ -3,7 +3,7 @@ import React from 'react';
 import type { ReactElement } from 'react';
 import Image from 'next/image';
 
-import { cn } from '@/utils';
+import { cn } from '@riffy/utils';
 
 interface RaffleBannerProps {
   banner: string;
