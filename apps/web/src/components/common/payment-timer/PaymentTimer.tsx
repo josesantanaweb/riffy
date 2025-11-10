@@ -4,7 +4,6 @@ import type { ReactElement } from 'react';
 import { useRouter } from 'next/navigation';
 
 import {
-  formatTime,
   loadTimerFromStorage,
   saveTimerToStorage,
   removeTimerFromStorage,
@@ -12,6 +11,7 @@ import {
 } from '@/utils';
 import { ROUTES } from '@/constants';
 import { Icon } from '@riffy/components';
+import { formatTime } from '@riffy/utils';
 
 const PaymentTimer = (): ReactElement => {
   const router = useRouter();

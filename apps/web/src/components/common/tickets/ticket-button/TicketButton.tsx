@@ -1,4 +1,4 @@
-import { cn } from "@/utils";
+import { cn } from '@riffy/utils';
 import { Ticket } from "@riffy/types";
 
 const TicketButton = ({

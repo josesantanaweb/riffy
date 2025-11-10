@@ -1,14 +1,15 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 import type { ReactElement } from 'react';
+
 import { Ticket } from '@riffy/types';
 import { useTickets } from '@/hooks';
 import { selectRandomTickets } from '@/utils';
-import Pagination from './pagination';
-import Skeleton from './skeleton';
-import TicketGrid from '../../common/tickets/ticket-grid';
-import TicketsHeader from './ticket-header';
-import RandomInput from '../../common/tickets/random-input';
+import TicketPagination from '@/components/common/tickets/ticket-pagination';
+import TicketGrid from '@/components/common/tickets/ticket-grid';
+import TicketGridFilter from '@/components/common/tickets/ticket-grid-filter';
+import RandomInput from '@/components/common/tickets/random-input';
+import Skeleton from './Skeleton';
 
 interface TicketsProps {
   tickets: Ticket[];
@@ -68,7 +69,7 @@ const Tickets = ({
 
   return (
     <div className="flex flex-col gap-3 pb-12">
-      <TicketsHeader
+      <TicketGridFilter
         sortOrder={sortOrder}
         onSort={handleSort}
         isRandomTickets={isRandomTickets}
@@ -93,7 +94,7 @@ const Tickets = ({
             selectedTickets={selectedTickets}
             onTicketSelect={handleTicketSelect}
           />
-          <Pagination
+          <TicketPagination
             currentPage={currentPage}
             totalPages={totalPages}
             totalTickets={tickets?.length || 0}

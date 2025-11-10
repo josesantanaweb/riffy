@@ -5,7 +5,7 @@ import { Icon } from '@riffy/components';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { Notification, NotificationStatus } from '@riffy/types';
-import { formatRelativeTime } from '@/utils';
+import { formatRelativeTime } from '@riffy/utils';
 import { useUpdateNotification } from '@riffy/hooks';
 import { ROUTES } from '@/constants';
 

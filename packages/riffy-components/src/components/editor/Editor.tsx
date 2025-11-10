@@ -16,14 +16,14 @@ const Editor = ({ value, setValue, label }: EditorProps) => {
         theme="snow"
         value={value}
         onChange={setValue}
-        className="[&_.ql-stroke]:!stroke-base-300
+        className="[&_.ql-stroke]:!stroke-body-100
                 [&_.ql-editor]:!text-white
                 [&_.ql-toolbar.ql-snow]:!rounded-t-md
-                [&_.ql-toolbar.ql-snow]:!border-base-600
+                [&_.ql-toolbar.ql-snow]:!border-input-border
                 [&_.ql-container.ql-snow]:!rounded-b-md
                 [&_.ql-editor]:!h-28
                 [&_.ql-picker-label]:!text-body-100
-                [&_.ql-container.ql-snow]:!border-base-600"
+                [&_.ql-container.ql-snow]:!border-input-border"
       />
     </div>
   );

@@ -4,7 +4,7 @@ import type { ReactElement } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button, Icon } from '@riffy/components';
 import { Payment, PaymentStatus } from '@riffy/types';
-import { formatCurrency, formatDate } from '@/utils';
+import { formatCurrency, formatDate } from '@riffy/utils';
 import Image from 'next/image';
 
 interface PaymentDetailProps {

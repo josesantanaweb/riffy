@@ -2,10 +2,9 @@
 import React, { useState } from 'react';
 import type { ReactElement } from 'react';
 import { motion } from 'framer-motion';
-import Ticket from '../ticket';
 import { Ticket as ITicket } from '@riffy/types';
-// import { Icon } from '@riffy/components';
 import { Raffle } from '@riffy/types';
+import Ticket from '../ticket';
 
 interface TicketsProps {
   tickets: ITicket[];
