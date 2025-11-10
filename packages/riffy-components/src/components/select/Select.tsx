@@ -158,7 +158,7 @@ const Select: React.FC<SelectProps> = ({
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -10, scale: 0.95 }}
             transition={{ duration: 0.2, ease: 'easeOut' }}
-            className="absolute top-full left-0 right-0 mt-1 bg-base-700 border border-base-600 rounded-lg shadow-lg z-50 max-h-60 overflow-y-auto"
+            className="absolute top-full left-0 right-0 mt-1 bg-box-primary border border-input-border rounded-lg shadow-lg z-50 max-h-60 overflow-y-auto"
           >
             {options.length === 0 ? (
               <div className="px-3 py-2 text-body-100 text-sm">

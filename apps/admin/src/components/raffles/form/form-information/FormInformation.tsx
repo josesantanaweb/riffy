@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useFormContext } from 'react-hook-form';
 import { Icon, Input, Select, Editor, DateInput, Switch } from '@riffy/components';
@@ -22,6 +22,14 @@ const FormInformation = ({ isUpdating = false }: FormInformationProps) => {
 
   const { canCreateRaffle, data: planUsage } = usePlanUsage();
 
+  useEffect(() => {
+    if (planUsage?.plan?.maxTickets) {
+      setValue('totalTickets', String(planUsage.plan.maxTickets), {
+        shouldValidate: true,
+      });
+    }
+  }, [planUsage?.plan?.maxTickets, setValue]);
+
   const statusOptions = [
     { value: 'ACTIVE', label: 'Activo' },
     { value: 'PENDING', label: 'Pendiente' },
@@ -32,8 +40,6 @@ const FormInformation = ({ isUpdating = false }: FormInformationProps) => {
 
   const formValues = watch();
   const descriptionValue = formValues.description || '';
-
-  const isTicketsDisabled = isUpdating && formValues.status !== 'PENDING';
 
   const handleDescriptionChange = (value: string) => {
     setValue('description', value, { shouldValidate: true });
@@ -151,11 +157,10 @@ const FormInformation = ({ isUpdating = false }: FormInformationProps) => {
                     inputSize="md"
                     type="number"
                     value={formValues.totalTickets || ''}
-                    disabled={isTicketsDisabled}
+                    disabled={true}
                     {...register('totalTickets')}
                     error={errors.totalTickets?.message}
                   />
-
                 </div>
                 <div className="w-full lg:w-1/2">
                   <Select
