@@ -45,7 +45,7 @@ const LastPayments = ({ payments }: LastPaymentsProps) => {
             </p>
           </div>
           {payments.map(payment => (
-            <div className="items-center py-2 grid grid-cols-4 md:grid-cols-5">
+            <div className="items-center py-2 grid grid-cols-4 md:grid-cols-5" key={payment.id}>
               <p className="text-table-text text-sm flex items-center justify-center font-medium">
                 {payment.tickets && payment.tickets.length > 1
                   ? `${payment.tickets.length} tickets`

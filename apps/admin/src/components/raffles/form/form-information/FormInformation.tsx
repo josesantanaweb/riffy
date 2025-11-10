@@ -2,9 +2,8 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useFormContext } from 'react-hook-form';
-import { Icon, Input, Select, Editor, DateInput } from '@riffy/components';
+import { Icon, Input, Select, Editor, DateInput, Switch } from '@riffy/components';
 import type { FormData } from '@/validations/raffleSchema';
-import Switch from '@/components/common/switch';
 import { usePlanUsage } from '@riffy/hooks';
 
 interface FormInformationProps {

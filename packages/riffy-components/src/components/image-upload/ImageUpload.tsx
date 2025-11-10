@@ -77,8 +77,8 @@ const ImageUpload = ({
           relative block rounded-lg cursor-pointer transition-all overflow-hidden
           ${
             hasCustomImage
-              ? 'border-2 border-transparent hover:border-base-600'
-              : 'border-2 border-dashed border-base-500 hover:border-base-400'
+              ? 'border-2 border-transparent hover:border-input-border'
+              : 'border-2 border-dashed border-input-border hover:border-input-border'
           }
           ${disabled ? 'opacity-50 cursor-not-allowed' : ''}
         `}

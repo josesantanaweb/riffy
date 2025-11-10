@@ -34,7 +34,7 @@ const DateInput = ({ label, date, setDate }: DateInputProps) => {
       />
 
       {open && (
-        <div className="absolute z-50 mt-2 p-4 rounded-lg border border-base-600 bg-base-600 shadow-lg text-gray-300">
+        <div className="absolute z-50 mt-2 p-4 rounded-lg border border-input-border bg-box-primary shadow-lg text-gray-300">
           <DayPicker
             mode="single"
             selected={date}
@@ -45,16 +45,16 @@ const DateInput = ({ label, date, setDate }: DateInputProps) => {
             locale={es}
             disabled={{ before: new Date() }}
             classNames={{
-              chevron: 'fill-base-300',
-              month: 'text-base-200',
+              chevron: 'fill-body-100',
+              month: 'text-body-100',
               disabled: 'hover:bg-transparent hover:text-body-100',
 
               caption_label: 'text-lg font-medium text-white capitalize',
 
-              day: 'rounded-md hover:bg-base-500 text-body-100 hover:text-white',
+              day: 'rounded-md hover:bg-box-secondary text-body-100',
             }}
             modifiersClassNames={{
-              selected: 'bg-base-500 text-white',
+              selected: 'bg-box-secondary text-white',
               today: 'bg-primary-500 text-white',
             }}
           />
