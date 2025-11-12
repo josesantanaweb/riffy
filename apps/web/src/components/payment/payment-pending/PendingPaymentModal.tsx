@@ -4,12 +4,12 @@ import type { ReactElement } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button, Icon } from '@riffy/components';
 import TotalBox from '@/components/payment/payment-total';
+import { useIsIPhone } from '@riffy/hooks';
 import { ROUTES } from '@/constants';
 import { formatDate } from '@riffy/utils';
 import { Payment } from '@riffy/types';
 import { useRouter } from 'next/navigation';
 import { useStore } from '@/store';
-import { useIsIPhone } from '@/hooks';
 
 interface PendingPaymentProps {
   isOpen: boolean;

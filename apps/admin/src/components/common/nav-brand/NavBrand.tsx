@@ -1,9 +1,9 @@
 'use client';
 import React from 'react';
 import type { ReactElement } from 'react';
-import { clsx } from 'clsx';
+import { useBreakpoint } from '@riffy/hooks';
+import { cn } from '@riffy/utils';
 import { ASSETS } from '@/constants';
-import { useBreakpoint } from '@/hooks';
 import { useTheme } from '@riffy/hooks';
 import { Logo } from '@riffy/components';
 
@@ -20,13 +20,17 @@ const NavBrand = ({ collapseSidebar }: NavBrandProps): ReactElement => {
     ? 'max-w-[80px]'
     : 'max-w-[120px] lg:max-w-[230px]';
 
-  const baseLogo = theme === 'dark' ? ASSETS.IMAGES.LOGO : ASSETS.IMAGES.LOGO_BLACK;
+  const baseLogo =
+    theme === 'dark' ? ASSETS.IMAGES.LOGO : ASSETS.IMAGES.LOGO_BLACK;
   const logoSrc = shouldCollapse ? ASSETS.IMAGES.LOGO_SMALL : baseLogo;
-  const logoSmallSrc = theme === 'dark' ? ASSETS.IMAGES.LOGO_SMALL : ASSETS.IMAGES.LOGO_SMALL_BLACK;
+  const logoSmallSrc =
+    theme === 'dark'
+      ? ASSETS.IMAGES.LOGO_SMALL
+      : ASSETS.IMAGES.LOGO_SMALL_BLACK;
 
   return (
     <div
-      className={clsx(
+      className={cn(
         'w-full transition-all justify-center items-center h-[52px] hidden lg:flex bg-navbar-bg',
         collapseClass,
       )}

@@ -1,8 +1,8 @@
 'use client';
 import React from 'react';
 import type { ReactElement } from 'react';
+import { useIsIPhone } from '@riffy/hooks';
 import { useStore } from '@/store';
-import { useIsIPhone } from '@/hooks';
 
 import RaffleCard from '../common/raffle/raffle-card';
 import RafflesEmpty from '../common/raffle/raffles-empty';
