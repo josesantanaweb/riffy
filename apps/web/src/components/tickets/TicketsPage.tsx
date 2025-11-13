@@ -2,11 +2,11 @@
 import React, { useState, useEffect } from 'react';
 import type { ReactElement } from 'react';
 import { useParams } from 'next/navigation';
+import { useIsIPhone } from '@riffy/hooks';
 import PageHeader from '../common/page-header';
 import Search from '../common/search';
 import Tickets from './tickets/Tickets';
 import { useTicketsByNationalId } from '@riffy/hooks';
-import { useIsIPhone } from '@/hooks';
 
 const TicketsPage = (): ReactElement => {
   const isIPhone = useIsIPhone();

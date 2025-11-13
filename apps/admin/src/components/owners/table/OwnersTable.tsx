@@ -1,6 +1,7 @@
 'use client';
 import React from 'react';
 import { ColumnDef } from '@tanstack/react-table';
+import { useBreakpoint } from '@riffy/hooks';
 import { Badge, Icon } from '@riffy/components';
 import DataTable from '@/components/common/data-table';
 import { TableAction, TableButton } from '@/components/common/data-table/types';
@@ -12,7 +13,6 @@ import {
   mapPlanUsageStatusToStatusType,
   mapPlanUsageStatusToLabel,
 } from '@/utils';
-import { useBreakpoint } from '@/hooks';
 import TableSkeleton from '@/components/common/skeleton/TableSkeleton';
 import MediaDisplay from '@/components/common/media-display';
 import { User, UserStatus, PlanUsageStatus } from '@riffy/types';

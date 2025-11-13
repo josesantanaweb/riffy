@@ -1,6 +1,7 @@
 'use client';
 import React from 'react';
 import { ColumnDef } from '@tanstack/react-table';
+import { useBreakpoint } from '@riffy/hooks';
 import DataTable from '@/components/common/data-table';
 import { TableAction, TableButton } from '@/components/common/data-table/types';
 import {
@@ -14,7 +15,6 @@ import { Badge } from '@riffy/components';
 import MediaDisplay from '@/components/common/media-display';
 import TableSkeleton from '@/components/common/skeleton/TableSkeleton';
 import { Raffle, RaffleStatus } from '@riffy/types';
-import { useBreakpoint } from '@/hooks';
 
 interface RafflesTableProps {
   data: Raffle[];
