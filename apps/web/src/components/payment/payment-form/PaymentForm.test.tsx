@@ -66,9 +66,12 @@ jest.mock('../../../store', () => ({
 }));
 
 const mockUploadImageToS3 = jest.fn();
-jest.mock('../../../utils/imageUpload', () => ({
-  uploadImageToS3: (file: File, options: unknown) =>
+jest.mock('@riffy/utils', () => ({
+  imageUpload: (file: File, options: unknown) =>
     mockUploadImageToS3(file, options),
+  cn: jest.fn((...inputs: unknown[]) => {
+    return inputs.filter(Boolean).join(' ');
+  }),
 }));
 
 jest.mock('@riffy/components', () => ({
@@ -688,41 +691,6 @@ describe('<PaymentForm />', () => {
         expect(phoneInput).toHaveValue('04121234567');
       });
     });
-
-    // it('envía el formulario correctamente sin imagen', async () => {
-    //   const createdPayment: Payment = {
-    //     id: 'payment-1',
-    //     buyerName: 'Juan Pérez',
-    //     nationalId: '12345678',
-    //   } as Payment;
-
-    //   mockCreatePaymentFn.mockResolvedValue({
-    //     data: { createPayment: createdPayment },
-    //     errors: null,
-    //   });
-
-    //   const form = document.querySelector('form');
-    //   expect(form).toBeInTheDocument();
-
-    //   if (form) {
-    //     fireEvent.submit(form);
-    //   }
-
-    //   await waitFor(() => {
-    //     expect(mockCreatePaymentFn).toHaveBeenCalledWith({
-    //       buyerName: 'Juan Pérez',
-    //       phone: '04121234567',
-    //       nationalId: '12345678',
-    //       email: 'juan@example.com',
-    //       state: 'Distrito Capital',
-    //       paymentMethod: 'Pago Móvil',
-    //       proofUrl: '',
-    //       ticketIds: ['ticket-1', 'ticket-2'],
-    //       amount: 20,
-    //       raffleId: 'raffle-1',
-    //     });
-    //   });
-    // });
 
     it('sube la imagen antes de enviar el formulario', async () => {
       const createdPayment: Payment = {

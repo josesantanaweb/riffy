@@ -13,15 +13,18 @@ jest.mock('next/navigation', () => ({
   }),
 }));
 
-jest.mock('../../../utils/formatTime', () => ({
+jest.mock('@riffy/utils', () => ({
   formatTime: jest.fn((seconds: number) => {
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = seconds % 60;
     return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
   }),
+  cn: jest.fn((...inputs: unknown[]) => {
+    return inputs.filter(Boolean).join(' ');
+  }),
 }));
 
-jest.mock('../../../utils/timerStorage', () => ({
+jest.mock('../../../utils', () => ({
   loadTimerFromStorage: jest.fn(() => 300),
   saveTimerToStorage: jest.fn(),
   removeTimerFromStorage: jest.fn(),
