@@ -1,6 +1,7 @@
 'use client';
 import React from 'react';
 import { ColumnDef } from '@tanstack/react-table';
+import { useBreakpoint } from '@riffy/hooks';
 import { Badge, Icon } from '@riffy/components';
 import DataTable from '@/components/common/data-table';
 import { TableAction, TableButton } from '@/components/common/data-table/types';
@@ -14,7 +15,6 @@ import {
   mapPaymentStatusToLabel,
 } from '@/utils';
 import TableSkeleton from '@/components/common/skeleton/TableSkeleton';
-import { useBreakpoint } from '@/hooks';
 import { Payment, PaymentStatus, Ticket } from '@riffy/types';
 
 interface PaymentsTableProps {

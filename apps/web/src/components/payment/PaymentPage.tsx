@@ -1,9 +1,9 @@
 'use client';
 import React from 'react';
 import type { ReactElement } from 'react';
+import { useIsIPhone } from '@riffy/hooks';
 import PaymentForm from './payment-form';
 import PageHeader from '../common/page-header';
-import { useIsIPhone } from '@/hooks';
 
 const PaymentPage = (): ReactElement => {
   const isIPhone = useIsIPhone();
