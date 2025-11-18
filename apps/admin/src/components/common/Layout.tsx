@@ -4,6 +4,7 @@ import { useBreakpoint } from '@riffy/hooks';
 import Sidebar from '@/components/common/sidebar';
 import MobileSidebar from '@/components/common/sidebar/MobileSidebar';
 import Navbar from './navbar';
+import Footer from './footer'
 import { useStore } from '@/store';
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
@@ -24,6 +25,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         <div className={`min-h-screen h-full ${layoutClass}`}>
           <Navbar />
           <div className="min-h-full bg-admin-bg">{children}</div>
+          <Footer />
         </div>
       </main>
 
