@@ -5,5 +5,8 @@ export const ASSETS = {
     CUSTOMER: '/images/customer-logo.png',
     BANNER: '/images/banner-1.png',
     PREVIEW: '/images/preview.png',
+    CONALOT: '/images/conalot.png',
+    KINO: '/images/kino.png',
+    SUPER_GANA: '/images/super-gana.png',
   },
 };
