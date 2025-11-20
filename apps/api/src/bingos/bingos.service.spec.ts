@@ -1,9 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { NotFoundException } from '@nestjs/common';
-import { RafflesService } from './raffles.service';
+import { RafflesService } from './bingos.service';
 import { PrismaService } from '../prisma/prisma.service';
-import { CreateRaffleInput } from './inputs/create-raffle.input';
-import { UpdateRaffleInput } from './inputs/update-raffle.input';
+import { CreateRaffleInput } from './inputs/create-bingo.input';
+import { UpdateRaffleInput } from './inputs/update-bingo.input';
 
 interface MockPrismaService {
   raffle: {

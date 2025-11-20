@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common';
-import { RafflesService } from './raffles.service';
-import { RafflesResolver } from './raffles.resolver';
+import { BingosService } from './bingos.service';
+import { BingosResolver } from './bingos.resolver';
 import { PrismaModule } from '../prisma/prisma.module';
 import { PlanUsageModule } from '../plan-usage/plan-usage.module';
 
 @Module({
   imports: [PrismaModule, PlanUsageModule],
-  providers: [RafflesResolver, RafflesService],
+  providers: [BingosResolver, BingosService],
 })
-export class RafflesModule {}
+export class BingosModule {}

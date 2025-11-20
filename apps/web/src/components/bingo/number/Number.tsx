@@ -12,7 +12,7 @@ interface NumberProps {
 const Number = ({ number, onClick }: NumberProps): ReactElement => {
   const renderMark = () => (
     <div className="bg-primary-500 rounded-lg p-1 h-8 w-8 flex items-center justify-center">
-      <Icon name="check-circle" className="text-white" />
+      <Icon name="star" className="text-white" />
     </div>
   );
 

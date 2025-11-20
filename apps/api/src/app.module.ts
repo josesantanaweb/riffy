@@ -8,8 +8,8 @@ import { ConfigModule } from '@nestjs/config';
 import { PrismaModule } from 'src/prisma/prisma.module';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
-import { RafflesModule } from './raffles/raffles.module';
-import { TicketsModule } from './tickets/tickets.module';
+import { BingosModule } from './bingos/bingos.module';
+import { BoardsModule } from './boards/boards.module';
 import { PaymentsModule } from './payments/payments.module';
 import { PaymentMethodsModule } from './payment-methods/payment-methods.module';
 import { NotificationsModule } from './notifications/notifications.module';
@@ -21,8 +21,8 @@ import { S3Module } from './s3/s3.module';
 import { SeedsModule } from './seeds/seeds.module';
 import './enums/role.enum';
 import './enums/user-status.enum';
-import './enums/raffle-status.enum';
-import './enums/ticket-status.enum';
+import './enums/bingo-status.enum';
+import './enums/board-status.enum';
 import './enums/payment-status.enum';
 import './enums/payment-method-type.enum';
 import './enums/notification-status.enum';
@@ -40,12 +40,14 @@ import './enums/plan-usage-status.enum';
       introspection: true,
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
       plugins: [ApolloServerPluginLandingPageLocalDefault({ footer: false })],
-      context: ({ req }) => ({ req }),
+      context: ({ req }: { req: { headers: Record<string, string> } }) => ({
+        req: req.headers,
+      }),
     }),
     UsersModule,
     AuthModule,
-    RafflesModule,
-    TicketsModule,
+    BingosModule,
+    BoardsModule,
     PaymentsModule,
     PaymentMethodsModule,
     S3Module,

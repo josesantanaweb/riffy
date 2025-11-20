@@ -24,7 +24,7 @@ model User {
   whatsapp       String?
   domain         String          @unique
   paymentMethods PaymentMethod[]
-  raffles        Raffle[]
+  bingos         Bingo[]
   notification   Notification[]
   planId         String?
   plan           Plan?           @relation(fields: [planId], references: [id])
@@ -36,8 +36,8 @@ model Plan {
   name        String      @unique
   description String[]
   price       Float
-  maxRaffles  Int?        @default(0)
-  maxTickets  Int?        @default(0)
+  maxBingos   Int?        @default(0)
+  maxBoards   Int?        @default(0)
   type        PlanType
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
@@ -45,35 +45,36 @@ model Plan {
   planUsages  PlanUsage[]
 }
 
-model Raffle {
-  id           String       @id @default(cuid())
+model Bingo {
+  id           String   @id @default(cuid())
   title        String
-  description  String?
   banner       String
-  totalTickets Int          @default(100)
+  totalBoards  Int      @default(100)
   price        Float
-  drawDate     DateTime     @default(dbgenerated("(now() + '15 days'::interval)"))
-  showDate     Boolean?     @default(true)
-  showProgress Boolean?     @default(true)
-  minTickets   Int?         @default(2)
-  createdAt    DateTime     @default(now())
-  updatedAt    DateTime     @updatedAt
+  drawDate     DateTime @default(dbgenerated("(now() + '30 minutes'::interval)"))
+  showDate     Boolean? @default(true)
+  showProgress Boolean? @default(true)
+  minBoards    Int?     @default(2)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
   ownerId      String
   award        Float
-  status       RaffleStatus @default(ACTIVE)
-  owner        User         @relation(fields: [ownerId], references: [id], onDelete: Cascade)
-  tickets      Ticket[]
-  payments     Payment[]
+  drawnNumbers Int[]
+
+  status   BingoStatus @default(ACTIVE)
+  owner    User        @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  boards   Board[]
+  payments Payment[]
 }
 
-model Ticket {
-  id        String       @id @default(cuid())
+model Board {
+  id        String      @id @default(cuid())
   number    String
-  status    TicketStatus @default(AVAILABLE)
-  raffleId  String
+  status    BoardStatus @default(AVAILABLE)
+  bingoId   String
   paymentId String?
-  payment   Payment?     @relation(fields: [paymentId], references: [id], onDelete: SetNull)
-  raffle    Raffle       @relation(fields: [raffleId], references: [id], onDelete: Cascade)
+  payment   Payment?    @relation(fields: [paymentId], references: [id], onDelete: SetNull)
+  bingo     Bingo       @relation(fields: [bingoId], references: [id], onDelete: Cascade)
 }
 
 model Payment {
@@ -90,9 +91,9 @@ model Payment {
   paymentMethod String?
   nationalId    String?
   amount        Float?
-  raffleId      String?
-  raffle        Raffle?       @relation(fields: [raffleId], references: [id], onDelete: Cascade)
-  tickets       Ticket[]
+  bingoId       String?
+  bingo         Bingo?        @relation(fields: [bingoId], references: [id], onDelete: Cascade)
+  boards        Board[]
 }
 
 model PaymentMethod {
@@ -121,16 +122,16 @@ model Notification {
 }
 
 model PlanUsage {
-  id             String          @id @default(cuid())
-  ownerId        String          @unique
-  planId         String
-  currentRaffles Int             @default(0)
-  currentTickets Int             @default(0)
-  status         PlanUsageStatus @default(ACTIVE)
-  createdAt      DateTime        @default(now())
-  updatedAt      DateTime        @updatedAt
-  owner          User            @relation(fields: [ownerId], references: [id], onDelete: Cascade)
-  plan           Plan            @relation(fields: [planId], references: [id], onDelete: Cascade)
+  id            String          @id @default(cuid())
+  ownerId       String          @unique
+  planId        String
+  currentBingos Int             @default(0)
+  currentBoards Int             @default(0)
+  status        PlanUsageStatus @default(ACTIVE)
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+  owner         User            @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  plan          Plan            @relation(fields: [planId], references: [id], onDelete: Cascade)
 }
 
 enum PlanType {
@@ -150,13 +151,13 @@ enum PaymentStatus {
   DENIED
 }
 
-enum RaffleStatus {
+enum BingoStatus {
   ACTIVE
   PENDING
   COMPLETED
 }
 
-enum TicketStatus {
+enum BoardStatus {
   AVAILABLE
   SOLD
   PREMIUM

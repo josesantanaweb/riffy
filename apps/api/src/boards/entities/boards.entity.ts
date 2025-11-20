@@ -1,22 +1,22 @@
 import { ObjectType, Field, ID } from '@nestjs/graphql';
-import { TicketStatus } from '@prisma/client';
+import { BoardStatus } from '@prisma/client';
 import { Payment } from '../../payments/entities/payment.entity';
-import { Raffle } from '../../raffles/entities/raffle.entity';
+import { Bingo } from '../../bingos/entities/bingo.entity';
 
 @ObjectType()
-export class Ticket {
+export class Board {
   @Field(() => ID)
   id: string;
 
   @Field()
   number: string;
 
-  @Field({ nullable: true })
-  status?: TicketStatus;
+  @Field()
+  status: BoardStatus;
 
   @Field(() => Payment, { nullable: true })
   payment?: Payment;
 
-  @Field(() => Raffle, { nullable: true })
-  raffle?: Raffle;
+  @Field(() => Bingo, { nullable: true })
+  bingo?: Bingo;
 }

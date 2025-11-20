@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { Role, TicketStatus, PlanUsageStatus } from '@prisma/client';
+import { Role, PlanUsageStatus, BoardStatus } from '@prisma/client';
 import { User } from './entities/user.entity';
 import { CreateUserInput } from './inputs/create-user.input';
 import { UpdateUserInput } from './inputs/update-user.input';
@@ -65,14 +65,14 @@ export class UsersService {
         domain,
       },
       include: {
-        raffles: {
+        bingos: {
           where: {
             status: {
               not: 'PENDING',
             },
           },
           include: {
-            tickets: true,
+            boards: true,
           },
         },
         paymentMethods: true,
@@ -84,18 +84,18 @@ export class UsersService {
       throw new NotFoundException(`User with domain ${domain} not found`);
     }
 
-    const rafflesWithStats = user.raffles.map((raffle) => {
-      const totalTickets = raffle.tickets.length;
-      const sold = raffle.tickets.filter(
-        (t) => t.status === TicketStatus.SOLD,
+    const bingosWithStats = user.bingos.map((bingo) => {
+      const totalBoards = bingo.boards.length;
+      const sold = bingo.boards.filter(
+        (b) => b.status === BoardStatus.SOLD,
       ).length;
-      const available = raffle.tickets.filter(
-        (t) => t.status === TicketStatus.AVAILABLE,
+      const available = bingo.boards.filter(
+        (b) => b.status === BoardStatus.AVAILABLE,
       ).length;
-      const progress = totalTickets > 0 ? (sold / totalTickets) * 100 : 0;
+      const progress = totalBoards > 0 ? (sold / totalBoards) * 100 : 0;
 
       return {
-        ...raffle,
+        ...bingo,
         sold,
         available,
         progress: Number(progress.toFixed(2)),
@@ -104,7 +104,7 @@ export class UsersService {
 
     return {
       ...user,
-      raffles: rafflesWithStats,
+      bingos: bingosWithStats,
     };
   }
 
@@ -156,8 +156,8 @@ export class UsersService {
           data: {
             ownerId: newUser.id,
             planId: finalPlanId,
-            currentRaffles: 0,
-            currentTickets: 0,
+            currentBingos: 0,
+            currentBoards: 0,
             status: PlanUsageStatus.ACTIVE,
           },
         });
@@ -209,8 +209,8 @@ export class UsersService {
             data: {
               ownerId: id,
               planId: userData.planId,
-              currentRaffles: 0,
-              currentTickets: 0,
+              currentBingos: 0,
+              currentBoards: 0,
               status: PlanUsageStatus.ACTIVE,
             },
           });

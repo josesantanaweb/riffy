@@ -1,13 +1,37 @@
 'use client';
-import React from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import type { ReactElement } from 'react';
 import { useIsIPhone } from '@riffy/hooks';
 import PageHeader from '../common/page-header';
-import Ball from './ball';
 import Card from './card';
+import Balls from './balls';
+import { getLetter } from '../utils';
 
 const BingoPage = (): ReactElement => {
   const isIPhone = useIsIPhone();
+  const [lastBallId, setLastBallId] = useState<number | null>(null);
+  const [balls, setBalls] = useState<
+    { number: number; id: number; letter: string }[]
+  >([]);
+
+  const addBall = useCallback(() => {
+    const newNumber = Math.floor(Math.random() * 75) + 1;
+    const newBall = {
+      number: newNumber,
+      id: Math.floor(Math.random() * 1000000),
+      letter: getLetter(newNumber),
+    };
+    setBalls(prev => [...prev, newBall]);
+    setLastBallId(newBall.id);
+  }, []);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      addBall();
+    }, 4000);
+
+    return () => clearInterval(interval);
+  }, [addBall]);
 
   return (
     <div
@@ -33,13 +57,29 @@ const BingoPage = (): ReactElement => {
         </div>
       </div>
       <div className="flex items-center w-full gap-2">
-        <Ball letter="O" number="72" />
-        <Ball letter="B" number="2  " />
-        <Ball letter="I" number="18" />
+        <Balls balls={balls} lastBallId={lastBallId} />
       </div>
       <div className="grid grid-cols-2 gap-3">
-        <Card numbers={[[1, 2, 3, 4, 5], [6, 7, 8, 9, 10], [11, 12, -1, 14, 15], [16, 17, 18, 19, 20], [21, 22, 23, 24, 25]]} handleBingo={() => {}} />
-        <Card numbers={[[1, 2, 3, 4, 5], [6, 7, 8, 9, 10], [11, 12, -1, 14, 15], [16, 17, 18, 19, 20], [21, 22, 23, 24, 25]]} handleBingo={() => {}} />
+        <Card
+          numbers={[
+            [1, 2, 3, 4, 5],
+            [6, 7, 8, 9, 10],
+            [11, 12, -1, 14, 15],
+            [16, 17, 18, 19, 20],
+            [21, 22, 23, 24, 25],
+          ]}
+          handleBingo={() => {}}
+        />
+        <Card
+          numbers={[
+            [1, 2, 3, 4, 5],
+            [6, 7, 8, 9, 10],
+            [11, 12, -1, 14, 15],
+            [16, 17, 18, 19, 20],
+            [21, 22, 23, 24, 25],
+          ]}
+          handleBingo={() => {}}
+        />
       </div>
     </div>
   );

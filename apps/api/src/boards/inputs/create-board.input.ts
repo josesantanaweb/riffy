@@ -1,18 +1,18 @@
 import { IsOptional, IsString } from 'class-validator';
 import { InputType, Field } from '@nestjs/graphql';
-import { TicketStatus } from '@prisma/client';
+import { BoardStatus } from '@prisma/client';
 
 @InputType()
-export class CreateTicketInput {
+export class CreateBoardInput {
   @IsString()
   @Field(() => String)
   number: string;
 
   @IsString()
   @Field(() => String)
-  raffleId: string;
+  bingoId: string;
 
   @IsOptional()
-  @Field(() => TicketStatus, { nullable: true })
-  status?: TicketStatus;
+  @Field(() => BoardStatus, { nullable: true })
+  status?: BoardStatus;
 }

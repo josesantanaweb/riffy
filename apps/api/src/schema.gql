@@ -34,8 +34,8 @@ type Payment {
   proofUrl: String!
   paymentMethod: String!
   status: PaymentStatus
-  tickets: [Ticket!]
-  raffle: Raffle
+  boards: [Board!]
+  bingo: Bingo
 }
 
 """The status of the payment"""
@@ -45,33 +45,33 @@ enum PaymentStatus {
   DENIED
 }
 
-type Ticket {
+type Board {
   id: ID!
   number: String!
-  status: String
+  status: String!
   payment: Payment
-  raffle: Raffle
+  bingo: Bingo
 }
 
-type Raffle {
+type Bingo {
   id: ID!
   title: String!
-  description: String
   banner: String!
-  totalTickets: Float!
+  totalBoards: Int!
   price: Float!
   award: Float!
+  drawnNumbers: [Int!]!
   status: String!
   showDate: Boolean
   showProgress: Boolean
-  minTickets: Float
-  available: Float
-  sold: Float
+  minBoards: Int
+  available: Int
+  sold: Int
   progress: Float
-  drawDate: DateTime
-  createdAt: DateTime
-  updatedAt: DateTime
-  tickets: [Ticket!]
+  drawDate: DateTime!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  boards: [Board!]
   owner: User
   ownerId: String!
 }
@@ -81,8 +81,8 @@ type Plan {
   name: String!
   description: [String!]!
   price: Float!
-  maxRaffles: Float
-  maxTickets: Float
+  maxBingos: Float
+  maxBoards: Float
   type: PlanType!
   createdAt: DateTime
   updatedAt: DateTime
@@ -97,8 +97,8 @@ enum PlanType {
 
 type PlanUsage {
   id: ID!
-  currentRaffles: Float!
-  currentTickets: Float
+  currentBingos: Float!
+  currentBoards: Float
   createdAt: DateTime
   updatedAt: DateTime
   ownerId: String!
@@ -130,7 +130,7 @@ type User {
   status: UserStatus
   createdAt: DateTime
   updatedAt: DateTime
-  raffles: [Raffle!]
+  bingos: [Bingo!]
   paymentMethods: [PaymentMethod!]
   plan: Plan
   planUsage: PlanUsage
@@ -166,7 +166,7 @@ type Notification {
 type TopBuyer {
   buyerName: String!
   nationalId: String
-  totalTickets: Int!
+  totalBoards: Int!
   totalSpent: Float!
 }
 
@@ -176,9 +176,9 @@ type PaymentsByState {
 }
 
 type DashboardStats {
-  totalRaffles: Int!
-  soldTickets: Int!
-  unsoldTickets: Int!
+  totalBingos: Int!
+  soldBoards: Int!
+  unsoldBoards: Int!
   totalWinners: Int!
   totalEarnings: Float!
   topBuyers: [TopBuyer!]!
@@ -200,13 +200,13 @@ type Query {
   userByDomain(domain: String!): User!
   profile: User!
   myPlanUsage: PlanUsage
-  raffles: [Raffle!]!
-  raffle(id: String!): Raffle!
-  tickets: [Ticket!]!
-  ticketsByRaffle(raffleId: String!): [Ticket!]!
-  ticketsByNationalId(nationalId: String!, raffleId: String!): [Ticket!]!
-  ticket(id: String!): Ticket!
-  payments(raffleId: String): [Payment!]!
+  bingos: [Bingo!]!
+  bingo(id: String!): Bingo!
+  boards: [Board!]!
+  boardsByBingo(bingoId: String!): [Board!]!
+  boardsByNationalId(nationalId: String!, bingoId: String!): [Board!]!
+  board(id: String!): Board!
+  payments(bingoId: String): [Payment!]!
   payment(id: String!): Payment!
   paymentByNationalId(nationalId: String!): Payment!
   paymentMethods: [PaymentMethod!]!
@@ -226,13 +226,13 @@ type Mutation {
   resetPlanUsage(id: String!): PlanUsage!
   register(input: CreateUserInput!): AuthResponse!
   login(input: LoginInput!): AuthResponse!
-  createRaffle(input: CreateRaffleInput!): Raffle!
-  updateRaffle(id: String!, input: UpdateRaffleInput!): Raffle!
-  deleteRaffle(id: String!): Raffle!
-  createTicket(input: CreateTicketInput!): Ticket!
-  updateTicket(id: String!, input: UpdateTicketInput!): Ticket!
-  updateTicketStatus(id: String!, status: TicketStatus!): Ticket!
-  deleteTicket(id: String!): Ticket!
+  createBingo(input: CreateBingoInput!): Bingo!
+  updateBingo(id: String!, input: UpdateBingoInput!): Bingo!
+  deleteBingo(id: String!): Bingo!
+  createBoard(input: CreateBoardInput!): Board!
+  updateBoard(id: String!, input: UpdateBoardInput!): Board!
+  updateBoardStatus(id: String!, status: BoardStatus!): Board!
+  deleteBoard(id: String!): Board!
   createPayment(input: CreatePaymentInput!): Payment!
   updatePayment(id: String!, input: UpdatePaymentInput!): Payment!
   updatePaymentStatus(id: String!, status: PaymentStatus!): Payment!
@@ -285,49 +285,47 @@ input LoginInput {
   password: String!
 }
 
-input CreateRaffleInput {
+input CreateBingoInput {
   title: String!
-  description: String
   banner: String!
-  totalTickets: Int!
+  totalBoards: Int!
   price: Int!
+  award: Int!
   showDate: Boolean
   showProgress: Boolean
-  minTickets: Int
-  award: Int!
-  status: RaffleStatus
+  minBoards: Int
+  status: BingoStatus
   drawDate: DateTime!
 }
 
-"""The status of the raffle"""
-enum RaffleStatus {
+"""The status of the bingo"""
+enum BingoStatus {
   ACTIVE
   PENDING
   COMPLETED
 }
 
-input UpdateRaffleInput {
+input UpdateBingoInput {
   title: String
-  description: String
   banner: String
-  totalTickets: Int
+  totalBoards: Int
   price: Int
+  award: Int
   showDate: Boolean
   showProgress: Boolean
-  minTickets: Int
-  award: Int
-  status: RaffleStatus
+  minBoards: Int
+  status: BingoStatus
   drawDate: DateTime
 }
 
-input CreateTicketInput {
+input CreateBoardInput {
   number: String!
-  raffleId: String!
-  status: TicketStatus
+  bingoId: String!
+  status: BoardStatus
 }
 
-"""The status of the ticket"""
-enum TicketStatus {
+"""The status of the board"""
+enum BoardStatus {
   AVAILABLE
   SOLD
   PREMIUM
@@ -335,10 +333,10 @@ enum TicketStatus {
   LOSER
 }
 
-input UpdateTicketInput {
+input UpdateBoardInput {
   number: String
-  raffleId: String
-  status: TicketStatus
+  bingoId: String
+  status: BoardStatus
 }
 
 input CreatePaymentInput {
@@ -350,8 +348,8 @@ input CreatePaymentInput {
   state: String
   proofUrl: String!
   paymentMethod: String!
-  ticketIds: [String!]!
-  raffleId: String!
+  boardIds: [String!]!
+  bingoId: String!
   status: PaymentStatus
 }
 
@@ -364,8 +362,8 @@ input UpdatePaymentInput {
   state: String
   proofUrl: String
   paymentMethod: String
-  ticketIds: [String!]
-  raffleId: String
+  boardIds: [String!]
+  bingoId: String
   status: PaymentStatus
 }
 
@@ -407,8 +405,8 @@ input CreatePlanInput {
   name: String!
   description: [String!]!
   price: Float!
-  maxRaffles: Float
-  maxTickets: Float
+  maxBingos: Float
+  maxBoards: Float
   type: PlanType!
 }
 
@@ -416,7 +414,7 @@ input UpdatePlanInput {
   name: String
   description: [String!]
   price: Float
-  maxRaffles: Float
-  maxTickets: Float
+  maxBingos: Float
+  maxBoards: Float
   type: PlanType
 }

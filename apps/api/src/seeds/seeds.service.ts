@@ -2,12 +2,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { loadJson } from '../utils/loadJson';
 import { hash } from 'argon2';
-import {
-  Role,
-  PaymentMethodType,
-  RaffleStatus,
-  PlanType,
-} from '@prisma/client';
+import { Role, PaymentMethodType, PlanType, BingoStatus } from '@prisma/client';
 
 interface UserSeedData {
   name: string;
@@ -32,26 +27,25 @@ interface PaymentMethodSeedData {
   paypalEmail?: string;
 }
 
-interface RaffleSeedData {
+interface BingoSeedData {
   title: string;
-  description?: string;
   banner: string;
-  totalTickets: number;
+  totalBoards: number;
   price: number;
   award: number;
   drawDate: string;
-  status: RaffleStatus;
+  status: BingoStatus;
   showDate?: boolean;
   showProgress?: boolean;
-  minTickets?: number;
+  minBoards?: number;
 }
 
 interface PlanSeedData {
   name: string;
   description: string[];
   price: number;
-  maxRaffles: number;
-  maxTickets: number;
+  maxBingos: number;
+  maxBoards: number;
   type: PlanType;
 }
 
@@ -82,7 +76,7 @@ export class SeedsService {
     try {
       await this.seedUsers();
       await this.seedPaymentMethods();
-      await this.seedRaffles();
+      await this.seedBingos();
       await this.seedPlans();
     } catch (error) {
       this.logger.error('Error durante el seeding:', error);
@@ -93,9 +87,9 @@ export class SeedsService {
   }
 
   private async deleteDatabase(): Promise<void> {
-    await this.prisma.ticket.deleteMany({});
+    await this.prisma.board.deleteMany({});
     await this.prisma.plan.deleteMany({});
-    await this.prisma.raffle.deleteMany({});
+    await this.prisma.bingo.deleteMany({});
     await this.prisma.paymentMethod.deleteMany({});
     await this.prisma.user.deleteMany({});
   }
@@ -150,40 +144,42 @@ export class SeedsService {
     }
   }
 
-  async seedRaffles(): Promise<void> {
+  async seedBingos(): Promise<void> {
     const demoUser = await this.prisma.user.findUnique({
       where: { domain: 'riffy.website.com' },
     });
 
     if (!demoUser) {
-      this.logger.error('Usuario riffy.website.com no encontrado para crear rifas');
+      this.logger.error(
+        'Usuario riffy.website.com no encontrado para crear bingos',
+      );
       return;
     }
 
-    const raffles = loadJson<RaffleSeedData[]>('raffles.json');
+    const bingos = loadJson<BingoSeedData[]>('bingos.json');
 
-    for (const raffle of raffles) {
-      const raffleData = {
-        ...raffle,
+    for (const bingo of bingos) {
+      const bingoData = {
+        ...bingo,
         ownerId: demoUser.id,
-        status: raffle.status,
-        drawDate: new Date(raffle.drawDate),
+        status: bingo.status,
+        drawDate: new Date(bingo.drawDate),
       };
 
       try {
-        const createdRaffle = await this.prisma.raffle.create({
-          data: raffleData,
+        const createdBingo = await this.prisma.bingo.create({
+          data: bingoData,
         });
 
-        const totalTicketsNumber = raffle.totalTickets;
-        const maxLength = totalTicketsNumber.toString().length;
+        const totalBoardsNumber = bingo.totalBoards;
+        const maxLength = totalBoardsNumber.toString().length;
 
-        const tickets = Array.from({ length: totalTicketsNumber }, (_, i) => ({
+        const boards = Array.from({ length: totalBoardsNumber }, (_, i) => ({
           number: `${i + 1}`.padStart(maxLength, '0'),
-          raffleId: createdRaffle.id,
+          bingoId: createdBingo.id,
         }));
 
-        await this.prisma.ticket.createMany({ data: tickets });
+        await this.prisma.board.createMany({ data: boards });
       } catch {
         //
       }

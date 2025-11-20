@@ -19,7 +19,7 @@ export class PaymentsResolver {
    * Obtiene todos los payments registrados.
    * Roles requeridos: ADMIN, OWNER
    * @param user Usuario autenticado
-   * @param raffleId Filtro opcional por raffleId
+   * @param bingoId Filtro opcional por bingoId
    * Retorna: Un array de objetos Payment
    */
   @Roles(Role.ADMIN, Role.OWNER)
@@ -28,10 +28,10 @@ export class PaymentsResolver {
   @Query(() => [Payment], { name: 'payments' })
   getAll(
     @CurrentUser() user: User,
-    @Args('raffleId', { type: () => String, nullable: true })
-    raffleId?: string,
+    @Args('bingoId', { type: () => String, nullable: true })
+    bingoId?: string,
   ): Promise<Payment[]> {
-    return this.paymentsService.findAll(user, raffleId);
+    return this.paymentsService.findAll(user, bingoId);
   }
 
   /**

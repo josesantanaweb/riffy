@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/unbound-method */
 import { Test, TestingModule } from '@nestjs/testing';
-import { RafflesResolver } from './raffles.resolver';
-import { RafflesService } from './raffles.service';
-import { CreateRaffleInput } from './inputs/create-raffle.input';
-import { UpdateRaffleInput } from './inputs/update-raffle.input';
+import { RafflesResolver } from './bingos.resolver';
+import { RafflesService } from './bingos.service';
+import { CreateRaffleInput } from './inputs/create-bingo.input';
+import { UpdateRaffleInput } from './inputs/update-bingo.input';
 
 describe('RafflesResolver', () => {
   let resolver: RafflesResolver;

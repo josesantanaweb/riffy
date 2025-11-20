@@ -44,8 +44,8 @@ export class PlanUsageService {
       data: {
         ownerId: data.ownerId,
         planId: data.planId,
-        currentRaffles: data.currentRaffles,
-        currentTickets: data.currentTickets || 0,
+        currentBingos: data.currentBingos,
+        currentBoards: data.currentBoards || 0,
         status: PlanUsageStatus.ACTIVE, // Status inicial siempre ACTIVE
       },
       include: {
@@ -85,12 +85,12 @@ export class PlanUsageService {
   }
 
   /**
-   * Valida si un usuario puede crear una nueva rifa según los límites de su plan.
+   * Valida si un usuario puede crear un nuevo bingo según los límites de su plan.
    * Crea automáticamente un registro de uso si no existe.
    * @param userId ID del usuario a validar
    * @returns Objeto con resultado de validación y mensaje opcional
    */
-  async canCreateRaffle(
+  async canCreateBingo(
     userId: string,
   ): Promise<{ canCreate: boolean; message?: string }> {
     const usage = await this.findByUserId(userId);
@@ -111,21 +111,21 @@ export class PlanUsageService {
       await this.create({
         ownerId: userId,
         planId: user.plan.id,
-        currentRaffles: 0,
-        currentTickets: 0,
+        currentBingos: 0,
+        currentBoards: 0,
       });
 
       return { canCreate: true };
     }
 
-    if (usage.plan.maxRaffles === null || usage.plan.maxRaffles === 0) {
+    if (usage.plan.maxBingos === null || usage.plan.maxBingos === 0) {
       return { canCreate: true };
     }
 
-    if (usage.currentRaffles >= usage.plan.maxRaffles) {
+    if (usage.currentBingos >= usage.plan.maxBingos) {
       return {
         canCreate: false,
-        message: `Has alcanzado el límite de ${usage.plan.maxRaffles} rifas de tu plan ${usage.plan.name}. Actualiza tu plan para crear más rifas.`,
+        message: `Has alcanzado el límite de ${usage.plan.maxBingos} bingos de tu plan ${usage.plan.name}. Actualiza tu plan para crear más bingos.`,
       };
     }
 
@@ -133,14 +133,14 @@ export class PlanUsageService {
   }
 
   /**
-   * Valida si un usuario puede crear la cantidad solicitada de tickets según los límites de su plan.
+   * Valida si un usuario puede crear la cantidad solicitada de boards según los límites de su plan.
    * @param userId ID del usuario a validar
-   * @param requestedTickets Cantidad de tickets que se desea crear
+   * @param requestedBoards Cantidad de boards que se desea crear
    * @returns Objeto con resultado de validación y mensaje opcional
    */
-  async canCreateTickets(
+  async canCreateBoards(
     userId: string,
-    requestedTickets: number,
+    requestedBoards: number,
   ): Promise<{ canCreate: boolean; message?: string }> {
     const usage = await this.findByUserId(userId);
 
@@ -151,16 +151,16 @@ export class PlanUsageService {
       };
     }
 
-    if (usage.plan.maxTickets === null || usage.plan.maxTickets === 0) {
+    if (usage.plan.maxBoards === null || usage.plan.maxBoards === 0) {
       return { canCreate: true };
     }
 
-    const newTotal = usage.currentTickets + requestedTickets;
-    if (newTotal > usage.plan.maxTickets) {
-      const available = usage.plan.maxTickets - usage.currentTickets;
+    const newTotal = usage.currentBoards + requestedBoards;
+    if (newTotal > usage.plan.maxBoards) {
+      const available = usage.plan.maxBoards - usage.currentBoards;
       return {
         canCreate: false,
-        message: `Solo puedes crear ${available} tickets más con tu plan actual. Has usado ${usage.currentTickets}/${usage.plan.maxTickets} tickets.`,
+        message: `Solo puedes crear ${available} boards más con tu plan actual. Has usado ${usage.currentBoards}/${usage.plan.maxBoards} boards.`,
       };
     }
 
@@ -168,14 +168,14 @@ export class PlanUsageService {
   }
 
   /**
-   * Incrementa el contador de rifas creadas por el usuario y actualiza el status.
+   * Incrementa el contador de bingos creados por el usuario y actualiza el status.
    * @param userId ID del usuario
    */
-  async incrementRaffles(userId: string): Promise<void> {
+  async incrementBingos(userId: string): Promise<void> {
     await this.prisma.planUsage.update({
       where: { ownerId: userId },
       data: {
-        currentRaffles: {
+        currentBingos: {
           increment: 1,
         },
       },
@@ -184,15 +184,15 @@ export class PlanUsageService {
   }
 
   /**
-   * Incrementa el contador de tickets creados por el usuario y actualiza el status.
+   * Incrementa el contador de boards creados por el usuario y actualiza el status.
    * @param userId ID del usuario
-   * @param amount Cantidad de tickets a incrementar
+   * @param amount Cantidad de boards a incrementar
    */
-  async incrementTickets(userId: string, amount: number): Promise<void> {
+  async incrementBoards(userId: string, amount: number): Promise<void> {
     await this.prisma.planUsage.update({
       where: { ownerId: userId },
       data: {
-        currentTickets: {
+        currentBoards: {
           increment: amount,
         },
       },
@@ -202,39 +202,39 @@ export class PlanUsageService {
   }
 
   /**
-   * Valida límites de rifas e incrementa el contador automáticamente.
-   * Método combinado para usar en servicios que crean rifas.
+   * Valida límites de bingos e incrementa el contador automáticamente.
+   * Método combinado para usar en servicios que crean bingos.
    * @param userId ID del usuario
-   * @throws BadRequestException si el usuario ha alcanzado el límite de rifas
+   * @throws BadRequestException si el usuario ha alcanzado el límite de bingos
    */
-  async validateAndIncrementRaffles(userId: string): Promise<void> {
-    const validation = await this.canCreateRaffle(userId);
+  async validateAndIncrementBingos(userId: string): Promise<void> {
+    const validation = await this.canCreateBingo(userId);
 
     if (!validation.canCreate) {
       throw new BadRequestException(validation.message);
     }
 
-    await this.incrementRaffles(userId);
+    await this.incrementBingos(userId);
   }
 
   /**
-   * Valida límites de tickets e incrementa el contador automáticamente.
-   * Método combinado para usar en servicios que crean tickets.
+   * Valida límites de boards e incrementa el contador automáticamente.
+   * Método combinado para usar en servicios que crean boards.
    * @param userId ID del usuario
-   * @param amount Cantidad de tickets a crear
-   * @throws BadRequestException si el usuario excedería el límite de tickets
+   * @param amount Cantidad de boards a crear
+   * @throws BadRequestException si el usuario excedería el límite de boards
    */
-  async validateAndIncrementTickets(
+  async validateAndIncrementBoards(
     userId: string,
     amount: number,
   ): Promise<void> {
-    const validation = await this.canCreateTickets(userId, amount);
+    const validation = await this.canCreateBoards(userId, amount);
 
     if (!validation.canCreate) {
       throw new BadRequestException(validation.message);
     }
 
-    await this.incrementTickets(userId, amount);
+    await this.incrementBoards(userId, amount);
   }
 
   /**
@@ -254,8 +254,8 @@ export class PlanUsageService {
       const updatedUsage = await this.prisma.planUsage.update({
         where: { ownerId: userId },
         data: {
-          currentRaffles: 0,
-          currentTickets: 0,
+          currentBingos: 0,
+          currentBoards: 0,
           status: PlanUsageStatus.ACTIVE,
         },
         include: {
@@ -291,8 +291,8 @@ export class PlanUsageService {
         data: {
           ownerId: userId,
           planId: user.plan.id,
-          currentRaffles: 0,
-          currentTickets: 0,
+          currentBingos: 0,
+          currentBoards: 0,
           status: PlanUsageStatus.ACTIVE,
         },
         include: {
@@ -333,21 +333,21 @@ export class PlanUsageService {
    * @returns PlanUsageStatus calculado
    */
   private calculatePlanUsageStatus(planUsage: PlanUsage): PlanUsageStatus {
-    const { plan, currentRaffles, currentTickets } = planUsage;
+    const { plan, currentBingos, currentBoards } = planUsage;
 
     if (
       plan?.type === 'PREMIUM' ||
-      (plan?.maxRaffles === null && plan?.maxTickets === null)
+      (plan?.maxBingos === null && plan?.maxBoards === null)
     ) {
       return PlanUsageStatus.UNLIMITED;
     }
 
-    const isRafflesExhausted =
-      plan?.maxRaffles && currentRaffles >= plan.maxRaffles;
-    const isTicketsExhausted =
-      plan?.maxTickets && currentTickets >= plan.maxTickets;
+    const isBingosExhausted =
+      plan?.maxBingos && currentBingos >= plan.maxBingos;
+    const isBoardsExhausted =
+      plan?.maxBoards && currentBoards >= plan.maxBoards;
 
-    if (isRafflesExhausted || isTicketsExhausted) {
+    if (isBingosExhausted || isBoardsExhausted) {
       return PlanUsageStatus.EXHAUSTED;
     }
 
