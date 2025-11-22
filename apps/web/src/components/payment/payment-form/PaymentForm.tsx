@@ -14,7 +14,7 @@ import {
 import { useToast } from '@/hooks';
 import { useStore } from '@/store';
 import { imageUpload } from '@riffy/utils';
-import Alert from '@/components/common/raffle/raffle-alert';
+import Alert from '@/components/common/bingo/bingo-alert';
 import Search from '@/components/common/search/Search';
 import PaymentMethod from '@/components/payment/payment-method';
 import PaymentTotal from '@/components/payment/payment-total';
@@ -162,9 +162,9 @@ const PaymentForm = (): ReactElement => {
         state: data.state,
         paymentMethod: data.paymentMethod,
         proofUrl: finalProofUrl,
-        ticketIds: cart?.ticketIds || [],
-        amount: (cart?.price || 0) * (cart?.totalTickets || 0),
-        raffleId: cart?.raffleId || '',
+        boardIds: cart?.boardIds || [],
+        amount: (cart?.price || 0) * (cart?.totalBoards || 0),
+        bingoId: cart?.bingoId || '',
       });
 
       if (result.errors) {
@@ -312,7 +312,7 @@ const PaymentForm = (): ReactElement => {
 
       <div className="w-full max-w-md flex flex-col gap-3">
         <PaymentTotal
-          totalTickets={cart?.totalTickets || 0}
+          totalBoards={cart?.totalBoards || 0}
           price={cart?.price || null}
         />
 

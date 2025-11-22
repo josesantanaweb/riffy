@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client';
-import { RAFFLES_FRAGMENT, USERS_FRAGMENT } from '../fragments';
+import { BINGOS_FRAGMENT, USERS_FRAGMENT } from '../fragments';
 
 export const GET_USERS = gql`
   query Users($role: Role) {
@@ -23,13 +23,13 @@ export const GET_USER_BY_DOMAIN = gql`
   query UserByDomain($domain: String!) {
     userByDomain(domain: $domain) {
       ...UserFragment
-      raffles {
-        ...RaffleFragment
+      bingos {
+        ...BingoFragment
       }
     }
   }
   ${USERS_FRAGMENT}
-  ${RAFFLES_FRAGMENT}
+  ${BINGOS_FRAGMENT}
 `;
 
 export const GET_PROFILE = gql`

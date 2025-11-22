@@ -6,10 +6,10 @@ interface UsePlanUsageReturn {
   data: PlanUsage | null;
   loading: boolean;
   error: Error | null;
-  canCreateRaffle: boolean;
-  canCreateTickets: (requestedTickets: number) => boolean;
-  raffleLimitMessage: string | null;
-  ticketLimitMessage: (requestedTickets: number) => string | null;
+  canCreateBingo: boolean;
+  canCreateBoards: (requestedBoards: number) => boolean;
+  bingoLimitMessage: string | null;
+  boardLimitMessage: (requestedBoards: number) => string | null;
 }
 
 export const usePlanUsage = (): UsePlanUsageReturn => {
@@ -17,53 +17,53 @@ export const usePlanUsage = (): UsePlanUsageReturn => {
 
   const planUsage = data?.myPlanUsage;
 
-  const canCreateRaffle = (): boolean => {
+  const canCreateBingo = (): boolean => {
     if (!planUsage?.plan) return false;
 
-    if (planUsage.plan.maxRaffles === null || planUsage.plan.maxRaffles === 0 || planUsage.plan.maxRaffles === undefined) {
+    if (planUsage.plan.maxBingos === null || planUsage.plan.maxBingos === 0 || planUsage.plan.maxBingos === undefined) {
       return true;
     }
 
-    return planUsage.currentRaffles < planUsage.plan.maxRaffles;
+    return planUsage.currentBingos < planUsage.plan.maxBingos;
   };
 
-  const canCreateTickets = (requestedTickets: number): boolean => {
+  const canCreateBoards = (requestedBoards: number): boolean => {
     if (!planUsage?.plan) return false;
 
-    if (planUsage.plan.maxTickets === null || planUsage.plan.maxTickets === 0 || planUsage.plan.maxTickets === undefined) {
+    if (planUsage.plan.maxBoards === null || planUsage.plan.maxBoards === 0 || planUsage.plan.maxBoards === undefined) {
       return true;
     }
 
-    const newTotal = planUsage.currentTickets + requestedTickets;
-    return newTotal <= planUsage.plan.maxTickets;
+    const newTotal = planUsage.currentBoards + requestedBoards;
+    return newTotal <= planUsage.plan.maxBoards;
   };
 
-  const raffleLimitMessage = (): string | null => {
+  const bingoLimitMessage = (): string | null => {
     if (!planUsage?.plan) return null;
 
-    if (planUsage.plan.maxRaffles === null || planUsage.plan.maxRaffles === 0 || planUsage.plan.maxRaffles === undefined) {
+    if (planUsage.plan.maxBingos === null || planUsage.plan.maxBingos === 0 || planUsage.plan.maxBingos === undefined) {
       return null;
     }
 
-    if (planUsage.currentRaffles >= planUsage.plan.maxRaffles) {
-      return `Has alcanzado el límite de ${planUsage.plan.maxRaffles} rifas de tu plan ${planUsage.plan.name}. Actualiza tu plan para crear más rifas.`;
+    if (planUsage.currentBingos >= planUsage.plan.maxBingos) {
+      return `Has alcanzado el límite de ${planUsage.plan.maxBingos} bingos de tu plan ${planUsage.plan.name}. Actualiza tu plan para crear más bingos.`;
     }
 
-    const remaining = planUsage.plan.maxRaffles - planUsage.currentRaffles;
-    return `Te quedan ${remaining} rifas disponibles en tu plan ${planUsage.plan.name}.`;
+    const remaining = planUsage.plan.maxBingos - planUsage.currentBingos;
+    return `Te quedan ${remaining} bingos disponibles en tu plan ${planUsage.plan.name}.`;
   };
 
-  const ticketLimitMessage = (requestedTickets: number): string | null => {
+  const boardLimitMessage = (requestedBoards: number): string | null => {
     if (!planUsage?.plan) return null;
 
-    if (planUsage.plan.maxTickets === null || planUsage.plan.maxTickets === 0 || planUsage.plan.maxTickets === undefined) {
+    if (planUsage.plan.maxBoards === null || planUsage.plan.maxBoards === 0 || planUsage.plan.maxBoards === undefined) {
       return null; // Plan ilimitado
     }
 
-    const newTotal = planUsage.currentTickets + requestedTickets;
-    if (newTotal > planUsage.plan.maxTickets) {
-      const available = planUsage.plan.maxTickets - planUsage.currentTickets;
-      return `Solo puedes crear ${available} tickets más con tu plan actual. Has usado ${planUsage.currentTickets}/${planUsage.plan.maxTickets} tickets.`;
+    const newTotal = planUsage.currentBoards + requestedBoards;
+    if (newTotal > planUsage.plan.maxBoards) {
+      const available = planUsage.plan.maxBoards - planUsage.currentBoards;
+      return `Solo puedes crear ${available} boards más con tu plan actual. Has usado ${planUsage.currentBoards}/${planUsage.plan.maxBoards} boards.`;
     }
 
     return null;
@@ -73,9 +73,9 @@ export const usePlanUsage = (): UsePlanUsageReturn => {
     data: planUsage || null,
     loading,
     error: error || null,
-    canCreateRaffle: canCreateRaffle(),
-    canCreateTickets,
-    raffleLimitMessage: raffleLimitMessage(),
-    ticketLimitMessage,
+    canCreateBingo: canCreateBingo(),
+    canCreateBoards,
+    bingoLimitMessage: bingoLimitMessage(),
+    boardLimitMessage,
   };
 };

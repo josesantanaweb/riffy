@@ -3,16 +3,21 @@ import {
   NotFoundException,
   ForbiddenException,
   BadRequestException,
+  Logger,
+  OnModuleDestroy,
 } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { PlanUsageService } from '../plan-usage/plan-usage.service';
+import { pubSub } from '../common/pubsub';
 import { Bingo } from './entities/bingo.entity';
 import { CreateBingoInput } from './inputs/create-bingo.input';
 import { UpdateBingoInput } from './inputs/update-bingo.input';
-import { BoardStatus, Role } from '@prisma/client';
+import { BoardStatus, BingoStatus, Role } from '@prisma/client';
 
 @Injectable()
-export class BingosService {
+export class BingosService implements OnModuleDestroy {
+  private readonly logger = new Logger(BingosService.name);
+  private readonly bingoIntervals = new Map<string, NodeJS.Timeout>();
   constructor(
     private prisma: PrismaService,
     private planUsageService: PlanUsageService,
@@ -147,8 +152,24 @@ export class BingosService {
     }
 
     const bingo = await this.prisma.$transaction(async (tx) => {
-      const bingoData = { ...data, ownerId, drawnNumbers: [] };
-      const newBingo = await tx.bingo.create({ data: bingoData });
+      const newBingo = await tx.bingo.create({
+        data: {
+          title: data.title,
+          banner: data.banner,
+          totalBoards: data.totalBoards,
+          price: data.price,
+          award: data.award,
+          drawDate: data.drawDate,
+          drawnNumbers: [],
+          showDate: data.showDate ?? true,
+          showProgress: data.showProgress ?? true,
+          minBoards: data.minBoards ?? 2,
+          status: data.status ?? BingoStatus.ACTIVE,
+          owner: {
+            connect: { id: ownerId },
+          },
+        },
+      });
 
       const maxLength = totalBoards.toString().length;
       const boards = Array.from({ length: totalBoards }, (_, i) => ({
@@ -233,5 +254,99 @@ export class BingosService {
 
       return bingo;
     });
+  }
+
+  async announceNumber(bingoId: string): Promise<number | null> {
+    const bingo = await this.prisma.bingo.findUnique({
+      where: { id: bingoId },
+      select: { drawnNumbers: true },
+    });
+
+    if (!bingo) {
+      throw new NotFoundException(`Bingo with id ${bingoId} not found`);
+    }
+
+    const drawnNumbers: number[] = bingo.drawnNumbers || [];
+    const availableNumbers = Array.from({ length: 75 }, (_, i) => i + 1).filter(
+      (n) => !drawnNumbers.includes(n),
+    );
+
+    if (availableNumbers.length === 0) {
+      return null;
+    }
+
+    const randomNumber =
+      availableNumbers[Math.floor(Math.random() * availableNumbers.length)];
+
+    await this.prisma.bingo.update({
+      where: { id: bingoId },
+      data: {
+        drawnNumbers: { push: randomNumber },
+      },
+    });
+
+    await pubSub.publish(`ANNOUNCE_NUMBER_${bingoId}`, {
+      announceNumber: randomNumber,
+    });
+
+    return randomNumber;
+  }
+
+  async startAutoAnnounce(bingoId: string): Promise<boolean> {
+    if (this.bingoIntervals.has(bingoId)) {
+      return false;
+    }
+
+    const bingo = await this.prisma.bingo.findUnique({
+      where: { id: bingoId },
+      select: { id: true },
+    });
+
+    if (!bingo) {
+      throw new NotFoundException(`Bingo with id ${bingoId} not found`);
+    }
+
+    const tick = async (): Promise<void> => {
+      try {
+        const number = await this.announceNumber(bingoId);
+
+        if (number === null) {
+          this.logger.log(
+            `Todos los números anunciados para el bingo ${bingoId}. Deteniendo auto announce.`,
+          );
+          this.stopAutoAnnounce(bingoId);
+        }
+      } catch (error) {
+        this.logger.error(
+          `Error anunciando número para el bingo ${bingoId}`,
+          error as Error,
+        );
+        this.stopAutoAnnounce(bingoId);
+      }
+    };
+
+    const interval = setInterval(() => {
+      void tick();
+    }, 4000);
+
+    this.bingoIntervals.set(bingoId, interval);
+    return true;
+  }
+
+  stopAutoAnnounce(bingoId: string): boolean {
+    const interval = this.bingoIntervals.get(bingoId);
+
+    if (!interval) {
+      return false;
+    }
+
+    clearInterval(interval);
+    this.bingoIntervals.delete(bingoId);
+    return true;
+  }
+
+  onModuleDestroy(): void {
+    this.bingoIntervals.forEach((interval) => clearInterval(interval));
+    this.bingoIntervals.clear();
   }
 }

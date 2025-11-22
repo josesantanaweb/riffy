@@ -6,6 +6,7 @@ import { ScheduleModule } from '@nestjs/schedule';
 import { join } from 'path';
 import { ConfigModule } from '@nestjs/config';
 import { PrismaModule } from 'src/prisma/prisma.module';
+import { Request } from 'express';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { BingosModule } from './bingos/bingos.module';
@@ -40,9 +41,10 @@ import './enums/plan-usage-status.enum';
       introspection: true,
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
       plugins: [ApolloServerPluginLandingPageLocalDefault({ footer: false })],
-      context: ({ req }: { req: { headers: Record<string, string> } }) => ({
-        req: req.headers,
-      }),
+      context: ({ req }: { req: Request }) => ({ req }),
+      subscriptions: {
+        'graphql-ws': true,
+      },
     }),
     UsersModule,
     AuthModule,

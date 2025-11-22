@@ -1,85 +1,100 @@
 'use client';
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'next/navigation';
 import type { ReactElement } from 'react';
+import { useRouter } from 'next/navigation';
+import { Button } from '@riffy/components';
 import { useIsIPhone } from '@riffy/hooks';
-import PageHeader from '../common/page-header';
-import Card from './card';
-import Balls from './balls';
-import { getLetter } from '../utils';
+import Alert from '@/components/common/bingo/bingo-alert';
+import Boards from './boards/Boards';
+import BingoProgress from '@/components/common/bingo/bingo-progress';
+import TotalBox from '@/components/payment/payment-total';
+import { useBingo } from '@riffy/hooks';
+import { formatDate } from '@riffy/utils';
+import { useStore } from '@/store';
+import { ROUTES } from '@/constants';
+import { BingoStatus } from '@riffy/types';
+import BingoBanner from '@/components/common/bingo/bingo-banner';
+import BingoTitle from '@/components/common/bingo/bingo-title';
+import BoardTitle from '@/components/common/boards/board-title';
 
 const BingoPage = (): ReactElement => {
+  const router = useRouter();
   const isIPhone = useIsIPhone();
-  const [lastBallId, setLastBallId] = useState<number | null>(null);
-  const [balls, setBalls] = useState<
-    { number: number; id: number; letter: string }[]
-  >([]);
-
-  const addBall = useCallback(() => {
-    const newNumber = Math.floor(Math.random() * 75) + 1;
-    const newBall = {
-      number: newNumber,
-      id: Math.floor(Math.random() * 1000000),
-      letter: getLetter(newNumber),
-    };
-    setBalls(prev => [...prev, newBall]);
-    setLastBallId(newBall.id);
-  }, []);
+  const { bingoId } = useParams();
+  const { setCart } = useStore();
+  const { data: bingo, loading } = useBingo(bingoId as string);
+  const [selectedBoards, setSelectedBoards] = useState<string[]>([]);
+  const [isRandomBoards, setIsRandomBoards] = useState<boolean>(false);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      addBall();
-    }, 4000);
+    setCart({
+      boardIds: selectedBoards,
+      amount: (bingo?.price || 0) * selectedBoards.length,
+      price: bingo?.price || 0,
+      totalBoards: selectedBoards.length,
+      bingoTitle: bingo?.title,
+      bingoId: bingo?.id,
+    });
+  }, [selectedBoards, setCart, bingo]);
 
-    return () => clearInterval(interval);
-  }, [addBall]);
+  useEffect(() => {
+    setSelectedBoards([]);
+  }, [isRandomBoards]);
+
+  const handlePay = () => router.push(ROUTES.PAYMENT);
 
   return (
-    <div
-      className={`w-full h-full flex flex-col px-5 py-5 gap-3 bg-box-primary ${isIPhone ? 'pb-16' : ''}`}
-    >
-      <PageHeader title="Bingo #12" />
-      <div className="flex items-center justify-between w-full">
-        <div className="flex flex-col gap-3">
-          <h5 className="text-title text-sm font-medium">Números</h5>
-        </div>
-        <div className="flex items-center gap-3">
-          <h5 className="text-title text-sm font-medium">
-            <span className="text-body-100 mr-1">Modo:</span> Vertical
-          </h5>
-          <div className="flex items-center gap-0.5">
-            {Array.from({ length: 5 }, (_, index) => (
-              <span
-                key={index}
-                className="w-1.5 h-1.5 bg-primary-500 rounded-full"
-              />
-            ))}
-          </div>
-        </div>
-      </div>
-      <div className="flex items-center w-full gap-2">
-        <Balls balls={balls} lastBallId={lastBallId} />
-      </div>
-      <div className="grid grid-cols-2 gap-3">
-        <Card
-          numbers={[
-            [1, 2, 3, 4, 5],
-            [6, 7, 8, 9, 10],
-            [11, 12, -1, 14, 15],
-            [16, 17, 18, 19, 20],
-            [21, 22, 23, 24, 25],
-          ]}
-          handleBingo={() => {}}
+    <div className={`w-full h-full flex flex-col ${isIPhone ? 'pb-16' : ''}`}>
+      <BingoBanner
+        banner={bingo?.banner}
+        isCompleted={bingo?.status === BingoStatus.COMPLETED}
+        loading={loading}
+      />
+      <div className="flex flex-col gap-5 p-5 bg-box-primary">
+        <BingoTitle title={bingo?.title} loading={loading} />
+
+        {bingo?.showDate && (
+          <Alert
+            message={formatDate(bingo?.drawDate)}
+            icon="calendar"
+            type="default"
+          />
+        )}
+
+        {bingo?.showProgress && <BingoProgress bingo={bingo} />}
+
+        <BoardTitle isRandomBoards={isRandomBoards} />
+
+        <Boards
+          boards={bingo?.boards || []}
+          loading={loading}
+          selectedBoards={selectedBoards}
+          setSelectedBoards={setSelectedBoards}
+          isRandomBoards={isRandomBoards}
+          setIsRandomBoards={setIsRandomBoards}
+          minBoards={bingo?.minBoards}
+          maxBoards={bingo?.maxBoards}
         />
-        <Card
-          numbers={[
-            [1, 2, 3, 4, 5],
-            [6, 7, 8, 9, 10],
-            [11, 12, -1, 14, 15],
-            [16, 17, 18, 19, 20],
-            [21, 22, 23, 24, 25],
-          ]}
-          handleBingo={() => {}}
+
+        <Alert
+          message={`La compra minima es de ${bingo?.minBoards} boards`}
+          icon="info-circle"
+          type="warning"
         />
+
+        <div className="w-full max-w-md py-5 flex flex-col gap-3">
+          <TotalBox totalBoards={selectedBoards.length} price={bingo?.price} />
+
+          <Button
+            variant="primary"
+            isFull
+            disabled={selectedBoards.length < bingo?.minBoards}
+            onClick={handlePay}
+          >
+            Pagar
+          </Button>
+        </div>
       </div>
     </div>
   );

@@ -1,6 +1,4 @@
 export * from "./user";
-export * from "./raffle";
-export * from "./ticket";
 export * from "./payment";
 export * from "./common";
 export * from "./auth";
@@ -9,3 +7,5 @@ export * from "./plan";
 export * from "./plan-usage";
 export * from "./dashboard";
 export * from "./common";
+export * from "./bingo";
+export * from "./board";

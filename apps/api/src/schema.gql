@@ -229,6 +229,9 @@ type Mutation {
   createBingo(input: CreateBingoInput!): Bingo!
   updateBingo(id: String!, input: UpdateBingoInput!): Bingo!
   deleteBingo(id: String!): Bingo!
+  announceNumber(bingoId: String!): Float
+  startBingoAutoDraw(bingoId: String!): Boolean!
+  stopBingoAutoDraw(bingoId: String!): Boolean!
   createBoard(input: CreateBoardInput!): Board!
   updateBoard(id: String!, input: UpdateBoardInput!): Board!
   updateBoardStatus(id: String!, status: BoardStatus!): Board!
@@ -417,4 +420,8 @@ input UpdatePlanInput {
   maxBingos: Float
   maxBoards: Float
   type: PlanType
+}
+
+type Subscription {
+  announceNumber(bingoId: String!): Float!
 }

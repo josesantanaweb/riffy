@@ -18,14 +18,63 @@ export const PAYMENT_METHODS_FRAGMENT = gql`
 
 export const PLAN_FRAGMENT = gql`
   fragment PlanFragment on Plan {
-    name
     id
+    name
     description
     price
-    maxRaffles
-    maxTickets
+    maxBingos
+    maxBoards
     type
   }
+`;
+
+export const PLAN_USAGE_FRAGMENT = gql`
+  fragment PlanUsageFragment on PlanUsage {
+    id
+    currentBingos
+    currentBoards
+    status
+    plan {
+      ...PlanFragment
+    }
+  }
+  ${PLAN_FRAGMENT}
+`;
+
+export const PAYMENT_BASIC_FRAGMENT = gql`
+  fragment PaymentBasicFragment on Payment {
+    id
+    buyerName
+    nationalId
+    email
+    phone
+    state
+    paymentDate
+    amount
+    proofUrl
+    paymentMethod
+    status
+  }
+`;
+
+export const BOARD_BASIC_FRAGMENT = gql`
+  fragment BoardBasicFragment on Board {
+    id
+    number
+    status
+  }
+`;
+
+export const BOARD_FRAGMENT = gql`
+  fragment BoardFragment on Board {
+    id
+    number
+    status
+    payment {
+      ...PaymentBasicFragment
+    }
+  }
+  ${PAYMENT_BASIC_FRAGMENT}
 `;
 
 export const USERS_FRAGMENT = gql`
@@ -50,94 +99,42 @@ export const USERS_FRAGMENT = gql`
       ...PlanFragment
     }
     planUsage {
-      id
-      currentRaffles
-      currentTickets
-      status
+      ...PlanUsageFragment
     }
   }
   ${PAYMENT_METHODS_FRAGMENT}
   ${PLAN_FRAGMENT}
+  ${PLAN_USAGE_FRAGMENT}
 `;
 
-export const RAFFLES_FRAGMENT = gql`
-  fragment RaffleFragment on Raffle {
+export const BINGOS_FRAGMENT = gql`
+  fragment BingoFragment on Bingo {
     id
     title
-    description
-    showDate
-    showProgress
-    minTickets
-    totalTickets
+    banner
+    totalBoards
     price
     award
-    banner
+    drawnNumbers
+    status
+    showDate
+    showProgress
+    minBoards
+    available
+    sold
+    progress
     drawDate
     createdAt
     updatedAt
-    sold
-    available
-    status
-    progress
-    tickets {
-      id
-      number
-      status
-    }
     owner {
       ...UserFragment
     }
+    boards {
+      ...BoardFragment
+    }
   }
   ${USERS_FRAGMENT}
-`;
-
-export const PLAN_USAGE_FRAGMENT = gql`
-  fragment PlanUsageFragment on PlanUsage {
-    id
-    currentRaffles
-    currentTickets
-    status
-    plan {
-      ...PlanFragment
-    }
-    owner {
-      ...UserFragment
-    }
-  }
-  ${PLAN_FRAGMENT}
-  ${USERS_FRAGMENT}
-`;
-
-export const PAYMENT_BASIC_FRAGMENT = gql`
-  fragment PaymentBasicFragment on Payment {
-    id
-    buyerName
-    nationalId
-    email
-    phone
-    state
-    paymentDate
-    amount
-    proofUrl
-    paymentMethod
-    status
-  }
-`;
-
-export const TICKETS_FRAGMENT = gql`
-  fragment TicketFragment on Ticket {
-    id
-    number
-    status
-    payment {
-      ...PaymentBasicFragment
-    }
-    raffle {
-      ...RaffleFragment
-    }
-  }
-  ${RAFFLES_FRAGMENT}
-  ${PAYMENT_BASIC_FRAGMENT}
+  ${BOARD_FRAGMENT}
 `;
 
 export const PAYMENT_FRAGMENT = gql`
@@ -153,16 +150,15 @@ export const PAYMENT_FRAGMENT = gql`
     proofUrl
     paymentMethod
     status
-    tickets {
-      id
-      number
-      status
+    boards {
+      ...BoardBasicFragment
     }
-    raffle {
-      ...RaffleFragment
+    bingo {
+      ...BingoFragment
     }
   }
-  ${RAFFLES_FRAGMENT}
+  ${BOARD_BASIC_FRAGMENT}
+  ${BINGOS_FRAGMENT}
 `;
 
 export const NOTIFICATION_FRAGMENT = gql`
@@ -177,15 +173,15 @@ export const NOTIFICATION_FRAGMENT = gql`
 
 export const DASHBOARD_STATS_FRAGMENT = gql`
   fragment DashboardStatsFragment on DashboardStats {
-    totalRaffles
-    soldTickets
-    unsoldTickets
+    totalBingos
+    soldBoards
+    unsoldBoards
     totalWinners
     totalEarnings
     topBuyers {
       buyerName
       nationalId
-      totalTickets
+      totalBoards
       totalSpent
     }
     paymentsByState {
@@ -199,10 +195,10 @@ export const DASHBOARD_STATS_FRAGMENT = gql`
       nationalId
       status
       paymentMethod
-      tickets {
-        ...TicketFragment
+      boards {
+        ...BoardBasicFragment
       }
     }
   }
-  ${TICKETS_FRAGMENT}
+  ${BOARD_BASIC_FRAGMENT}
 `;

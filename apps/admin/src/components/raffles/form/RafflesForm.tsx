@@ -52,7 +52,7 @@ const RafflesForm = () => {
   const { data: raffleData } = useRaffle(raffleId);
   const { createRaffle, loading: isCreating } = useCreateRaffle();
   const { updateRaffle } = useUpdateRaffle();
-  const { canCreateRaffle, canCreateTickets, raffleLimitMessage, ticketLimitMessage } = usePlanUsage();
+  const { canCreateBingo, canCreateBoards, bingoLimitMessage, boardLimitMessage } = usePlanUsage();
 
   const isUpdating = Boolean(raffleData);
 
@@ -94,15 +94,15 @@ const RafflesForm = () => {
     } = data;
 
     if (!isUpdating) {
-      if (!canCreateRaffle) {
-        toast.error(raffleLimitMessage || 'No puedes crear más rifas con tu plan actual');
+      if (!canCreateBingo) {
+        toast.error(bingoLimitMessage || 'No puedes crear más bingos con tu plan actual');
         return;
       }
 
-      const ticketValidation = canCreateTickets(Number(totalTickets));
-      if (!ticketValidation) {
-        const ticketMessage = ticketLimitMessage(Number(totalTickets));
-        toast.error(ticketMessage || 'No puedes crear esa cantidad de tickets con tu plan actual');
+      const boardValidation = canCreateBoards(Number(totalTickets));
+      if (!boardValidation) {
+        const boardMessage = boardLimitMessage(Number(totalTickets));
+        toast.error(boardMessage || 'No puedes crear esa cantidad de boards con tu plan actual');
         return;
       }
     }

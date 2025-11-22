@@ -8,8 +8,8 @@ export enum PlanUsageStatus {
 }
 export interface PlanUsage {
   id: string;
-  currentRaffles: number;
-  currentTickets: number;
+  currentBingos: number;
+  currentBoards: number;
   createdAt?: Date | null;
   updatedAt?: Date | null;
   ownerId: string;

@@ -20,15 +20,15 @@ const FormInformation = ({ isUpdating = false }: FormInformationProps) => {
     setValue,
   } = useFormContext<FormData>();
 
-  const { canCreateRaffle, data: planUsage } = usePlanUsage();
+  const { canCreateBingo, data: planUsage } = usePlanUsage();
 
   useEffect(() => {
-    if (planUsage?.plan?.maxTickets) {
-      setValue('totalTickets', String(planUsage.plan.maxTickets), {
+    if (planUsage?.plan?.maxBoards) {
+      setValue('totalBoards', String(planUsage.plan.maxBoards), {
         shouldValidate: true,
       });
     }
-  }, [planUsage?.plan?.maxTickets, setValue]);
+  }, [planUsage?.plan?.maxBoards, setValue]);
 
   const statusOptions = [
     { value: 'ACTIVE', label: 'Activo' },
@@ -83,14 +83,14 @@ const FormInformation = ({ isUpdating = false }: FormInformationProps) => {
                     </div>
                     <div className="flex gap-4 text-sm items-center">
                       <div
-                        className={`${canCreateRaffle ? 'text-green-400' : 'text-red-400'}`}
+                        className={`${canCreateBingo ? 'text-green-400' : 'text-red-400'}`}
                       >
-                        Rifas: {planUsage.currentRaffles}/
-                        {planUsage.plan.maxRaffles || '∞'}
+                        Bingos: {planUsage.currentBingos}/
+                        {planUsage.plan.maxBingos || '∞'}
                       </div>
                       <div className="text-body-100">
-                        Tickets: {planUsage.currentTickets}/
-                        {planUsage.plan.maxTickets || '∞'}
+                        Boards: {planUsage.currentBoards}/
+                        {planUsage.plan.maxBoards || '∞'}
                       </div>
                     </div>
                   </div>
@@ -156,10 +156,10 @@ const FormInformation = ({ isUpdating = false }: FormInformationProps) => {
                     placeholder="Ingresa la cantidad de boletos"
                     inputSize="md"
                     type="number"
-                    value={formValues.totalTickets || ''}
+                    value={formValues.totalBoards || ''}
                     disabled={true}
-                    {...register('totalTickets')}
-                    error={errors.totalTickets?.message}
+                    {...register('totalBoards')}
+                    error={errors.totalBoards?.message}
                   />
                 </div>
                 <div className="w-full lg:w-1/2">
@@ -212,9 +212,9 @@ const FormInformation = ({ isUpdating = false }: FormInformationProps) => {
                     placeholder="Ingresa el minimo de boletos"
                     inputSize="md"
                     type="number"
-                    value={formValues.minTickets || ''}
-                    {...register('minTickets')}
-                    error={errors.minTickets?.message}
+                    value={formValues.minBoards || ''}
+                    {...register('minBoards')}
+                    error={errors.minBoards?.message}
                   />
                 </div>
               </div>

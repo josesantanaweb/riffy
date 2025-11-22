@@ -1,4 +1,4 @@
-import { Args, Query, Resolver, Mutation } from '@nestjs/graphql';
+import { Args, Query, Resolver, Mutation, Subscription } from '@nestjs/graphql';
 import { UseGuards } from '@nestjs/common';
 import { GqlAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { Roles } from '../auth/decorators/roles.decorator';
@@ -9,10 +9,12 @@ import { Bingo } from './entities/bingo.entity';
 import { UpdateBingoInput } from './inputs/update-bingo.input';
 import { CreateBingoInput } from './inputs/create-bingo.input';
 import { CurrentUser } from '../auth/decorators/current-user.decorator';
+import { pubSub } from '../common/pubsub';
 
 @Resolver()
 export class BingosResolver {
   constructor(private readonly bingosService: BingosService) {}
+  private pubSub = pubSub;
 
   /**
    * Obtiene todos los bingos registrados.
@@ -91,5 +93,38 @@ export class BingosResolver {
     @CurrentUser() user: { id: string; role: Role },
   ): Promise<Bingo> {
     return this.bingosService.delete(id, user);
+  }
+
+  @Roles(Role.ADMIN, Role.OWNER)
+  @UseGuards(RolesGuard)
+  @UseGuards(GqlAuthGuard)
+  @Mutation(() => Number, { nullable: true })
+  async announceNumber(
+    @Args('bingoId', { type: () => String }) bingoId: string,
+  ): Promise<number | null> {
+    return this.bingosService.announceNumber(bingoId);
+  }
+
+  @Mutation(() => Boolean, { name: 'startBingoAutoDraw' })
+  startBingoAutoDraw(
+    @Args('bingoId', { type: () => String }) bingoId: string,
+  ): Promise<boolean> {
+    return this.bingosService.startAutoAnnounce(bingoId);
+  }
+
+  @Mutation(() => Boolean, { name: 'stopBingoAutoDraw' })
+  stopBingoAutoDraw(
+    @Args('bingoId', { type: () => String }) bingoId: string,
+  ): boolean {
+    return this.bingosService.stopAutoAnnounce(bingoId);
+  }
+
+  @Subscription(() => Number, {
+    name: 'announceNumber',
+  })
+  announceNumberSub(
+    @Args('bingoId', { type: () => String }) bingoId: string,
+  ): AsyncIterableIterator<number> {
+    return this.pubSub.asyncIterableIterator(`ANNOUNCE_NUMBER_${bingoId}`);
   }
 }

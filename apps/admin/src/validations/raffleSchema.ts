@@ -25,7 +25,7 @@ export const createRaffleSchema = z.object({
       'Debe ser un número mayor a 0',
     ),
 
-  totalTickets: z
+  totalBoards: z
     .string()
     .min(1, 'La cantidad de boletos es requerida')
     .refine(
@@ -42,7 +42,7 @@ export const createRaffleSchema = z.object({
 
   showDate: z.boolean().optional(),
   showProgress: z.boolean().optional(),
-  minTickets: z
+  minBoards: z
     .string()
     .optional()
     .refine(

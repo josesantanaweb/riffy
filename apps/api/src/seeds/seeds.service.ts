@@ -88,9 +88,12 @@ export class SeedsService {
 
   private async deleteDatabase(): Promise<void> {
     await this.prisma.board.deleteMany({});
-    await this.prisma.plan.deleteMany({});
+    await this.prisma.payment.deleteMany({});
     await this.prisma.bingo.deleteMany({});
     await this.prisma.paymentMethod.deleteMany({});
+    await this.prisma.planUsage.deleteMany({});
+    await this.prisma.notification.deleteMany({});
+    await this.prisma.plan.deleteMany({});
     await this.prisma.user.deleteMany({});
   }
 
@@ -101,8 +104,14 @@ export class SeedsService {
         const { password, ...userData } = user;
         const hashedPassword = await hash(password);
 
-        await this.prisma.user.create({
-          data: {
+        await this.prisma.user.upsert({
+          where: { domain: user.domain },
+          update: {
+            ...userData,
+            password: hashedPassword,
+            role: userData.role,
+          },
+          create: {
             ...userData,
             password: hashedPassword,
             role: userData.role,

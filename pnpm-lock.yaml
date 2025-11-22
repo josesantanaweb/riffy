@@ -454,6 +454,9 @@ importers:
       graphql-request:
         specifier: ^7.1.2
         version: 7.2.0(graphql@16.11.0)
+      graphql-ws:
+        specifier: ^6.0.4
+        version: 6.0.6(graphql@16.11.0)(ws@8.18.3)
       jwt-decode:
         specifier: ^4.0.0
         version: 4.0.0

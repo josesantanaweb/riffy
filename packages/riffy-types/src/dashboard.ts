@@ -3,7 +3,7 @@ import { Payment } from "./payment";
 export interface TopBuyer {
   buyerName: string;
   nationalId: string;
-  totalTickets: number;
+  totalBoards: number;
   totalSpent: number;
 }
 
@@ -13,9 +13,9 @@ export interface PaymentsByState {
 }
 
 export interface DashboardStats {
-  totalRaffles: number;
-  soldTickets: number;
-  unsoldTickets: number;
+  totalBingos: number;
+  soldBoards: number;
+  unsoldBoards: number;
   totalWinners: number;
   totalEarnings: number;
   topBuyers: TopBuyer[];

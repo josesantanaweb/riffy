@@ -1,2 +1,2 @@
-export * from './selectRandomTickets';
+export * from './selectRandomBoards';
 export * from './timerStorage';

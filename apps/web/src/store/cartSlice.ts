@@ -1,12 +1,12 @@
 import type { StateCreator } from 'zustand';
 
 interface CartData {
-  ticketIds: string[];
+  boardIds: string[];
   amount: number;
   price: number;
-  totalTickets: number;
-  raffleTitle?: string;
-  raffleId?: string;
+  totalBoards: number;
+  bingoTitle?: string;
+  bingoId?: string;
 }
 
 export type CartState = {

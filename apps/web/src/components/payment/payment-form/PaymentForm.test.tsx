@@ -186,7 +186,7 @@ jest.mock('@riffy/components', () => ({
   ),
 }));
 
-jest.mock('../../../components/common/raffle/raffle-alert', () => {
+jest.mock('../../../components/common/bingo/bingo-alert', () => {
   return function MockAlert({
     message,
     type,
@@ -255,15 +255,15 @@ jest.mock('../../../components/payment/payment-method', () => {
 
 jest.mock('../../../components/payment/payment-total', () => {
   return function MockPaymentTotal({
-    totalTickets,
+    totalBoards,
     price,
   }: {
-    totalTickets: number;
+    totalBoards: number;
     price: number | null;
   }) {
     return (
       <div data-testid="payment-total">
-        Tickets: {totalTickets}, Precio: {price || 0}
+        Boards: {totalBoards}, Precio: {price || 0}
       </div>
     );
   };
@@ -331,10 +331,10 @@ describe('<PaymentForm />', () => {
   };
 
   const mockCart = {
-    ticketIds: ['ticket-1', 'ticket-2'],
+    boardIds: ['board-1', 'board-2'],
     price: 10,
-    totalTickets: 2,
-    raffleId: 'raffle-1',
+    totalBoards: 2,
+    bingoId: 'bingo-1',
   };
 
   beforeEach(() => {
