@@ -95,36 +95,76 @@ export class BingosResolver {
     return this.bingosService.delete(id, user);
   }
 
+  /**
+   * Extrae un número aleatorio para el bingo especificado.
+   * Esta mutación permite extraer números manualmente. El número extraído
+   * se guarda en la base de datos y se notifica a todos los clientes suscritos
+   * mediante la suscripción numberDraw.
+   *
+   * Roles requeridos: ADMIN u OWNER
+   *
+   * @param bingoId ID del bingo del cual se extraerá el número
+   * @returns El número extraído (1-75) o null si ya se extrajeron todos los números
+   */
   @Roles(Role.ADMIN, Role.OWNER)
   @UseGuards(RolesGuard)
   @UseGuards(GqlAuthGuard)
-  @Mutation(() => Number, { nullable: true })
-  async announceNumber(
+  @Mutation(() => Number, { nullable: true, name: 'numberDraw' })
+  async numberDraw(
     @Args('bingoId', { type: () => String }) bingoId: string,
   ): Promise<number | null> {
-    return this.bingosService.announceNumber(bingoId);
+    return this.bingosService.numberDraw(bingoId);
   }
 
-  @Mutation(() => Boolean, { name: 'startBingoAutoDraw' })
-  startBingoAutoDraw(
+  /**
+   * Inicia el sorteo automático de números para un bingo.
+   * Extrae números automáticamente cada 4 segundos. El sorteo se detiene
+   * automáticamente cuando se han extraído todos los números o se puede
+   * detener manualmente con stopAutoNumberDraw.
+   *
+   * No requiere autenticación (puede ser llamado públicamente).
+   *
+   * @param bingoId ID del bingo para el cual iniciar el sorteo automático
+   * @returns true si se inició correctamente, false si ya existe un sorteo activo
+   */
+  @Mutation(() => Boolean, { name: 'startAutoNumberDraw' })
+  startAutoNumberDraw(
     @Args('bingoId', { type: () => String }) bingoId: string,
   ): Promise<boolean> {
-    return this.bingosService.startAutoAnnounce(bingoId);
+    return this.bingosService.startAutoNumberDraw(bingoId);
   }
 
-  @Mutation(() => Boolean, { name: 'stopBingoAutoDraw' })
-  stopBingoAutoDraw(
+  /**
+   * Detiene el sorteo automático de números para un bingo.
+   * Limpia el intervalo asociado y detiene la extracción automática de números.
+   *
+   * No requiere autenticación (puede ser llamado públicamente).
+   *
+   * @param bingoId ID del bingo para el cual detener el sorteo automático
+   * @returns true si se detuvo correctamente, false si no había un sorteo activo
+   */
+  @Mutation(() => Boolean, { name: 'stopAutoNumberDraw' })
+  stopAutoNumberDraw(
     @Args('bingoId', { type: () => String }) bingoId: string,
   ): boolean {
-    return this.bingosService.stopAutoAnnounce(bingoId);
+    return this.bingosService.stopAutoNumberDraw(bingoId);
   }
 
+  /**
+   * Suscripción para recibir números extraídos en tiempo real.
+   * Los clientes suscritos recibirán una notificación cada vez que se extraiga
+   * un número para el bingo especificado, ya sea manualmente o mediante el
+   * sorteo automático.
+   *
+   * @param bingoId ID del bingo del cual se desea recibir los números extraídos
+   * @returns Un AsyncIterableIterator que emite números (1-75) cuando se extraen
+   */
   @Subscription(() => Number, {
-    name: 'announceNumber',
+    name: 'numberDraw',
   })
-  announceNumberSub(
+  numberDrawSub(
     @Args('bingoId', { type: () => String }) bingoId: string,
   ): AsyncIterableIterator<number> {
-    return this.pubSub.asyncIterableIterator(`ANNOUNCE_NUMBER_${bingoId}`);
+    return this.pubSub.asyncIterableIterator(`NUMBER_DRAW_${bingoId}`);
   }
 }

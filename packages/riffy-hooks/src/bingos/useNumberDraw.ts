@@ -1,9 +1,9 @@
 import { useSubscription } from '@apollo/client';
-import { ANNOUNCE_NUMBER_SUBSCRIPTION } from '@riffy/graphql';
+import { NUMBER_DRAW_SUBSCRIPTION } from '@riffy/graphql';
 
-export const useAnnounceNumber = (bingoId?: string) => {
+export const useNumberDraw = (bingoId?: string) => {
   const { data, error, loading } = useSubscription(
-    ANNOUNCE_NUMBER_SUBSCRIPTION,
+    NUMBER_DRAW_SUBSCRIPTION,
     {
       variables: { bingoId },
       skip: !bingoId,
@@ -11,7 +11,7 @@ export const useAnnounceNumber = (bingoId?: string) => {
   );
 
   return {
-    number: data?.announceNumber ?? null,
+    number: data?.numberDraw ?? null,
     error,
     loading,
   };

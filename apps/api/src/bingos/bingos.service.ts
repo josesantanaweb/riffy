@@ -256,7 +256,16 @@ export class BingosService implements OnModuleDestroy {
     });
   }
 
-  async announceNumber(bingoId: string): Promise<number | null> {
+  /**
+   * Extrae un número aleatorio para el bingo especificado.
+   * Selecciona un número del 1 al 75 que no haya sido extraído previamente,
+   * lo guarda en la base de datos y lo publica mediante PubSub para notificar
+   * a los clientes suscritos en tiempo real.
+   *
+   * @param bingoId ID del bingo del cual se extraerá el número
+   * @returns El número extraído (1-75) o null si ya se extrajeron todos los números
+   */
+  async numberDraw(bingoId: string): Promise<number | null> {
     const bingo = await this.prisma.bingo.findUnique({
       where: { id: bingoId },
       select: { drawnNumbers: true },
@@ -285,14 +294,30 @@ export class BingosService implements OnModuleDestroy {
       },
     });
 
-    await pubSub.publish(`ANNOUNCE_NUMBER_${bingoId}`, {
-      announceNumber: randomNumber,
+    await pubSub.publish(`NUMBER_DRAW_${bingoId}`, {
+      numberDraw: randomNumber,
     });
 
     return randomNumber;
   }
 
-  async startAutoAnnounce(bingoId: string): Promise<boolean> {
+  /**
+   * Inicia el sorteo automático de números para un bingo.
+   * Extrae números automáticamente cada 4 segundos hasta que se hayan
+   * extraído todos los números disponibles (1-75) o hasta que se detenga
+   * manualmente con stopAutoNumberDraw.
+   *
+   * Si ya existe un sorteo automático activo para el bingo, no inicia uno nuevo
+   * y retorna false.
+   *
+   * El sorteo se detiene automáticamente cuando:
+   * - Se han extraído todos los números (1-75)
+   * - Ocurre un error durante la extracción
+   *
+   * @param bingoId ID del bingo para el cual iniciar el sorteo automático
+   * @returns true si se inició correctamente, false si ya existe un sorteo activo
+   */
+  async startAutoNumberDraw(bingoId: string): Promise<boolean> {
     if (this.bingoIntervals.has(bingoId)) {
       return false;
     }
@@ -308,20 +333,20 @@ export class BingosService implements OnModuleDestroy {
 
     const tick = async (): Promise<void> => {
       try {
-        const number = await this.announceNumber(bingoId);
+        const number = await this.numberDraw(bingoId);
 
         if (number === null) {
           this.logger.log(
-            `Todos los números anunciados para el bingo ${bingoId}. Deteniendo auto announce.`,
+            `Todos los números anunciados para el bingo ${bingoId}. Deteniendo auto draw.`,
           );
-          this.stopAutoAnnounce(bingoId);
+          this.stopAutoNumberDraw(bingoId);
         }
       } catch (error) {
         this.logger.error(
           `Error anunciando número para el bingo ${bingoId}`,
           error as Error,
         );
-        this.stopAutoAnnounce(bingoId);
+        this.stopAutoNumberDraw(bingoId);
       }
     };
 
@@ -333,7 +358,14 @@ export class BingosService implements OnModuleDestroy {
     return true;
   }
 
-  stopAutoAnnounce(bingoId: string): boolean {
+  /**
+   * Detiene el sorteo automático de números para un bingo.
+   * Limpia el intervalo asociado y lo elimina del mapa de intervalos activos.
+   *
+   * @param bingoId ID del bingo para el cual detener el sorteo automático
+   * @returns true si se detuvo correctamente, false si no había un sorteo activo
+   */
+  stopAutoNumberDraw(bingoId: string): boolean {
     const interval = this.bingoIntervals.get(bingoId);
 
     if (!interval) {

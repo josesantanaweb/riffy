@@ -2,11 +2,11 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import type { ReactElement } from 'react';
 import {
-  useAnnounceNumber,
   useBingo,
   useIsIPhone,
-  useStartBingoAutoDraw,
-  useStopBingoAutoDraw,
+  useNumberDraw,
+  useStartAutoNumberDraw,
+  useStopAutoNumberDraw,
 } from '@riffy/hooks';
 import PageHeader from '../common/page-header';
 import Card from './card';
@@ -19,9 +19,9 @@ const BingoPage = (): ReactElement => {
   const bingoId =
     (params?.bingoId as string) || 'cmi6vrog30001tlhfzixoivku';
   const { data: bingo } = useBingo(bingoId);
-  const { number: announcedNumber } = useAnnounceNumber(bingoId);
-  const { startAutoDraw, loading: startingDraw } = useStartBingoAutoDraw();
-  const { stopAutoDraw, loading: stoppingDraw } = useStopBingoAutoDraw();
+  const { number: numberDraw } = useNumberDraw(bingoId);
+  const { startAutoNumberDraw, loading: startingDraw } = useStartAutoNumberDraw();
+  const { stopAutoNumberDraw, loading: stoppingDraw } = useStopAutoNumberDraw();
   const isIPhone = useIsIPhone();
   const [isAutoDrawing, setIsAutoDrawing] = useState(false);
   const [lastBallId, setLastBallId] = useState<number | null>(null);
@@ -45,33 +45,33 @@ const BingoPage = (): ReactElement => {
   }, [bingo?.drawnNumbers]);
 
   useEffect(() => {
-    if (announcedNumber === null) return;
+    if (numberDraw === null) return;
 
     const newBall = {
-      number: announcedNumber,
+      number: numberDraw,
       id: Date.now(),
-      letter: getLetter(announcedNumber),
+      letter: getLetter(numberDraw),
     };
 
     setBalls((prev) => {
-      const exists = prev.some((ball) => ball.number === announcedNumber);
+      const exists = prev.some((ball) => ball.number === numberDraw);
       if (exists) {
         return prev;
       }
       return [...prev, newBall];
     });
     setLastBallId(newBall.id);
-  }, [announcedNumber]);
+  }, [numberDraw]);
 
   const handleStartAutoDraw = async () => {
     if (!bingoId) return;
-    await startAutoDraw(bingoId);
+    await startAutoNumberDraw(bingoId);
     setIsAutoDrawing(true);
   };
 
   const handleStopAutoDraw = async () => {
     if (!bingoId) return;
-    await stopAutoDraw(bingoId);
+    await stopAutoNumberDraw(bingoId);
     setIsAutoDrawing(false);
   };
 

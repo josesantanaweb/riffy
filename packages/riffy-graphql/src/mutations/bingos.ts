@@ -27,14 +27,14 @@ export const DELETE_BINGO = gql`
   }
 `;
 
-export const START_BINGO_AUTO_DRAW = gql`
-  mutation StartBingoAutoDraw($bingoId: String!) {
-    startBingoAutoDraw(bingoId: $bingoId)
+export const START_AUTO_NUMBER_DRAW = gql`
+  mutation StartAutoNumberDraw($bingoId: String!) {
+    startAutoNumberDraw(bingoId: $bingoId)
   }
 `;
 
-export const STOP_BINGO_AUTO_DRAW = gql`
-  mutation StopBingoAutoDraw($bingoId: String!) {
-    stopBingoAutoDraw(bingoId: $bingoId)
+export const STOP_AUTO_NUMBER_DRAW = gql`
+  mutation StopAutoNumberDraw($bingoId: String!) {
+    stopAutoNumberDraw(bingoId: $bingoId)
   }
 `;

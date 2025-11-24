@@ -1,8 +1,8 @@
 import { gql } from '@apollo/client';
 
-export const ANNOUNCE_NUMBER_SUBSCRIPTION = gql`
-  subscription AnnounceNumber($bingoId: String!) {
-    announceNumber(bingoId: $bingoId)
+export const NUMBER_DRAW_SUBSCRIPTION = gql`
+  subscription NumberDraw($bingoId: String!) {
+    numberDraw(bingoId: $bingoId)
   }
 `;
 
