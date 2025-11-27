@@ -3,6 +3,7 @@ import { PrismaService } from '../prisma/prisma.service';
 import { loadJson } from '../utils/loadJson';
 import { hash } from 'argon2';
 import { Role, PaymentMethodType, PlanType, BingoStatus } from '@prisma/client';
+import { generateCardNumbers } from '../utils/bingo.utils';
 
 interface UserSeedData {
   name: string;
@@ -181,10 +182,10 @@ export class SeedsService {
         });
 
         const totalBoardsNumber = bingo.totalBoards;
-        const maxLength = totalBoardsNumber.toString().length;
 
         const boards = Array.from({ length: totalBoardsNumber }, (_, i) => ({
-          number: `${i + 1}`.padStart(maxLength, '0'),
+          number: i + 1,
+          numbers: generateCardNumbers(),
           bingoId: createdBingo.id,
         }));
 

@@ -12,6 +12,7 @@ export enum BoardStatus {
 export interface Board {
   id: string;
   number: string;
+  numbers: JSON;
   status: string;
   payment?: Payment | null;
   bingo?: Bingo | null;

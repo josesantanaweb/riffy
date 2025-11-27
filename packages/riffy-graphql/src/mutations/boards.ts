@@ -9,3 +9,12 @@ export const UPDATE_BOARD_STATUS = gql`
   }
   ${BOARD_FRAGMENT}
 `;
+
+export const UPDATE_BOARD_MARKED_NUMBERS = gql`
+  mutation UpdateBoardMarkedNumbers($id: String!, $markedNumbers: [[Int!]!]!) {
+    updateBoardMarkedNumbers(id: $id, markedNumbers: $markedNumbers) {
+      ...BoardFragment
+    }
+  }
+  ${BOARD_FRAGMENT}
+`;

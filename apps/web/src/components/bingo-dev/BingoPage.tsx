@@ -1,8 +1,10 @@
 'use client';
 import React, { useEffect, useMemo, useState } from 'react';
 import type { ReactElement } from 'react';
+import { useParams } from 'next/navigation';
 import {
   useBingo,
+  useBoardsByBingo,
   useIsIPhone,
   useNumberDraw,
   useStartAutoNumberDraw,
@@ -11,17 +13,17 @@ import {
 import PageHeader from '../common/page-header';
 import Card from './card';
 import Balls from './balls';
-import { getLetter } from '../utils';
-import { useParams } from 'next/navigation';
+import { getBingoLetter } from '@/utils/bingo';
 
 const BingoPage = (): ReactElement => {
   const params = useParams<{ bingoId?: string }>();
-  const bingoId =
-    (params?.bingoId as string) || 'cmi6vrog30001tlhfzixoivku';
+  const bingoId = (params?.bingoId as string) || 'cmi6vrog30001tlhfzixoivku';
   const { data: bingo } = useBingo(bingoId);
   const { number: numberDraw } = useNumberDraw(bingoId);
-  const { startAutoNumberDraw, loading: startingDraw } = useStartAutoNumberDraw();
+  const { startAutoNumberDraw, loading: startingDraw } =
+    useStartAutoNumberDraw();
   const { stopAutoNumberDraw, loading: stoppingDraw } = useStopAutoNumberDraw();
+  const { data: boards } = useBoardsByBingo(bingoId);
   const isIPhone = useIsIPhone();
   const [isAutoDrawing, setIsAutoDrawing] = useState(false);
   const [lastBallId, setLastBallId] = useState<number | null>(null);
@@ -37,7 +39,7 @@ const BingoPage = (): ReactElement => {
     const mappedBalls = bingo.drawnNumbers.map((number, index) => ({
       number,
       id: index + 1,
-      letter: getLetter(number),
+      letter: getBingoLetter(number),
     }));
 
     setBalls(mappedBalls);
@@ -50,11 +52,11 @@ const BingoPage = (): ReactElement => {
     const newBall = {
       number: numberDraw,
       id: Date.now(),
-      letter: getLetter(numberDraw),
+      letter: getBingoLetter(numberDraw),
     };
 
-    setBalls((prev) => {
-      const exists = prev.some((ball) => ball.number === numberDraw);
+    setBalls(prev => {
+      const exists = prev.some(ball => ball.number === numberDraw);
       if (exists) {
         return prev;
       }
@@ -73,6 +75,10 @@ const BingoPage = (): ReactElement => {
     if (!bingoId) return;
     await stopAutoNumberDraw(bingoId);
     setIsAutoDrawing(false);
+  };
+
+  const handleBingo = () => {
+    alert('¡BINGO! 🎉 ¡Has ganado!');
   };
 
   return (
@@ -95,30 +101,18 @@ const BingoPage = (): ReactElement => {
           </button>
         </div>
       </div>
-      <div className="flex items-center w-full gap-2">
-        <Balls balls={balls} lastBallId={lastBallId} />
-      </div>
-      <div className="grid grid-cols-2 gap-3">
-        <Card
-          numbers={[
-            [1, 2, 3, 4, 5],
-            [6, 7, 8, 9, 10],
-            [11, 12, -1, 14, 15],
-            [16, 17, 18, 19, 20],
-            [21, 22, 23, 24, 25],
-          ]}
-          handleBingo={() => {}}
-        />
-        <Card
-          numbers={[
-            [1, 2, 3, 4, 5],
-            [6, 7, 8, 9, 10],
-            [11, 12, -1, 14, 15],
-            [16, 17, 18, 19, 20],
-            [21, 22, 23, 24, 25],
-          ]}
-          handleBingo={() => {}}
-        />
+      <Balls balls={balls} lastBallId={lastBallId} />
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 justify-center items-center">
+        {boards?.map(board => (
+          <Card
+            key={board.id}
+            id={board.id}
+            numbers={board.numbers}
+            markedNumbers={board.markedNumbers}
+            handleBingo={handleBingo}
+            availableNumbers={balls.map(ball => ball.number)}
+          />
+        ))}
       </div>
     </div>
   );

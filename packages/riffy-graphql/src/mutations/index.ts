@@ -22,7 +22,7 @@ export {
   UPDATE_NOTIFICATION_STATUS,
   UPDATE_NOTIFICATIONS_STATUS,
 } from './notification';
-export { UPDATE_BOARD_STATUS } from './boards';
+export { UPDATE_BOARD_STATUS, UPDATE_BOARD_MARKED_NUMBERS } from './boards';
 export { CREATE_PLAN, UPDATE_PLAN, DELETE_PLAN } from './plans';
 export { RESET_PLAN_USAGE } from './plan-usage';
 

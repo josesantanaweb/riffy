@@ -13,6 +13,7 @@ import { Bingo } from './entities/bingo.entity';
 import { CreateBingoInput } from './inputs/create-bingo.input';
 import { UpdateBingoInput } from './inputs/update-bingo.input';
 import { BoardStatus, BingoStatus, Role } from '@prisma/client';
+import { generateCardNumbers } from '../utils/bingo.utils';
 
 @Injectable()
 export class BingosService implements OnModuleDestroy {
@@ -68,12 +69,7 @@ export class BingosService implements OnModuleDestroy {
         sold,
         available,
         progress: Number(progress.toFixed(2)),
-        boards: bingo.boards
-          .sort((a, b) => parseInt(a.number) - parseInt(b.number))
-          .map((board) => ({
-            ...board,
-            number: board.number.toString(),
-          })),
+        boards: bingo.boards.sort((a, b) => a.number - b.number),
       };
     });
   }
@@ -113,12 +109,7 @@ export class BingosService implements OnModuleDestroy {
       sold,
       available,
       progress: Number(progress.toFixed(2)),
-      boards: bingo.boards
-        .sort((a, b) => parseInt(a.number) - parseInt(b.number))
-        .map((board) => ({
-          ...board,
-          number: board.number.toString(),
-        })),
+      boards: bingo.boards.sort((a, b) => a.number - b.number),
     };
   }
 
@@ -171,9 +162,9 @@ export class BingosService implements OnModuleDestroy {
         },
       });
 
-      const maxLength = totalBoards.toString().length;
       const boards = Array.from({ length: totalBoards }, (_, i) => ({
-        number: `${i + 1}`.padStart(maxLength, '0'),
+        number: i + 1,
+        numbers: generateCardNumbers(),
         bingoId: newBingo.id,
       }));
 
@@ -352,7 +343,7 @@ export class BingosService implements OnModuleDestroy {
 
     const interval = setInterval(() => {
       void tick();
-    }, 4000);
+    }, 3000);
 
     this.bingoIntervals.set(bingoId, interval);
     return true;

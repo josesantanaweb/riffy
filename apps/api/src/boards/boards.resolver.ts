@@ -1,4 +1,4 @@
-import { Args, Query, Resolver, Mutation } from '@nestjs/graphql';
+import { Args, Query, Resolver, Mutation, Int } from '@nestjs/graphql';
 import { UseGuards } from '@nestjs/common';
 import { GqlAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { Roles } from '../auth/decorators/roles.decorator';
@@ -74,7 +74,7 @@ export class BoardsResolver {
    * @param input Datos del nuevo board
    * @returns El objeto Board creado
    */
-  @Roles(Role.ADMIN)
+  @Roles(Role.ADMIN, Role.OWNER)
   @UseGuards(RolesGuard)
   @UseGuards(GqlAuthGuard)
   @Mutation(() => Board, { name: 'createBoard' })
@@ -118,6 +118,21 @@ export class BoardsResolver {
     @Args('status', { type: () => BoardStatus }) status: BoardStatus,
   ): Promise<Board> {
     return this.boardsService.updateStatus(id, status);
+  }
+
+  /**
+   * Actualiza los números marcados de un board.
+   * @param id ID del board a actualizar
+   * @param markedNumbers Matriz con los números marcados
+   * @returns El objeto Board actualizado
+   */
+  @Mutation(() => Board, { name: 'updateBoardMarkedNumbers' })
+  updateMarkedNumbers(
+    @Args('id', { type: () => String }) id: string,
+    @Args('markedNumbers', { type: () => [[Int]] })
+    markedNumbers: number[][],
+  ): Promise<Board> {
+    return this.boardsService.updateMarkedNumbers(id, markedNumbers);
   }
 
   /**

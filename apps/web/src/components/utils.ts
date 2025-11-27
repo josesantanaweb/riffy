@@ -1,9 +1,57 @@
-export const transposeMatrix = (matrix: number[][]): number[][] => {
-  return matrix[0].map((_, colIndex) => matrix.map((row) => row[colIndex]));
-};
-
 export const isBoardFull = (board: number[][]): boolean => {
   return board.every((row) => row.every((cell) => cell === -1 || cell === 0));
+};
+
+/**
+ * Verifica si el cartón completo está lleno (todos los números marcados con -1)
+ * @param board Matriz del tablero donde -1 indica número marcado
+ * @returns true si todos los números están marcados
+ */
+export const checkFullCard = (board: number[][]): boolean => {
+  for (let rowIndex = 0; rowIndex < board.length; rowIndex++) {
+    for (let colIndex = 0; colIndex < board[rowIndex].length; colIndex++) {
+      if (board[rowIndex][colIndex] !== -1) {
+        return false;
+      }
+    }
+  }
+  return true;
+};
+
+/**
+ * Verifica si hay una línea horizontal completa (todos los números de una fila marcados)
+ * @param board Matriz del tablero donde -1 indica número marcado
+ * @returns true si hay al menos una línea horizontal completa
+ */
+export const checkHorizontalLine = (board: number[][]): boolean => {
+  for (let rowIndex = 0; rowIndex < board.length; rowIndex++) {
+    const isLineComplete = board[rowIndex].every((cell) => cell === -1);
+    if (isLineComplete) {
+      return true;
+    }
+  }
+  return false;
+};
+
+/**
+ * Verifica si hay una línea vertical completa (todos los números de una columna marcados)
+ * @param board Matriz del tablero donde -1 indica número marcado
+ * @returns true si hay al menos una línea vertical completa
+ */
+export const checkVerticalLine = (board: number[][]): boolean => {
+  for (let colIndex = 0; colIndex < board[0]?.length; colIndex++) {
+    let isColumnComplete = true;
+    for (let rowIndex = 0; rowIndex < board.length; rowIndex++) {
+      if (board[rowIndex][colIndex] !== -1) {
+        isColumnComplete = false;
+        break;
+      }
+    }
+    if (isColumnComplete) {
+      return true;
+    }
+  }
+  return false;
 };
 
 export const generateUniqueNumber = (generatedNumbers: Set<number>): number => {

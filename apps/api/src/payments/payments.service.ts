@@ -17,7 +17,7 @@ interface PaymentWithBoardsAndBingo {
   buyerName: string;
   boards: Array<{
     id: string;
-    number: string;
+    number: number;
     bingo: {
       id: string;
       title: string;

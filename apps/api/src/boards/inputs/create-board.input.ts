@@ -6,10 +6,6 @@ import { BoardStatus } from '@prisma/client';
 export class CreateBoardInput {
   @IsString()
   @Field(() => String)
-  number: string;
-
-  @IsString()
-  @Field(() => String)
   bingoId: string;
 
   @IsOptional()

@@ -47,11 +47,18 @@ enum PaymentStatus {
 
 type Board {
   id: ID!
-  number: String!
+  number: Float!
+  numbers: JSON!
+  markedNumbers: JSON
   status: String!
   payment: Payment
   bingo: Bingo
 }
+
+"""
+The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
+"""
+scalar JSON
 
 type Bingo {
   id: ID!
@@ -229,12 +236,13 @@ type Mutation {
   createBingo(input: CreateBingoInput!): Bingo!
   updateBingo(id: String!, input: UpdateBingoInput!): Bingo!
   deleteBingo(id: String!): Bingo!
-  announceNumber(bingoId: String!): Float
-  startBingoAutoDraw(bingoId: String!): Boolean!
-  stopBingoAutoDraw(bingoId: String!): Boolean!
+  numberDraw(bingoId: String!): Float
+  startAutoNumberDraw(bingoId: String!): Boolean!
+  stopAutoNumberDraw(bingoId: String!): Boolean!
   createBoard(input: CreateBoardInput!): Board!
   updateBoard(id: String!, input: UpdateBoardInput!): Board!
   updateBoardStatus(id: String!, status: BoardStatus!): Board!
+  updateBoardMarkedNumbers(id: String!, markedNumbers: [[Int!]!]!): Board!
   deleteBoard(id: String!): Board!
   createPayment(input: CreatePaymentInput!): Payment!
   updatePayment(id: String!, input: UpdatePaymentInput!): Payment!
@@ -322,7 +330,6 @@ input UpdateBingoInput {
 }
 
 input CreateBoardInput {
-  number: String!
   bingoId: String!
   status: BoardStatus
 }
@@ -337,7 +344,6 @@ enum BoardStatus {
 }
 
 input UpdateBoardInput {
-  number: String
   bingoId: String
   status: BoardStatus
 }
@@ -423,5 +429,5 @@ input UpdatePlanInput {
 }
 
 type Subscription {
-  announceNumber(bingoId: String!): Float!
+  numberDraw(bingoId: String!): Float!
 }

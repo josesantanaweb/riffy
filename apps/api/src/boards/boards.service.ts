@@ -4,6 +4,7 @@ import { Board } from './entities/boards.entity';
 import { CreateBoardInput } from './inputs/create-board.input';
 import { UpdateBoardInput } from './inputs/update-board.input';
 import { BoardStatus } from '@prisma/client';
+import { generateCardNumbers } from '../utils/bingo.utils';
 
 @Injectable()
 export class BoardsService {
@@ -92,8 +93,19 @@ export class BoardsService {
    * @param data Datos del nuevo board
    * @returns El board creado
    */
-  async create(data: CreateBoardInput): Promise<Board> {
-    return await this.prisma.board.create({ data });
+  async create(createBoardInput: CreateBoardInput): Promise<Board> {
+    const numbers = generateCardNumbers();
+
+    const board = await this.prisma.board.create({
+      data: {
+        bingoId: createBoardInput.bingoId,
+        number: await this.generateUniqueCardNumber(),
+        numbers,
+        status: BoardStatus.AVAILABLE,
+      },
+    });
+
+    return board;
   }
 
   /**
@@ -127,6 +139,25 @@ export class BoardsService {
   }
 
   /**
+   * Actualiza los números marcados de un board.
+   * @param id ID del board a actualizar
+   * @param markedNumbers Matriz con los números marcados (-1 = marcado)
+   * @returns El board actualizado
+   */
+  async updateMarkedNumbers(
+    id: string,
+    markedNumbers: number[][],
+  ): Promise<Board> {
+    await this.findOne(id);
+    const updatedBoard = await this.prisma.board.update({
+      where: { id },
+      data: { markedNumbers },
+    });
+
+    return updatedBoard;
+  }
+
+  /**
    * Elimina los datos de un board existente.
    * @param id ID del board a eliminar
    * @returns El board eliminado
@@ -139,5 +170,27 @@ export class BoardsService {
       },
     });
     return board;
+  }
+
+  /**
+   * Genera un número de cartón único.
+   * @returns Número de cartón único
+   */
+  private async generateUniqueCardNumber(): Promise<number> {
+    let unique = false;
+    let number: number;
+
+    while (!unique) {
+      number = Math.floor(Math.random() * 100);
+      const exists = await this.prisma.board.findUnique({
+        where: { number },
+      });
+
+      if (!exists) {
+        unique = true;
+      }
+    }
+
+    return number;
   }
 }
