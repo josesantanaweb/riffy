@@ -3,22 +3,22 @@ import React, { useEffect, useState, useRef } from 'react';
 import type { ReactElement } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button, Input, Select, ImageUpload } from '@riffy/components';
-import { useStore } from '@/store';
 import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { paymentSchema, type FormData } from '@/validations/paymentSchema';
 import {
   useCreatePayment,
   useUserByDomain,
   usePaymentByNationalId,
 } from '@riffy/hooks';
-import { zodResolver } from '@hookform/resolvers/zod';
-import Total from '@/components/common/raffle/raffle-total';
-import PaymentMethod from '../payment-method';
 import { useToast } from '@/hooks';
+import { useStore } from '@/store';
+import { imageUpload } from '@riffy/utils';
 import Alert from '@/components/common/raffle/raffle-alert';
 import Search from '@/components/common/search/Search';
-import PendingPayment from '../payment-pending';
-import { uploadImageToS3 } from '@/utils/imageUpload';
+import PaymentMethod from '@/components/payment/payment-method';
+import PaymentTotal from '@/components/payment/payment-total';
+import PendingPayment from '@/components/payment/payment-pending';
 import { stateOptions } from './states';
 import type { Payment } from '@riffy/types';
 
@@ -100,6 +100,19 @@ const PaymentForm = (): ReactElement => {
     }
   }, [consultPayment, consultPaymentLoading, hasSearched, setValue, toast]);
 
+  useEffect(() => {
+    const subscription = watch((value, { name }) => {
+      if (name === 'nationalId' && hasSearched) {
+        if (!value.nationalId || value.nationalId.trim() === '') {
+          setHasSearched(false);
+          setIsExistingUser(false);
+          lastProcessedPaymentId.current = null;
+        }
+      }
+    });
+    return () => subscription.unsubscribe();
+  }, [watch, hasSearched]);
+
   const handleChangeProofUrl = (
     file: File | null,
     existingUrl?: string | null,
@@ -122,33 +135,6 @@ const PaymentForm = (): ReactElement => {
     }
   };
 
-  const getAlertMessage = () => {
-    if (!hasSearched) {
-      return 'Ingresa tu cédula de identidad y presiona el icono de búsqueda para continuar';
-    }
-
-    if (isExistingUser) {
-      return 'Usuario encontrado. Puedes continuar con el pago.';
-    }
-
-    return 'Eres un nuevo usuario, ingresa tus datos para continuar con el pago';
-  };
-
-  const getAlertType = isExistingUser ? 'success' : 'warning';
-
-  useEffect(() => {
-    const subscription = watch((value, { name }) => {
-      if (name === 'nationalId' && hasSearched) {
-        if (!value.nationalId || value.nationalId.trim() === '') {
-          setHasSearched(false);
-          setIsExistingUser(false);
-          lastProcessedPaymentId.current = null;
-        }
-      }
-    });
-    return () => subscription.unsubscribe();
-  }, [watch, hasSearched]);
-
   const onSubmit = async (data: FormData) => {
     try {
       let finalProofUrl = data.proofUrl || '';
@@ -156,7 +142,7 @@ const PaymentForm = (): ReactElement => {
       if (data.proofFile) {
         setIsUploadingImage(true);
         try {
-          finalProofUrl = await uploadImageToS3(data.proofFile, {
+          finalProofUrl = await imageUpload(data.proofFile, {
             folder: 'payments',
           });
         } catch {
@@ -193,6 +179,20 @@ const PaymentForm = (): ReactElement => {
       toast.error('Error al crear el pago');
     }
   };
+
+  const getAlertMessage = () => {
+    if (!hasSearched) {
+      return 'Ingresa tu cédula de identidad y presiona el icono de búsqueda para continuar';
+    }
+
+    if (isExistingUser) {
+      return 'Usuario encontrado. Puedes continuar con el pago.';
+    }
+
+    return 'Eres un nuevo usuario, ingresa tus datos para continuar con el pago';
+  };
+
+  const getAlertType = isExistingUser ? 'success' : 'warning';
 
   return (
     <form className="form flex flex-col gap-3" onSubmit={handleSubmit(onSubmit)}>
@@ -311,7 +311,7 @@ const PaymentForm = (): ReactElement => {
       </div>
 
       <div className="w-full max-w-md flex flex-col gap-3">
-        <Total
+        <PaymentTotal
           totalTickets={cart?.totalTickets || 0}
           price={cart?.price || null}
         />
@@ -326,6 +326,7 @@ const PaymentForm = (): ReactElement => {
           {isUploadingImage ? 'Realizando compra...' : 'Pagar'}
         </Button>
       </div>
+
       {createdPayment && (
         <PendingPayment isOpen={isOpenPendingPayment} data={createdPayment} />
       )}

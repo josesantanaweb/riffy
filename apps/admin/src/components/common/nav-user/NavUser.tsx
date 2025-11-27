@@ -1,20 +1,17 @@
 'use client';
 import React, { useState, useRef, useEffect } from 'react';
-import { Avatar, Icon } from '@riffy/components';
 import type { ReactElement } from 'react';
-import { User } from '@riffy/types';
+import { Avatar, Icon, Switch } from '@riffy/components';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useRouter } from 'next/navigation';
-import { roleLabel } from '@/utils';
+import { User } from '@riffy/types';
 import { useAuth, useTheme } from '@riffy/hooks';
-import Switch from '../switch/Switch';
+import { roleLabel } from '@/utils';
 
 interface NavUserProps {
   profile: User;
 }
 
 const NavUser = ({ profile }: NavUserProps): ReactElement => {
-  const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const { logout } = useAuth();
@@ -46,7 +43,6 @@ const NavUser = ({ profile }: NavUserProps): ReactElement => {
   };
 
   const handleProfile = () => {
-    router.push('/profile');
     setIsOpen(false);
   };
 
@@ -129,7 +125,9 @@ const NavUser = ({ profile }: NavUserProps): ReactElement => {
                     name={theme === 'dark' ? 'sun' : 'moon'}
                     className="text-base"
                   />
-                  <span className="text-sm">{theme === 'dark' ? 'Tema claro' : 'Tema oscuro'}</span>
+                  <span className="text-sm">
+                    {theme === 'dark' ? 'Tema claro' : 'Tema oscuro'}
+                  </span>
                 </div>
                 <Switch checked={theme === 'dark'} onChange={toggleTheme} />
               </div>

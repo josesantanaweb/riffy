@@ -17,3 +17,5 @@ export { default as Logo } from './components/logo';
 export { default as Pagination } from './components/pagination';
 export { default as ImageUpload } from './components/image-upload';
 export { default as ProgressBar } from './components/progress-bar';
+export { default as Switch } from './components/switch';
+export { default as ColorInput } from './components/color-input';

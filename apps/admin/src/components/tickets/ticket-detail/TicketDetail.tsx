@@ -6,7 +6,7 @@ import { Button, Icon, Select } from '@riffy/components';
 import { Ticket, TicketStatus } from '@riffy/types';
 import { useToast } from '@/hooks';
 import { useUpdateTicketStatus } from '@riffy/hooks';
-import { formatCurrency, formatDate } from '@/utils';
+import { formatCurrency, formatDate } from '@riffy/utils';
 
 interface TicketDetailProps {
   isOpen: boolean;

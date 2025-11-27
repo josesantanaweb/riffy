@@ -4,19 +4,19 @@ import { useParams } from 'next/navigation';
 import type { ReactElement } from 'react';
 import { useRouter } from 'next/navigation';
 import { Button } from '@riffy/components';
+import { useIsIPhone } from '@riffy/hooks';
 import Alert from '@/components/common/raffle/raffle-alert';
 import Tickets from './tickets/Tickets';
 import RaffleProgress from '@/components/common/raffle/raffle-progress';
-import TotalBox from '@/components/common/raffle/raffle-total';
+import TotalBox from '@/components/payment/payment-total';
 import { useRaffle } from '@riffy/hooks';
-import { formatDate } from '@/utils';
+import { formatDate } from '@riffy/utils';
 import { useStore } from '@/store';
+import { ROUTES } from '@/constants';
 import { RaffleStatus } from '@riffy/types';
 import RaffleBanner from '@/components/common/raffle/raffle-banner';
 import RaffleTitle from '@/components/common/raffle/raffle-title';
-import { ROUTES } from '@/constants';
-import { useIsIPhone } from '@/hooks';
-import TicketTitle from './tickets/ticket-title/TicketTitle';
+import TicketTitle from '@/components/common/tickets/ticket-title';
 
 const RafflePage = (): ReactElement => {
   const router = useRouter();

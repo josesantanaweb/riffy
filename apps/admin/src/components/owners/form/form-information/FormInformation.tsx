@@ -1,12 +1,11 @@
 'use client';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useFormContext } from 'react-hook-form';
-import { Icon, Input, Select } from '@riffy/components';
+import { Icon, Input, Select, ColorInput } from '@riffy/components';
 import type { FormData } from '@/validations/ownerSchema';
 import { UserStatus } from '@riffy/types';
 import { usePlans } from '@riffy/hooks';
-import ColorInput from '@/components/common/color-input';
 
 const FormInformation = () => {
   const { data: plans } = usePlans();
@@ -32,6 +31,10 @@ const FormInformation = () => {
   const handleCollapse = () => setIsCollapse(prev => !prev);
 
   const formValues = watch();
+
+  useEffect(() => {
+    register('brandColor');
+  }, [register]);
 
   return (
     <div className="bg-box-primary rounded-xl relative">
@@ -179,12 +182,10 @@ const FormInformation = () => {
                     label="Color de Marca"
                     placeholder="#000000"
                     value={formValues.brandColor || ''}
-                    register={register}
-                    name="brandColor"
-                    error={errors.brandColor}
                     onChange={value =>
                       setValue('brandColor', value, { shouldValidate: true })
                     }
+                    error={errors.brandColor?.message}
                     inputSize="md"
                   />
                 </div>

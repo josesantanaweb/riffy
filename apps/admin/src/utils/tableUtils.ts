@@ -6,8 +6,9 @@ import {
   RaffleStatus,
   TicketStatus,
   UserStatus,
+  Currency
 } from '@riffy/types';
-import { Currency, formatCurrency, formatDate } from '@/utils';
+import { formatCurrency, formatDate } from '@riffy/utils';
 
 export const TABLE_CLASSES = {
   cell: 'px-4 h-14 font-medium text-body-100 text-sm',

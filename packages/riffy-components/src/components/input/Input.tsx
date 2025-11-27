@@ -3,7 +3,7 @@ import React from 'react';
 import { forwardRef } from 'react';
 import Icon, { type IconName } from '../icon';
 
-import { cn } from '../../utils/cn';
+import { cn } from '@riffy/utils';
 
 interface InputProps {
   id?: string;
@@ -110,7 +110,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
       sizeConfig.textSize,
       icon && iconPosition === 'right' && sizeConfig.inputPadding.right,
       icon && iconPosition === 'left' && sizeConfig.inputPadding.left,
-      props.disabled ? 'text-base-500' : 'dark:text-white text-body-100',
+      props.disabled ? 'text-body-100/80 cursor-not-allowed' : 'text-body-100',
       className,
     );
 

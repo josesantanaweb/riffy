@@ -2,6 +2,7 @@
 'use client';
 import React from 'react';
 import { ColumnDef } from '@tanstack/react-table';
+import { useBreakpoint } from '@riffy/hooks';
 import DataTable from '@/components/common/data-table';
 import { TableAction, TableButton } from '@/components/common/data-table/types';
 import {
@@ -10,7 +11,6 @@ import {
   createCurrencyColumn,
 } from '@/utils';
 import { Plan } from '@riffy/types';
-import { useBreakpoint } from '@/hooks';
 import TableSkeleton from '@/components/common/skeleton/TableSkeleton';
 
 interface PlansTableProps {

@@ -1,10 +1,11 @@
 'use client';
 import { useEffect } from 'react';
+import { useBreakpoint } from '@riffy/hooks';
 import Sidebar from '@/components/common/sidebar';
 import MobileSidebar from '@/components/common/sidebar/MobileSidebar';
 import Navbar from './navbar';
+import Footer from './footer'
 import { useStore } from '@/store';
-import { useBreakpoint } from '@/hooks';
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   const { collapseSidebar } = useStore();
@@ -24,6 +25,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         <div className={`min-h-screen h-full ${layoutClass}`}>
           <Navbar />
           <div className="min-h-full bg-admin-bg">{children}</div>
+          <Footer />
         </div>
       </main>
 

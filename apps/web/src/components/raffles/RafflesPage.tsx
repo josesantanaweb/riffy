@@ -1,11 +1,12 @@
 'use client';
 import React from 'react';
 import type { ReactElement } from 'react';
-import RaffleCard from './raffle-card';
-import Skeleton from './skeleton';
+import { useIsIPhone } from '@riffy/hooks';
 import { useStore } from '@/store';
-import { useIsIPhone } from '@/hooks';
-import EmptyRaffles from './empty-raffles';
+
+import RaffleCard from '../common/raffle/raffle-card';
+import RafflesEmpty from '../common/raffle/raffles-empty';
+import Skeleton from './Skeleton';
 
 const RafflesPage = (): ReactElement => {
   const { user, loading } = useStore();
@@ -26,7 +27,7 @@ const RafflesPage = (): ReactElement => {
         ))}
 
       {!loading && user && (!user.raffles || user.raffles.length === 0) && (
-        <EmptyRaffles />
+        <RafflesEmpty />
       )}
     </div>
   );

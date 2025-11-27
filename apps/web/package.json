@@ -51,6 +51,7 @@
     "@riffy/hooks": "workspace:*",
     "@riffy/jest-config": "workspace:*",
     "@riffy/types": "workspace:*",
+    "@riffy/utils": "workspace:*",
     "@riffy/typescript-config": "workspace:*",
     "@tailwindcss/postcss": "^4.1.15",
     "@testing-library/jest-dom": "^6.4.5",

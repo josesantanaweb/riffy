@@ -1,6 +1,6 @@
 'use client';
 import React from 'react';
-import { cn } from '../../utils/cn';
+import { cn } from '@riffy/utils';
 
 interface CheckboxProps {
   checked: boolean;
@@ -22,8 +22,8 @@ const Checkbox: React.FC<CheckboxProps> = ({
   const baseClasses =
     'w-5 h-5 border-2 rounded transition-all duration-200 ease-in-out';
   const customClasses = {
-    'border-base-500 bg-box-primary': !disabled,
-    'border-base-500 bg-base-500 cursor-not-allowed': disabled,
+    'border-input-border bg-box-primary': !disabled,
+    'border-input-border bg-input-border cursor-not-allowed': disabled,
     'cursor-pointer': !disabled,
   };
 
