@@ -9,7 +9,7 @@ export class TopBuyer {
   nationalId: string;
 
   @Field(() => Int)
-  totalTickets: number;
+  totalBoards: number;
 
   @Field(() => Float)
   totalSpent: number;

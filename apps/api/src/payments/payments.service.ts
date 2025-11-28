@@ -5,20 +5,20 @@ import { CreatePaymentInput } from './inputs/create-payment.input';
 import { UpdatePaymentInput } from './inputs/update-payment.input';
 import {
   PaymentStatus,
-  TicketStatus,
+  BoardStatus,
   NotificationStatus,
   Role,
 } from '@prisma/client';
 import { NotificationsService } from '../notifications/notifications.service';
 import { User } from '../users/entities/user.entity';
 
-interface PaymentWithTicketsAndRaffle {
+interface PaymentWithBoardsAndBingo {
   id: string;
   buyerName: string;
-  tickets: Array<{
+  boards: Array<{
     id: string;
-    number: string;
-    raffle: {
+    number: number;
+    bingo: {
       id: string;
       title: string;
       ownerId: string;
@@ -36,18 +36,18 @@ export class PaymentsService {
   /**
    * Obtiene todos los payments registradas en la base de datos.
    * @param user Usuario autenticado
-   * @param raffleId Filtro opcional por raffleId
+   * @param bingoId Filtro opcional por bingoId
    * @returns Arreglo de payments
    */
-  async findAll(user: User, raffleId?: string): Promise<Payment[]> {
+  async findAll(user: User, bingoId?: string): Promise<Payment[]> {
     let whereClause: Record<string, unknown> = {};
 
     if (user.role !== Role.ADMIN) {
       whereClause = {
         ...whereClause,
-        tickets: {
+        boards: {
           some: {
-            raffle: {
+            bingo: {
               ownerId: user.id,
             },
           },
@@ -55,18 +55,18 @@ export class PaymentsService {
       };
     }
 
-    if (raffleId) {
+    if (bingoId) {
       whereClause = {
         ...whereClause,
-        raffleId,
+        bingoId,
       };
     }
 
     const payments = await this.prisma.payment.findMany({
       where: whereClause,
       include: {
-        tickets: true,
-        raffle: true,
+        boards: true,
+        bingo: true,
       },
       orderBy: {
         createdAt: 'desc',
@@ -88,8 +88,8 @@ export class PaymentsService {
         id,
       },
       include: {
-        tickets: true,
-        raffle: true,
+        boards: true,
+        bingo: true,
       },
     });
 
@@ -98,7 +98,7 @@ export class PaymentsService {
     }
 
     if (user.role !== Role.ADMIN) {
-      const isOwner = payment.raffle.ownerId === user.id;
+      const isOwner = payment.bingo.ownerId === user.id;
 
       if (!isOwner) {
         throw new NotFoundException(`Payment with id ${id} not found`);
@@ -135,21 +135,21 @@ export class PaymentsService {
    * @returns El payment creado
    */
   async create(data: CreatePaymentInput): Promise<Payment> {
-    const { ticketIds, ...paymentData } = data;
+    const { boardIds, ...paymentData } = data;
 
     const payment = await this.prisma.$transaction(async (tx) => {
       const newPayment = await tx.payment.create({
         data: paymentData,
       });
 
-      await tx.ticket.updateMany({
+      await tx.board.updateMany({
         where: {
           id: {
-            in: ticketIds,
+            in: boardIds,
           },
         },
         data: {
-          status: TicketStatus.SOLD,
+          status: BoardStatus.SOLD,
           paymentId: newPayment.id,
         },
       });
@@ -157,9 +157,9 @@ export class PaymentsService {
       return await tx.payment.findUnique({
         where: { id: newPayment.id },
         include: {
-          tickets: {
+          boards: {
             include: {
-              raffle: true,
+              bingo: true,
             },
           },
         },
@@ -191,7 +191,7 @@ export class PaymentsService {
   }
 
   /**
-   * Actualiza el estado de un payment y los tickets asociados.
+   * Actualiza el estado de un payment y los boards asociados.
    * @param id ID del payment a actualizar
    * @param status Nuevo estado del payment
    * @param user Usuario autenticado
@@ -209,34 +209,34 @@ export class PaymentsService {
         where: { id },
         data: { status },
         include: {
-          tickets: true,
+          boards: true,
         },
       });
 
-      if (payment.tickets && payment.tickets.length > 0) {
-        const ticketIds = payment.tickets.map((ticket) => ticket.id);
+      if (payment.boards && payment.boards.length > 0) {
+        const boardIds = payment.boards.map((board) => board.id);
 
         if (status === PaymentStatus.DENIED) {
-          await tx.ticket.updateMany({
+          await tx.board.updateMany({
             where: {
               id: {
-                in: ticketIds,
+                in: boardIds,
               },
             },
             data: {
-              status: TicketStatus.AVAILABLE,
+              status: BoardStatus.AVAILABLE,
               paymentId: null,
             },
           });
         } else if (status === PaymentStatus.VERIFIED) {
-          await tx.ticket.updateMany({
+          await tx.board.updateMany({
             where: {
               id: {
-                in: ticketIds,
+                in: boardIds,
               },
             },
             data: {
-              status: TicketStatus.SOLD,
+              status: BoardStatus.SOLD,
             },
           });
         }
@@ -264,25 +264,25 @@ export class PaymentsService {
 
   /**
    * Crea una notificación cuando se realiza un pago.
-   * @param payment Payment con tickets y rifa incluidos
+   * @param payment Payment con boards y rifa incluidos
    */
   private async createNotificationForPayment(
-    payment: PaymentWithTicketsAndRaffle,
+    payment: PaymentWithBoardsAndBingo,
   ): Promise<void> {
-    if (!payment.tickets || payment.tickets.length === 0) {
+    if (!payment.boards || payment.boards.length === 0) {
       return;
     }
 
-    const raffle = payment.tickets[0]?.raffle;
-    if (!raffle) {
+    const bingo = payment.boards[0]?.bingo;
+    if (!bingo) {
       return;
     }
 
-    const ticketNumbers = payment.tickets
-      .map((ticket) => `#${ticket.number}`)
+    const boardNumbers = payment.boards
+      .map((board) => `#${board.number}`)
       .join(', ');
 
-    const description = `${payment.buyerName} compro el boleto ${ticketNumbers} de la ${raffle.title}`;
+    const description = `${payment.buyerName} compro el boleto ${boardNumbers} de la ${bingo.title}`;
 
     await this.notificationsService.create(
       {
@@ -290,7 +290,7 @@ export class PaymentsService {
         status: NotificationStatus.UNREAD,
       },
       {
-        id: raffle.ownerId,
+        id: bingo.ownerId,
         role: Role.OWNER,
       },
     );

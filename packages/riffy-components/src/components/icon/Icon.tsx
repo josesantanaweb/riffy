@@ -43,6 +43,7 @@ export type IconName =
   | 'sun'
   | 'moon'
   | 'settings'
+  | 'star'
   | 'dots';
 
 interface IconProps {

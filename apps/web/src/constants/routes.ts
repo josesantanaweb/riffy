@@ -2,9 +2,9 @@ export const ROUTES = {
   LOGIN: '/login',
   REGISTER: '/register',
   RAFFLES: {
-    LIST: '/raffles',
-    RAFFLE: (id: string) => `/raffles/${id}`,
-    VERIFY_TICKET: (id: string) => `/raffles/${id}/verify-ticket`,
+    LIST: '/bingos',
+    RAFFLE: (id: string) => `/bingos/${id}`,
+    VERIFY_TICKET: (id: string) => `/bingos/${id}/verify-board`,
   },
   PAYMENT: '/payment',
 };

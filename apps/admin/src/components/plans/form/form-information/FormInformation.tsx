@@ -101,9 +101,9 @@ const FormInformation = () => {
                     placeholder="Ingresa la cantidad de rifas"
                     inputSize="md"
                     type="number"
-                    value={formValues.maxRaffles || ''}
-                    {...register('maxRaffles')}
-                    error={errors.maxRaffles?.message}
+                    value={formValues.maxBingos || ''}
+                    {...register('maxBingos')}
+                    error={errors.maxBingos?.message}
                   />
                 </div>
               </div>
@@ -115,9 +115,9 @@ const FormInformation = () => {
                     placeholder="Ingresa la cantidad de boletos"
                     inputSize="md"
                     type="number"
-                    value={formValues.maxTickets || ''}
-                    {...register('maxTickets')}
-                    error={errors.maxTickets?.message}
+                    value={formValues.maxBoards || ''}
+                    {...register('maxBoards')}
+                    error={errors.maxBoards?.message}
                   />
                 </div>
                 <div className="w-full lg:w-1/2">

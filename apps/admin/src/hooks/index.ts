@@ -1,3 +1,3 @@
 export { useToast } from './useToast';
 export { useRole } from './useRole';
-export { useTickets } from './useTickets';
+export { useBoards } from './useBoards';

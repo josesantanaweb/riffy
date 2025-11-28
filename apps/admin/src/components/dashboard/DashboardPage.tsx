@@ -17,16 +17,16 @@ const DashboardPage = () => {
   const { data: profile } = useProfile();
   const { data: dashboardStats } = useDashboardStats();
 
-  const totalRaffles = dashboardStats?.totalRaffles || 0;
-  const soldTickets = dashboardStats?.soldTickets || 0;
-  const unsoldTickets = dashboardStats?.unsoldTickets || 0;
+  const totalBingos = dashboardStats?.totalBingos || 0;
+  const soldBoards = dashboardStats?.soldBoards || 0;
+  const unsoldBoards = dashboardStats?.unsoldBoards || 0;
   const totalWinners = dashboardStats?.totalWinners || 0;
   const totalEarnings = dashboardStats?.totalEarnings || 0;
   const topBuyers = dashboardStats?.topBuyers || [];
   const paymentsByState = dashboardStats?.paymentsByState || [];
   const lastPayments = dashboardStats?.lastPayments || [];
 
-  const handleCreateRaffle = () => router.push(ROUTES.RAFFLES.CREATE);
+  const handleCreateBingo = () => router.push(ROUTES.RAFFLES.CREATE);
 
   return (
     <div className="p-6 flex-col flex gap-6">
@@ -49,7 +49,7 @@ const DashboardPage = () => {
               </p>
             </div>
           </div>
-          <Button size="md" variant="primary" onClick={handleCreateRaffle}>
+          <Button size="md" variant="primary" onClick={handleCreateBingo}>
             <Icon
               name="plus"
               className="text-lg text-center w-[14px] flex justify-center"
@@ -72,7 +72,7 @@ const DashboardPage = () => {
           <div className="flex items-center justify-between gap-4 bg-box-primary rounded-xl p-6">
             <div className="flex flex-col gap-2">
               <h2 className="text-2xl font-medium text-primary-500">
-                {formatCurrency(soldTickets, 'VES')}
+                {formatCurrency(soldBoards, 'VES')}
               </h2>
               <p className="text-sm text-title">Boletos Vendidos</p>
             </div>
@@ -83,7 +83,7 @@ const DashboardPage = () => {
           <div className="flex items-center justify-between gap-4 bg-box-primary rounded-xl p-6">
             <div className="flex flex-col gap-2">
               <h2 className="text-2xl font-medium text-primary-500">
-                {totalRaffles}
+                {totalBingos}
               </h2>
               <p className="text-sm text-title">Rifas Creadas</p>
             </div>
@@ -105,7 +105,7 @@ const DashboardPage = () => {
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
           <EarningsChart />
-          <ProgressChart sold={soldTickets} unsold={unsoldTickets} />
+          <ProgressChart sold={soldBoards} unsold={unsoldBoards} />
           <StateChart paymentsByState={paymentsByState} />
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">

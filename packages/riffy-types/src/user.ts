@@ -1,5 +1,5 @@
 import { PaymentMethod } from "./payment";
-import { Raffle } from "./raffle";
+import { Bingo } from "./bingo";
 import { Plan } from "./plan";
 import { PlanUsage } from "./plan-usage";
 
@@ -25,7 +25,7 @@ export interface User {
   logo?: string | null;
   role?: Role | null;
   status?: UserStatus | null;
-  raffles?: Raffle[] | null;
+  bingos?: Bingo[] | null;
   paymentMethods?: PaymentMethod[] | null;
   plan?: Plan | null;
   planUsage?: PlanUsage | null;

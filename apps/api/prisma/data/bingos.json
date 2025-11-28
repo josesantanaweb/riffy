@@ -1,0 +1,14 @@
+[
+  {
+    "title": "Rifa Toyota 4runner 2025 TRD ",
+    "banner": "/images/banner-1.png",
+    "totalBoards": 100,
+    "price": 10,
+    "award": 1000,
+    "drawDate": "2026-01-01T00:00:00.000Z",
+    "status": "ACTIVE",
+    "showDate": true,
+    "showProgress": true,
+    "minBoards": 2
+  }
+]

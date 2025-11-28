@@ -47,9 +47,9 @@ const LastPayments = ({ payments }: LastPaymentsProps) => {
           {payments.map(payment => (
             <div className="items-center py-2 grid grid-cols-4 md:grid-cols-5" key={payment.id}>
               <p className="text-table-text text-sm flex items-center justify-center font-medium">
-                {payment.tickets && payment.tickets.length > 1
-                  ? `${payment.tickets.length} tickets`
-                  : payment.tickets?.map(ticket => ticket.number).join(', ')}
+                {payment.boards && payment.boards.length > 1
+                  ? `${payment.boards.length} boards`
+                  : payment.boards?.map(board => board.number).join(', ')}
               </p>
               <p className="text-table-text text-sm flex items-center justify-center font-medium max-w-[85px] truncate">
                 {payment.buyerName}

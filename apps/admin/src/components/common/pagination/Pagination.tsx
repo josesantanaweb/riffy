@@ -4,7 +4,7 @@ import { cn } from '@riffy/utils';
 interface PaginationProps {
   currentPage: number;
   totalPages: number;
-  totalTickets: number;
+  totalBoards: number;
   onPrevPage: () => void;
   onNextPage: () => void;
 }
@@ -12,7 +12,7 @@ interface PaginationProps {
 const Pagination = ({
   currentPage,
   totalPages,
-  totalTickets,
+  totalBoards,
   onPrevPage,
   onNextPage,
 }: PaginationProps) => {
@@ -39,7 +39,7 @@ const Pagination = ({
           Página {currentPage} de {totalPages}
         </span>
         <span className="font-medium text-primary-500 text-sm">
-          Total: {totalTickets}
+          Total: {totalBoards}
         </span>
       </div>
       <div className="flex items-center gap-2">

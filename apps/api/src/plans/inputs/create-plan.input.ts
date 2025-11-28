@@ -26,12 +26,12 @@ export class CreatePlanInput {
   @IsOptional()
   @IsNumber()
   @Field(() => Number, { nullable: true })
-  maxRaffles?: number;
+  maxBingos?: number;
 
   @IsOptional()
   @IsNumber()
   @Field(() => Number, { nullable: true })
-  maxTickets?: number;
+  maxBoards?: number;
 
   @IsEnum(PlanType)
   @Field(() => PlanType)

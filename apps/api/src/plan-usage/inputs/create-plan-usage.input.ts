@@ -13,10 +13,10 @@ export class CreatePlanUsageInput {
 
   @IsNumber()
   @Field(() => Number)
-  currentRaffles: number;
+  currentBingos: number;
 
   @IsOptional()
   @IsNumber()
   @Field(() => Number, { nullable: true })
-  currentTickets?: number;
+  currentBoards?: number;
 }

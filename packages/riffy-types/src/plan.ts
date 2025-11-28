@@ -9,8 +9,8 @@ export interface Plan {
   name: string;
   description: string[];
   price: number;
-  maxRaffles?: number;
-  maxTickets?: number;
+  maxBingos?: number;
+  maxBoards?: number;
   type?: PlanType | null;
   createdAt: string;
   updatedAt: string;
@@ -20,8 +20,8 @@ export interface CreatePlanInput {
   name: string;
   description: string[];
   price: number;
-  maxRaffles?: number;
-  maxTickets?: number;
+  maxBingos?: number;
+  maxBoards?: number;
   type?: PlanType | null;
 }
 
