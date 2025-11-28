@@ -1,49 +1,49 @@
 'use client';
 import { useState, useEffect } from 'react';
-import { useRaffles, useTicketsByRaffle } from '@riffy/hooks';
+import { useBingos, useBoardsByBingo } from '@riffy/hooks';
 import { Input, Select } from '@riffy/components';
 import PageHeader from '@/components/common/page-header';
-import TicketDetail from './ticket-detail';
-import { Ticket } from '@riffy/types';
-import TicketsGrid from './tickets-grid';
-import TicketsFooter from './tickets-footer';
-import { useTickets } from '@/hooks';
+import BoardDetail from './board-detail';
+import { Board } from '@riffy/types';
+import BoardsGrid from './boards-grid';
+import BoardsFooter from './boards-footer';
+import { useBoards } from '@/hooks';
 
-const Tickets = () => {
-  const [selectedRaffleId, setSelectedRaffleId] = useState<string>('');
+const Boards = () => {
+  const [selectedBingoId, setSelectedBingoId] = useState<string>('');
   const [search, setSearch] = useState<string>('');
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedTicket, setSelectedTicket] = useState<Ticket | null>(null);
+  const [selectedBoard, setSelectedBoard] = useState<Board | null>(null);
 
-  const { data: raffles } = useRaffles();
-  const { data: tickets, loading } = useTicketsByRaffle(selectedRaffleId);
+  const { data: bingos } = useBingos();
+  const { data: boards, loading } = useBoardsByBingo(selectedBingoId);
 
   const {
-    currentTickets,
+    currentBoards,
     totalPages,
     currentPage,
     nextPage,
     prevPage,
-    totalTickets,
-  } = useTickets({
-    tickets,
-    ticketsPerPage: 50,
+    totalBoards,
+  } = useBoards({
+    boards,
+    boardsPerPage: 50,
   });
 
-  const rafflesOptions = raffles?.map(raffle => ({
-    value: raffle.id,
-    label: raffle.title,
+  const bingosOptions = bingos?.map(bingo => ({
+    value: bingo.id,
+    label: bingo.title,
   }));
 
   useEffect(() => {
-    if (raffles && raffles.length > 0 && !selectedRaffleId) {
-      setSelectedRaffleId(raffles[0].id);
+    if (bingos && bingos.length > 0 && !selectedBingoId) {
+      setSelectedBingoId(bingos[0].id);
     }
-  }, [raffles, selectedRaffleId]);
+  }, [bingos, selectedBingoId]);
 
-  const handleSelect = (ticket: Ticket) => {
+  const handleSelect = (board: Board) => {
     setIsOpen(true);
-    setSelectedTicket(ticket);
+    setSelectedBoard(board);
   };
 
   return (
@@ -53,10 +53,10 @@ const Tickets = () => {
         <div className="flex justify-between items-end w-full flex-col md:flex-row gap-3 md:gap-0">
           <div className="w-full md:w-[25%]">
             <Select
-              options={rafflesOptions}
+              options={bingosOptions}
               label="Selecciona una rifa"
-              value={selectedRaffleId}
-              onChange={setSelectedRaffleId}
+              value={selectedBingoId}
+              onChange={setSelectedBingoId}
               size="md"
               placeholder="Elige una rifa..."
             />
@@ -73,28 +73,28 @@ const Tickets = () => {
           </div>
         </div>
 
-        <TicketsGrid
-          tickets={currentTickets}
+        <BoardsGrid
+          boards={currentBoards}
           loading={loading}
           onSelect={handleSelect}
           search={search}
         />
 
-        <TicketsFooter
+        <BoardsFooter
           currentPage={currentPage}
           totalPages={totalPages}
-          totalTickets={totalTickets}
+          totalBoards={totalBoards}
           onPrevPage={prevPage}
           onNextPage={nextPage}
         />
       </div>
-      <TicketDetail
+      <BoardDetail
         isOpen={isOpen}
         setIsOpen={setIsOpen}
-        ticket={selectedTicket}
+        board={selectedBoard}
       />
     </div>
   );
 };
 
-export default Tickets;
+export default Boards;

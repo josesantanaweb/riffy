@@ -2,11 +2,11 @@
 import React, { useEffect, useCallback, useState } from 'react';
 import { Button } from '@riffy/components';
 import { useRouter, useParams } from 'next/navigation';
-import { useCreateRaffle, useRaffle, useUpdateRaffle, usePlanUsage } from '@riffy/hooks';
+import { useCreateBingo, useBingo, useUpdateBingo, usePlanUsage } from '@riffy/hooks';
 import { useToast } from '@/hooks';
 import { useForm, FormProvider } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { createRaffleSchema, type FormData } from '@/validations/raffleSchema';
+import { createBingoSchema, type FormData } from '@/validations/bingoSchema';
 import { ROUTES } from '@/constants';
 import { imageUpload } from '@riffy/utils';
 import { extractErrorMessage } from '@/utils';
@@ -19,23 +19,23 @@ const DEFAULT_VALUES: FormData = {
   drawDate: new Date(),
   price: '',
   award: '',
-  totalTickets: '',
+  totalBoards: '',
   status: 'ACTIVE',
   description: '',
   banner: '',
   bannerFile: null,
   showDate: true,
   showProgress: true,
-  minTickets: '2',
+  minBoards: '2',
 };
 
 const DEFAULT_BANNER = '/images/banner.png';
 
-const RafflesForm = () => {
+const BingosForm = () => {
   const [isUploadingImage, setIsUploadingImage] = useState(false);
 
   const methods = useForm<FormData>({
-    resolver: zodResolver(createRaffleSchema),
+    resolver: zodResolver(createBingoSchema),
     mode: 'onChange',
     defaultValues: DEFAULT_VALUES,
   });
@@ -48,33 +48,33 @@ const RafflesForm = () => {
 
   const router = useRouter();
   const toast = useToast();
-  const raffleId = useParams().raffleId as string | undefined;
-  const { data: raffleData } = useRaffle(raffleId);
-  const { createRaffle, loading: isCreating } = useCreateRaffle();
-  const { updateRaffle } = useUpdateRaffle();
+  const bingoId = useParams().bingoId as string | undefined;
+  const { data: bingoData } = useBingo(bingoId);
+  const { createBingo, loading: isCreating } = useCreateBingo();
+  const { updateBingo } = useUpdateBingo();
   const { canCreateBingo, canCreateBoards, bingoLimitMessage, boardLimitMessage } = usePlanUsage();
 
-  const isUpdating = Boolean(raffleData);
+  const isUpdating = Boolean(bingoData);
 
   useEffect(() => {
-    if (!raffleData) return;
+    if (!bingoData) return;
     reset({
-      title: raffleData.title || '',
-      drawDate: raffleData.drawDate
-        ? new Date(raffleData.drawDate)
+      title: bingoData.title || '',
+      drawDate: bingoData.drawDate
+        ? new Date(bingoData.drawDate)
         : new Date(),
-      price: String(raffleData.price ?? ''),
-      award: String(raffleData.award ?? ''),
-      totalTickets: String(raffleData.totalTickets ?? ''),
-      status: raffleData.status || 'ACTIVE',
-      description: raffleData.description || '',
-      banner: raffleData.banner || '',
+      price: String(bingoData.price ?? ''),
+      award: String(bingoData.award ?? ''),
+      totalBoards: String(bingoData.totalBoards ?? ''),
+      status: bingoData.status || 'ACTIVE',
+      description: bingoData.description || '',
+      banner: bingoData.banner || '',
       bannerFile: null,
-      showDate: raffleData.showDate ?? true,
-      showProgress: raffleData.showProgress ?? true,
-      minTickets: String(raffleData.minTickets ?? 2),
+      showDate: bingoData.showDate ?? true,
+      showProgress: bingoData.showProgress ?? true,
+      minBoards: String(bingoData.minBoards ?? 2),
     });
-  }, [raffleData, reset]);
+  }, [bingoData, reset]);
 
   const handleBack = useCallback(() => router.back(), [router]);
 
@@ -85,12 +85,12 @@ const RafflesForm = () => {
       description,
       price,
       award,
-      totalTickets,
+      totalBoards,
       drawDate,
       bannerFile,
       showDate,
       showProgress,
-      minTickets,
+      minBoards,
     } = data;
 
     if (!isUpdating) {
@@ -99,9 +99,9 @@ const RafflesForm = () => {
         return;
       }
 
-      const boardValidation = canCreateBoards(Number(totalTickets));
+      const boardValidation = canCreateBoards(Number(totalBoards));
       if (!boardValidation) {
-        const boardMessage = boardLimitMessage(Number(totalTickets));
+        const boardMessage = boardLimitMessage(Number(totalBoards));
         toast.error(boardMessage || 'No puedes crear esa cantidad de boards con tu plan actual');
         return;
       }
@@ -114,7 +114,7 @@ const RafflesForm = () => {
         setIsUploadingImage(true);
         try {
           finalBannerUrl = await imageUpload(bannerFile, {
-            folder: 'raffles',
+            folder: 'bingos',
           });
         } catch {
           finalBannerUrl = DEFAULT_BANNER;
@@ -123,25 +123,25 @@ const RafflesForm = () => {
         }
       }
 
-      const raffleInput = {
+      const bingoInput = {
         title: title,
         price: Number(price),
         award: Number(award),
-        totalTickets: Number(totalTickets),
+        totalBoards: Number(totalBoards),
         drawDate: new Date(drawDate).toISOString(),
         status,
         description,
         banner: finalBannerUrl,
         showDate: showDate ?? true,
         showProgress: showProgress ?? true,
-        minTickets: minTickets ? Number(minTickets) : 2,
+        minBoards: minBoards ? Number(minBoards) : 2,
       };
 
-      if (isUpdating && raffleData?.id) {
-        await updateRaffle(raffleData.id, raffleInput);
+      if (isUpdating && bingoData?.id) {
+        await updateBingo(bingoData.id, bingoInput);
         toast.success('Rifa actualizada exitosamente!!');
       } else {
-        await createRaffle(raffleInput);
+        await createBingo(bingoInput);
         toast.success('Rifa creada exitosamente!!');
       }
 
@@ -202,4 +202,4 @@ const RafflesForm = () => {
   );
 };
 
-export default RafflesForm;
+export default BingosForm;

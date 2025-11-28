@@ -3,9 +3,9 @@ export const ROUTES = {
   LOGIN: '/login',
   REGISTER: '/register',
   RAFFLES: {
-    LIST: '/raffles',
-    CREATE: '/raffles/create',
-    EDIT: (id: string) => `/raffles/edit/${id}`,
+    LIST: '/bingos',
+    CREATE: '/bingos/create',
+    EDIT: (id: string) => `/bingos/edit/${id}`,
   },
   OWNERS: {
     LIST: '/owners',
@@ -27,9 +27,9 @@ export const ROUTES = {
     EDIT: (id: string) => `/plans/edit/${id}`,
   },
   TICKETS: {
-    LIST: `/tickets`,
-    CREATE: '/tickets/create',
-    EDIT: (id: string) => `/tickets/edit/${id}`,
+    LIST: `/boards`,
+    CREATE: '/boards/create',
+    EDIT: (id: string) => `/boards/edit/${id}`,
   },
   LOGOUT: '/logout',
 };
@@ -58,7 +58,7 @@ export const MENU: MenuItem[] = [
   },
   {
     label: 'Boletos',
-    icon: 'ticket',
+    icon: 'board',
     path: ROUTES.TICKETS.LIST,
     requiredRoles: [Role.ADMIN, Role.OWNER],
   },

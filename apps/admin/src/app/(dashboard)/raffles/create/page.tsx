@@ -1,5 +1,5 @@
-import RaffleForm from "@/components/raffles/form";
+import BingoForm from "@/components/bingos/form";
 
-const CreateRafflePage = () => <RaffleForm />;
+const CreateBingoPage = () => <BingoForm />;
 
-export default CreateRafflePage;
+export default CreateBingoPage;

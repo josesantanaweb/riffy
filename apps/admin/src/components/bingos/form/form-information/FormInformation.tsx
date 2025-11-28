@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useFormContext } from 'react-hook-form';
 import { Icon, Input, Select, Editor, DateInput, Switch } from '@riffy/components';
-import type { FormData } from '@/validations/raffleSchema';
+import type { FormData } from '@/validations/bingoSchema';
 import { usePlanUsage } from '@riffy/hooks';
 
 interface FormInformationProps {

@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
 
-const TicketsSkeleton: React.FC = () => {
+const BoardsSkeleton: React.FC = () => {
   return (
     <div className="w-full animate-pulse grid grid-cols-10 gap-2">
       {Array.from({ length: 100 }).map((_, index) => (
@@ -14,4 +14,4 @@ const TicketsSkeleton: React.FC = () => {
   );
 };
 
-export default TicketsSkeleton;
+export default BoardsSkeleton;

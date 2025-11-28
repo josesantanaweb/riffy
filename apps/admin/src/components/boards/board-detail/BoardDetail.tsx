@@ -3,50 +3,50 @@ import React, { useState } from 'react';
 import type { ReactElement } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button, Icon, Select } from '@riffy/components';
-import { Ticket, TicketStatus } from '@riffy/types';
+import { Board, BoardStatus } from '@riffy/types';
 import { useToast } from '@/hooks';
-import { useUpdateTicketStatus } from '@riffy/hooks';
+import { useUpdateBoardStatus } from '@riffy/hooks';
 import { formatCurrency, formatDate } from '@riffy/utils';
 
-interface TicketDetailProps {
+interface BoardDetailProps {
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
-  ticket?: Ticket | null;
+  board?: Board | null;
 }
 
-const TicketDetail = ({
+const BoardDetail = ({
   isOpen,
   setIsOpen,
-  ticket,
-}: TicketDetailProps): ReactElement => {
+  board,
+}: BoardDetailProps): ReactElement => {
   const toast = useToast();
-  const { updateTicketStatus } = useUpdateTicketStatus();
+  const { updateBoardStatus } = useUpdateBoardStatus();
   const [status, setStatus] = useState<string>(
-    ticket?.status || TicketStatus.WINNER,
+    board?.status || BoardStatus.WINNER,
   );
   const handleClose = () => setIsOpen(false);
 
-  const getStatusDisplay = (status: TicketStatus | string) => {
+  const getStatusDisplay = (status: BoardStatus | string) => {
     switch (status) {
-      case TicketStatus.AVAILABLE:
+      case BoardStatus.AVAILABLE:
         return { text: 'Disponible', color: 'text-title' };
-      case TicketStatus.SOLD:
+      case BoardStatus.SOLD:
         return { text: 'Vendido', color: 'text-white' };
-      case TicketStatus.WINNER:
+      case BoardStatus.WINNER:
         return { text: 'Ganador', color: 'text-success-500' };
-      case TicketStatus.LOSER:
+      case BoardStatus.LOSER:
         return { text: 'Perdedor', color: 'text-danger-500' };
-      case TicketStatus.PREMIUM:
+      case BoardStatus.PREMIUM:
         return { text: 'Premium', color: 'text-body-100' };
       default:
         return { text: status, color: 'text-white' };
     }
   };
 
-  const ticketStatusOptions = [
-    TicketStatus.WINNER,
-    TicketStatus.LOSER,
-    TicketStatus.PREMIUM,
+  const boardStatusOptions = [
+    BoardStatus.WINNER,
+    BoardStatus.LOSER,
+    BoardStatus.PREMIUM,
   ].map(status => ({
     value: status,
     label: getStatusDisplay(status).text,
@@ -54,11 +54,11 @@ const TicketDetail = ({
 
   const handleSave = async () => {
     try {
-      await updateTicketStatus(ticket.id, status as TicketStatus);
+      await updateBoardStatus(board.id, status as BoardStatus);
       toast.success(`Estado actualizado a ${status} exitosamente`);
       setIsOpen(false);
     } catch {
-      toast.error('Error al actualizar el estado del ticket');
+      toast.error('Error al actualizar el estado del board');
     }
   };
 
@@ -111,7 +111,7 @@ const TicketDetail = ({
                       <div className="flex flex-col gap-1">
                         <p className="text-body-100 text-sm">Rifa:</p>
                         <h2 className="text-base font-medium text-title">
-                          {ticket.raffle?.title}
+                          {board.bingo?.title}
                         </h2>
                       </div>
                     </div>
@@ -119,13 +119,13 @@ const TicketDetail = ({
                       <div className="flex flex-col gap-1">
                         <p className="text-body-100 text-sm">Nombre:</p>
                         <h2 className="text-base font-medium text-title">
-                          {ticket.payment?.buyerName || 'N/A'}
+                          {board.payment?.buyerName || 'N/A'}
                         </h2>
                       </div>
                       <div className="flex flex-col gap-1 items-end">
                         <p className="text-body-100 text-sm">Cedula:</p>
                         <h2 className="text-base font-medium text-title">
-                          {ticket.payment?.nationalId || 'N/A'}
+                          {board.payment?.nationalId || 'N/A'}
                         </h2>
                       </div>
                     </div>
@@ -133,7 +133,7 @@ const TicketDetail = ({
                       <div className="flex flex-col gap-1">
                         <p className="text-body-100 text-sm">Telefono:</p>
                         <h2 className="text-base font-medium text-title">
-                          {ticket.payment?.phone || 'N/A'}
+                          {board.payment?.phone || 'N/A'}
                         </h2>
                       </div>
                       <div className="flex flex-col gap-1 items-end">
@@ -141,8 +141,8 @@ const TicketDetail = ({
                           Fecha de compra:
                         </p>
                         <h2 className="text-base font-medium text-title">
-                          {ticket.payment?.paymentDate
-                            ? formatDate(ticket.payment?.paymentDate)
+                          {board.payment?.paymentDate
+                            ? formatDate(board.payment?.paymentDate)
                             : 'N/A'}
                         </h2>
                       </div>
@@ -151,14 +151,14 @@ const TicketDetail = ({
                       <div className="flex flex-col gap-1">
                         <p className="text-body-100 text-sm">Boletos #</p>
                         <h2 className="text-base font-medium text-title">
-                          {ticket.number || 'N/A'}
+                          {board.number || 'N/A'}
                         </h2>
                       </div>
                       <div className="flex flex-col gap-1 items-end">
                         <p className="text-body-100 text-sm">Monto:</p>
                         <h2 className="text-base font-medium text-title">
-                          {ticket.payment?.amount
-                            ? formatCurrency(ticket.payment?.amount)
+                          {board.payment?.amount
+                            ? formatCurrency(board.payment?.amount)
                             : 'N/A'}
                         </h2>
                       </div>
@@ -167,15 +167,15 @@ const TicketDetail = ({
                       <div className="flex flex-col gap-1">
                         <p className="text-body-100 text-sm">Estado:</p>
                         <h2
-                          className={`text-base font-medium ${getStatusDisplay(ticket.status).color}`}
+                          className={`text-base font-medium ${getStatusDisplay(board.status).color}`}
                         >
-                          {getStatusDisplay(ticket.status).text}
+                          {getStatusDisplay(board.status).text}
                         </h2>
                       </div>
                     </div>
                     <div className="flex">
                       <Select
-                        options={ticketStatusOptions}
+                        options={boardStatusOptions}
                         label="Selecciona un estado"
                         value={status}
                         onChange={setStatus}
@@ -196,7 +196,7 @@ const TicketDetail = ({
                     variant="success"
                     size="md"
                     onClick={handleSave}
-                    disabled={status.trim() === ticket?.status?.trim()}
+                    disabled={status.trim() === board?.status?.trim()}
                   >
                     Guardar
                   </Button>
@@ -210,4 +210,4 @@ const TicketDetail = ({
   );
 };
 
-export default TicketDetail;
+export default BoardDetail;

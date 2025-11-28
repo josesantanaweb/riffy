@@ -1,28 +1,28 @@
 'use client';
-import RafflesTable from './table/RafflesTable';
+import BingosTable from './table/BingosTable';
 import { useRouter } from 'next/navigation';
-import { useRaffles, useDeleteRaffle } from '@riffy/hooks';
+import { useBingos, useDeleteBingo } from '@riffy/hooks';
 import { useToast } from '@/hooks';
 import { ROUTES } from '@/constants';
-import { Raffle } from '@riffy/types';
+import { Bingo } from '@riffy/types';
 import PageHeader from '../common/page-header';
 
-const RafflesPage = () => {
+const BingosPage = () => {
   const router = useRouter();
   const toast = useToast();
-  const { data } = useRaffles();
-  const { deleteRaffle } = useDeleteRaffle();
+  const { data } = useBingos();
+  const { deleteBingo } = useDeleteBingo();
 
-  const handleEdit = (raffle: Raffle) =>
-    router.push(ROUTES.RAFFLES.EDIT(raffle.id));
+  const handleEdit = (bingo: Bingo) =>
+    router.push(ROUTES.RAFFLES.EDIT(bingo.id));
 
   const handleView = () => router.push(ROUTES.TICKETS.LIST);
 
-  const handleDelete = async (raffle: Raffle) => {
+  const handleDelete = async (bingo: Bingo) => {
     const confirm = window.confirm('¿Estás seguro de querer eliminar esta rifa?');
     if (confirm) {
       try {
-        await deleteRaffle(raffle.id);
+        await deleteBingo(bingo.id);
         toast.success('Rifa eliminada exitosamente!!');
       } catch {
         toast.error('Error al eliminar la rifa.');
@@ -41,7 +41,7 @@ const RafflesPage = () => {
       <PageHeader title="Rifas" subtitle="Lista de Rifas" />
       <div className="flex flex-col w-full bg-box-primary rounded-xl p-6">
         {data && (
-          <RafflesTable
+          <BingosTable
             data={data}
             onEdit={handleEdit}
             onDelete={handleDelete}
@@ -55,4 +55,4 @@ const RafflesPage = () => {
   );
 };
 
-export default RafflesPage;
+export default BingosPage;

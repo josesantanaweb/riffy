@@ -1,5 +1,5 @@
-import Tickets from "@/components/tickets";
+import Boards from "@/components/boards";
 
-const TicketsPage = () => <Tickets />;
+const BoardsPage = () => <Boards />;
 
-export default TicketsPage;
+export default BoardsPage;

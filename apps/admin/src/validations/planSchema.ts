@@ -22,7 +22,7 @@ export const createPlanSchema = z.object({
       'Debe ser un número mayor a 0',
     ),
 
-  maxRaffles: z
+  maxBingos: z
     .string()
     .optional()
     .refine(
@@ -30,7 +30,7 @@ export const createPlanSchema = z.object({
       'Debe ser un número mayor a 0',
     ),
 
-  maxTickets: z
+  maxBoards: z
     .string()
     .optional()
     .refine(

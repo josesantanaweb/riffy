@@ -1,5 +1,5 @@
-import Raffles from "@/components/raffles";
+import Bingos from "@/components/bingos";
 
-const RafflesPage = () => <Raffles />;
+const BingosPage = () => <Bingos />;
 
-export default RafflesPage;
+export default BingosPage;

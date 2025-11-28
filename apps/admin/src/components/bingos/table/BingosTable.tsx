@@ -8,25 +8,25 @@ import {
   createCurrencyColumn,
   createDateColumn,
   TABLE_CLASSES,
-  mapRaffleStatusToStatusType,
-  mapRaffleStatusToLabel,
+  mapBingoStatusToStatusType,
+  mapBingoStatusToLabel,
 } from '@/utils';
 import { Badge } from '@riffy/components';
 import MediaDisplay from '@/components/common/media-display';
 import TableSkeleton from '@/components/common/skeleton/TableSkeleton';
-import { Raffle, RaffleStatus } from '@riffy/types';
+import { Bingo, BingoStatus } from '@riffy/types';
 
-interface RafflesTableProps {
-  data: Raffle[];
+interface BingosTableProps {
+  data: Bingo[];
   loading?: boolean;
-  onEdit?: (raffle: Raffle) => void;
-  onDelete?: (raffle: Raffle) => void;
-  onView?: (raffle: Raffle) => void;
+  onEdit?: (bingo: Bingo) => void;
+  onDelete?: (bingo: Bingo) => void;
+  onView?: (bingo: Bingo) => void;
   onAdd?: () => void;
   onDownload?: () => void;
 }
 
-const RafflesTable = ({
+const BingosTable = ({
   data,
   loading,
   onEdit,
@@ -34,10 +34,10 @@ const RafflesTable = ({
   onView,
   onAdd,
   onDownload,
-}: RafflesTableProps) => {
+}: BingosTableProps) => {
   const { isDesktop } = useBreakpoint();
 
-  const columns: ColumnDef<Raffle>[] = [
+  const columns: ColumnDef<Bingo>[] = [
     {
       accessorKey: 'id',
       header: 'ID',
@@ -77,11 +77,11 @@ const RafflesTable = ({
     createCurrencyColumn('award', 'Premio'),
     createCurrencyColumn('price', 'Precio'),
     {
-      accessorKey: 'totalTickets',
+      accessorKey: 'totalBoards',
       header: 'Boletos',
       cell: info => {
-        const totalTickets = info.getValue() as number;
-        return <p>{totalTickets}</p>;
+        const totalBoards = info.getValue() as number;
+        return <p>{totalBoards}</p>;
       },
       meta: {
         className: TABLE_CLASSES.cell,
@@ -118,8 +118,8 @@ const RafflesTable = ({
       header: 'Estado',
       cell: info => (
         <Badge
-          status={mapRaffleStatusToStatusType(info.getValue() as RaffleStatus)}
-          label={mapRaffleStatusToLabel(info.getValue() as string)}
+          status={mapBingoStatusToStatusType(info.getValue() as BingoStatus)}
+          label={mapBingoStatusToLabel(info.getValue() as string)}
         />
       ),
       meta: {
@@ -129,7 +129,7 @@ const RafflesTable = ({
     },
   ];
 
-  const actions: TableAction<Raffle>[] = [
+  const actions: TableAction<Bingo>[] = [
     ...(onView
       ? [
           {
@@ -208,4 +208,4 @@ const RafflesTable = ({
   );
 };
 
-export default RafflesTable;
+export default BingosTable;

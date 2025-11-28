@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-export const createRaffleSchema = z.object({
+export const createBingoSchema = z.object({
   title: z
     .string()
     .min(1, 'El título es requerido')
@@ -51,4 +51,4 @@ export const createRaffleSchema = z.object({
     ),
 });
 
-export type FormData = z.infer<typeof createRaffleSchema>;
+export type FormData = z.infer<typeof createBingoSchema>;

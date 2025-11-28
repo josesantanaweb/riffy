@@ -2,10 +2,10 @@
 
 import Pagination from '@/components/common/pagination';
 
-export interface TicketsFooterProps {
+export interface BoardsFooterProps {
   currentPage: number;
   totalPages: number;
-  totalTickets: number;
+  totalBoards: number;
   onPrevPage: () => void;
   onNextPage: () => void;
 }
@@ -25,13 +25,13 @@ const TICKET_LEGENDS = [
   },
 ];
 
-const TicketsFooter = ({
+const BoardsFooter = ({
   currentPage,
   totalPages,
-  totalTickets,
+  totalBoards,
   onPrevPage,
   onNextPage,
-}: TicketsFooterProps) => {
+}: BoardsFooterProps) => {
   return (
     <div className="flex w-full justify-between items-center flex-col md:flex-row gap-3 md:gap-0">
       <div className="flex items-center gap-5">
@@ -45,7 +45,7 @@ const TicketsFooter = ({
       <Pagination
         currentPage={currentPage}
         totalPages={totalPages}
-        totalTickets={totalTickets}
+        totalBoards={totalBoards}
         onPrevPage={onPrevPage}
         onNextPage={onNextPage}
       />
@@ -53,4 +53,4 @@ const TicketsFooter = ({
   );
 };
 
-export default TicketsFooter;
+export default BoardsFooter;

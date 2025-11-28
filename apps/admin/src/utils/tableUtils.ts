@@ -3,8 +3,8 @@ import { BadgeStatus } from '@riffy/components';
 import {
   PaymentStatus,
   PlanUsageStatus,
-  RaffleStatus,
-  TicketStatus,
+  BingoStatus,
+  BoardStatus,
   UserStatus,
   Currency
 } from '@riffy/types';
@@ -62,15 +62,15 @@ export function createDateColumn<T>(
   };
 }
 
-export function mapRaffleStatusToLabel(status: string): string {
+export function mapBingoStatusToLabel(status: string): string {
   switch (status) {
-    case RaffleStatus.ACTIVE:
+    case BingoStatus.ACTIVE:
       return 'Activa';
-    case RaffleStatus.INACTIVE:
+    case BingoStatus.INACTIVE:
       return 'Inactiva';
-    case RaffleStatus.PENDING:
+    case BingoStatus.PENDING:
       return 'Pendiente';
-    case RaffleStatus.COMPLETED:
+    case BingoStatus.COMPLETED:
       return 'Finalizada';
     default:
       return status;
@@ -110,17 +110,17 @@ export function mapPaymentStatusToLabel(status: string): string {
   }
 }
 
-export function mapTicketStatusToLabel(status: string): string {
+export function mapBoardStatusToLabel(status: string): string {
   switch (status) {
-    case TicketStatus.AVAILABLE:
+    case BoardStatus.AVAILABLE:
       return 'Disponible';
-    case TicketStatus.SOLD:
+    case BoardStatus.SOLD:
       return 'Vendido';
-    case TicketStatus.WINNER:
+    case BoardStatus.WINNER:
       return 'Ganador';
-    case TicketStatus.LOSER:
+    case BoardStatus.LOSER:
       return 'Perdedor';
-    case TicketStatus.PREMIUM:
+    case BoardStatus.PREMIUM:
       return 'Premium';
     default:
       return status;
@@ -164,30 +164,30 @@ export function mapPaymentStatusToStatusType(
   }
 }
 
-export function mapRaffleStatusToStatusType(status: RaffleStatus): BadgeStatus {
+export function mapBingoStatusToStatusType(status: BingoStatus): BadgeStatus {
   switch (status) {
-    case RaffleStatus.ACTIVE:
+    case BingoStatus.ACTIVE:
       return BadgeStatus.SUCCESS;
-    case RaffleStatus.INACTIVE:
+    case BingoStatus.INACTIVE:
       return BadgeStatus.ERROR;
-    case RaffleStatus.PENDING:
+    case BingoStatus.PENDING:
       return BadgeStatus.WARNING;
-    case RaffleStatus.COMPLETED:
+    case BingoStatus.COMPLETED:
       return BadgeStatus.DEFAULT;
     default:
       return BadgeStatus.DEFAULT;
   }
 }
 
-export function mapTicketStatusToStatusType(status: TicketStatus): BadgeStatus {
+export function mapBoardStatusToStatusType(status: BoardStatus): BadgeStatus {
   switch (status) {
-    case TicketStatus.AVAILABLE:
+    case BoardStatus.AVAILABLE:
       return BadgeStatus.INFO;
-    case TicketStatus.SOLD:
+    case BoardStatus.SOLD:
       return BadgeStatus.WARNING;
-    case TicketStatus.WINNER:
+    case BoardStatus.WINNER:
       return BadgeStatus.SUCCESS;
-    case TicketStatus.PREMIUM:
+    case BoardStatus.PREMIUM:
       return BadgeStatus.DEFAULT;
     default:
       return BadgeStatus.DEFAULT;
