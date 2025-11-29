@@ -27,9 +27,9 @@ async function bootstrap(): Promise<void> {
   app.enableCors({
     origin: isProduction
       ? [
-          'http://64.23.183.4:3000',
-          'http://64.23.183.4:3001',
-          'http://64.23.183.4',
+          'http://137.184.118.228:3000',
+          'http://137.184.118.228:3001',
+          'http://137.184.118.228',
         ]
       : (
           _origin: string | undefined,

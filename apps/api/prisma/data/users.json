@@ -13,7 +13,7 @@
   },
   {
     "name": "admin",
-    "domain": "localhost",
+    "domain": "",
     "email": "admin@bingly.com",
     "password": "12345678",
     "role": "ADMIN",
