@@ -6,7 +6,7 @@ export const useBrandColor = () => {
 
   useEffect(() => {
     if (user?.brandColor) {
-      document.documentElement.style.setProperty('--primary-500', `${user.brandColor}`);
+      document.documentElement.style.setProperty('--color-primary-500', `${user.brandColor}`);
     }
   }, [user, user?.brandColor]);
 };
