@@ -32,7 +32,7 @@ const BoardsGrid = ({
   if (!boards || boards.length === 0) {
     return (
       <div className="flex items-center justify-center py-12">
-        <p className="text-body-100 text-lg">No hay boletos disponibles</p>
+        <p className="text-body-100 text-lg">No hay cartones disponibles</p>
       </div>
     );
   }
@@ -41,7 +41,7 @@ const BoardsGrid = ({
     return (
       <div className="flex items-center justify-center py-12">
         <p className="text-body-100 text-lg">
-          No se encontraron boletos con "{search}"
+          No se encontraron cartones con "{search}"
         </p>
       </div>
     );

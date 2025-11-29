@@ -70,7 +70,7 @@ describe('<Timer />', () => {
 
     await waitFor(() => {
       expect(mockRemoveTimerFromStorage).toHaveBeenCalled();
-      expect(mockPush).toHaveBeenCalledWith(ROUTES.RAFFLES.LIST);
+      expect(mockPush).toHaveBeenCalledWith(ROUTES.BINGOS.LIST);
     });
   });
 

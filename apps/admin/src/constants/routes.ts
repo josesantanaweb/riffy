@@ -2,7 +2,7 @@ export const ROUTES = {
   DASHBOARD: '/',
   LOGIN: '/login',
   REGISTER: '/register',
-  RAFFLES: {
+  BINGOS: {
     LIST: '/bingos',
     CREATE: '/bingos/create',
     EDIT: (id: string) => `/bingos/edit/${id}`,
@@ -26,7 +26,7 @@ export const ROUTES = {
     CREATE: '/plans/create',
     EDIT: (id: string) => `/plans/edit/${id}`,
   },
-  TICKETS: {
+  BOARDS: {
     LIST: `/boards`,
     CREATE: '/boards/create',
     EDIT: (id: string) => `/boards/edit/${id}`,
@@ -51,15 +51,9 @@ export const MENU: MenuItem[] = [
     path: ROUTES.DASHBOARD,
   },
   {
-    label: 'Rifas',
-    icon: 'gift',
-    path: ROUTES.RAFFLES.LIST,
-    requiredRoles: [Role.ADMIN, Role.OWNER],
-  },
-  {
-    label: 'Boletos',
-    icon: 'board',
-    path: ROUTES.TICKETS.LIST,
+    label: 'Bingos',
+    icon: 'ticket',
+    path: ROUTES.BINGOS.LIST,
     requiredRoles: [Role.ADMIN, Role.OWNER],
   },
   {

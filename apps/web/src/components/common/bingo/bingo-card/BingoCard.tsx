@@ -21,9 +21,9 @@ const BingoCard = ({ bingo, loading }: BingoCardProps): ReactElement => {
   const router = useRouter();
   const isCompleted = bingo?.status === BingoStatus.COMPLETED;
 
-  const handleBuyBoard = () => router.push(ROUTES.RAFFLES.RAFFLE(bingo.id));
+  const handleBuyBoard = () => router.push(ROUTES.BINGOS.BINGO(bingo.id));
 
-  const handleVerifyBoard = () => router.push(ROUTES.RAFFLES.VERIFY_TICKET(bingo.id));
+  const handleVerifyBoard = () => router.push(ROUTES.BINGOS.VERIFY_TICKET(bingo.id));
 
   return (
     <div className="flex flex-col bg-box-primary rounded-xl">

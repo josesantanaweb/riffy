@@ -151,9 +151,9 @@ const FormInformation = ({ isUpdating = false }: FormInformationProps) => {
               <div className="flex gap-4 items-center w-full flex-wrap lg:flex-nowrap">
                 <div className="w-full lg:w-1/2">
                   <Input
-                    label="Cantidad de boletos"
+                    label="Cantidad de cartones"
                     isRequired
-                    placeholder="Ingresa la cantidad de boletos"
+                    placeholder="Ingresa la cantidad de cartones"
                     inputSize="md"
                     type="number"
                     value={formValues.totalBoards || ''}
@@ -205,11 +205,11 @@ const FormInformation = ({ isUpdating = false }: FormInformationProps) => {
                 </div>
                 <div className="w-full lg:w-1/2">
                   <Input
-                    label="Minimo de boletos"
+                    label="Minimo de cartones"
                     isRequired
                     min={1}
                     max={3}
-                    placeholder="Ingresa el minimo de boletos"
+                    placeholder="Ingresa el minimo de cartones"
                     inputSize="md"
                     type="number"
                     value={formValues.minBoards || ''}

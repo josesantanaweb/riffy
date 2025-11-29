@@ -1,9 +1,9 @@
 export const ROUTES = {
   LOGIN: '/login',
   REGISTER: '/register',
-  RAFFLES: {
+  BINGOS: {
     LIST: '/bingos',
-    RAFFLE: (id: string) => `/bingos/${id}`,
+    BINGO: (id: string) => `/bingos/${id}`,
     VERIFY_TICKET: (id: string) => `/bingos/${id}/verify-board`,
   },
   PAYMENT: '/payment',

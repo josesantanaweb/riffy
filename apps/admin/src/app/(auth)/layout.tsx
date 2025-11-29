@@ -4,8 +4,8 @@ import '@riffy/components/styles.css';
 import { PublicGuard } from '@/components/common/guards';
 
 export const metadata: Metadata = {
-  title: 'Riffy Admin - Login',
-  description: 'Riffy Admin - Login',
+  title: 'Bingly Admin - Login',
+  description: 'Bingly Admin - Login',
 };
 
 export default function AuthLayout({

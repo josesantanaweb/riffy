@@ -70,7 +70,7 @@ const LoginForm = () => {
               Inicio de sesión
             </h1>
             <p className="text-body-100 text-base">
-              Accede al panel de Riffy usando tu correo electrónico y
+              Accede al panel de Bingly usando tu correo electrónico y
               contraseña.
             </p>
           </div>
