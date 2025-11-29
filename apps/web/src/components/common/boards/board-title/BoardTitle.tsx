@@ -7,8 +7,8 @@ interface BoardTitleProps {
 }
 
 const BoardTitle = ({ isRandomBoards }: BoardTitleProps): ReactElement => {
-  const title = isRandomBoards ? 'Número de Boards' : 'Lista de Boards';
-  const subtitle = isRandomBoards ? 'Seleccione la cantidad de boards' : 'Seleccione los números de la rifa';
+  const title = isRandomBoards ? 'Número de Cartones' : 'Lista de Cartones';
+  const subtitle = isRandomBoards ? 'Seleccione la cantidad de cartones' : 'Seleccione los números de la bingo';
 
   return (
     <div className="flex flex-col gap-1 my-3">

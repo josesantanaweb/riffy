@@ -1,13 +1,11 @@
 import { useState, useEffect } from 'react';
+import { isIOS, isMobile } from 'react-device-detect';
 
 export const useIsIPhone = () => {
   const [isIPhone, setIsIPhone] = useState(false);
 
   useEffect(() => {
-    const userAgent = navigator.userAgent;
-    const isIPhone = /iPhone/.test(userAgent);
-
-    setIsIPhone(isIPhone);
+    setIsIPhone(isIOS && isMobile);
   }, []);
 
   return isIPhone;

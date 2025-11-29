@@ -9,10 +9,10 @@ const EmptyBingos = (): ReactElement => {
       <div className="flex flex-col items-center justify-center py-10">
         <Icon name="ticket" className="text-[80px] text-body-100" />
         <h5 className="text-white text-center text-lg font-medium">
-          No tienes ninguna rifa creada.
+          No tienes ningún bingo creado.
         </h5>
         <p className="text-body-100 text-center text-sm">
-          Ve al panel de administración y crea tu priemera rifa
+          Ve al panel de administración y crea tu primer bingo
         </p>
       </div>
     </div>

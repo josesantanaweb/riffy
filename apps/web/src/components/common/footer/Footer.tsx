@@ -36,7 +36,7 @@ const Footer = () => {
         </div>
       </div>
       <p className="text-body-100 text-xs text-center max-w-[300px]">
-        © 2025 Riffy Para Gestion de Rifas Online. Todos los derechos
+        © 2025 Bingly Para Gestion de Bingo Online. Todos los derechos
         reservados
       </p>
     </footer>
