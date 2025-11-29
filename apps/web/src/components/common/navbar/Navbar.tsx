@@ -1,5 +1,5 @@
 'use client';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 import { useStore } from '@/store';
 import { useUserByDomain } from '@riffy/hooks';
@@ -7,10 +7,17 @@ import { Logo } from '@riffy/components';
 import SocialLink from './social-link';
 
 const Navbar = () => {
-  const { data: user, loading } = useUserByDomain(
-    String(process.env.NEXT_PUBLIC_DEFAULT_DOMAIN),
-  );
   const { setUser, setLoading } = useStore();
+  const [domain, setDomain] = useState<string>('');
+  const { data: user, loading } = useUserByDomain(domain);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const hostname = window.location.hostname;
+      const cleanDomain = hostname.replace(/^www\./, '');
+      setDomain(cleanDomain);
+    }
+  }, []);
 
   useEffect(() => {
     setLoading(loading);
