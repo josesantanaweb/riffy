@@ -78,7 +78,7 @@ const BingoPage = (): ReactElement => {
         />
 
         <Alert
-          message={`La compra minima es de ${bingo?.minBoards} boards`}
+          message={`La compra minima es de ${bingo?.minBoards} cartones`}
           icon="info-circle"
           type="warning"
         />

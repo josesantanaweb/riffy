@@ -1,24 +1,24 @@
 [
   {
     "name": "demo",
-    "domain": "riffy.website.com",
-    "email": "demo@riffy.com",
+    "domain": "localhost",
+    "email": "demo@bingly.com",
     "password": "12345678",
     "role": "OWNER",
-    "logo": "/images/demo.png",
-    "brandColor": "#00d4ff",
+    "logo": "/images/logo.svg",
+    "brandColor": "#FFB436",
     "whatsapp": "4126475918",
     "tiktok": "demo",
     "instagram": "demo"
   },
   {
     "name": "admin",
-    "domain": "admin.com",
-    "email": "admin@riffy.com",
+    "domain": "localhost",
+    "email": "admin@bingly.com",
     "password": "12345678",
     "role": "ADMIN",
-    "logo": "/images/demo.png",
-    "brandColor": "#00d4ff",
+    "logo": "/images/logo.svg",
+    "brandColor": "#FFB436",
     "whatsapp": "4126475918",
     "tiktok": "admin",
     "instagram": "admin"

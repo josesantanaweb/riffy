@@ -1,4 +1,9 @@
 import { useEffect, useState } from 'react';
+import {
+  isMobile as detectMobile,
+  isTablet as detectTablet,
+  isDesktop as detectDesktop,
+} from 'react-device-detect';
 
 export type Breakpoint = 'mobile' | 'tablet' | 'desktop';
 
@@ -53,9 +58,9 @@ export const useBreakpoint = (
 
   return {
     breakpoint,
-    isMobile: breakpoint === 'mobile',
-    isTablet: breakpoint === 'tablet',
-    isDesktop: breakpoint === 'desktop',
+    isMobile: detectMobile,
+    isTablet: detectTablet,
+    isDesktop: detectDesktop,
     width,
   };
 };

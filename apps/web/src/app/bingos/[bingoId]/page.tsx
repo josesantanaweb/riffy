@@ -1,4 +1,4 @@
-import Bingo from "@/components/bingo-dev";
+import Bingo from "@/components/bingo";
 
 const BingoPage = () => <Bingo />;
 
