@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useFormContext } from 'react-hook-form';
-import { Icon, Input, Select, Editor, DateInput, Switch } from '@riffy/components';
+import { Icon, Input, Select, DateInput, Switch } from '@riffy/components';
 import type { FormData } from '@/validations/bingoSchema';
 import { usePlanUsage } from '@riffy/hooks';
 
@@ -39,11 +39,6 @@ const FormInformation = ({ isUpdating = false }: FormInformationProps) => {
   const handleCollapse = () => setIsCollapse(prev => !prev);
 
   const formValues = watch();
-  const descriptionValue = formValues.description || '';
-
-  const handleDescriptionChange = (value: string) => {
-    setValue('description', value, { shouldValidate: true });
-  };
 
   return (
     <div className="bg-box-primary rounded-xl relative">
@@ -157,7 +152,7 @@ const FormInformation = ({ isUpdating = false }: FormInformationProps) => {
                     inputSize="md"
                     type="number"
                     value={formValues.totalBoards || ''}
-                    disabled={true}
+                    disabled={isUpdating}
                     {...register('totalBoards')}
                     error={errors.totalBoards?.message}
                   />
@@ -172,16 +167,6 @@ const FormInformation = ({ isUpdating = false }: FormInformationProps) => {
                     onChange={value =>
                       setValue('status', value, { shouldValidate: false })
                     }
-                  />
-                </div>
-              </div>
-
-              <div className="flex gap-4 items-center w-full flex-wrap lg:flex-nowrap">
-                <div className="w-full">
-                  <Editor
-                    label="Descripción"
-                    value={descriptionValue}
-                    setValue={handleDescriptionChange}
                   />
                 </div>
               </div>
