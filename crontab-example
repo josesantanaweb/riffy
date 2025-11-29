@@ -2,19 +2,19 @@
 # Copiar estas líneas a tu crontab con: crontab -e
 
 # Backup de certificados SSL cada día a las 2:00 AM
-0 2 * * * cd /var/www/riffy && ./backup-ssl.sh >> /var/log/riffy-backup.log 2>&1
+0 2 * * * cd /var/www/bingly && ./backup-ssl.sh >> /var/log/bingly-backup.log 2>&1
 
 # Limpiar logs antiguos cada semana (domingos a las 3:00 AM)
-0 3 * * 0 find /var/log -name "riffy-backup.log*" -mtime +30 -delete
+0 3 * * 0 find /var/log -name "bingly-backup.log*" -mtime +30 -delete
 
 # Verificar estado de servicios cada 5 minutos
-*/5 * * * * cd /var/www/riffy && docker-compose ps | grep -v "Up" >> /var/log/riffy-health.log
+*/5 * * * * cd /var/www/bingly && docker-compose ps | grep -v "Up" >> /var/log/bingly-health.log
 
 # Rotar logs de Docker cada día a las 1:00 AM
 0 1 * * * docker system prune -f --filter "until=24h" >> /var/log/docker-cleanup.log 2>&1
 
 # Backup de base de datos cada día a las 3:00 AM (opcional)
-# 0 3 * * * cd /var/www/riffy && docker-compose exec -T postgres pg_dump -U riffy riffy > /var/backups/riffy-db/db-backup-$(date +\%Y\%m\%d).sql
+# 0 3 * * * cd /var/www/bingly && docker-compose exec -T postgres pg_dump -U bingly bingly > /var/backups/bingly-db/db-backup-$(date +\%Y\%m\%d).sql
 
 # Para instalar esta configuración:
 # 1. Copiar este archivo: cp crontab-example crontab-config

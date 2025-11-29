@@ -8,7 +8,7 @@ if [[ $# -eq 0 ]]; then
     echo "💡 Uso: $0 /path/to/backup-file.tar.gz"
     echo ""
     echo "📋 Backups disponibles:"
-    ls -la /var/backups/riffy-ssl/traefik-ssl-backup-*.tar.gz 2>/dev/null || echo "   No hay backups disponibles"
+    ls -la /var/backups/bingly-ssl/traefik-ssl-backup-*.tar.gz 2>/dev/null || echo "   No hay backups disponibles"
     exit 1
 fi
 

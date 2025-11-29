@@ -1,12 +1,12 @@
 #!/bin/bash
 
-# Script de monitoreo de salud para Riffy con Traefik
+# Script de monitoreo de salud para bingly con Traefik
 # Verifica el estado de todos los servicios y certificados SSL
 
-LOG_FILE="/var/log/riffy-health.log"
+LOG_FILE="/var/log/bingly-health.log"
 DATE=$(date '+%Y-%m-%d %H:%M:%S')
 
-echo "🏥 Verificación de salud de Riffy - $DATE" | tee -a "$LOG_FILE"
+echo "🏥 Verificación de salud de bingly - $DATE" | tee -a "$LOG_FILE"
 echo "==========================================" | tee -a "$LOG_FILE"
 
 # Función para verificar servicio
@@ -80,7 +80,7 @@ critical_checks=0
 
 # Verificar contenedores Docker
 echo "📋 Verificando contenedores Docker..." | tee -a "$LOG_FILE"
-containers=("riffy-traefik" "riffy-postgres" "riffy-redis" "riffy-api" "riffy-web" "riffy-admin")
+containers=("bingly-traefik" "bingly-postgres" "bingly-redis" "bingly-api" "bingly-web" "bingly-admin")
 
 for container in "${containers[@]}"; do
     total_checks=$((total_checks + 1))

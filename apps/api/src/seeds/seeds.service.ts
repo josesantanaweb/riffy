@@ -130,12 +130,12 @@ export class SeedsService {
 
   async seedPaymentMethods(): Promise<void> {
     const demoUser = await this.prisma.user.findUnique({
-      where: { domain: 'riffy.website.com' },
+      where: { domain: 'localhost' },
     });
 
     if (!demoUser) {
       this.logger.error(
-        'Usuario riffy.website.com no encontrado para crear métodos de pago',
+        'Usuario localhost no encontrado para crear métodos de pago',
       );
       return;
     }
@@ -156,12 +156,12 @@ export class SeedsService {
 
   async seedBingos(): Promise<void> {
     const demoUser = await this.prisma.user.findUnique({
-      where: { domain: 'riffy.website.com' },
+      where: { domain: 'localhost' },
     });
 
     if (!demoUser) {
       this.logger.error(
-        'Usuario riffy.website.com no encontrado para crear bingos',
+        'Usuario localhost no encontrado para crear bingos',
       );
       return;
     }
