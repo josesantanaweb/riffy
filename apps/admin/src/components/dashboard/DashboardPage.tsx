@@ -26,7 +26,7 @@ const DashboardPage = () => {
   const paymentsByState = dashboardStats?.paymentsByState || [];
   const lastPayments = dashboardStats?.lastPayments || [];
 
-  const handleCreateBingo = () => router.push(ROUTES.RAFFLES.CREATE);
+  const handleCreateBingo = () => router.push(ROUTES.BINGOS.CREATE);
 
   return (
     <div className="p-6 flex-col flex gap-6">
@@ -45,7 +45,7 @@ const DashboardPage = () => {
                 Hola {profile?.name}
               </h3>
               <p className="text-sm text-body-100">
-                Anilisis y estadisticas de tus rifas
+                Anilisis y estadisticas de tus bingos
               </p>
             </div>
           </div>
@@ -54,7 +54,7 @@ const DashboardPage = () => {
               name="plus"
               className="text-lg text-center w-[14px] flex justify-center"
             />
-            Nueva Rifa
+            Nuevo Bingo
           </Button>
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-6">
@@ -85,7 +85,7 @@ const DashboardPage = () => {
               <h2 className="text-2xl font-medium text-primary-500">
                 {totalBingos}
               </h2>
-              <p className="text-sm text-title">Rifas Creadas</p>
+              <p className="text-sm text-title">Bingos Creados</p>
             </div>
             <span className="flex items-center justify-center bg-primary-500 rounded-full w-12 h-12">
               <Icon name="gift" className="text-white text-2xl" />

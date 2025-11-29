@@ -139,13 +139,13 @@ const BingosForm = () => {
 
       if (isUpdating && bingoData?.id) {
         await updateBingo(bingoData.id, bingoInput);
-        toast.success('Rifa actualizada exitosamente!!');
+        toast.success('Bingo actualizada exitosamente!!');
       } else {
         await createBingo(bingoInput);
-        toast.success('Rifa creada exitosamente!!');
+        toast.success('Bingo creada exitosamente!!');
       }
 
-      router.push(ROUTES.RAFFLES.LIST);
+      router.push(ROUTES.BINGOS.LIST);
     } catch (error: unknown) {
       const errorMessage = extractErrorMessage(error);
       toast.error(errorMessage);
@@ -162,8 +162,8 @@ const BingosForm = () => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="p-6 flex-col flex gap-6 h-full">
           <PageHeader
-            title={isUpdating ? 'Editar Rifa' : 'Crear Rifa'}
-            subtitle="Gestión de Rifas"
+            title={isUpdating ? 'Editar Bingo' : 'Crear Bingo'}
+            subtitle="Gestión de Bingos"
             showBackButton
           />
           <div className="flex flex-col gap-6 w-full">

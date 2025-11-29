@@ -4,8 +4,8 @@ import Providers from '@/components/providers';
 import Layout from '@/components/common/Layout';
 
 export const metadata: Metadata = {
-  title: 'Riffy Web',
-  description: 'Riffy Web',
+  title: 'Bingly Web',
+  description: 'Bingly Web',
   viewport: {
     width: "device-width",
     initialScale: 1,

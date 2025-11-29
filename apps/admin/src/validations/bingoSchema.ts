@@ -27,7 +27,7 @@ export const createBingoSchema = z.object({
 
   totalBoards: z
     .string()
-    .min(1, 'La cantidad de boletos es requerida')
+    .min(1, 'La cantidad de cartones es requerida')
     .refine(
       val => !isNaN(Number(val)) && Number(val) > 0,
       'Debe ser un número mayor a 0',
@@ -47,7 +47,7 @@ export const createBingoSchema = z.object({
     .optional()
     .refine(
       val => !val || (!isNaN(Number(val)) && Number(val) >= 1 && Number(val) <= 3),
-      'El mínimo de boletos debe estar entre 1 y 3',
+      'El mínimo de cartones debe estar entre 1 y 3',
     ),
 });
 

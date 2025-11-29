@@ -7,7 +7,7 @@ interface BreadcrumbProps {
 const Breadcrumb = ({ page }: BreadcrumbProps) => {
   return (
     <div className="flex items-center gap-3 text-body-100 text-sm">
-      <p>Riffy</p>
+      <p>Bingly</p>
       <span>/</span>
       <p>{page}</p>
     </div>

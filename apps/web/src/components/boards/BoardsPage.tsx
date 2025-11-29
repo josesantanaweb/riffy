@@ -47,7 +47,7 @@ const BoardsPage = (): ReactElement => {
         touchAction: 'pan-y',
       }}
     >
-      <PageHeader title="Buscar boletos" />
+      <PageHeader title="Buscar cartones" />
       <div className="flex flex-col gap-10">
         <div className="flex flex-col gap-3">
           <Search
@@ -59,7 +59,7 @@ const BoardsPage = (): ReactElement => {
           />
           {searchTriggered && !loading && boards.length > 0 && (
             <p className="text-sm font-medium text-body-100 text-right">
-              {boards?.length} {boards?.length === 1 ? 'boleto' : 'boletos'}{' '}
+              {boards?.length} {boards?.length === 1 ? 'boleto' : 'cartones'}{' '}
               encontrados
             </p>
           )}
@@ -67,7 +67,7 @@ const BoardsPage = (): ReactElement => {
 
         {searchTriggered && !loading && boards.length === 0 && (
           <div className="text-gray-500 text-center p-4">
-            No se encontraron boletos para esta cédula
+            No se encontraron cartones para esta cédula
           </div>
         )}
 

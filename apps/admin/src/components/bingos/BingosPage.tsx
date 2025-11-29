@@ -14,23 +14,23 @@ const BingosPage = () => {
   const { deleteBingo } = useDeleteBingo();
 
   const handleEdit = (bingo: Bingo) =>
-    router.push(ROUTES.RAFFLES.EDIT(bingo.id));
+    router.push(ROUTES.BINGOS.EDIT(bingo.id));
 
-  const handleView = () => router.push(ROUTES.TICKETS.LIST);
+  const handleView = () => router.push(ROUTES.BINGOS.LIST);
 
   const handleDelete = async (bingo: Bingo) => {
-    const confirm = window.confirm('¿Estás seguro de querer eliminar esta rifa?');
+    const confirm = window.confirm('¿Estás seguro de querer eliminar este bingo?');
     if (confirm) {
       try {
         await deleteBingo(bingo.id);
-        toast.success('Rifa eliminada exitosamente!!');
+        toast.success('Bingo eliminado exitosamente!!');
       } catch {
-        toast.error('Error al eliminar la rifa.');
+        toast.error('Error al eliminar el bingo.');
       }
     }
   };
 
-  const handleAdd = () => router.push(ROUTES.RAFFLES.CREATE);
+  const handleAdd = () => router.push(ROUTES.BINGOS.CREATE);
 
   const handleDownload = () => {
     alert('Descargar datos');
@@ -38,7 +38,7 @@ const BingosPage = () => {
 
   return (
     <div className="p-6 flex-col flex gap-6">
-      <PageHeader title="Rifas" subtitle="Lista de Rifas" />
+      <PageHeader title="Bingos" subtitle="Lista de Bingos" />
       <div className="flex flex-col w-full bg-box-primary rounded-xl p-6">
         {data && (
           <BingosTable

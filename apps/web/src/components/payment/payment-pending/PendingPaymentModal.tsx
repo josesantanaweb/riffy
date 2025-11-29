@@ -36,7 +36,7 @@ const PendingPayment = ({
     };
   }, [isOpen]);
 
-  const handleClose = () => router.push(ROUTES.RAFFLES.LIST);
+  const handleClose = () => router.push(ROUTES.BINGOS.LIST);
 
   const handleHelp = () => window.open(`https://wa.me/58${user.whatsapp}`, '_blank');
 

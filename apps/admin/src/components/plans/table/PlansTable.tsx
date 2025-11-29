@@ -46,7 +46,7 @@ const PlansTable = ({
     createColumn('name', 'Nombre'),
     createCurrencyColumn('price', 'Precio', 'USD'),
     createColumn('maxBingos', 'Maximo de rifas'),
-    createColumn('maxBoards', 'Maximo de boletos'),
+    createColumn('maxBoards', 'Maximo de cartones'),
   ];
 
   const actions: TableAction<Plan>[] = [
