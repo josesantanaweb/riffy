@@ -12,6 +12,7 @@ http:
           - OPTIONS
         accessControlAllowOriginList:
           - "https://bingoonlinecincoa.live"
+          - "https://www.bingoonlinecincoa.live"
           - "https://admin.bingoonlinecincoa.live"
         accessControlAllowHeaders:
           - "Content-Type"
@@ -52,6 +53,7 @@ http:
           - OPTIONS
         accessControlAllowOriginList:
           - "https://bingoonlinecincoa.live"
+          - "https://www.bingoonlinecincoa.live"
           - "https://admin.bingoonlinecincoa.live"
         accessControlAllowHeaders:
           - "Content-Type"
@@ -61,7 +63,7 @@ http:
   routers:
     # Router para la aplicación web principal
     web-router:
-      rule: "Host(`bingoonlinecincoa.live`)"
+      rule: "Host(`bingoonlinecincoa.live`) || Host(`www.bingoonlinecincoa.live`)"
       service: web-service
       middlewares:
         - compress

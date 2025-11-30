@@ -92,8 +92,8 @@ services:
       - "4000:4000"
     environment:
       - NODE_ENV=production
-      - DATABASE_URL=${DATABASE_URL:-postgresql://bingly:bingly123@postgres:5432/bingly}
-      - REDIS_URL=${REDIS_URL:-redis://redis:6379}
+      - DATABASE_URL=${DATABASE_URL:-postgresql://bingly:bingly123@172.17.0.1:5432/bingly}
+      - REDIS_URL=${REDIS_URL:-redis://172.17.0.1:6379}
       - JWT_SECRET=${JWT_SECRET:-your-super-secret-jwt-key-change-this-in-production}
       - JWT_EXPIRES_IN=${JWT_EXPIRES_IN:-1h}
       - HOST=${HOST:-localhost}
@@ -102,8 +102,6 @@ services:
       - AWS_REGION=${AWS_REGION}
       - AWS_S3_BUCKET_NAME=${AWS_S3_BUCKET_NAME}
     depends_on:
-      postgres:
-        condition: service_healthy
       redis:
         condition: service_healthy
       traefik:
@@ -147,7 +145,7 @@ services:
       - bingly-network
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.web.rule=Host(`bingoonlinecincoa.live`)"
+      - "traefik.http.routers.web.rule=Host(`bingoonlinecincoa.live`) || Host(`www.bingoonlinecincoa.live`)"
       - "traefik.http.routers.web.entrypoints=websecure"
       - "traefik.http.routers.web.tls.certresolver=letsencrypt"
       - "traefik.http.services.web.loadbalancer.server.port=3000"

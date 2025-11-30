@@ -24,7 +24,7 @@ COPY apps/api/tsconfig.build.json ./apps/api/
 COPY apps/api/nest-cli.json ./apps/api/
 
 # Instalar dependencias
-RUN pnpm install --frozen-lockfile
+RUN pnpm install
 
 # Stage de build
 FROM base AS builder
@@ -75,7 +75,7 @@ COPY apps/api/nest-cli.json ./apps/api/
 COPY apps/api/prisma ./apps/api/prisma
 
 # Instalar todas las dependencias (saltar scripts de prepare)
-RUN pnpm install --frozen-lockfile --ignore-scripts
+RUN pnpm install --ignore-scripts
 
 # Copiar código compilado
 COPY --from=builder /app/apps/api/dist ./apps/api/dist
