@@ -113,7 +113,7 @@ export class SeedsService {
         const { password, ...userData } = user;
         const hashedPassword = await hash(password);
         const domain =
-          userData.role === 'ADMIN' ? 'admin.bingly.website' : this.host;
+          userData.role === 'ADMIN' ? 'admin.bingoonlinecincoa.live' : this.host;
 
         await this.prisma.user.upsert({
           where: { domain },

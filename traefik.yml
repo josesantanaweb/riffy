@@ -27,7 +27,7 @@ providers:
 certificatesResolvers:
   letsencrypt:
     acme:
-      email: admin@riffy.website  # Email para certificados Let's Encrypt
+      email: admin@bingoonlinecincoa.live  # Email para certificados Let's Encrypt
       storage: /etc/traefik/acme.json
       httpChallenge:
         entryPoint: web

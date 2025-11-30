@@ -20,7 +20,7 @@ services:
       - --entrypoints.web.http.redirections.entrypoint.to=websecure
       - --entrypoints.web.http.redirections.entrypoint.scheme=https
       - --entrypoints.web.http.redirections.entrypoint.permanent=true
-      - --certificatesresolvers.letsencrypt.acme.email=admin@bingly.website
+      - --certificatesresolvers.letsencrypt.acme.email=admin@bingoonlinecincoa.live
       - --certificatesresolvers.letsencrypt.acme.storage=/etc/traefik/acme.json
       - --certificatesresolvers.letsencrypt.acme.httpchallenge.entrypoint=web
       - --global.checknewversion=false
@@ -39,7 +39,7 @@ services:
       - bingly-network
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.traefik.rule=Host(`traefik.bingly.website`)"
+      - "traefik.http.routers.traefik.rule=Host(`traefik.bingoonlinecincoa.live`)"
       - "traefik.http.routers.traefik.entrypoints=websecure"
       - "traefik.http.routers.traefik.tls.certresolver=letsencrypt"
       - "traefik.http.routers.traefik.service=api@internal"
@@ -117,7 +117,7 @@ services:
       - bingly-network
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.api.rule=Host(`api.bingly.website`)"
+      - "traefik.http.routers.api.rule=Host(`api.bingoonlinecincoa.live`)"
       - "traefik.http.routers.api.entrypoints=websecure"
       - "traefik.http.routers.api.tls.certresolver=letsencrypt"
       - "traefik.http.services.api.loadbalancer.server.port=4000"
@@ -147,7 +147,7 @@ services:
       - bingly-network
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.web.rule=Host(`bingly.website`)"
+      - "traefik.http.routers.web.rule=Host(`bingoonlinecincoa.live`)"
       - "traefik.http.routers.web.entrypoints=websecure"
       - "traefik.http.routers.web.tls.certresolver=letsencrypt"
       - "traefik.http.services.web.loadbalancer.server.port=3000"
@@ -177,7 +177,7 @@ services:
       - bingly-network
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.admin.rule=Host(`admin.bingly.website`)"
+      - "traefik.http.routers.admin.rule=Host(`admin.bingoonlinecincoa.live`)"
       - "traefik.http.routers.admin.entrypoints=websecure"
       - "traefik.http.routers.admin.tls.certresolver=letsencrypt"
       - "traefik.http.services.admin.loadbalancer.server.port=3001"
