@@ -264,7 +264,7 @@ export class PaymentsService {
 
   /**
    * Crea una notificación cuando se realiza un pago.
-   * @param payment Payment con boards y rifa incluidos
+   * @param payment Payment con boards y bingo incluidos
    */
   private async createNotificationForPayment(
     payment: PaymentWithBoardsAndBingo,

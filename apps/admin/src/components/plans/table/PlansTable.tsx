@@ -45,7 +45,7 @@ const PlansTable = ({
     },
     createColumn('name', 'Nombre'),
     createCurrencyColumn('price', 'Precio', 'USD'),
-    createColumn('maxBingos', 'Maximo de rifas'),
+    createColumn('maxBingos', 'Maximo de bingos'),
     createColumn('maxBoards', 'Maximo de cartones'),
   ];
 

@@ -20,7 +20,7 @@ const PaymentsPage = () => {
   const { updatePaymentStatus } = useUpdatePaymentStatus();
 
   const bingosOptions = [
-    { value: '', label: 'Todas las rifas' },
+    { value: '', label: 'Todos los bingos' },
     ...(bingos?.map(bingo => ({
       value: bingo.id,
       label: bingo.title,
@@ -61,11 +61,11 @@ const PaymentsPage = () => {
         <div className="flex justify-between items-end w-full md:w-[380px]">
           <Select
             options={bingosOptions}
-            label="Selecciona una rifa"
+            label="Selecciona un bingo"
             value={selectedBingoId}
             onChange={setSelectedBingoId}
             size="md"
-            placeholder="Elige una rifa..."
+            placeholder="Elige un bingo..."
           />
         </div>
         <PaymentsTable

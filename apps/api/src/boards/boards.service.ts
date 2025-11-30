@@ -99,7 +99,7 @@ export class BoardsService {
     const board = await this.prisma.board.create({
       data: {
         bingoId: createBoardInput.bingoId,
-        number: await this.generateUniqueCardNumber(),
+        number: await this.generateUniqueCardNumber(createBoardInput.bingoId),
         numbers,
         status: BoardStatus.AVAILABLE,
       },
@@ -173,24 +173,17 @@ export class BoardsService {
   }
 
   /**
-   * Genera un número de cartón único.
-   * @returns Número de cartón único
+   * Genera un número de cartón único dentro del bingo especificado.
+   * @param bingoId ID del bingo para el cual generar el número
+   * @returns Número de cartón único (el siguiente disponible dentro del bingo)
    */
-  private async generateUniqueCardNumber(): Promise<number> {
-    let unique = false;
-    let number: number;
+  private async generateUniqueCardNumber(bingoId: string): Promise<number> {
+    const maxBoard = await this.prisma.board.findFirst({
+      where: { bingoId },
+      orderBy: { number: 'desc' },
+      select: { number: true },
+    });
 
-    while (!unique) {
-      number = Math.floor(Math.random() * 100);
-      const exists = await this.prisma.board.findUnique({
-        where: { number },
-      });
-
-      if (!exists) {
-        unique = true;
-      }
-    }
-
-    return number;
+    return maxBoard ? maxBoard.number + 1 : 1;
   }
 }

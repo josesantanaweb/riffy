@@ -97,8 +97,8 @@ const FormInformation = () => {
                 </div>
                 <div className="w-full lg:w-1/2">
                   <Input
-                    label="Cantidad de rifas"
-                    placeholder="Ingresa la cantidad de rifas"
+                    label="Cantidad de bingos"
+                    placeholder="Ingresa la cantidad de bingos"
                     inputSize="md"
                     type="number"
                     value={formValues.maxBingos || ''}

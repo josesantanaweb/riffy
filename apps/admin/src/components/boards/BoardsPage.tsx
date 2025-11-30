@@ -54,11 +54,11 @@ const Boards = () => {
           <div className="w-full md:w-[25%]">
             <Select
               options={bingosOptions}
-              label="Selecciona una rifa"
+              label="Selecciona un bingo"
               value={selectedBingoId}
               onChange={setSelectedBingoId}
               size="md"
-              placeholder="Elige una rifa..."
+              placeholder="Elige un bingo..."
             />
           </div>
           <div className="w-full md:w-[25%]">

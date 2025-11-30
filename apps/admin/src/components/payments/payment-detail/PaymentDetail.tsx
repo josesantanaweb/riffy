@@ -159,7 +159,7 @@ const PaymentDetail = ({
                       </div>
                     </div>
                   </div>
-                  <div className="w-[200px] h-[440px] rounded-md overflow-hidden shrink-0">
+                  <div className="w-[250px] h-[440px] rounded-md overflow-hidden shrink-0">
                     <Image
                       src={payment?.proofUrl}
                       width={300}

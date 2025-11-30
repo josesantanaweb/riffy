@@ -69,7 +69,7 @@ model Bingo {
 
 model Board {
   id            String      @id @default(cuid())
-  number        Int         @unique
+  number        Int
   numbers       Json
   markedNumbers Json?
   status        BoardStatus @default(AVAILABLE)
@@ -77,6 +77,8 @@ model Board {
   paymentId     String?
   payment       Payment?    @relation(fields: [paymentId], references: [id], onDelete: SetNull)
   bingo         Bingo       @relation(fields: [bingoId], references: [id], onDelete: Cascade)
+
+  @@unique([bingoId, number])
 }
 
 model Payment {

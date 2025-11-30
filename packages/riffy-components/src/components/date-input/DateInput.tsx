@@ -30,6 +30,7 @@ const DateInput = ({ label, date, setDate }: DateInputProps) => {
         value={formattedDate}
         placeholder="Selecciona una fecha"
         iconPosition="right"
+        inputSize="md"
         onClick={handleOpen}
       />
 

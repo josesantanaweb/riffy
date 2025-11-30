@@ -47,7 +47,7 @@ const FormInformation = ({ isUpdating = false }: FormInformationProps) => {
       >
         <div className="flex items-center gap-2">
           <Icon name="info-circle" className="text-2xl text-body-100" />
-          <h5 className="text-base text-title">Información de rifa</h5>
+          <h5 className="text-base text-title">Información de bingo</h5>
         </div>
         <button
           className={`cursor-pointer text-body-100 transition-transform ${isCollapse ? 'rotate-180' : ''}`}

@@ -57,7 +57,7 @@ export class UsersService {
    * Busca un usuario por su dominio.
    * @param domain Dominio del usuario a buscar
    * @throws NotFoundException si el usuario no existe
-   * @returns El usuario encontrado con sus rifas
+   * @returns El usuario encontrado con sus bingos
    */
   async findOneByDomain(domain: string): Promise<User> {
     const user = await this.prisma.user.findUnique({

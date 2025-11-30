@@ -48,7 +48,7 @@ export class DashboardService {
   }
 
   /**
-   * Obtiene el total de rifas creadas por el usuario.
+   * Obtiene el total de bingos creadas por el usuario.
    */
   private async getTotalBingos(userId: string): Promise<number> {
     return this.prisma.bingo.count({
@@ -92,7 +92,7 @@ export class DashboardService {
   }
 
   /**
-   * Obtiene el total de ganadores en las rifas del usuario.
+   * Obtiene el total de ganadores en los bingos del usuario.
    */
   private async getTotalWinners(userId: string): Promise<number> {
     return this.prisma.board.count({

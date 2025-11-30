@@ -162,15 +162,8 @@ export class BingosService implements OnModuleDestroy {
         },
       });
 
-      const maxBoard = await tx.board.findFirst({
-        orderBy: { number: 'desc' },
-        select: { number: true },
-      });
-
-      const startNumber = maxBoard ? maxBoard.number + 1 : 1;
-
       const boards = Array.from({ length: totalBoards }, (_, i) => ({
-        number: startNumber + i,
+        number: i + 1,
         numbers: generateCardNumbers(),
         bingoId: newBingo.id,
       }));
