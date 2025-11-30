@@ -26,7 +26,7 @@ const BingoCard = ({ bingo, loading }: BingoCardProps): ReactElement => {
   const handleVerifyBoard = () => router.push(ROUTES.BINGOS.VERIFY_TICKET(bingo.id));
 
   return (
-    <div className="flex flex-col bg-box-primary rounded-xl">
+    <div className="flex flex-col bg-box-primary">
       <BingoBanner
         banner={bingo?.banner}
         isCompleted={bingo?.status === BingoStatus.COMPLETED}
@@ -34,7 +34,7 @@ const BingoCard = ({ bingo, loading }: BingoCardProps): ReactElement => {
       />
 
       <div className="flex flex-col gap-5 p-5">
-        <BingoTitle title={bingo.title} loading={loading} />
+        <BingoTitle title={bingo.title} loading={loading} award={bingo?.award} />
 
         {bingo.showDate && (
           <BingoAlert
@@ -53,7 +53,7 @@ const BingoCard = ({ bingo, loading }: BingoCardProps): ReactElement => {
             </Button>
           )}
 
-          <Button variant="default" onClick={handleVerifyBoard}>
+          <Button variant="default" onClick={handleVerifyBoard} disabled={true}>
             <Icon name="search" />
             Verificar boleto
           </Button>
