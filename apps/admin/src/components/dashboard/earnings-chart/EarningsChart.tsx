@@ -1,5 +1,5 @@
 'use client';
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect, useRef } from 'react';
 import { useTheme } from '@riffy/hooks';
 import {
   BarChart,
@@ -76,8 +76,25 @@ const EarningsChart = () => {
   const [periodFilter, setPeriodFilter] = useState<PeriodEnum>(
     PeriodEnum.MONTH,
   );
+  const primaryColorRef = useRef<HTMLDivElement>(null);
+  const [primaryColor, setPrimaryColor] = useState<string>(COLORS[theme].primary.start);
 
   const colors = COLORS[theme];
+
+  useEffect(() => {
+    const root = document.documentElement;
+    const primaryColorValue = getComputedStyle(root).getPropertyValue('--color-primary-500').trim();
+
+    if (primaryColorValue) {
+      setPrimaryColor(primaryColorValue);
+    } else if (primaryColorRef.current) {
+      const computedStyle = window.getComputedStyle(primaryColorRef.current);
+      const color = computedStyle.backgroundColor;
+      if (color && color !== 'rgba(0, 0, 0, 0)' && color !== 'transparent') {
+        setPrimaryColor(color);
+      }
+    }
+  }, [theme]);
 
   const chartData = useMemo(() => {
     return periodFilter === PeriodEnum.DAY ? dailyData : monthlyData;
@@ -95,7 +112,8 @@ const EarningsChart = () => {
   }, [periodFilter]);
 
   return (
-    <div className="md:col-span-2 xl:col-span-2 bg-box-primary rounded-xl p-6 min-h-[400px]">
+    <div className="md:col-span-2 xl:col-span-2 bg-box-primary rounded-xl p-6 min-h-[400px] relative">
+      <div ref={primaryColorRef} className="bg-primary-500 w-0 h-0 absolute opacity-0 pointer-events-none" />
       <div className="flex justify-between items-start mb-6">
         <div className="flex flex-col gap-2">
           <h3 className="text-base text-title font-medium">Ganancias</h3>
@@ -126,7 +144,7 @@ const EarningsChart = () => {
             <linearGradient id="colorPrimary" x1="0" y1="0" x2="0" y2="1">
               <stop
                 offset="0%"
-                stopColor={colors.primary.start}
+                stopColor={primaryColor}
                 stopOpacity={1}
               />
               <stop
