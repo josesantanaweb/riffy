@@ -70,7 +70,7 @@ const BingosForm = () => {
       bannerFile: null,
       showDate: bingoData.showDate ?? true,
       showProgress: bingoData.showProgress ?? true,
-      minBoards: String(bingoData.minBoards ?? 2),
+      minBoards: String(bingoData.minBoards ?? 1),
     });
   }, [bingoData, reset]);
 
