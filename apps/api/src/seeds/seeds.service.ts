@@ -2,7 +2,13 @@ import { Injectable, Logger } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { loadJson } from '../utils/loadJson';
 import { hash } from 'argon2';
-import { Role, PaymentMethodType, PlanType, BingoStatus } from '@prisma/client';
+import {
+  Role,
+  PaymentMethodType,
+  PlanType,
+  BingoStatus,
+  PlanUsageStatus,
+} from '@prisma/client';
 import { generateCardNumbers } from '../utils/bingo.utils';
 
 interface UserSeedData {
@@ -53,6 +59,7 @@ interface PlanSeedData {
 @Injectable()
 export class SeedsService {
   private readonly logger = new Logger(SeedsService.name);
+  private readonly host = process.env.HOST || 'localhost';
 
   constructor(private readonly prisma: PrismaService) {}
 
@@ -79,6 +86,7 @@ export class SeedsService {
       await this.seedPaymentMethods();
       await this.seedBingos();
       await this.seedPlans();
+      await this.seedPlanUsage();
     } catch (error) {
       this.logger.error('Error durante el seeding:', error);
       throw error;
@@ -104,16 +112,20 @@ export class SeedsService {
       try {
         const { password, ...userData } = user;
         const hashedPassword = await hash(password);
+        const domain =
+          userData.role === 'ADMIN' ? 'admin.bingly.website' : this.host;
 
         await this.prisma.user.upsert({
-          where: { domain: user.domain },
+          where: { domain },
           update: {
             ...userData,
+            domain,
             password: hashedPassword,
             role: userData.role,
           },
           create: {
             ...userData,
+            domain,
             password: hashedPassword,
             role: userData.role,
           },
@@ -130,12 +142,12 @@ export class SeedsService {
 
   async seedPaymentMethods(): Promise<void> {
     const demoUser = await this.prisma.user.findUnique({
-      where: { domain: 'localhost' },
+      where: { domain: this.host },
     });
 
     if (!demoUser) {
       this.logger.error(
-        'Usuario localhost no encontrado para crear métodos de pago',
+        `Usuario ${this.host} no encontrado para crear métodos de pago`,
       );
       return;
     }
@@ -156,13 +168,11 @@ export class SeedsService {
 
   async seedBingos(): Promise<void> {
     const demoUser = await this.prisma.user.findUnique({
-      where: { domain: 'localhost' },
+      where: { domain: this.host },
     });
 
     if (!demoUser) {
-      this.logger.error(
-        'Usuario localhost no encontrado para crear bingos',
-      );
+      this.logger.error(`Usuario ${this.host} no encontrado para crear bingos`);
       return;
     }
 
@@ -200,6 +210,48 @@ export class SeedsService {
     const plans = loadJson<PlanSeedData[]>('plans.json');
     for (const plan of plans) {
       await this.prisma.plan.create({ data: plan });
+    }
+  }
+
+  async seedPlanUsage(): Promise<void> {
+    const demoUser = await this.prisma.user.findUnique({
+      where: { domain: this.host },
+    });
+
+    if (!demoUser) {
+      this.logger.error(
+        `Usuario ${this.host} no encontrado para crear plan usage`,
+      );
+      return;
+    }
+
+    const premiumPlan = await this.prisma.plan.findFirst({
+      where: { type: 'PREMIUM' },
+    });
+
+    await this.prisma.user.update({
+      where: { id: demoUser.id },
+      data: { planId: premiumPlan.id },
+    });
+
+    try {
+      await this.prisma.planUsage.create({
+        data: {
+          ownerId: demoUser.id,
+          planId: premiumPlan.id,
+          currentBingos: 0,
+          currentBoards: 0,
+          status: PlanUsageStatus.ACTIVE,
+        },
+      });
+    } catch {
+      await this.prisma.planUsage.update({
+        where: { ownerId: demoUser.id },
+        data: {
+          planId: premiumPlan.id,
+          status: PlanUsageStatus.ACTIVE,
+        },
+      });
     }
   }
 }

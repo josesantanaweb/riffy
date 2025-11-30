@@ -1,7 +1,6 @@
 [
   {
     "name": "demo",
-    "domain": "localhost",
     "email": "demo@bingly.com",
     "password": "12345678",
     "role": "OWNER",
@@ -13,7 +12,6 @@
   },
   {
     "name": "admin",
-    "domain": "",
     "email": "admin@bingly.com",
     "password": "12345678",
     "role": "ADMIN",

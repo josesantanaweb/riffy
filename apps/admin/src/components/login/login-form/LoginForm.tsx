@@ -79,7 +79,7 @@ const LoginForm = () => {
         <div className="w-full">
           <Input
             label="Correo electrónico"
-            placeholder="Ej: juan@correo.com"
+            placeholder="Ej: demo@correo.com"
             inputSize="lg"
             value={email}
             {...register('email')}

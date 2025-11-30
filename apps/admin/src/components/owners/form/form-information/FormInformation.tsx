@@ -78,7 +78,7 @@ const FormInformation = () => {
                   <Input
                     label="Email"
                     isRequired
-                    placeholder="Ej: juan@correo.com"
+                    placeholder="Ej: demo@correo.com"
                     inputSize="md"
                     type="email"
                     value={formValues.email || ''}
