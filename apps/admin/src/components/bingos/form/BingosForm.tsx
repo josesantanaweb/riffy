@@ -25,7 +25,7 @@ const DEFAULT_VALUES: FormData = {
   bannerFile: null,
   showDate: true,
   showProgress: true,
-  minBoards: '2',
+  minBoards: '1',
 };
 
 const DEFAULT_BANNER = '/images/banner.png';

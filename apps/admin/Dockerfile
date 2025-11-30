@@ -24,7 +24,7 @@ COPY apps/admin/next.config.js ./apps/admin/
 COPY apps/admin/postcss.config.js ./apps/admin/
 
 # Instalar dependencias
-RUN pnpm install --frozen-lockfile
+RUN pnpm install
 
 # Stage de build
 FROM base AS builder
@@ -68,7 +68,7 @@ COPY apps/admin/next.config.js ./apps/admin/
 COPY apps/admin/postcss.config.js ./apps/admin/
 
 # Instalar solo dependencias de producción (saltar scripts de prepare)
-RUN pnpm install --prod --frozen-lockfile --ignore-scripts
+RUN pnpm install --prod --ignore-scripts
 
 # Copiar archivos compilados y públicos
 COPY --from=builder /app/apps/admin/.next/standalone ./

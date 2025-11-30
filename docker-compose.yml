@@ -90,6 +90,7 @@ services:
     restart: unless-stopped
     ports:
       - "4000:4000"
+      - "5555:5555"
     environment:
       - NODE_ENV=production
       - DATABASE_URL=${DATABASE_URL:-postgresql://bingly:bingly123@172.17.0.1:5432/bingly}
@@ -161,6 +162,7 @@ services:
       - NODE_ENV=production
       - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}
       - NEXT_PUBLIC_GRAPHQL_ENDPOINT=${NEXT_PUBLIC_GRAPHQL_ENDPOINT}
+      - NEXT_PUBLIC_WS_URL=${NEXT_PUBLIC_WS_URL}
     depends_on:
       api:
         condition: service_healthy
