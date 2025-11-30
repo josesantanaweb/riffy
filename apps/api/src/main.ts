@@ -27,9 +27,9 @@ async function bootstrap(): Promise<void> {
   app.enableCors({
     origin: isProduction
       ? [
-          `http://${process.env.DOMAIN}:3000`,
-          `http://${process.env.DOMAIN}:3001`,
-          `http://${process.env.DOMAIN}`,
+          `http://${process.env.HOST}:3000`,
+          `http://${process.env.HOST}:3001`,
+          `http://${process.env.HOST}`,
         ]
       : (
           _origin: string | undefined,
