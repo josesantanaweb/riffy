@@ -87,7 +87,11 @@ export class BingosService implements OnModuleDestroy {
       },
       include: {
         boards: true,
-        owner: true,
+        owner: {
+          include: {
+            paymentMethods: true,
+          },
+        },
       },
     });
 
