@@ -34,7 +34,7 @@ const OwnersPage = () => {
 
   return (
     <div className="p-6 flex-col flex gap-6">
-      <PageHeader title="Dueños de Rifa" subtitle="Lista de Dueños de Rifa" />
+      <PageHeader title="Dueños de Bingo" subtitle="Lista de Dueños de Bingo" />
       <div className="flex flex-col w-full bg-box-primary rounded-xl p-6">
         {data && (
           <OwnersTable
