@@ -12,7 +12,7 @@ const BoardBox = ({ board, onSelect }: BoardBoxProps) => {
       case BoardStatus.AVAILABLE:
         return 'bg-box-secondary text-body-100';
       case BoardStatus.SOLD:
-        return 'box-secondary text-body-100 line-through';
+        return 'bg-primary-500/20 text-white line-through';
       case BoardStatus.WINNER:
         return 'bg-success-500/70 text-white';
       case BoardStatus.LOSER:

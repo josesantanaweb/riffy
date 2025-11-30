@@ -32,13 +32,13 @@ const DashboardPage = () => {
     <div className="p-6 flex-col flex gap-6">
       <PageHeader title="Dashboard" subtitle="Dashboard" />
       <div className="flex flex-col gap-6 mt-4">
-        <div className="flex justify-between items-center">
+        <div className="flex justify-between items-center sm:items-center flex-col sm:flex-row gap-4 sm:gap-0">
           <div className="flex items-center gap-3">
             <Avatar
               name={profile?.name}
               src={profile?.logo}
               size={45}
-              className="rounded-md"
+              className="rounded-md shrink-0"
             />
             <div className="flex flex-col gap-1">
               <h3 className="text-base font-medium text-title">

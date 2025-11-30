@@ -12,16 +12,16 @@ export interface BoardsFooterProps {
 
 const TICKET_LEGENDS = [
   {
-    color: 'bg-box-primary',
-    label: 'Boletos Premium',
+    color: 'bg-primary-500/20',
+    label: 'Vendidos',
   },
   {
     color: 'bg-success-500',
-    label: 'Boletos Ganadores',
+    label: 'Ganadores',
   },
   {
     color: 'bg-danger-500',
-    label: 'Boletos Perdedores',
+    label: 'Perdedores',
   },
 ];
 

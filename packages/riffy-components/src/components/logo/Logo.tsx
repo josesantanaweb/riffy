@@ -14,7 +14,7 @@ const Logo = ({ className, src, loading }: LogoProps): ReactElement => {
   return (
     <Link href="/" className={className}>
       {loading || !src || src.trim() === '' ? (
-        <div className="w-[117px] h-[30px] bg-box-primary rounded-md animate-pulse" />
+        <div className="w-[60px] h-[60px] bg-box-secondary rounded-full animate-pulse" />
       ) : (
         <Image
           src={src}

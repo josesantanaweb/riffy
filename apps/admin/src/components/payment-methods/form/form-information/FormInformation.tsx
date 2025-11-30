@@ -57,9 +57,12 @@ const FormInformation = () => {
       >
         <div className="flex items-center gap-2">
           <Icon name="info-circle" className="text-2xl text-body-100" />
-          <h5 className="text-base text-title">Información del metodo de pago</h5>
+          <h5 className="text-base text-title">
+            Información del metodo de pago
+          </h5>
         </div>
         <button
+          type="button"
           className={`cursor-pointer text-body-100 transition-transform ${isCollapse ? 'rotate-180' : ''}`}
           onClick={handleCollapse}
         >
@@ -85,7 +88,7 @@ const FormInformation = () => {
                     size="md"
                     options={PAYMENT_METHOD_OPTIONS}
                     value={formValues.type}
-                    onChange={(value) =>
+                    onChange={value =>
                       handleTypeChange(value as FormData['type'])
                     }
                   />

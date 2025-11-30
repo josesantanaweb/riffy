@@ -4,7 +4,7 @@ import { useBingos, useBoardsByBingo } from '@riffy/hooks';
 import { Input, Select } from '@riffy/components';
 import PageHeader from '@/components/common/page-header';
 import BoardDetail from './board-detail';
-import { Board } from '@riffy/types';
+import { Board, BoardStatus } from '@riffy/types';
 import BoardsGrid from './boards-grid';
 import BoardsFooter from './boards-footer';
 import { useBoards } from '@/hooks';
@@ -42,8 +42,10 @@ const Boards = () => {
   }, [bingos, selectedBingoId]);
 
   const handleSelect = (board: Board) => {
-    setIsOpen(true);
-    setSelectedBoard(board);
+    if (board.status != BoardStatus.AVAILABLE ) {
+      setIsOpen(true);
+      setSelectedBoard(board);
+    }
   };
 
   return (

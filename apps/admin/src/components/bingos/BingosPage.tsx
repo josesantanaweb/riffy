@@ -16,7 +16,7 @@ const BingosPage = () => {
   const handleEdit = (bingo: Bingo) =>
     router.push(ROUTES.BINGOS.EDIT(bingo.id));
 
-  const handleView = () => router.push(ROUTES.BINGOS.LIST);
+  const handleView = () => router.push(ROUTES.BOARDS.LIST);
 
   const handleDelete = async (bingo: Bingo) => {
     const confirm = window.confirm('¿Estás seguro de querer eliminar este bingo?');

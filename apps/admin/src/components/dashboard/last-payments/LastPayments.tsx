@@ -14,7 +14,7 @@ interface LastPaymentsProps {
 
 const LastPayments = ({ payments }: LastPaymentsProps) => {
   return (
-    <div className="flex flex-col bg-box-primary rounded-xl p-6 min-h-[300px]">
+    <div className="flex-col bg-box-primary rounded-xl p-6 min-h-[300px] hidden md:flex">
       <h3 className="text-base font-medium text-title mb-6">
         Ultimos pagos
       </h3>

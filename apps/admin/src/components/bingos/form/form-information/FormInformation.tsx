@@ -50,6 +50,7 @@ const FormInformation = ({ isUpdating = false }: FormInformationProps) => {
           <h5 className="text-base text-title">Información de bingo</h5>
         </div>
         <button
+          type="button"
           className={`cursor-pointer text-body-100 transition-transform ${isCollapse ? 'rotate-180' : ''}`}
           onClick={handleCollapse}
         >
@@ -176,14 +177,18 @@ const FormInformation = ({ isUpdating = false }: FormInformationProps) => {
                   <Switch
                     checked={formValues.showDate || false}
                     onChange={() =>
-                      setValue('showDate', !formValues.showDate, { shouldValidate: false })
+                      setValue('showDate', !formValues.showDate, {
+                        shouldValidate: false,
+                      })
                     }
                     label="Mostrar fecha"
                   />
                   <Switch
                     checked={formValues.showProgress || false}
                     onChange={() =>
-                      setValue('showProgress', !formValues.showProgress, { shouldValidate: false })
+                      setValue('showProgress', !formValues.showProgress, {
+                        shouldValidate: false,
+                      })
                     }
                     label="Mostrar progreso"
                   />
