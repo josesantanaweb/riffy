@@ -65,7 +65,6 @@ const FormInformation = ({ isUpdating = false }: FormInformationProps) => {
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.25, ease: 'easeInOut' }}
-            className="overflow-hidden"
           >
             <div className="flex flex-col px-6 pt-4 pb-8 w-full gap-6">
               {!isUpdating && planUsage?.plan && (
@@ -108,6 +107,7 @@ const FormInformation = ({ isUpdating = false }: FormInformationProps) => {
                   <DateInput
                     label="Fecha del sorteo"
                     date={new Date(formValues.drawDate)}
+                    showTime={true}
                     setDate={date =>
                       setValue('drawDate', date, {
                         shouldValidate: true,
