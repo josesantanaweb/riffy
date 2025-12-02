@@ -1,12 +1,27 @@
 import { readFileSync, existsSync } from 'fs';
-import { join, dirname } from 'path';
+import { join, resolve } from 'path';
 
 export function loadJson<T>(filename: string): T {
+  const baseDir = __dirname.includes('dist')
+    ? join(__dirname, '..', '..')
+    : join(__dirname, '..', '..');
+
+  const cwd = process.cwd();
+  const isInApiDir = cwd.endsWith('apps/api') || cwd.endsWith('apps\\api');
+
   const possiblePaths = [
-    join(process.cwd(), 'apps/api/prisma', 'data', filename),
-    join(__dirname, '..', '..', 'prisma', 'data', filename),
-    join(dirname(process.cwd()), 'apps/api/prisma', 'data', filename),
+    resolve(baseDir, 'prisma', 'data', filename),
+    resolve(cwd, 'prisma', 'data', filename),
+    join(baseDir, 'prisma', 'data', filename),
+    join(cwd, 'prisma', 'data', filename),
   ];
+
+  if (!isInApiDir) {
+    possiblePaths.push(
+      resolve(cwd, 'apps', 'api', 'prisma', 'data', filename),
+      join(cwd, 'apps', 'api', 'prisma', 'data', filename),
+    );
+  }
 
   let dataPath: string | null = null;
 

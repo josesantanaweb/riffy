@@ -49,7 +49,6 @@
     "@jest/globals": "^29.7.0",
     "@next/eslint-plugin-next": "^14.1.1",
     "@playwright/test": "^1.44.0",
-    "@riffy/api": "workspace:*",
     "@riffy/components": "workspace:*",
     "@riffy/eslint-config": "workspace:*",
     "@riffy/hooks": "workspace:*",
