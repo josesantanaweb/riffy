@@ -9,7 +9,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   useIOSScrollFix();
 
   return (
-    <main className="relative w-full flex items-center justify-center overflow-hidden bg-box-primary">
+    <main className="relative w-full flex items-center justify-center overflow-hidden bg-web-bg">
       <div className="w-full md:max-w-md flex flex-col h-full bg-box-primary">
         <Navbar />
         <div className="flex-1 safe-scroll">{children}</div>

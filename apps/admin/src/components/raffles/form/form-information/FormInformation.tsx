@@ -57,6 +57,7 @@ const FormInformation = ({ isUpdating = false }: FormInformationProps) => {
         <button
           className={`cursor-pointer text-body-100 transition-transform ${isCollapse ? 'rotate-180' : ''}`}
           onClick={handleCollapse}
+          type="button"
         >
           <Icon name="chevron-down" className="text-2xl" />
         </button>
@@ -69,7 +70,6 @@ const FormInformation = ({ isUpdating = false }: FormInformationProps) => {
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.25, ease: 'easeInOut' }}
-            className="overflow-hidden"
           >
             <div className="flex flex-col px-6 pt-4 pb-8 w-full gap-6">
               {!isUpdating && planUsage?.plan && (

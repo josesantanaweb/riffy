@@ -1,6 +1,6 @@
 'use client';
-import { useState, useMemo } from 'react';
-import { useTheme } from '@riffy/hooks';
+import { useState, useMemo, useEffect, useRef } from 'react';
+import { useBreakpoint, useTheme } from '@riffy/hooks';
 import {
   BarChart,
   Bar,
@@ -73,11 +73,33 @@ const PERIOD_OPTIONS = [
 
 const EarningsChart = () => {
   const { theme } = useTheme();
+  const { isDesktop } = useBreakpoint();
   const [periodFilter, setPeriodFilter] = useState<PeriodEnum>(
     PeriodEnum.MONTH,
   );
+  const primaryColorRef = useRef<HTMLDivElement>(null);
+  const [primaryColor, setPrimaryColor] = useState<string>(
+    COLORS[theme].primary.start,
+  );
 
   const colors = COLORS[theme];
+
+  useEffect(() => {
+    const root = document.documentElement;
+    const primaryColorValue = getComputedStyle(root)
+      .getPropertyValue('--color-primary-500')
+      .trim();
+
+    if (primaryColorValue) {
+      setPrimaryColor(primaryColorValue);
+    } else if (primaryColorRef.current) {
+      const computedStyle = window.getComputedStyle(primaryColorRef.current);
+      const color = computedStyle.backgroundColor;
+      if (color && color !== 'rgba(0, 0, 0, 0)' && color !== 'transparent') {
+        setPrimaryColor(color);
+      }
+    }
+  }, [theme]);
 
   const chartData = useMemo(() => {
     return periodFilter === PeriodEnum.DAY ? dailyData : monthlyData;
@@ -95,7 +117,11 @@ const EarningsChart = () => {
   }, [periodFilter]);
 
   return (
-    <div className="md:col-span-2 xl:col-span-2 bg-box-primary rounded-xl p-6 min-h-[400px]">
+    <div className="md:col-span-2 xl:col-span-2 bg-box-primary rounded-xl p-6 min-h-[400px] relative">
+      <div
+        ref={primaryColorRef}
+        className="bg-primary-500 w-0 h-0 absolute opacity-0 pointer-events-none"
+      />
       <div className="flex justify-between items-start mb-6">
         <div className="flex flex-col gap-2">
           <h3 className="text-base text-title font-medium">Ganancias</h3>
@@ -104,7 +130,7 @@ const EarningsChart = () => {
           </p>
         </div>
         <div className="flex gap-2">
-          {PERIOD_OPTIONS.map((period) => (
+          {PERIOD_OPTIONS.map(period => (
             <Button
               key={period.value}
               variant={periodFilter === period.value ? 'primary' : 'default'}
@@ -124,11 +150,7 @@ const EarningsChart = () => {
         >
           <defs>
             <linearGradient id="colorPrimary" x1="0" y1="0" x2="0" y2="1">
-              <stop
-                offset="0%"
-                stopColor={colors.primary.start}
-                stopOpacity={1}
-              />
+              <stop offset="0%" stopColor={primaryColor} stopOpacity={1} />
               <stop
                 offset="100%"
                 stopColor={colors.primary.end}
@@ -156,14 +178,14 @@ const EarningsChart = () => {
           <XAxis
             dataKey="period"
             stroke={colors.axis}
-            tick={{ fill: colors.tick, fontSize: 14 }}
+            tick={{ fill: colors.tick, fontSize: isDesktop ? 14 : 10 }}
             axisLine={false}
             tickLine={false}
             interval={periodFilter === PeriodEnum.DAY ? 4 : 0}
           />
           <YAxis
             stroke={colors.axis}
-            tick={{ fill: colors.tick, fontSize: 14 }}
+            tick={{ fill: colors.tick, fontSize: isDesktop ? 14 : 10 }}
             axisLine={false}
             tickLine={false}
             ticks={yAxisTicks}

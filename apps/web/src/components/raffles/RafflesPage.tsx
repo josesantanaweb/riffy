@@ -14,7 +14,7 @@ const RafflesPage = (): ReactElement => {
 
   return (
     <div
-      className={`w-full h-full flex flex-col gap-5 py-5 px-5 ${isIPhone ? 'pb-24' : ''}`}
+      className={`w-full h-full flex flex-col gap-5 ${isIPhone ? 'pb-24' : ''}`}
     >
       {loading &&
         Array.from({ length: 3 }).map((_, index) => <Skeleton key={index} />)}

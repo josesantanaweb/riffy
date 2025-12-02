@@ -36,7 +36,7 @@ const NavBrand = ({ collapseSidebar }: NavBrandProps): ReactElement => {
       )}
     >
       <Logo
-        className={`${shouldCollapse ? 'w-[24px]' : 'w-[64px] lg:w-[74px]'} transition-all`}
+        className={`${shouldCollapse ? 'w-[20px]' : 'w-[64px] lg:w-[64px]'} transition-all`}
         src={shouldCollapse ? logoSmallSrc : logoSrc}
       />
     </div>

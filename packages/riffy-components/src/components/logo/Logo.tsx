@@ -13,8 +13,8 @@ interface LogoProps {
 const Logo = ({ className, src, loading }: LogoProps): ReactElement => {
   return (
     <Link href="/" className={className}>
-      {loading ? (
-        <div className="w-[117px] h-[30px] bg-base-600 rounded-md animate-pulse" />
+      {loading || !src || src.trim() === '' ? (
+        <div className="w-[117px] h-[30px] bg-box-secondary rounded-md animate-pulse" />
       ) : (
         <Image
           src={src}

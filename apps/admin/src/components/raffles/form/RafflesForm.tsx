@@ -26,7 +26,7 @@ const DEFAULT_VALUES: FormData = {
   bannerFile: null,
   showDate: true,
   showProgress: true,
-  minTickets: '2',
+  minTickets: '1',
 };
 
 const DEFAULT_BANNER = '/images/banner.png';
@@ -72,7 +72,7 @@ const RafflesForm = () => {
       bannerFile: null,
       showDate: raffleData.showDate ?? true,
       showProgress: raffleData.showProgress ?? true,
-      minTickets: String(raffleData.minTickets ?? 2),
+      minTickets: String(raffleData.minTickets ?? 1),
     });
   }, [raffleData, reset]);
 

@@ -86,7 +86,11 @@ export class RafflesService {
       },
       include: {
         tickets: true,
-        owner: true,
+        owner: {
+          include: {
+            paymentMethods: true,
+          },
+        },
       },
     });
 

@@ -38,6 +38,7 @@ const FormImage = () => {
         <button
           className={`cursor-pointer text-body-100 transition-transform ${isCollapse ? 'rotate-180' : ''}`}
           onClick={handleCollapse}
+          type="button"
         >
           <Icon name="chevron-down" className="text-2xl" />
         </button>
