@@ -31,7 +31,7 @@ const PaymentTimer = (): ReactElement => {
 
         if (newTime <= 0) {
           removeTimerFromStorage();
-          router.push(ROUTES.RAFFLES.LIST);
+          router.push(ROUTES.BINGOS.LIST);
           return 0;
         }
 

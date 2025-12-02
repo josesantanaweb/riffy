@@ -19,8 +19,8 @@ const DEFAULT_VALUES: FormData = {
   name: '',
   description: [],
   price: '',
-  maxRaffles: '',
-  maxTickets: '',
+  maxBingos: '',
+  maxBoards: '',
   type: 'BASIC' as FormData['type'],
 };
 
@@ -52,8 +52,8 @@ const PlansForm = () => {
       name: planData.name || '',
       description: planData.description || [],
       price: String(planData.price ?? ''),
-      maxRaffles: String(planData.maxRaffles ?? ''),
-      maxTickets: String(planData.maxTickets ?? ''),
+      maxBingos: String(planData.maxBingos ?? ''),
+      maxBoards: String(planData.maxBoards ?? ''),
       type: planData.type || '',
     });
   }, [planData, reset]);
@@ -65,8 +65,8 @@ const PlansForm = () => {
       name,
       description,
       price,
-      maxRaffles,
-      maxTickets,
+      maxBingos,
+      maxBoards,
       type,
     } = data;
 
@@ -75,8 +75,8 @@ const PlansForm = () => {
         name: name,
         description: description,
         price: Number(price),
-        maxRaffles: Number(maxRaffles),
-        maxTickets: Number(maxTickets),
+        maxBingos: Number(maxBingos),
+        maxBoards: Number(maxBoards),
         type: type,
       };
 

@@ -16,18 +16,18 @@ export class DashboardService {
    */
   async getStats(userId: string): Promise<DashboardStats> {
     const [
-      totalRaffles,
-      soldTickets,
-      unsoldTickets,
+      totalBingos,
+      soldBoards,
+      unsoldBoards,
       totalWinners,
       totalEarnings,
       topBuyers,
       paymentsByState,
       lastPayments,
     ] = await Promise.all([
-      this.getTotalRaffles(userId),
-      this.getSoldTickets(userId),
-      this.getUnsoldTickets(userId),
+      this.getTotalBingos(userId),
+      this.getSoldBoards(userId),
+      this.getUnsoldBoards(userId),
       this.getTotalWinners(userId),
       this.getTotalEarnings(userId),
       this.getTopBuyers(userId),
@@ -36,9 +36,9 @@ export class DashboardService {
     ]);
 
     return {
-      totalRaffles,
-      soldTickets,
-      unsoldTickets,
+      totalBingos,
+      soldBoards,
+      unsoldBoards,
       totalWinners,
       totalEarnings,
       topBuyers,
@@ -48,10 +48,10 @@ export class DashboardService {
   }
 
   /**
-   * Obtiene el total de rifas creadas por el usuario.
+   * Obtiene el total de bingos creadas por el usuario.
    */
-  private async getTotalRaffles(userId: string): Promise<number> {
-    return this.prisma.raffle.count({
+  private async getTotalBingos(userId: string): Promise<number> {
+    return this.prisma.bingo.count({
       where: {
         ownerId: userId,
       },
@@ -59,13 +59,13 @@ export class DashboardService {
   }
 
   /**
-   * Obtiene el total de boletos vendidos del usuario.
+   * Obtiene el total de cartones vendidos del usuario.
    */
-  private async getSoldTickets(userId: string): Promise<number> {
-    return this.prisma.ticket.count({
+  private async getSoldBoards(userId: string): Promise<number> {
+    return this.prisma.board.count({
       where: {
         status: 'SOLD',
-        raffle: {
+        bingo: {
           ownerId: userId,
         },
         payment: {
@@ -76,15 +76,15 @@ export class DashboardService {
   }
 
   /**
-   * Obtiene el total de boletos no vendidos del usuario.
+   * Obtiene el total de cartones no vendidos del usuario.
    */
-  private async getUnsoldTickets(userId: string): Promise<number> {
-    return this.prisma.ticket.count({
+  private async getUnsoldBoards(userId: string): Promise<number> {
+    return this.prisma.board.count({
       where: {
         status: {
           not: 'SOLD',
         },
-        raffle: {
+        bingo: {
           ownerId: userId,
         },
       },
@@ -92,13 +92,13 @@ export class DashboardService {
   }
 
   /**
-   * Obtiene el total de ganadores en las rifas del usuario.
+   * Obtiene el total de ganadores en los bingos del usuario.
    */
   private async getTotalWinners(userId: string): Promise<number> {
-    return this.prisma.ticket.count({
+    return this.prisma.board.count({
       where: {
         status: 'WINNER',
-        raffle: {
+        bingo: {
           ownerId: userId,
         },
       },
@@ -112,7 +112,7 @@ export class DashboardService {
     const paymentsVerified = await this.prisma.payment.aggregate({
       where: {
         status: 'VERIFIED',
-        raffle: {
+        bingo: {
           ownerId: userId,
         },
       },
@@ -131,7 +131,7 @@ export class DashboardService {
     const payments = await this.prisma.payment.findMany({
       where: {
         status: 'VERIFIED',
-        raffle: {
+        bingo: {
           ownerId: userId,
         },
         state: {
@@ -173,7 +173,7 @@ export class DashboardService {
   private async getLastPayments(userId: string): Promise<Payment[]> {
     return this.prisma.payment.findMany({
       where: {
-        raffle: {
+        bingo: {
           ownerId: userId,
         },
         status: 'PENDING',
@@ -183,24 +183,24 @@ export class DashboardService {
       },
       take: 5,
       include: {
-        tickets: true,
+        boards: true,
       },
     });
   }
 
   /**
-   * Obtiene el top 3 de compradores con más boletos.
+   * Obtiene el top 3 de compradores con más cartones.
    */
   private async getTopBuyers(userId: string): Promise<TopBuyer[]> {
     const payments = await this.prisma.payment.findMany({
       where: {
         status: 'VERIFIED',
-        raffle: {
+        bingo: {
           ownerId: userId,
         },
       },
       include: {
-        tickets: true,
+        boards: true,
       },
     });
 
@@ -209,7 +209,7 @@ export class DashboardService {
       {
         buyerName: string;
         nationalId: string;
-        totalTickets: number;
+        totalBoards: number;
         totalSpent: number;
       }
     >();
@@ -219,20 +219,20 @@ export class DashboardService {
       const existingBuyer = buyersMap.get(key);
 
       if (existingBuyer) {
-        existingBuyer.totalTickets += payment.tickets.length;
+        existingBuyer.totalBoards += payment.boards.length;
         existingBuyer.totalSpent += payment.amount || 0;
       } else {
         buyersMap.set(key, {
           buyerName: payment.buyerName,
           nationalId: payment.nationalId || '',
-          totalTickets: payment.tickets.length,
+          totalBoards: payment.boards.length,
           totalSpent: payment.amount || 0,
         });
       }
     });
 
     return Array.from(buyersMap.values())
-      .sort((a, b) => b.totalTickets - a.totalTickets)
+      .sort((a, b) => b.totalBoards - a.totalBoards)
       .slice(0, 3);
   }
 }

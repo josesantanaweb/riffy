@@ -70,7 +70,7 @@ const LoginForm = () => {
               Inicio de sesión
             </h1>
             <p className="text-body-100 text-base">
-              Accede al panel de Riffy usando tu correo electrónico y
+              Accede al panel de Bingly usando tu correo electrónico y
               contraseña.
             </p>
           </div>
@@ -79,7 +79,7 @@ const LoginForm = () => {
         <div className="w-full">
           <Input
             label="Correo electrónico"
-            placeholder="Ej: juan@correo.com"
+            placeholder="Ej: demo@correo.com"
             inputSize="lg"
             value={email}
             {...register('email')}

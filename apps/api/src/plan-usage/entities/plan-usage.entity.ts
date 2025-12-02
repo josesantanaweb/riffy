@@ -9,10 +9,10 @@ export class PlanUsage {
   id: string;
 
   @Field()
-  currentRaffles: number;
+  currentBingos: number;
 
   @Field({ nullable: true })
-  currentTickets: number;
+  currentBoards: number;
 
   @Field({ nullable: true })
   createdAt: Date;

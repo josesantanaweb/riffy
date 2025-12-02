@@ -19,7 +19,7 @@ providers:
   docker:
     endpoint: "unix:///var/run/docker.sock"
     exposedByDefault: false
-    network: riffy-network
+    network: bingly-network
   file:
     filename: /etc/traefik/dynamic.yml
     watch: true
@@ -27,7 +27,7 @@ providers:
 certificatesResolvers:
   letsencrypt:
     acme:
-      email: admin@riffy.website  # Email para certificados Let's Encrypt
+      email: admin@bingoonlinecincoa.live  # Email para certificados Let's Encrypt
       storage: /etc/traefik/acme.json
       httpChallenge:
         entryPoint: web

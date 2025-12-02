@@ -6,9 +6,10 @@ import {
   Role,
   PaymentMethodType,
   PlanType,
-  RaffleStatus,
+  BingoStatus,
   PlanUsageStatus,
 } from '@prisma/client';
+import { generateCardNumbers } from '../utils/bingo.utils';
 
 interface UserSeedData {
   name: string;
@@ -33,26 +34,25 @@ interface PaymentMethodSeedData {
   paypalEmail?: string;
 }
 
-interface RaffleSeedData {
+interface BingoSeedData {
   title: string;
-  description?: string;
   banner: string;
-  totalTickets: number;
+  totalBoards: number;
   price: number;
   award: number;
   drawDate: string;
-  status: RaffleStatus;
+  status: BingoStatus;
   showDate?: boolean;
   showProgress?: boolean;
-  minTickets?: number;
+  minBoards?: number;
 }
 
 interface PlanSeedData {
   name: string;
   description: string[];
   price: number;
-  maxRaffles: number;
-  maxTickets: number;
+  maxBingos: number;
+  maxBoards: number;
   type: PlanType;
 }
 
@@ -84,7 +84,7 @@ export class SeedsService {
     try {
       await this.seedUsers();
       await this.seedPaymentMethods();
-      await this.seedRaffles();
+      await this.seedBingos();
       await this.seedPlans();
       await this.seedPlanUsage();
     } catch (error) {
@@ -96,10 +96,13 @@ export class SeedsService {
   }
 
   private async deleteDatabase(): Promise<void> {
-    await this.prisma.ticket.deleteMany({});
-    await this.prisma.plan.deleteMany({});
-    await this.prisma.raffle.deleteMany({});
+    await this.prisma.board.deleteMany({});
+    await this.prisma.payment.deleteMany({});
+    await this.prisma.bingo.deleteMany({});
     await this.prisma.paymentMethod.deleteMany({});
+    await this.prisma.planUsage.deleteMany({});
+    await this.prisma.notification.deleteMany({});
+    await this.prisma.plan.deleteMany({});
     await this.prisma.user.deleteMany({});
   }
 
@@ -163,40 +166,40 @@ export class SeedsService {
     }
   }
 
-  async seedRaffles(): Promise<void> {
+  async seedBingos(): Promise<void> {
     const demoUser = await this.prisma.user.findUnique({
       where: { domain: this.host },
     });
 
     if (!demoUser) {
-      this.logger.error(`Usuario ${this.host} no encontrado para crear rifas`);
+      this.logger.error(`Usuario ${this.host} no encontrado para crear bingos`);
       return;
     }
 
-    const raffles = loadJson<RaffleSeedData[]>('raffles.json');
+    const bingos = loadJson<BingoSeedData[]>('bingos.json');
 
-    for (const raffle of raffles) {
-      const raffleData = {
-        ...raffle,
+    for (const bingo of bingos) {
+      const bingoData = {
+        ...bingo,
         ownerId: demoUser.id,
-        status: raffle.status,
-        drawDate: new Date(raffle.drawDate),
+        status: bingo.status,
+        drawDate: new Date(bingo.drawDate),
       };
 
       try {
-        const createdRaffle = await this.prisma.raffle.create({
-          data: raffleData,
+        const createdBingo = await this.prisma.bingo.create({
+          data: bingoData,
         });
 
-        const totalTicketsNumber = raffle.totalTickets;
-        const maxLength = totalTicketsNumber.toString().length;
+        const totalBoardsNumber = bingo.totalBoards;
 
-        const tickets = Array.from({ length: totalTicketsNumber }, (_, i) => ({
-          number: `${i + 1}`.padStart(maxLength, '0'),
-          raffleId: createdRaffle.id,
+        const boards = Array.from({ length: totalBoardsNumber }, (_, i) => ({
+          number: i + 1,
+          numbers: generateCardNumbers(),
+          bingoId: createdBingo.id,
         }));
 
-        await this.prisma.ticket.createMany({ data: tickets });
+        await this.prisma.board.createMany({ data: boards });
       } catch {
         //
       }
@@ -249,6 +252,48 @@ export class SeedsService {
     const plans = loadJson<PlanSeedData[]>('plans.json');
     for (const plan of plans) {
       await this.prisma.plan.create({ data: plan });
+    }
+  }
+
+  async seedPlanUsage(): Promise<void> {
+    const demoUser = await this.prisma.user.findUnique({
+      where: { domain: this.host },
+    });
+
+    if (!demoUser) {
+      this.logger.error(
+        `Usuario ${this.host} no encontrado para crear plan usage`,
+      );
+      return;
+    }
+
+    const premiumPlan = await this.prisma.plan.findFirst({
+      where: { type: 'PREMIUM' },
+    });
+
+    await this.prisma.user.update({
+      where: { id: demoUser.id },
+      data: { planId: premiumPlan.id },
+    });
+
+    try {
+      await this.prisma.planUsage.create({
+        data: {
+          ownerId: demoUser.id,
+          planId: premiumPlan.id,
+          currentBingos: 0,
+          currentBoards: 0,
+          status: PlanUsageStatus.ACTIVE,
+        },
+      });
+    } catch {
+      await this.prisma.planUsage.update({
+        where: { ownerId: demoUser.id },
+        data: {
+          planId: premiumPlan.id,
+          status: PlanUsageStatus.ACTIVE,
+        },
+      });
     }
   }
 }

@@ -7,9 +7,17 @@ import { Logo } from '@riffy/components';
 import SocialLink from './social-link';
 
 const Navbar = () => {
-  const { setUser, setLoading } = useStore();
   const [domain, setDomain] = useState<string>('');
   const { data: user, loading } = useUserByDomain(domain);
+  const { setUser, setLoading } = useStore();
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const hostname = window.location.hostname;
+      const cleanDomain = hostname.replace(/^www\./, '');
+      setDomain(cleanDomain);
+    }
+  }, []);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -28,8 +36,8 @@ const Navbar = () => {
   }, [user, loading]);
 
   return (
-    <div className="w-full h-[70px] flex items-center justify-between px-5 bg-navbar-bg">
-      <Logo className="w-[64px]" src={user?.logo} loading={loading} />
+    <div className="w-full h-[70px] flex items-center justify-between px-5 bg-navbar-bg shrink-0">
+      <Logo className="w-12" src={user?.logo} loading={loading} />
       <div className="flex items-center gap-3">
         {user?.instagram && (
           <SocialLink

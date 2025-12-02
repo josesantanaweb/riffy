@@ -1,7 +1,7 @@
 import { ObjectType, Field, ID, GraphQLISODateTime } from '@nestjs/graphql';
 import { Role, UserStatus } from '@prisma/client';
 import { PaymentMethod } from '../../payment-methods/entities/payment-method.entity';
-import { Raffle } from '../../raffles/entities/raffle.entity';
+import { Bingo } from '../../bingos/entities/bingo.entity';
 import { Plan } from '../../plans/entities/plan.entity';
 import { PlanUsage } from '../../plan-usage/entities/plan-usage.entity';
 
@@ -49,8 +49,8 @@ export class User {
   @Field(() => GraphQLISODateTime, { nullable: true })
   updatedAt?: Date;
 
-  @Field(() => [Raffle], { nullable: true })
-  raffles?: Raffle[];
+  @Field(() => [Bingo], { nullable: true })
+  bingos?: Bingo[];
 
   @Field(() => [PaymentMethod], { nullable: true })
   paymentMethods?: PaymentMethod[];

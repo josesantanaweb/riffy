@@ -36,7 +36,7 @@ const PendingPayment = ({
     };
   }, [isOpen]);
 
-  const handleClose = () => router.push(ROUTES.RAFFLES.LIST);
+  const handleClose = () => router.push(ROUTES.BINGOS.LIST);
 
   const handleHelp = () => window.open(`https://wa.me/58${user.whatsapp}`, '_blank');
 
@@ -89,7 +89,7 @@ const PendingPayment = ({
                   <div className="flex flex-col gap-1">
                     <p className="text-body-100 text-sm">Rifa:</p>
                     <h2 className="text-base font-medium text-title">
-                      {cart?.raffleTitle}
+                      {cart?.bingoTitle}
                     </h2>
                   </div>
                   <div className="grid grid-cols-2">
@@ -123,14 +123,14 @@ const PendingPayment = ({
                   <div className="flex flex-col gap-1">
                     <p className="text-body-100 text-sm">Boletos #:</p>
                     <h2 className="text-base font-medium text-title">
-                      {data.tickets?.map(ticket => ticket.number).join(', ')}
+                      {data.boards?.map(board => board.number).join(', ')}
                     </h2>
                   </div>
                 </div>
 
                 <div className="flex flex-col gap-6">
                   <TotalBox
-                    totalTickets={cart?.totalTickets}
+                    totalBoards={cart?.totalBoards}
                     price={cart?.price}
                   />
                 </div>

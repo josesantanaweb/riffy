@@ -1,4 +1,4 @@
 export { useToast } from './useToast';
 export { useBrandColor } from './useBrandColor';
-export { useTickets } from './useTickets';
+export { useBoards } from './useBoards';
 export { useIOSScrollFix } from './useIOSScrollFix';

@@ -26,7 +26,7 @@ export const useRole = () => {
     return isAdmin;
   };
 
-  const canManageRaffles = () => {
+  const canManageBingos = () => {
     return isAdmin || isOwner;
   };
 
@@ -48,7 +48,7 @@ export const useRole = () => {
     hasAnyRole,
     canAccess,
     canManageUsers,
-    canManageRaffles,
+    canManageBingos,
     canManagePayments,
     canManagePaymentMethods,
   };

@@ -15,7 +15,7 @@ import {
   mapPaymentStatusToLabel,
 } from '@/utils';
 import TableSkeleton from '@/components/common/skeleton/TableSkeleton';
-import { Payment, PaymentStatus, Ticket } from '@riffy/types';
+import { Payment, PaymentStatus, Board } from '@riffy/types';
 
 interface PaymentsTableProps {
   data: Payment[];
@@ -46,16 +46,16 @@ const PaymentsTable = ({
       },
     },
     {
-      accessorKey: 'tickets',
+      accessorKey: 'boards',
       header: 'Boleto N°',
       cell: info => {
-        const tickets = info.getValue() as Ticket[];
-        if (!tickets || tickets.length === 0) {
+        const boards = info.getValue() as Board[];
+        if (!boards || boards.length === 0) {
           return <p>N/A</p>;
         }
 
-        const ticketNumbers = tickets.map(ticket => ticket.number).join(', ');
-        return <p>{ticketNumbers}</p>;
+        const boardNumbers = boards.map(board => board.number).join(', ');
+        return <p>{boardNumbers}</p>;
       },
       meta: {
         className: TABLE_CLASSES.cell,

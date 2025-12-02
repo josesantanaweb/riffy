@@ -39,6 +39,7 @@ const FormInformation = () => {
         <button
           className={`cursor-pointer text-body-100 transition-transform ${isCollapse ? 'rotate-180' : ''}`}
           onClick={handleCollapse}
+          type="button"
         >
           <Icon name="chevron-down" className="text-2xl" />
         </button>
@@ -97,13 +98,13 @@ const FormInformation = () => {
                 </div>
                 <div className="w-full lg:w-1/2">
                   <Input
-                    label="Cantidad de rifas"
-                    placeholder="Ingresa la cantidad de rifas"
+                    label="Cantidad de bingos"
+                    placeholder="Ingresa la cantidad de bingos"
                     inputSize="md"
                     type="number"
-                    value={formValues.maxRaffles || ''}
-                    {...register('maxRaffles')}
-                    error={errors.maxRaffles?.message}
+                    value={formValues.maxBingos || ''}
+                    {...register('maxBingos')}
+                    error={errors.maxBingos?.message}
                   />
                 </div>
               </div>
@@ -111,13 +112,13 @@ const FormInformation = () => {
               <div className="flex gap-4 items-start w-full flex-wrap lg:flex-nowrap">
                 <div className="w-full lg:w-1/2">
                   <Input
-                    label="Cantidad de boletos"
-                    placeholder="Ingresa la cantidad de boletos"
+                    label="Cantidad de cartones"
+                    placeholder="Ingresa la cantidad de cartones"
                     inputSize="md"
                     type="number"
-                    value={formValues.maxTickets || ''}
-                    {...register('maxTickets')}
-                    error={errors.maxTickets?.message}
+                    value={formValues.maxBoards || ''}
+                    {...register('maxBoards')}
+                    error={errors.maxBoards?.message}
                   />
                 </div>
                 <div className="w-full lg:w-1/2">

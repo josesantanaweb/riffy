@@ -1,7 +1,7 @@
 'use client';
 import { useState } from 'react';
 import PaymentsTable from './table/PaymentsTable';
-import { usePayments, useRaffles } from '@riffy/hooks';
+import { usePayments, useBingos } from '@riffy/hooks';
 import { useUpdatePaymentStatus } from '@riffy/hooks';
 import PaymentDetail from './payment-detail/PaymentDetail';
 import { Payment, PaymentStatus } from '@riffy/types';
@@ -13,17 +13,17 @@ const PaymentsPage = () => {
   const toast = useToast();
   const [isOpen, setIsOpen] = useState(false);
   const [payment, setPayment] = useState<Payment | null>(null);
-  const [selectedRaffleId, setSelectedRaffleId] = useState<string>('');
+  const [selectedBingoId, setSelectedBingoId] = useState<string>('');
 
-  const { data: raffles } = useRaffles();
-  const { data, loading } = usePayments(selectedRaffleId || undefined);
+  const { data: bingos } = useBingos();
+  const { data, loading } = usePayments(selectedBingoId || undefined);
   const { updatePaymentStatus } = useUpdatePaymentStatus();
 
-  const rafflesOptions = [
-    { value: '', label: 'Todas las rifas' },
-    ...(raffles?.map(raffle => ({
-      value: raffle.id,
-      label: raffle.title,
+  const bingosOptions = [
+    { value: '', label: 'Todos los bingos' },
+    ...(bingos?.map(bingo => ({
+      value: bingo.id,
+      label: bingo.title,
     })) || []),
   ];
 
@@ -60,12 +60,12 @@ const PaymentsPage = () => {
       <div className="flex flex-col w-full bg-box-primary rounded-xl p-6 gap-5">
         <div className="flex justify-between items-end w-full md:w-[380px]">
           <Select
-            options={rafflesOptions}
-            label="Selecciona una rifa"
-            value={selectedRaffleId}
-            onChange={setSelectedRaffleId}
+            options={bingosOptions}
+            label="Selecciona un bingo"
+            value={selectedBingoId}
+            onChange={setSelectedBingoId}
             size="md"
-            placeholder="Elige una rifa..."
+            placeholder="Elige un bingo..."
           />
         </div>
         <PaymentsTable

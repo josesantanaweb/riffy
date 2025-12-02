@@ -1,9 +1,9 @@
 import { useQuery } from '@apollo/client';
 import { GET_PAYMENTS } from '@riffy/graphql';
 
-export const usePayments = (raffleId?: string) => {
+export const usePayments = (bingoId?: string) => {
   const { data, error, loading } = useQuery(GET_PAYMENTS, {
-    variables: { raffleId },
+    variables: { bingoId },
     fetchPolicy: 'network-only',
   });
 

@@ -3,20 +3,20 @@ import React from 'react';
 import type { ReactElement } from 'react';
 
 interface PaymentTotalProps {
-  totalTickets: number;
+  totalBoards: number;
   price: number | null;
 }
 
-const PaymentTotal = ({ totalTickets, price }: PaymentTotalProps): ReactElement => {
-  const total = totalTickets * (price || 0);
+const PaymentTotal = ({ totalBoards, price }: PaymentTotalProps): ReactElement => {
+  const total = totalBoards * (price || 0);
   return (
     <div className="flex flex-col gap-2">
       <div className="flex items-center justify-between">
         <p className="text-sm font-medium text-body-100">Cantidad</p>
-        <p className="text-sm font-medium text-title">{totalTickets || 0}</p>
+        <p className="text-sm font-medium text-title">{totalBoards || 0}</p>
       </div>
       <div className="flex items-center justify-between">
-        <p className="text-sm font-medium text-body-100">Precio por ticket</p>
+        <p className="text-sm font-medium text-body-100">Precio por board</p>
         <p className="text-sm font-medium text-title">
           Bs {price?.toFixed(2) || 0}
         </p>

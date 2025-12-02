@@ -2,10 +2,10 @@ export const ROUTES = {
   DASHBOARD: '/',
   LOGIN: '/login',
   REGISTER: '/register',
-  RAFFLES: {
-    LIST: '/raffles',
-    CREATE: '/raffles/create',
-    EDIT: (id: string) => `/raffles/edit/${id}`,
+  BINGOS: {
+    LIST: '/bingos',
+    CREATE: '/bingos/create',
+    EDIT: (id: string) => `/bingos/edit/${id}`,
   },
   OWNERS: {
     LIST: '/owners',
@@ -26,10 +26,10 @@ export const ROUTES = {
     CREATE: '/plans/create',
     EDIT: (id: string) => `/plans/edit/${id}`,
   },
-  TICKETS: {
-    LIST: `/tickets`,
-    CREATE: '/tickets/create',
-    EDIT: (id: string) => `/tickets/edit/${id}`,
+  BOARDS: {
+    LIST: `/boards`,
+    CREATE: '/boards/create',
+    EDIT: (id: string) => `/boards/edit/${id}`,
   },
   LOGOUT: '/logout',
 };
@@ -51,15 +51,9 @@ export const MENU: MenuItem[] = [
     path: ROUTES.DASHBOARD,
   },
   {
-    label: 'Rifas',
-    icon: 'gift',
-    path: ROUTES.RAFFLES.LIST,
-    requiredRoles: [Role.ADMIN, Role.OWNER],
-  },
-  {
-    label: 'Boletos',
+    label: 'Bingos',
     icon: 'ticket',
-    path: ROUTES.TICKETS.LIST,
+    path: ROUTES.BINGOS.LIST,
     requiredRoles: [Role.ADMIN, Role.OWNER],
   },
   {

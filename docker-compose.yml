@@ -4,7 +4,7 @@ services:
   # Traefik como reverse proxy principal
   traefik:
     image: traefik:v3.0
-    container_name: riffy-traefik
+    container_name: bingly-traefik
     restart: unless-stopped
     command:
       - --api.dashboard=true
@@ -12,7 +12,7 @@ services:
       - --log.level=INFO
       - --providers.docker=true
       - --providers.docker.exposedByDefault=false
-      - --providers.docker.network=riffy-network
+      - --providers.docker.network=bingly-network
       - --providers.file.filename=/etc/traefik/dynamic.yml
       - --providers.file.watch=true
       - --entrypoints.web.address=:80
@@ -20,7 +20,7 @@ services:
       - --entrypoints.web.http.redirections.entrypoint.to=websecure
       - --entrypoints.web.http.redirections.entrypoint.scheme=https
       - --entrypoints.web.http.redirections.entrypoint.permanent=true
-      - --certificatesresolvers.letsencrypt.acme.email=admin@riffy.website
+      - --certificatesresolvers.letsencrypt.acme.email=admin@bingoonlinecincoa.live
       - --certificatesresolvers.letsencrypt.acme.storage=/etc/traefik/acme.json
       - --certificatesresolvers.letsencrypt.acme.httpchallenge.entrypoint=web
       - --global.checknewversion=false
@@ -36,38 +36,38 @@ services:
       - ./ssl:/etc/traefik/ssl:ro
       - traefik_acme:/etc/traefik
     networks:
-      - riffy-network
+      - bingly-network
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.traefik.rule=Host(`traefik.riffy.website`)"
+      - "traefik.http.routers.traefik.rule=Host(`traefik.bingoonlinecincoa.live`)"
       - "traefik.http.routers.traefik.entrypoints=websecure"
       - "traefik.http.routers.traefik.tls.certresolver=letsencrypt"
       - "traefik.http.routers.traefik.service=api@internal"
   # Base de datos PostgreSQL
   postgres:
     image: postgres:15-alpine
-    container_name: riffy-postgres
+    container_name: bingly-postgres
     restart: unless-stopped
     environment:
-      POSTGRES_DB: riffy
-      POSTGRES_USER: riffy
-      POSTGRES_PASSWORD: riffy123
+      POSTGRES_DB: bingly
+      POSTGRES_USER: bingly
+      POSTGRES_PASSWORD: bingly123
     ports:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U riffy -d riffy"]
+      test: ["CMD-SHELL", "pg_isready -U bingly -d bingly"]
       interval: 10s
       timeout: 5s
       retries: 5
     networks:
-      - riffy-network
+      - bingly-network
 
   # Base de datos Redis (para caché y sesiones)
   redis:
     image: redis:7-alpine
-    container_name: riffy-redis
+    container_name: bingly-redis
     restart: unless-stopped
     ports:
       - "6379:6379"
@@ -79,30 +79,30 @@ services:
       timeout: 5s
       retries: 5
     networks:
-      - riffy-network
+      - bingly-network
 
   # API (NestJS + GraphQL)
   api:
     build:
       context: .
       dockerfile: apps/api/Dockerfile
-    container_name: riffy-api
+    container_name: bingly-api
     restart: unless-stopped
     ports:
       - "4000:4000"
+      - "5555:5555"
     environment:
       - NODE_ENV=production
-      - DATABASE_URL=${DATABASE_URL:-postgresql://riffy:riffy123@postgres:5432/riffy}
-      - REDIS_URL=${REDIS_URL:-redis://redis:6379}
+      - DATABASE_URL=${DATABASE_URL:-postgresql://bingly:bingly123@172.17.0.1:5432/bingly}
+      - REDIS_URL=${REDIS_URL:-redis://172.17.0.1:6379}
       - JWT_SECRET=${JWT_SECRET:-your-super-secret-jwt-key-change-this-in-production}
       - JWT_EXPIRES_IN=${JWT_EXPIRES_IN:-1h}
+      - HOST=${HOST:-localhost}
       - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
       - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
       - AWS_REGION=${AWS_REGION}
       - AWS_S3_BUCKET_NAME=${AWS_S3_BUCKET_NAME}
     depends_on:
-      postgres:
-        condition: service_healthy
       redis:
         condition: service_healthy
       traefik:
@@ -113,10 +113,10 @@ services:
       timeout: 10s
       retries: 3
     networks:
-      - riffy-network
+      - bingly-network
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.api.rule=Host(`api.riffy.website`)"
+      - "traefik.http.routers.api.rule=Host(`api.bingoonlinecincoa.live`)"
       - "traefik.http.routers.api.entrypoints=websecure"
       - "traefik.http.routers.api.tls.certresolver=letsencrypt"
       - "traefik.http.services.api.loadbalancer.server.port=4000"
@@ -126,27 +126,28 @@ services:
     build:
       context: .
       dockerfile: apps/web/Dockerfile
-    container_name: riffy-web
+    container_name: bingly-web
     restart: unless-stopped
     environment:
       - NODE_ENV=production
       - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}
       - NEXT_PUBLIC_GRAPHQL_ENDPOINT=${NEXT_PUBLIC_GRAPHQL_ENDPOINT}
+      - NEXT_PUBLIC_WS_URL=${NEXT_PUBLIC_WS_URL}
     depends_on:
       api:
         condition: service_healthy
       traefik:
         condition: service_started
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:3000"]
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3000"]
       interval: 30s
       timeout: 10s
       retries: 3
     networks:
-      - riffy-network
+      - bingly-network
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.web.rule=Host(`riffy.website`)"
+      - "traefik.http.routers.web.rule=Host(`bingoonlinecincoa.live`) || Host(`www.bingoonlinecincoa.live`)"
       - "traefik.http.routers.web.entrypoints=websecure"
       - "traefik.http.routers.web.tls.certresolver=letsencrypt"
       - "traefik.http.services.web.loadbalancer.server.port=3000"
@@ -156,12 +157,13 @@ services:
     build:
       context: .
       dockerfile: apps/admin/Dockerfile
-    container_name: riffy-admin
+    container_name: bingly-admin
     restart: unless-stopped
     environment:
       - NODE_ENV=production
       - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}
       - NEXT_PUBLIC_GRAPHQL_ENDPOINT=${NEXT_PUBLIC_GRAPHQL_ENDPOINT}
+      - NEXT_PUBLIC_WS_URL=${NEXT_PUBLIC_WS_URL}
     depends_on:
       api:
         condition: service_healthy
@@ -173,10 +175,10 @@ services:
       timeout: 10s
       retries: 3
     networks:
-      - riffy-network
+      - bingly-network
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.admin.rule=Host(`admin.riffy.website`)"
+      - "traefik.http.routers.admin.rule=Host(`admin.bingoonlinecincoa.live`)"
       - "traefik.http.routers.admin.entrypoints=websecure"
       - "traefik.http.routers.admin.tls.certresolver=letsencrypt"
       - "traefik.http.services.admin.loadbalancer.server.port=3001"
@@ -191,5 +193,5 @@ volumes:
     driver: local
 
 networks:
-  riffy-network:
+  bingly-network:
     driver: bridge

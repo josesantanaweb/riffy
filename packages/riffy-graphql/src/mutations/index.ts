@@ -1,4 +1,10 @@
-export { CREATE_RAFFLE, UPDATE_RAFFLE, DELETE_RAFFLE } from './raffles';
+export {
+  CREATE_BINGO,
+  UPDATE_BINGO,
+  DELETE_BINGO,
+  START_AUTO_NUMBER_DRAW,
+  STOP_AUTO_NUMBER_DRAW,
+} from './bingos';
 export { CREATE_USER, UPDATE_USER, DELETE_USER } from './users';
 export {
   CREATE_PAYMENT_METHOD,
@@ -16,7 +22,7 @@ export {
   UPDATE_NOTIFICATION_STATUS,
   UPDATE_NOTIFICATIONS_STATUS,
 } from './notification';
-export { UPDATE_TICKET_STATUS } from './tickets';
+export { UPDATE_BOARD_STATUS, UPDATE_BOARD_MARKED_NUMBERS } from './boards';
 export { CREATE_PLAN, UPDATE_PLAN, DELETE_PLAN } from './plans';
 export { RESET_PLAN_USAGE } from './plan-usage';
 

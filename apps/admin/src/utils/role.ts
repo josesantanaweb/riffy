@@ -24,7 +24,7 @@ export const canManageUsers = (userRole: Role | null | undefined): boolean => {
   return userRole === Role.ADMIN;
 };
 
-export const canManageRaffles = (userRole: Role | null | undefined): boolean => {
+export const canManageBingos = (userRole: Role | null | undefined): boolean => {
   return userRole === Role.ADMIN || userRole === Role.OWNER;
 };
 

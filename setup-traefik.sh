@@ -1,9 +1,9 @@
 #!/bin/bash
 
-# Script de configuración de Traefik para Riffy
+# Script de configuración de Traefik para bingly
 # Este script te ayudará a configurar Traefik con tu dominio de Namecheap
 
-echo "🚀 Configuración de Traefik para Riffy"
+echo "🚀 Configuración de Traefik para bingly"
 echo "======================================"
 
 # Verificar que Docker esté instalado

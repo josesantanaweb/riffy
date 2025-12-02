@@ -39,11 +39,11 @@ export class CreatePaymentInput {
   @IsArray()
   @IsString({ each: true })
   @Field(() => [String])
-  ticketIds: string[];
+  boardIds: string[];
 
   @IsString()
   @Field(() => String)
-  raffleId: string;
+  bingoId: string;
 
   @IsOptional()
   @Field(() => PaymentStatus, { nullable: true })

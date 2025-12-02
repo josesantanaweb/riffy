@@ -1,6 +1,6 @@
-import { Ticket } from './ticket';
+import { Board } from './board';
 import { User } from './user';
-import { Raffle } from './raffle';
+import { Bingo } from './bingo';
 
 export enum PaymentStatus {
   PENDING = 'PENDING',
@@ -31,8 +31,8 @@ export interface Payment {
   paymentMethod: string;
   proofUrl?: string | null;
   status?: PaymentStatus | null;
-  tickets?: Ticket[] | null;
-  raffle?: Raffle | null;
+  boards?: Board[] | null;
+  bingo?: Bingo | null;
 }
 
 export interface CreatePaymentInput {
@@ -45,8 +45,8 @@ export interface CreatePaymentInput {
   paymentMethod: string;
   proofUrl: string;
   status?: PaymentStatus | null;
-  ticketIds: string[];
-  raffleId: string;
+  boardIds: string[];
+  bingoId: string;
 }
 
 export type UpdatePaymentInput = Partial<CreatePaymentInput>;

@@ -11,8 +11,9 @@ http:
           - DELETE
           - OPTIONS
         accessControlAllowOriginList:
-          - "https://riffy.website"
-          - "https://admin.riffy.website"
+          - "https://bingoonlinecincoa.live"
+          - "https://www.bingoonlinecincoa.live"
+          - "https://admin.bingoonlinecincoa.live"
         accessControlAllowHeaders:
           - "Content-Type"
           - "Authorization"
@@ -51,8 +52,9 @@ http:
           - POST
           - OPTIONS
         accessControlAllowOriginList:
-          - "https://riffy.website"
-          - "https://admin.riffy.website"
+          - "https://bingoonlinecincoa.live"
+          - "https://www.bingoonlinecincoa.live"
+          - "https://admin.bingoonlinecincoa.live"
         accessControlAllowHeaders:
           - "Content-Type"
           - "Authorization"
@@ -61,7 +63,7 @@ http:
   routers:
     # Router para la aplicación web principal
     web-router:
-      rule: "Host(`riffy.website`)"
+      rule: "Host(`bingoonlinecincoa.live`) || Host(`www.bingoonlinecincoa.live`)"
       service: web-service
       middlewares:
         - compress
@@ -72,7 +74,7 @@ http:
 
     # Router para el panel de administración
     admin-router:
-      rule: "Host(`admin.riffy.website`)"
+      rule: "Host(`admin.bingoonlinecincoa.live`)"
       service: admin-service
       middlewares:
         - compress
@@ -83,7 +85,7 @@ http:
 
     # Router para la API GraphQL
     api-graphql-router:
-      rule: "Host(`api.riffy.website`) && PathPrefix(`/graphql`)"
+      rule: "Host(`api.bingoonlinecincoa.live`) && PathPrefix(`/graphql`)"
       service: api-service
       middlewares:
         - api-cors
@@ -93,7 +95,7 @@ http:
 
     # Router para la API REST
     api-rest-router:
-      rule: "Host(`api.riffy.website`) && PathPrefix(`/api`)"
+      rule: "Host(`api.bingoonlinecincoa.live`) && PathPrefix(`/api`)"
       service: api-service
       middlewares:
         - api-cors

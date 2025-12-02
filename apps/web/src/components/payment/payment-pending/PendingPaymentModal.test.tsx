@@ -3,7 +3,7 @@ import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 
 import PendingPaymentModal from './PendingPaymentModal';
-import { Payment, Ticket } from '@riffy/types';
+import { Payment, Board } from '@riffy/types';
 
 jest.mock('framer-motion', () => ({
   motion: {
@@ -24,8 +24,8 @@ jest.mock('next/navigation', () => ({
 jest.mock('../../../store', () => ({
   useStore: () => ({
     cart: {
-      raffleTitle: 'Test Raffle',
-      totalTickets: 5,
+      bingoTitle: 'Test Bingo',
+      totalBoards: 5,
       price: 10,
     },
     user: {
@@ -47,19 +47,19 @@ jest.mock('../../../utils', () => ({
 }));
 
 jest.mock('../payment-total', () => {
-  return function MockTotalBox({ totalTickets, price }: { totalTickets?: number; price?: number }) {
+  return function MockTotalBox({ totalBoards, price }: { totalBoards?: number; price?: number }) {
     return (
       <div data-testid="total-box">
-        Total: {totalTickets} x {price}
+        Total: {totalBoards} x {price}
       </div>
     );
   };
 });
 
 describe('<PendingPaymentModal />', () => {
-  const mockTickets: Ticket[] = [
-    { id: '1', number: '123456', status: 'SOLD' } as Ticket,
-    { id: '2', number: '123457', status: 'SOLD' } as Ticket,
+  const mockBoards: Board[] = [
+    { id: '1', number: '123456', status: 'SOLD' } as Board,
+    { id: '2', number: '123457', status: 'SOLD' } as Board,
   ];
 
   const mockPayment: Payment = {
@@ -68,7 +68,7 @@ describe('<PendingPaymentModal />', () => {
     nationalId: '12345678',
     phone: '04121234567',
     paymentDate: '2024-01-15T10:00:00Z',
-    tickets: mockTickets,
+    boards: mockBoards,
   } as Payment;
 
   const defaultProps = {
@@ -106,10 +106,10 @@ describe('<PendingPaymentModal />', () => {
   it('muestra el título de la rifa del carrito', () => {
     render(<PendingPaymentModal {...defaultProps} />);
 
-    expect(screen.getByText('Test Raffle')).toBeInTheDocument();
+    expect(screen.getByText('Test Bingo')).toBeInTheDocument();
   });
 
-  it('muestra los números de tickets correctamente', () => {
+  it('muestra los números de boards correctamente', () => {
     render(<PendingPaymentModal {...defaultProps} />);
 
     expect(screen.getByText('123456, 123457')).toBeInTheDocument();
@@ -133,7 +133,7 @@ describe('<PendingPaymentModal />', () => {
     const acceptButton = screen.getByText('Aceptar');
     fireEvent.click(acceptButton);
 
-    expect(mockPush).toHaveBeenCalledWith('/raffles');
+    expect(mockPush).toHaveBeenCalledWith('/bingos');
   });
 
   it('navega a la lista de rifas al hacer clic en el overlay', () => {
@@ -142,7 +142,7 @@ describe('<PendingPaymentModal />', () => {
     const overlay = screen.getByText('Pago en espera').closest('.fixed')?.querySelector('.absolute');
     if (overlay) {
       fireEvent.click(overlay);
-      expect(mockPush).toHaveBeenCalledWith('/raffles');
+      expect(mockPush).toHaveBeenCalledWith('/bingos');
     }
   });
 
@@ -152,7 +152,7 @@ describe('<PendingPaymentModal />', () => {
     const closeButton = screen.getByLabelText('Cerrar modal');
     fireEvent.click(closeButton);
 
-    expect(mockPush).toHaveBeenCalledWith('/raffles');
+    expect(mockPush).toHaveBeenCalledWith('/bingos');
   });
 
   it('abre WhatsApp al hacer clic en el botón de ayuda', () => {

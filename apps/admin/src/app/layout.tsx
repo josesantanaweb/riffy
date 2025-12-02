@@ -3,8 +3,8 @@ import './globals.css';
 import Providers from '@/components/common/providers';
 
 export const metadata: Metadata = {
-  title: 'Riffy Admin',
-  description: 'Riffy Admin Dashboard',
+  title: 'Bingly Admin',
+  description: 'Bingly Admin Dashboard',
 };
 
 export default function RootLayout({

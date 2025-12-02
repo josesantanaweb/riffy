@@ -47,7 +47,7 @@ const PaymentDetail = ({
     }
   };
 
-  if (!payment || !payment.raffle) return null;
+  if (!payment || !payment.bingo) return null;
 
   return (
     <div className="relative">
@@ -98,7 +98,7 @@ const PaymentDetail = ({
                       <div className="flex flex-col gap-1">
                         <p className="text-body-100 text-sm">Rifa:</p>
                         <h2 className="text-base font-medium text-title line-clamp-1">
-                          {payment?.raffle?.title}
+                          {payment?.bingo?.title}
                         </h2>
                       </div>
                     </div>
@@ -136,8 +136,8 @@ const PaymentDetail = ({
                       <div className="flex flex-col gap-1">
                         <p className="text-body-100 text-sm">Boletos #</p>
                         <h2 className="text-base font-medium text-title">
-                          {payment?.tickets
-                            ?.map(ticket => ticket.number)
+                          {payment?.boards
+                            ?.map(board => board.number)
                             .join(', ')}
                         </h2>
                       </div>
@@ -159,7 +159,7 @@ const PaymentDetail = ({
                       </div>
                     </div>
                   </div>
-                  <div className="w-[200px] h-[440px] rounded-md overflow-hidden shrink-0">
+                  <div className="w-[250px] h-[440px] rounded-md overflow-hidden shrink-0">
                     <Image
                       src={payment?.proofUrl}
                       width={300}

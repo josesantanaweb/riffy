@@ -125,7 +125,7 @@ const PaymentMethodBox = ({ paymentMethod }: PaymentMethodProps): ReactElement =
   };
 
   return (
-    <div className="w-full border border-line-500 rounded-lg p-3 flex flex-col gap-4 my-2">
+    <div className="w-full border border-input-border rounded-lg p-3 flex flex-col gap-4 my-2">
       {renderPaymentInfo()}
     </div>
   );

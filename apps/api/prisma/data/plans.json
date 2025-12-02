@@ -2,37 +2,37 @@
   {
     "name": "Plan Basico",
     "description": [
-      "✔️ Una sola rifa hasta por 100 números.",
+      "✔️ Una sola bingo hasta por 100 números.",
       "✔️ Acceso a panel administrativo.",
-      "✔️ Incluye dominio personalizado para tu negocio o rifa."
+      "✔️ Incluye dominio personalizado para tu negocio o bingo."
     ],
     "price": 50,
-    "maxRaffles": 1,
-    "maxTickets": 100,
+    "maxBingos": 1,
+    "maxBoards": 100,
     "type": "BASIC"
   },
   {
     "name": "Plan Premium",
     "description": [
-      "✔️ Generación de rifas ilimitadas.",
-      "✔️ Rifas hasta 10.000 números por sorteo.",
-      "✔️ Incluye dominio personalizado para tu negocio o rifa.",
+      "✔️ Generación de bingos ilimitadas.",
+      "✔️ Bingos hasta 10.000 números por sorteo.",
+      "✔️ Incluye dominio personalizado para tu negocio o bingo.",
       "✔️ Configuración inicial profesional."
     ],
     "price": 350,
-    "maxRaffles": null,
-    "maxTickets": null,
+    "maxBingos": null,
+    "maxBoards": null,
     "type": "PREMIUM"
   },
   {
-    "name": "Pago individual por rifa",
+    "name": "Pago individual por bingo",
     "description": [
-      "✔️ Una sola rifa hasta 10.000 números.",
-      "✔️ Incluye configuración inicial y registro del dominio representativo de la rifa."
+      "✔️ Una sola bingo hasta 10.000 números.",
+      "✔️ Incluye configuración inicial y registro del dominio representativo de la bingo."
     ],
     "price": 150,
-    "maxRaffles": 1,
-    "maxTickets": 10000,
+    "maxBingos": 1,
+    "maxBoards": 10000,
     "type": "ONE_TIME"
   }
 ]

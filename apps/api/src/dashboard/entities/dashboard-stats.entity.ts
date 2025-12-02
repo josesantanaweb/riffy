@@ -6,13 +6,13 @@ import { Payment } from 'src/payments/entities/payment.entity';
 @ObjectType()
 export class DashboardStats {
   @Field(() => Int)
-  totalRaffles: number;
+  totalBingos: number;
 
   @Field(() => Int)
-  soldTickets: number;
+  soldBoards: number;
 
   @Field(() => Int)
-  unsoldTickets: number;
+  unsoldBoards: number;
 
   @Field(() => Int)
   totalWinners: number;

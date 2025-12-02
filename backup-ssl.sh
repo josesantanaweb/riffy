@@ -3,7 +3,7 @@
 # Script de backup para certificados SSL de Traefik
 # Ejecutar periódicamente para respaldar los certificados Let's Encrypt
 
-BACKUP_DIR="/var/backups/riffy-ssl"
+BACKUP_DIR="/var/backups/bingly-ssl"
 DATE=$(date +%Y%m%d_%H%M%S)
 BACKUP_FILE="traefik-ssl-backup-$DATE.tar.gz"
 
@@ -24,7 +24,7 @@ fi
 echo "📦 Creando backup de certificados..."
 
 # Copiar archivo acme.json del contenedor
-docker cp riffy-traefik:/etc/traefik/acme.json ./ssl-backup-acme.json
+docker cp bingly-traefik:/etc/traefik/acme.json ./ssl-backup-acme.json
 
 # Crear archivo comprimido
 tar -czf "$BACKUP_DIR/$BACKUP_FILE" \
