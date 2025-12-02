@@ -48,6 +48,7 @@ const FormInformation = () => {
         <button
           className={`cursor-pointer text-body-100 transition-transform ${isCollapse ? 'rotate-180' : ''}`}
           onClick={handleCollapse}
+          type="button"
         >
           <Icon name="chevron-down" className="text-2xl" />
         </button>
@@ -67,7 +68,7 @@ const FormInformation = () => {
                   <Input
                     label="Nombre"
                     isRequired
-                    placeholder="Ej: Juan Pérez"
+                    placeholder="Ej: Demo Owner"
                     inputSize="md"
                     value={formValues.name || ''}
                     {...register('name')}
@@ -78,7 +79,7 @@ const FormInformation = () => {
                   <Input
                     label="Email"
                     isRequired
-                    placeholder="Ej: juan@correo.com"
+                    placeholder="Ej: demo@correo.com"
                     inputSize="md"
                     type="email"
                     value={formValues.email || ''}

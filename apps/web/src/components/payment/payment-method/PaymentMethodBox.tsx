@@ -9,7 +9,9 @@ interface PaymentMethodProps {
   paymentMethod: PaymentMethod | undefined;
 }
 
-const PaymentMethodBox = ({ paymentMethod }: PaymentMethodProps): ReactElement => {
+const PaymentMethodBox = ({
+  paymentMethod,
+}: PaymentMethodProps): ReactElement => {
   const toast = useToast();
 
   const copyToClipboard = (text: string) => {
@@ -94,7 +96,9 @@ const PaymentMethodBox = ({ paymentMethod }: PaymentMethodProps): ReactElement =
   const renderPaypalInfo = () => (
     <div className="flex items-center justify-between">
       <div className="flex items-start gap-1 flex-col">
-        <p className="text-base text-body-100 font-medium">Correo electrónico</p>
+        <p className="text-base text-body-100 font-medium">
+          Correo electrónico
+        </p>
         <p className="text-sm text-title">
           {paymentMethod.paypalEmail || 'No disponible'}
         </p>
@@ -125,7 +129,7 @@ const PaymentMethodBox = ({ paymentMethod }: PaymentMethodProps): ReactElement =
   };
 
   return (
-    <div className="w-full border border-line-500 rounded-lg p-3 flex flex-col gap-4 my-2">
+    <div className="w-full border border-input-border rounded-lg p-3 flex flex-col gap-4 my-2">
       {renderPaymentInfo()}
     </div>
   );

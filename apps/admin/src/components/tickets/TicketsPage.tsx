@@ -4,7 +4,7 @@ import { useRaffles, useTicketsByRaffle } from '@riffy/hooks';
 import { Input, Select } from '@riffy/components';
 import PageHeader from '@/components/common/page-header';
 import TicketDetail from './ticket-detail';
-import { Ticket } from '@riffy/types';
+import { Ticket, TicketStatus } from '@riffy/types';
 import TicketsGrid from './tickets-grid';
 import TicketsFooter from './tickets-footer';
 import { useTickets } from '@/hooks';
@@ -42,8 +42,10 @@ const Tickets = () => {
   }, [raffles, selectedRaffleId]);
 
   const handleSelect = (ticket: Ticket) => {
-    setIsOpen(true);
-    setSelectedTicket(ticket);
+    if (ticket.status != TicketStatus.AVAILABLE ) {
+      setIsOpen(true);
+      setSelectedTicket(ticket);
+    }
   };
 
   return (

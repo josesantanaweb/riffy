@@ -1,5 +1,5 @@
 'use client';
-import { useMemo } from 'react';
+import { useMemo, useEffect, useRef, useState } from 'react';
 import { useTheme } from '@riffy/hooks';
 import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
 import { COLORS } from './colors';
@@ -13,6 +13,26 @@ const ProgressChart = ({ sold, unsold }: ProgressChartProps) => {
   const { theme } = useTheme();
   const colors = COLORS[theme];
 
+  const primaryColorRef = useRef<HTMLDivElement>(null);
+  const [primaryColor, setPrimaryColor] = useState<string>(colors.sold);
+
+  useEffect(() => {
+    const root = document.documentElement;
+    const primaryColorValue = getComputedStyle(root)
+      .getPropertyValue('--color-primary-500')
+      .trim();
+
+    if (primaryColorValue) {
+      setPrimaryColor(primaryColorValue);
+    } else if (primaryColorRef.current) {
+      const computedStyle = window.getComputedStyle(primaryColorRef.current);
+      const color = computedStyle.backgroundColor;
+      if (color && color !== 'rgba(0, 0, 0, 0)' && color !== 'transparent') {
+        setPrimaryColor(color);
+      }
+    }
+  }, [theme]);
+
   const percentage = useMemo(() => {
     const total = sold + unsold;
     if (!total || total === 0) {
@@ -22,13 +42,15 @@ const ProgressChart = ({ sold, unsold }: ProgressChartProps) => {
     return isNaN(calc) ? 0 : calc;
   }, [sold, unsold]);
 
-  const chartColors = [colors.sold, colors.unsold];
+  const chartColors = [primaryColor, colors.unsold];
 
   return (
-    <div className="md:col-span-1 xl:col-span-1 bg-box-primary rounded-xl p-6 min-h-[400px] flex flex-col">
-      <h3 className="text-base font-medium text-title mb-6">
-        Progreso actual
-      </h3>
+    <div className="md:col-span-1 xl:col-span-1 bg-box-primary rounded-xl p-6 min-h-[400px] flex flex-col relative">
+      <div
+        ref={primaryColorRef}
+        className="bg-primary-500 w-0 h-0 absolute opacity-0 pointer-events-none"
+      />
+      <h3 className="text-base font-medium text-title mb-6">Progreso actual</h3>
 
       <div className="flex-1 flex flex-col items-center justify-center">
         <div className="relative w-full max-w-[280px] aspect-square">
@@ -50,7 +72,7 @@ const ProgressChart = ({ sold, unsold }: ProgressChartProps) => {
                 strokeWidth={0}
                 cornerRadius={20}
               >
-                  {chartColors.map((entry, index) => (
+                {chartColors.map((entry, index) => (
                   <Cell key={`cell-${index}`} fill={chartColors[index]} />
                 ))}
               </Pie>
