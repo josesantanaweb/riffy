@@ -113,7 +113,7 @@ export class SeedsService {
         const { password, ...userData } = user;
         const hashedPassword = await hash(password);
         const domain =
-          userData.role === 'ADMIN' ? 'admin.bingoonlinecincoa.live' : this.host;
+          userData.role === 'ADMIN' ? 'admin.bingly.website' : this.host;
 
         await this.prisma.user.upsert({
           where: { domain },
@@ -203,6 +203,48 @@ export class SeedsService {
       } catch {
         //
       }
+    }
+  }
+
+  async seedPlanUsage(): Promise<void> {
+    const demoUser = await this.prisma.user.findUnique({
+      where: { domain: this.host },
+    });
+
+    if (!demoUser) {
+      this.logger.error(
+        `Usuario ${this.host} no encontrado para crear plan usage`,
+      );
+      return;
+    }
+
+    const premiumPlan = await this.prisma.plan.findFirst({
+      where: { type: 'PREMIUM' },
+    });
+
+    await this.prisma.user.update({
+      where: { id: demoUser.id },
+      data: { planId: premiumPlan.id },
+    });
+
+    try {
+      await this.prisma.planUsage.create({
+        data: {
+          ownerId: demoUser.id,
+          planId: premiumPlan.id,
+          currentRaffles: 0,
+          currentTickets: 0,
+          status: PlanUsageStatus.ACTIVE,
+        },
+      });
+    } catch {
+      await this.prisma.planUsage.update({
+        where: { ownerId: demoUser.id },
+        data: {
+          planId: premiumPlan.id,
+          status: PlanUsageStatus.ACTIVE,
+        },
+      });
     }
   }
 

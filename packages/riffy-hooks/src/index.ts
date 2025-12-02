@@ -1,5 +1,4 @@
 export * from "./users";
-export * from "./shared";
 export * from "./payments";
 export * from "./payment-methods";
 export * from "./auth";
@@ -9,5 +8,6 @@ export * from "./plans";
 export * from "./plan-usage";
 export * from "./theme";
 export * from "./dashboard";
+export * from "./shared";
 export * from "./bingos";
 export * from "./boards";

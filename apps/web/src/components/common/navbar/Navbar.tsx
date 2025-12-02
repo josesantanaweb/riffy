@@ -20,6 +20,14 @@ const Navbar = () => {
   }, []);
 
   useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const hostname = window.location.hostname;
+      const cleanDomain = hostname.replace(/^www\./, '');
+      setDomain(cleanDomain);
+    }
+  }, []);
+
+  useEffect(() => {
     setLoading(loading);
     if (user) {
       setUser(user);
