@@ -33,7 +33,7 @@ const Alert = ({ type, message, icon }: AlertProps): ReactElement => {
       className={`flex items-center gap-2 px-4 py-3 rounded-xl ${BACKGROUND_COLORS[type || 'default']}`}
     >
       <Icon name={icon as IconName} className={`${textColor} text-xl`} />
-      <p className={`text-sm ${textColor}`}>{message}</p>
+      <p className={`text-base ${textColor}`}>{message}</p>
     </div>
   );
 };

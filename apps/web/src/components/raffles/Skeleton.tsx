@@ -10,7 +10,11 @@ const Skeleton = (): ReactElement => {
         <div className="flex flex-col gap-2 border-b border-line-100 pb-4">
           <div className="h-8 bg-box-secondary rounded-md w-[70%]" />
         </div>
-        <div className="h-12 bg-box-secondary rounded-xl w-[90%]" />
+        <div className="grid grid-cols-3 gap-5 items-center w-full">
+          <div className="w-full h-14 bg-box-secondary rounded-md animate-pulse" />
+          <div className="w-full h-14 bg-box-secondary rounded-md animate-pulse" />
+          <div className="w-full h-14 bg-box-secondary rounded-md animate-pulse" />
+        </div>
         <div className="flex flex-col gap-4">
           <div className="flex items-center justify-between">
             <div className="h-4 bg-box-secondary rounded-md w-20" />

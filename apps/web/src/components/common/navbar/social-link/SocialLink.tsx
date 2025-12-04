@@ -32,7 +32,7 @@ const SocialLink = ({ href, icon, type = 'link' }: SocialLinkProps) => {
       className="cursor-pointer"
       aria-label={ariaLabel}
     >
-      <Icon name={icon} className="text-body-100 text-2xl" />
+      <Icon name={icon} className="text-body-100 text-2xl hover:text-white" />
     </Link>
   );
 };

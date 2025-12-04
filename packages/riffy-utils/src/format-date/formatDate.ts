@@ -7,5 +7,5 @@ export const formatDate = (dateString: string | Date | number): string => {
     return String(dateString);
   }
 
-  return format(date, 'D MMM YYYY', 'es-ES');
+  return format(date, 'D MM', 'es-ES');
 };
