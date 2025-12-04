@@ -12,7 +12,7 @@ const TicketBox = ({ ticket, onSelect }: TicketBoxProps) => {
       case TicketStatus.AVAILABLE:
         return 'bg-box-secondary text-body-100';
       case TicketStatus.SOLD:
-        return 'box-secondary text-body-100 line-through';
+        return 'bg-primary-500/30 text-white line-through';
       case TicketStatus.WINNER:
         return 'bg-success-500/70 text-white';
       case TicketStatus.LOSER:
