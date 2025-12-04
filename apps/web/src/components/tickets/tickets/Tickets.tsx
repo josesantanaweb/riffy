@@ -25,11 +25,14 @@ const Tickets = ({ tickets, raffle }: TicketsProps): ReactElement => {
   };
 
 
+  const CARD_WIDTH = 85;
+  const CARD_OFFSET = 80;
+
   return (
     <div className="relative h-[600px] overflow-visible">
       <motion.div
-        className="relative h-full"
-        animate={{ x: -currentIndex * 100 + '%' }}
+        className="relative h-full flex items-center"
+        animate={{ x: `calc(-${currentIndex * CARD_OFFSET}% + (100% - ${CARD_WIDTH}%) / 2)` }}
         transition={{ type: 'spring', stiffness: 300, damping: 30 }}
         drag="x"
         dragConstraints={{ left: 0, right: 0 }}
@@ -44,26 +47,24 @@ const Tickets = ({ tickets, raffle }: TicketsProps): ReactElement => {
           return (
             <motion.div
               key={ticket.id}
-              className="absolute w-full h-full"
+              className="absolute h-full flex items-center justify-center px-2"
               style={{
-                left: `${index * 100}%`,
+                left: `${index * CARD_OFFSET}%`,
+                width: `${CARD_WIDTH}%`,
                 zIndex: isCurrent ? 10 : isNext || isPrevious ? 5 : 1,
               }}
               initial={{ y: index * 40 }}
               animate={{
-                scale: isCurrent ? 1 : isNext || isPrevious ? 0.95 : 0.9,
-                y: isCurrent ? 0 : isNext || isPrevious ? 24 : 48,
-                opacity: isCurrent ? 1 : isNext || isPrevious ? 0.7 : 0.5,
-                filter: isCurrent ? 'none' : 'blur(1px)',
+                scale: isCurrent ? 1 : isNext || isPrevious ? 0.9 : 0.8,
+                y: isCurrent ? 0 : isNext || isPrevious ? 20 : 40,
+                opacity: isCurrent ? 1 : isNext || isPrevious ? 0.6 : 0.4,
+                filter: isCurrent ? 'none' : 'blur(2px)',
               }}
               transition={{ type: 'spring', stiffness: 300, damping: 30 }}
             >
               <motion.div
-                className="relative h-full"
+                className="relative h-full w-full"
                 whileDrag={{ scale: 1.05 }}
-                drag="x"
-                dragConstraints={{ left: 0, right: 0 }}
-                onDragEnd={handleDragEnd}
               >
                 <Ticket ticket={ticket} raffle={raffle} />
               </motion.div>
