@@ -8,14 +8,13 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { paymentSchema, type FormData } from '@/validations/paymentSchema';
 import {
   useCreatePayment,
-  useUserByDomain,
   usePaymentByNationalId,
 } from '@riffy/hooks';
 import { useToast } from '@/hooks';
 import { useStore } from '@/store';
 import { imageUpload } from '@riffy/utils';
 import Alert from '@/components/common/alert';
-import Search from '@/components/common/search/Search';
+import Search from '@/components/common/search';
 import PaymentMethod from '@/components/payment/payment-method';
 import PaymentTotal from '@/components/payment/payment-total';
 import PendingPayment from '@/components/payment/payment-pending';
@@ -47,24 +46,14 @@ const PaymentForm = (): ReactElement => {
     watch,
   } = methods;
 
-  const { cart, user, loading, setUser, setLoading } = useStore();
+  const { cart, user, loading } = useStore();
   const { createPayment } = useCreatePayment();
   const { data: consultPayment, loading: consultPaymentLoading } =
     usePaymentByNationalId(searchNationalId);
-  const { data: userData, loading: userLoading } = useUserByDomain(
-    String(process.env.NEXT_PUBLIC_DEFAULT_DOMAIN),
-  );
 
   const paymentMethodsLoaded =
     user?.paymentMethods && user.paymentMethods.length > 0;
-  const isLoading = loading || userLoading;
-
-  useEffect(() => {
-    if (userData && !user?.paymentMethods) {
-      setUser(userData);
-      setLoading(false);
-    }
-  }, [userData, user?.paymentMethods, setUser, setLoading]);
+  const isLoading = loading;
 
   useEffect(() => {
     if (hasSearched && !consultPaymentLoading) {
