@@ -4,13 +4,12 @@ import type { ReactElement } from 'react';
 import { useRouter } from 'next/navigation';
 import { Button, Icon } from '@riffy/components';
 import { Raffle, RaffleStatus } from '@riffy/types';
-import { formatDate } from '@riffy/utils';
 import { ROUTES } from '@/constants/routes';
 
-import RaffleAlert from '@/components/common/raffle/raffle-alert';
 import RaffleProgress from '@/components/common/raffle/raffle-progress';
 import RaffleBanner from '@/components/common/raffle/raffle-banner';
 import RaffleTitle from '@/components/common/raffle/raffle-title';
+import RaffleInfoBoxes from '@/components/common/raffle/raffle-boxes';
 
 interface RaffleCardProps {
   raffle: Raffle;
@@ -23,7 +22,8 @@ const RaffleCard = ({ raffle, loading }: RaffleCardProps): ReactElement => {
 
   const handleBuyTicket = () => router.push(ROUTES.RAFFLES.RAFFLE(raffle.id));
 
-  const handleVerifyTicket = () => router.push(ROUTES.RAFFLES.VERIFY_TICKET(raffle.id));
+  const handleVerifyTicket = () =>
+    router.push(ROUTES.RAFFLES.VERIFY_TICKET(raffle.id));
 
   return (
     <div className="flex flex-col bg-box-primary">
@@ -33,16 +33,10 @@ const RaffleCard = ({ raffle, loading }: RaffleCardProps): ReactElement => {
         loading={loading}
       />
 
-      <div className="flex flex-col gap-5 p-5">
+      <div className="flex flex-col gap-5 p-5 w-full">
         <RaffleTitle title={raffle.title} loading={loading} />
 
-        {raffle.showDate && (
-          <RaffleAlert
-            message={!isCompleted ? formatDate(raffle.drawDate) : 'Completada'}
-            icon="calendar"
-            type={!isCompleted ? 'default' : 'success'}
-          />
-        )}
+        <RaffleInfoBoxes raffle={raffle} loading={loading} />
 
         {raffle.showProgress && <RaffleProgress raffle={raffle} />}
 

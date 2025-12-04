@@ -14,7 +14,7 @@ import {
 import { useToast } from '@/hooks';
 import { useStore } from '@/store';
 import { imageUpload } from '@riffy/utils';
-import Alert from '@/components/common/raffle/raffle-alert';
+import Alert from '@/components/common/alert';
 import Search from '@/components/common/search/Search';
 import PaymentMethod from '@/components/payment/payment-method';
 import PaymentTotal from '@/components/payment/payment-total';

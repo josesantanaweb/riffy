@@ -5,18 +5,18 @@ import type { ReactElement } from 'react';
 import { useRouter } from 'next/navigation';
 import { Button } from '@riffy/components';
 import { useIsIPhone } from '@riffy/hooks';
-import Alert from '@/components/common/raffle/raffle-alert';
+import Alert from '@/components/common/alert';
 import Tickets from './tickets/Tickets';
 import RaffleProgress from '@/components/common/raffle/raffle-progress';
 import TotalBox from '@/components/payment/payment-total';
 import { useRaffle } from '@riffy/hooks';
-import { formatDate } from '@riffy/utils';
 import { useStore } from '@/store';
 import { ROUTES } from '@/constants';
 import { RaffleStatus } from '@riffy/types';
 import RaffleBanner from '@/components/common/raffle/raffle-banner';
 import RaffleTitle from '@/components/common/raffle/raffle-title';
 import TicketTitle from '@/components/common/tickets/ticket-title';
+import RaffleInfoBoxes from '@/components/common/raffle/raffle-boxes';
 
 const RafflePage = (): ReactElement => {
   const router = useRouter();
@@ -54,13 +54,7 @@ const RafflePage = (): ReactElement => {
       <div className="flex flex-col gap-5 p-5 bg-box-primary">
         <RaffleTitle title={raffle?.title} loading={loading} />
 
-        {raffle?.showDate && (
-          <Alert
-            message={formatDate(raffle?.drawDate)}
-            icon="calendar"
-            type="default"
-          />
-        )}
+        <RaffleInfoBoxes raffle={raffle} loading={loading} />
 
         {raffle?.showProgress && <RaffleProgress raffle={raffle} />}
 

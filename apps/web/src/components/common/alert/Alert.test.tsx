@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 
-import RaffleAlert from './RaffleAlert';
+import Alert from './Alert';
 
 jest.mock('@riffy/components', () => ({
   Icon: ({ name, className }: { name: string; className?: string }) => (
@@ -9,7 +9,7 @@ jest.mock('@riffy/components', () => ({
   ),
 }));
 
-describe('<RaffleAlert />', () => {
+describe('<Alert />', () => {
   const defaultProps = {
     message: 'Test message',
     icon: 'calendar',
@@ -17,7 +17,7 @@ describe('<RaffleAlert />', () => {
   };
 
   it('renderiza correctamente con props por defecto', () => {
-    render(<RaffleAlert {...defaultProps} />);
+    render(<Alert {...defaultProps} />);
 
     expect(screen.getByText('Test message')).toBeInTheDocument();
     expect(screen.getByTestId('icon')).toBeInTheDocument();
@@ -25,7 +25,7 @@ describe('<RaffleAlert />', () => {
   });
 
   it('aplica estilos correctos para tipo success', () => {
-    render(<RaffleAlert {...defaultProps} type="success" />);
+    render(<Alert {...defaultProps} type="success" />);
 
     const alertElement = document.querySelector('.bg-success-500\\/10');
     const textElement = screen.getByText('Test message');
@@ -37,7 +37,7 @@ describe('<RaffleAlert />', () => {
   });
 
   it('aplica estilos correctos para tipo error', () => {
-    render(<RaffleAlert {...defaultProps} type="error" />);
+    render(<Alert {...defaultProps} type="error" />);
 
     const alertElement = document.querySelector('.bg-error-500\\/10');
     const textElement = screen.getByText('Test message');
@@ -49,7 +49,7 @@ describe('<RaffleAlert />', () => {
   });
 
   it('aplica estilos correctos para tipo warning', () => {
-    render(<RaffleAlert {...defaultProps} type="warning" />);
+    render(<Alert {...defaultProps} type="warning" />);
 
     const alertElement = document.querySelector('.bg-warning-500\\/10');
     const textElement = screen.getByText('Test message');
@@ -61,7 +61,7 @@ describe('<RaffleAlert />', () => {
   });
 
   it('aplica estilos correctos para tipo default', () => {
-    render(<RaffleAlert {...defaultProps} type="default" />);
+    render(<Alert {...defaultProps} type="default" />);
 
     const alertElement = document.querySelector('.bg-box-secondary');
     const textElement = screen.getByText('Test message');
@@ -73,7 +73,7 @@ describe('<RaffleAlert />', () => {
   });
 
   it('muestra el mensaje correctamente', () => {
-    render(<RaffleAlert message="Custom message" icon="info" type="success" />);
+    render(<Alert message="Custom message" icon="info" type="success" />);
 
     expect(screen.getByText('Custom message')).toBeInTheDocument();
   });
