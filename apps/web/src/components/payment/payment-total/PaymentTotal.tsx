@@ -1,6 +1,7 @@
 'use client';
 import React from 'react';
 import type { ReactElement } from 'react';
+import { formatCurrency } from '@riffy/utils';
 
 interface PaymentTotalProps {
   totalTickets: number;
@@ -18,13 +19,13 @@ const PaymentTotal = ({ totalTickets, price }: PaymentTotalProps): ReactElement 
       <div className="flex items-center justify-between">
         <p className="text-sm font-medium text-body-100">Precio por ticket</p>
         <p className="text-sm font-medium text-title">
-          Bs {price?.toFixed(2) || 0}
+          {formatCurrency(price || 0, 'VES')}
         </p>
       </div>
       <div className="flex items-center justify-between">
         <p className="text-base font-medium text-body-100">Total a pagar</p>
         <p className="text-base font-medium text-title">
-          Bs {isNaN(total) ? '0.00' : total.toFixed(2)}
+          {formatCurrency(total, 'VES')}
         </p>
       </div>
     </div>
