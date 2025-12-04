@@ -88,7 +88,7 @@ const NavUser = ({ profile }: NavUserProps): ReactElement => {
               stiffness: 300,
               damping: 30,
             }}
-            className="flex flex-col bg-navbar-user-bg shadow-lg rounded-xl absolute top-full right-0 min-w-[290px] border-t-2 border-primary-500 z-10 mt-2"
+            className="flex flex-col bg-navbar-user-bg shadow-lg rounded-xl absolute top-full right-0 min-w-[290px] border-t-2 border-primary-500 z-10 mt-2 overflow-hidden"
           >
             <div className="flex items-center gap-3 p-4 bg-box-secondary">
               <Avatar name={profile?.name} src={profile?.logo} size={40} />
@@ -96,13 +96,13 @@ const NavUser = ({ profile }: NavUserProps): ReactElement => {
                 <span className="text-title text-base font-medium capitalize">
                   {profile?.name}
                 </span>
-                <span className="text-body-100 text-sm font-medium">
-                  {profile?.role}
+                <span className="text-body-100 text-xs font-medium">
+                  {roleLabel(profile?.role)}
                 </span>
               </div>
             </div>
 
-            <div className="flex flex-col h-[180px]">
+            <div className="flex flex-col h-[160px]">
               <button
                 onClick={handleProfile}
                 className="flex items-center gap-3 px-4 py-3 text-left text-body-100 hover:bg-navbar-user-item-bg-hover transition-colors"

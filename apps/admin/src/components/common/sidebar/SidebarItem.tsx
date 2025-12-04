@@ -47,7 +47,7 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
   const itemClasses = clsx(
     'flex items-center gap-2 cursor-pointer transition-all relative',
     {
-      'hover:text-primary-500': true,
+      'hover:text-white': true,
       'text-primary-500': isActive || isOpen,
       'text-body-100': !isActive && !isOpen,
       'bg-box-secondary': isActive && isCollapse,

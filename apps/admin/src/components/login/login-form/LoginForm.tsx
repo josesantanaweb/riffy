@@ -55,7 +55,7 @@ const LoginForm = () => {
   const logoSrc = theme === 'dark' ? ASSETS.IMAGES.LOGO : ASSETS.IMAGES.LOGO_BLACK;
 
   return (
-    <div className="p-6 w-full lg:w-[40%] h-full flex justify-center items-center">
+    <div className="lg:p-6 w-full lg:w-[40%] h-full flex justify-center items-center">
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="lg:w-[80%] justify-center flex-col flex items-start gap-6"

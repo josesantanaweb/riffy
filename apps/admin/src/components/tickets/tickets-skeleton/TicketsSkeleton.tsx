@@ -3,7 +3,7 @@ import React from 'react';
 
 const TicketsSkeleton: React.FC = () => {
   return (
-    <div className="w-full animate-pulse grid grid-cols-10 gap-2">
+    <div className="w-full animate-pulse grid grid-cols-5 md:grid-cols-10 gap-2">
       {Array.from({ length: 100 }).map((_, index) => (
         <div
           key={index}

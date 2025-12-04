@@ -25,8 +25,8 @@ const Tickets = ({ tickets, raffle }: TicketsProps): ReactElement => {
   };
 
 
-  const CARD_WIDTH = 85;
-  const CARD_OFFSET = 80;
+  const CARD_WIDTH = 90;
+  const CARD_OFFSET = 85;
 
   return (
     <div className="relative h-[600px] overflow-visible">
