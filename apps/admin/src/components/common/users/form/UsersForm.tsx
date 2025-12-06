@@ -2,7 +2,7 @@
 import React, { useEffect, useCallback, useState } from 'react';
 import { Button } from '@riffy/components';
 import { useRouter, useParams } from 'next/navigation';
-import { useUpdateUser, useUser, useCreateUser } from '@riffy/hooks';
+import { useUpdateUser, useUser, useCreateUser, useProfile } from '@riffy/hooks';
 import { CreateUserInput, Role, UserStatus } from '@riffy/types';
 import { useToast } from '@/hooks';
 import { useForm, FormProvider } from 'react-hook-form';
@@ -29,7 +29,11 @@ const DEFAULT_VALUES: FormData = {
   planId: '',
 };
 
-const OwnersForm = () => {
+interface OwnersFormProps {
+  isProfileMode?: boolean;
+}
+
+const OwnersForm = ({ isProfileMode = false }: OwnersFormProps) => {
   const [isUploadingImage, setIsUploadingImage] = useState(false);
 
   const methods = useForm<FormData>({
@@ -47,31 +51,37 @@ const OwnersForm = () => {
 
   const router = useRouter();
   const toast = useToast();
-  const ownerId = useParams().ownerId as string | undefined;
-  const { data: ownerData } = useUser(ownerId);
+  const paramsOwnerId = useParams().ownerId as string | undefined;
+  const { data: profileData, loading: profileLoading } = useProfile();
+
+  const ownerId = isProfileMode ? profileData?.id : paramsOwnerId;
+  const { data: ownerData, loading: ownerLoading } = useUser(ownerId);
+
+  const finalOwnerData = isProfileMode ? profileData : ownerData;
+
   const { createUser, loading: isCreating } = useCreateUser();
   const { updateUser } = useUpdateUser();
 
-  const isUpdating = Boolean(ownerData);
+  const isUpdating = Boolean(finalOwnerData);
 
   useEffect(() => {
-    if (!ownerData) return;
+    if (!finalOwnerData) return;
 
     reset({
-      name: ownerData.name ?? '',
-      email: ownerData.email ?? '',
+      name: finalOwnerData.name ?? '',
+      email: finalOwnerData.email ?? '',
       password: '',
-      domain: ownerData.domain ?? '',
-      brandColor: ownerData.brandColor ?? '',
-      whatsapp: ownerData.whatsapp ?? '',
-      instagram: ownerData.instagram ?? '',
-      tiktok: ownerData.tiktok ?? '',
-      logo: ownerData.logo ?? '',
+      domain: finalOwnerData.domain ?? '',
+      brandColor: finalOwnerData.brandColor ?? '',
+      whatsapp: finalOwnerData.whatsapp ?? '',
+      instagram: finalOwnerData.instagram ?? '',
+      tiktok: finalOwnerData.tiktok ?? '',
+      logo: finalOwnerData.logo ?? '',
       logoFile: null,
-      status: ownerData.status ?? UserStatus.ACTIVE,
-      planId: ownerData?.plan?.id ?? '',
+      status: finalOwnerData.status ?? UserStatus.ACTIVE,
+      planId: finalOwnerData?.plan?.id ?? '',
     });
-  }, [ownerData, reset]);
+  }, [finalOwnerData, reset]);
 
   const handleBack = useCallback(() => router.back(), [router]);
 
@@ -114,19 +124,25 @@ const OwnersForm = () => {
         planId: rest.planId,
       };
 
-      if (isUpdating && ownerData?.id) {
+      if (isUpdating && finalOwnerData?.id) {
         const updateData = rest.password
           ? ownerInput
           : { ...ownerInput, password: undefined };
 
-        await updateUser(ownerData.id, updateData);
-        toast.success('Dueño actualizado exitosamente!!');
+        await updateUser(finalOwnerData.id, updateData);
+        toast.success(
+          isProfileMode
+            ? 'Perfil actualizado exitosamente!!'
+            : 'Dueño actualizado exitosamente!!'
+        );
       } else {
         await createUser(ownerInput);
         toast.success('Dueño creado exitosamente!!');
       }
 
-      router.push(ROUTES.OWNERS.LIST);
+      if (!isProfileMode) {
+        router.push(ROUTES.OWNERS.LIST);
+      }
     } catch {
       toast.error('Error guardando dueño');
     }
@@ -134,8 +150,18 @@ const OwnersForm = () => {
 
   const handleCancel = () => {
     reset();
-    handleBack();
+    if (!isProfileMode) {
+      handleBack();
+    }
   };
+
+  if (isProfileMode && (profileLoading || ownerLoading)) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="loading loading-spinner loading-lg"></div>
+      </div>
+    );
+  }
 
   return (
     <FormProvider {...methods}>
@@ -143,25 +169,35 @@ const OwnersForm = () => {
         <div className="p-6 flex-col flex gap-6">
           <PageHeader
             title={
-              isUpdating ? 'Editar Dueño' : 'Crear Dueño'
+              isProfileMode
+                ? 'Mi Perfil'
+                : isUpdating
+                ? 'Editar Dueño'
+                : 'Crear Dueño'
             }
-            subtitle="Gestión de Dueños"
-            showBackButton
+            subtitle={
+              isProfileMode
+                ? 'Editar información personal'
+                : 'Gestión de Dueños'
+            }
+            showBackButton={!isProfileMode}
           />
           <div className="flex flex-col gap-6 w-full">
-            <FormInformation />
+            <FormInformation isProfileMode={isProfileMode} />
 
             <FormImages />
 
             <div className="flex items-center justify-end gap-3">
-              <Button
-                variant="default"
-                size="md"
-                onClick={handleCancel}
-                type="button"
-              >
-                Cancelar
-              </Button>
+              {!isProfileMode && (
+                <Button
+                  variant="default"
+                  size="md"
+                  onClick={handleCancel}
+                  type="button"
+                >
+                  Cancelar
+                </Button>
+              )}
               <Button
                 variant="primary"
                 size="md"

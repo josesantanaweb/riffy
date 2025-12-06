@@ -19,7 +19,7 @@ const RandomInput = ({
   maxTickets,
 }: RandomInputProps): ReactElement => {
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-4">
       <QuickButtons
         ticketsQuantity={ticketsQuantity}
         setTicketsQuantity={setTicketsQuantity}

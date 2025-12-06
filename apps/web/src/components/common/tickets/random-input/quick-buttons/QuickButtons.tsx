@@ -28,7 +28,7 @@ const QuickButtons = ({
           key={value}
           variant={ticketsQuantity === value ? 'primary' : 'default'}
           size="lg"
-          className="capitalize"
+          className="capitalize w-[30%]"
           onClick={() => setTicketsQuantity(value)}
           disabled={value > (maxTickets || 100)}
         >

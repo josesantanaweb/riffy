@@ -1,11 +1,13 @@
 'use client';
 import React, { useState, useRef, useEffect } from 'react';
 import type { ReactElement } from 'react';
+import { useRouter } from 'next/navigation';
 import { Avatar, Icon, Switch } from '@riffy/components';
 import { motion, AnimatePresence } from 'framer-motion';
 import { User } from '@riffy/types';
 import { useAuth, useTheme } from '@riffy/hooks';
 import { roleLabel } from '@/utils';
+import { ROUTES } from '@/constants';
 
 interface NavUserProps {
   profile: User;
@@ -17,7 +19,7 @@ const NavUser = ({ profile }: NavUserProps): ReactElement => {
   const { logout } = useAuth();
   const { theme, toggleTheme } = useTheme();
   const toggleDropdown = () => setIsOpen(!isOpen);
-
+  const router = useRouter();
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -42,13 +44,7 @@ const NavUser = ({ profile }: NavUserProps): ReactElement => {
     setIsOpen(false);
   };
 
-  const handleProfile = () => {
-    setIsOpen(false);
-  };
-
-  const handleSettings = () => {
-    setIsOpen(false);
-  };
+  const handleProfile = () => router.push(ROUTES.PROFILE);
 
   return (
     <div
@@ -102,21 +98,13 @@ const NavUser = ({ profile }: NavUserProps): ReactElement => {
               </div>
             </div>
 
-            <div className="flex flex-col h-[160px]">
+            <div className="flex flex-col h-[130px]">
               <button
                 onClick={handleProfile}
                 className="flex items-center gap-3 px-4 py-3 text-left text-body-100 hover:bg-navbar-user-item-bg-hover transition-colors"
               >
                 <Icon name="user" className="text-base" />
                 <span className="text-sm">Mi Perfil</span>
-              </button>
-
-              <button
-                onClick={handleSettings}
-                className="flex items-center gap-3 px-4 py-3 text-left text-body-100 hover:bg-navbar-user-item-bg-hov transition-colors"
-              >
-                <Icon name="settings" className="text-base" />
-                <span className="text-sm">Configuración</span>
               </button>
 
               <div className="flex gap-5 px-4 py-3 text-left text-body-100 hover:bg-navbar-user-item-bg-hov transition-colors w-full items-center">

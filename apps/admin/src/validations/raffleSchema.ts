@@ -17,14 +17,6 @@ export const createRaffleSchema = z.object({
       'Debe ser un número mayor a 0',
     ),
 
-  award: z
-    .string()
-    .min(1, 'El valor del premio es requerido')
-    .refine(
-      val => !isNaN(Number(val)) && Number(val) > 0,
-      'Debe ser un número mayor a 0',
-    ),
-
   totalTickets: z
     .string()
     .min(1, 'La cantidad de boletos es requerida')
@@ -34,8 +26,6 @@ export const createRaffleSchema = z.object({
     ),
 
   status: z.string().optional(),
-
-  description: z.string().optional(),
 
   banner: z.string().optional(),
   bannerFile: z.instanceof(File).optional().nullable(),

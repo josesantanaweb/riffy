@@ -64,7 +64,6 @@ export const RAFFLES_FRAGMENT = gql`
   fragment RaffleFragment on Raffle {
     id
     title
-    description
     showDate
     showProgress
     minTickets

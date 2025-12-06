@@ -32,11 +32,11 @@ export class UsersResolver {
 
   /**
    * Obtiene un usuario por su ID.
-   * Roles requeridos: ADMIN
+   * Roles requeridos: ADMIN, OWNER
    * @param id ID del usuario a buscar
    * @returns Un objeto User si existe, si no lanza NotFoundException
    */
-  @Roles(Role.ADMIN)
+  @Roles(Role.ADMIN, Role.OWNER)
   @UseGuards(RolesGuard)
   @UseGuards(GqlAuthGuard)
   @Query(() => User, { name: 'user' })
@@ -85,7 +85,7 @@ export class UsersResolver {
    * @param input Datos nuevos para el usuario
    * @returns El objeto User actualizado
    */
-  @Roles(Role.ADMIN)
+  @Roles(Role.ADMIN, Role.OWNER)
   @UseGuards(RolesGuard)
   @UseGuards(GqlAuthGuard)
   @Mutation(() => User, { name: 'updateUser' })

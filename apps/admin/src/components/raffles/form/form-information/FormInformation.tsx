@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useFormContext } from 'react-hook-form';
-import { Icon, Input, Select, Editor, DateInput, Switch } from '@riffy/components';
+import { Icon, Input, Select, DateInput, Switch } from '@riffy/components';
 import type { FormData } from '@/validations/raffleSchema';
 import { usePlanUsage } from '@riffy/hooks';
 
@@ -39,11 +39,6 @@ const FormInformation = ({ isUpdating = false }: FormInformationProps) => {
   const handleCollapse = () => setIsCollapse(prev => !prev);
 
   const formValues = watch();
-  const descriptionValue = formValues.description || '';
-
-  const handleDescriptionChange = (value: string) => {
-    setValue('description', value, { shouldValidate: true });
-  };
 
   return (
     <div className="bg-box-primary rounded-xl relative">
@@ -136,32 +131,20 @@ const FormInformation = ({ isUpdating = false }: FormInformationProps) => {
                 </div>
                 <div className="w-full lg:w-1/2">
                   <Input
-                    label="Valor del premio"
-                    isRequired
-                    placeholder="Ingresa el valor del premio"
-                    inputSize="md"
-                    type="number"
-                    value={formValues.award || ''}
-                    {...register('award')}
-                    error={errors.award?.message}
-                  />
-                </div>
-              </div>
-
-              <div className="flex gap-4 items-center w-full flex-wrap lg:flex-nowrap">
-                <div className="w-full lg:w-1/2">
-                  <Input
                     label="Cantidad de boletos"
                     isRequired
                     placeholder="Ingresa la cantidad de boletos"
                     inputSize="md"
                     type="number"
                     value={formValues.totalTickets || ''}
-                    disabled={true}
+                    disabled={isUpdating}
                     {...register('totalTickets')}
                     error={errors.totalTickets?.message}
                   />
                 </div>
+              </div>
+
+              <div className="flex gap-4 items-center w-full flex-wrap lg:flex-nowrap">
                 <div className="w-full lg:w-1/2">
                   <Select
                     label="Estado"
@@ -172,35 +155,6 @@ const FormInformation = ({ isUpdating = false }: FormInformationProps) => {
                     onChange={value =>
                       setValue('status', value, { shouldValidate: false })
                     }
-                  />
-                </div>
-              </div>
-
-              <div className="flex gap-4 items-center w-full flex-wrap lg:flex-nowrap">
-                <div className="w-full">
-                  <Editor
-                    label="Descripción"
-                    value={descriptionValue}
-                    setValue={handleDescriptionChange}
-                  />
-                </div>
-              </div>
-
-              <div className="flex gap-4 items-center w-full flex-wrap lg:flex-nowrap">
-                <div className="w-full lg:w-1/2 flex items-start md:items-center gap-5 md:gap-10 flex-col md:flex-row">
-                  <Switch
-                    checked={formValues.showDate || false}
-                    onChange={() =>
-                      setValue('showDate', !formValues.showDate, { shouldValidate: false })
-                    }
-                    label="Mostrar fecha"
-                  />
-                  <Switch
-                    checked={formValues.showProgress || false}
-                    onChange={() =>
-                      setValue('showProgress', !formValues.showProgress, { shouldValidate: false })
-                    }
-                    label="Mostrar progreso"
                   />
                 </div>
                 <div className="w-full lg:w-1/2">
@@ -215,6 +169,29 @@ const FormInformation = ({ isUpdating = false }: FormInformationProps) => {
                     value={formValues.minTickets || ''}
                     {...register('minTickets')}
                     error={errors.minTickets?.message}
+                  />
+                </div>
+              </div>
+
+              <div className="flex gap-4 items-center w-full flex-wrap lg:flex-nowrap">
+                <div className="w-full lg:w-1/2 flex items-start md:items-center gap-5 md:gap-10 flex-col md:flex-row">
+                  <Switch
+                    checked={formValues.showDate || false}
+                    onChange={() =>
+                      setValue('showDate', !formValues.showDate, {
+                        shouldValidate: false,
+                      })
+                    }
+                    label="Mostrar fecha"
+                  />
+                  <Switch
+                    checked={formValues.showProgress || false}
+                    onChange={() =>
+                      setValue('showProgress', !formValues.showProgress, {
+                        shouldValidate: false,
+                      })
+                    }
+                    label="Mostrar progreso"
                   />
                 </div>
               </div>
