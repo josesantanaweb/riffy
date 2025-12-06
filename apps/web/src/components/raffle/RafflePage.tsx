@@ -25,7 +25,7 @@ const RafflePage = (): ReactElement => {
   const { setCart } = useStore();
   const { data: raffle, loading } = useRaffle(raffleId as string);
   const [selectedTickets, setSelectedTickets] = useState<string[]>([]);
-  const [isRandomTickets, setIsRandomTickets] = useState<boolean>(false);
+  const [isRandomTickets, setIsRandomTickets] = useState<boolean>(true);
 
   useEffect(() => {
     setCart({

@@ -46,16 +46,12 @@ const Tickets = ({
     minTickets || 1,
   );
 
-  const handleRandomTicket = (quantity: number) => {
-    const randomTicketIds = selectRandomTickets(tickets, quantity, true) as string[];
-    setSelectedTickets(randomTicketIds);
-  };
-
   useEffect(() => {
-    if (isRandomTickets && randomTicketsQuantity > 0) {
-      handleRandomTicket(randomTicketsQuantity);
+    if (isRandomTickets && randomTicketsQuantity > 0 && tickets && tickets.length > 0) {
+      const randomTicketIds = selectRandomTickets(tickets, randomTicketsQuantity, true) as string[];
+      setSelectedTickets(randomTicketIds);
     }
-  }, [isRandomTickets, randomTicketsQuantity, tickets]);
+  }, [isRandomTickets, randomTicketsQuantity, tickets, setSelectedTickets]);
 
   const handleTicketSelect = (ticket: Ticket) => {
     setSelectedTickets(prev => {

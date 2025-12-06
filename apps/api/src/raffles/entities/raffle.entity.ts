@@ -11,9 +11,6 @@ export class Raffle {
   @Field()
   title: string;
 
-  @Field({ nullable: true })
-  description?: string;
-
   @Field()
   banner: string;
 
@@ -23,8 +20,8 @@ export class Raffle {
   @Field()
   price: number;
 
-  @Field()
-  award: number;
+  @Field({ nullable: true })
+  award?: number;
 
   @Field()
   status: RaffleStatus;

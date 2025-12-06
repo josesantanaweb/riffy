@@ -8,11 +8,6 @@ export class CreateRaffleInput {
   @Field(() => String)
   title: string;
 
-  @IsOptional()
-  @IsString()
-  @Field(() => String, { nullable: true })
-  description?: string;
-
   @IsString()
   @Field(() => String)
   banner: string;
@@ -37,9 +32,9 @@ export class CreateRaffleInput {
   @Field(() => Int, { nullable: true })
   minTickets?: number;
 
-  @IsInt()
-  @Field(() => Int)
-  award: number;
+  @IsOptional()
+  @Field(() => Int, { nullable: true })
+  award?: number;
 
   @IsOptional()
   @Field(() => RaffleStatus, { nullable: true })
