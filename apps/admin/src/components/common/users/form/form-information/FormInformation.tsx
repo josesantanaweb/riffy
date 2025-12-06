@@ -7,7 +7,11 @@ import type { FormData } from '@/validations/ownerSchema';
 import { UserStatus } from '@riffy/types';
 import { usePlans } from '@riffy/hooks';
 
-const FormInformation = () => {
+interface FormInformationProps {
+  isProfileMode?: boolean;
+}
+
+const FormInformation = ({ isProfileMode = false }: FormInformationProps) => {
   const { data: plans } = usePlans();
   const [isCollapse, setIsCollapse] = useState(true);
 
@@ -43,7 +47,9 @@ const FormInformation = () => {
       >
         <div className="flex items-center gap-2">
           <Icon name="info-circle" className="text-2xl text-body-100" />
-          <h5 className="text-base text-title">Información del dueño</h5>
+          <h5 className="text-base text-title">
+            {isProfileMode ? 'Información personal' : 'Información del dueño'}
+          </h5>
         </div>
         <button
           className={`cursor-pointer text-body-100 transition-transform ${isCollapse ? 'rotate-180' : ''}`}
@@ -147,50 +153,68 @@ const FormInformation = () => {
                     error={errors.tiktok?.message}
                   />
                 </div>
-                <div className="w-full lg:w-1/2">
-                  <Select
-                    label="Estado"
-                    placeholder="Selecciona el estado"
-                    size="md"
-                    options={statusOptions}
-                    value={formValues.status || ''}
-                    onChange={value =>
-                      setValue('status', value as UserStatus, {
-                        shouldValidate: false,
-                      })
-                    }
-                  />
-                </div>
+                {!isProfileMode && (
+                  <div className="w-full lg:w-1/2">
+                    <Select
+                      label="Estado"
+                      placeholder="Selecciona el estado"
+                      size="md"
+                      options={statusOptions}
+                      value={formValues.status || ''}
+                      onChange={value =>
+                        setValue('status', value as UserStatus, {
+                          shouldValidate: false,
+                        })
+                      }
+                    />
+                  </div>
+                )}
+                {isProfileMode && (
+                  <div className="w-full lg:w-1/2">
+                    <ColorInput
+                      label="Color de Marca"
+                      placeholder="#000000"
+                      value={formValues.brandColor || ''}
+                      onChange={value =>
+                        setValue('brandColor', value, { shouldValidate: true })
+                      }
+                      error={errors.brandColor?.message}
+                      inputSize="md"
+                    />
+                  </div>
+                )}
               </div>
 
-              <div className="flex gap-4 items-center w-full flex-wrap lg:flex-nowrap">
-                <div className="w-full lg:w-1/2">
-                  <Select
-                    label="Plan"
-                    placeholder="Selecciona el plan"
-                    size="md"
-                    options={plansOptions}
-                    value={formValues.planId || ''}
-                    onChange={value =>
-                      setValue('planId', value as string, {
-                        shouldValidate: false,
-                      })
-                    }
-                  />
+              {!isProfileMode && (
+                <div className="flex gap-4 items-center w-full flex-wrap lg:flex-nowrap">
+                  <div className="w-full lg:w-1/2">
+                    <Select
+                      label="Plan"
+                      placeholder="Selecciona el plan"
+                      size="md"
+                      options={plansOptions}
+                      value={formValues.planId || ''}
+                      onChange={value =>
+                        setValue('planId', value as string, {
+                          shouldValidate: false,
+                        })
+                      }
+                    />
+                  </div>
+                  <div className="w-full lg:w-1/2">
+                    <ColorInput
+                      label="Color de Marca"
+                      placeholder="#000000"
+                      value={formValues.brandColor || ''}
+                      onChange={value =>
+                        setValue('brandColor', value, { shouldValidate: true })
+                      }
+                      error={errors.brandColor?.message}
+                      inputSize="md"
+                    />
+                  </div>
                 </div>
-                <div className="w-full lg:w-1/2">
-                  <ColorInput
-                    label="Color de Marca"
-                    placeholder="#000000"
-                    value={formValues.brandColor || ''}
-                    onChange={value =>
-                      setValue('brandColor', value, { shouldValidate: true })
-                    }
-                    error={errors.brandColor?.message}
-                    inputSize="md"
-                  />
-                </div>
-              </div>
+              )}
             </div>
           </motion.div>
         )}

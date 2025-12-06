@@ -32,6 +32,7 @@ export const ROUTES = {
     EDIT: (id: string) => `/tickets/edit/${id}`,
   },
   LOGOUT: '/logout',
+  PROFILE: '/profile',
 };
 
 import { Role } from '@riffy/types';
