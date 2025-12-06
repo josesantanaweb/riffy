@@ -15,10 +15,11 @@ import { useStore } from '@/store';
 import { imageUpload } from '@riffy/utils';
 import Alert from '@/components/common/alert';
 import Search from '@/components/common/search';
-import PaymentMethod from '@/components/payment/payment-method';
+import PaymentMethodBox from '@/components/payment/payment-method';
 import PaymentTotal from '@/components/payment/payment-total';
 import PendingPayment from '@/components/payment/payment-pending';
 import { stateOptions } from './states';
+import { getPaymentMethodOptions } from '@/utils';
 import type { Payment } from '@riffy/types';
 
 const PaymentForm = (): ReactElement => {
@@ -78,9 +79,18 @@ const PaymentForm = (): ReactElement => {
             setValue('state', consultPayment.state, { shouldValidate: true });
           }
           if (consultPayment.paymentMethod) {
-            setValue('paymentMethod', consultPayment.paymentMethod, {
-              shouldValidate: true,
-            });
+            const foundMethod = user?.paymentMethods?.find(
+              pm => pm.name === consultPayment.paymentMethod,
+            );
+            if (foundMethod) {
+              setValue('paymentMethod', foundMethod.id, {
+                shouldValidate: true,
+              });
+            } else {
+              setValue('paymentMethod', consultPayment.paymentMethod, {
+                shouldValidate: true,
+              });
+            }
           }
         }
       } else {
@@ -143,13 +153,19 @@ const PaymentForm = (): ReactElement => {
         }
       }
 
+      const selectedPaymentMethod = user?.paymentMethods?.find(
+        pm => pm.id === data.paymentMethod,
+      );
+
+      const paymentMethodName = selectedPaymentMethod?.name || data.paymentMethod;
+
       const result = await createPayment({
         buyerName: data.buyerName,
         phone: data.phone,
         nationalId: data.nationalId,
         email: data.email,
         state: data.state,
-        paymentMethod: data.paymentMethod,
+        paymentMethod: paymentMethodName,
         proofUrl: finalProofUrl,
         ticketIds: cart?.ticketIds || [],
         amount: (cart?.price || 0) * (cart?.totalTickets || 0),
@@ -256,12 +272,7 @@ const PaymentForm = (): ReactElement => {
                         ? 'No hay métodos de pago disponibles'
                         : 'Método de pago'
                   }
-                  options={
-                    user?.paymentMethods?.map(paymentMethod => ({
-                      value: paymentMethod.name,
-                      label: paymentMethod.name,
-                    })) || []
-                  }
+                  options={getPaymentMethodOptions(user?.paymentMethods)}
                   size="lg"
                   value={watch('paymentMethod') || ''}
                   onChange={value =>
@@ -273,9 +284,9 @@ const PaymentForm = (): ReactElement => {
                 />
 
                 {watch('paymentMethod') && user?.paymentMethods && (
-                  <PaymentMethod
+                  <PaymentMethodBox
                     paymentMethod={user.paymentMethods.find(
-                      pm => pm.name === watch('paymentMethod'),
+                      pm => pm.id === watch('paymentMethod'),
                     )}
                   />
                 )}
