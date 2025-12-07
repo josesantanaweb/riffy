@@ -15,7 +15,8 @@ const PaginationInfo: React.FC<PaginationInfoProps> = ({
   const end = Math.min((pageIndex + 1) * pageSize, rows);
   return (
     <p className="text-white text-sm">
-      Mostrando {start} a {end} de {rows} resultados
+      <span className="hidden md:inline">Mostrando</span> {start} a {end} de{' '}
+      {rows} resultados
     </p>
   );
 };
