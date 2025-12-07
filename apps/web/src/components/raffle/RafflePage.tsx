@@ -16,6 +16,7 @@ import { RaffleStatus } from '@riffy/types';
 import RaffleBanner from '@/components/common/raffle/raffle-banner';
 import RaffleTitle from '@/components/common/raffle/raffle-title';
 import TicketTitle from '@/components/common/tickets/ticket-title';
+import TicketPrize from '@/components/common/tickets/ticket-prize';
 import RaffleInfoBoxes from '@/components/common/raffle/raffle-boxes';
 
 const RafflePage = (): ReactElement => {
@@ -56,6 +57,8 @@ const RafflePage = (): ReactElement => {
 
         <RaffleInfoBoxes raffle={raffle} loading={loading} />
 
+        <TicketPrize tickets={raffle?.tickets.slice(20, 23) || []} />
+
         {raffle?.showProgress && <RaffleProgress raffle={raffle} />}
 
         <TicketTitle isRandomTickets={isRandomTickets} />
@@ -78,7 +81,10 @@ const RafflePage = (): ReactElement => {
         />
 
         <div className="w-full max-w-md py-5 flex flex-col gap-3">
-          <TotalBox totalTickets={selectedTickets.length} price={raffle?.price} />
+          <TotalBox
+            totalTickets={selectedTickets.length}
+            price={raffle?.price}
+          />
 
           <Button
             variant="primary"
