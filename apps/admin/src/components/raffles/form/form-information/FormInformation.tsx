@@ -5,6 +5,7 @@ import { useFormContext } from 'react-hook-form';
 import { Icon, Input, Select, DateInput, Switch } from '@riffy/components';
 import type { FormData } from '@/validations/raffleSchema';
 import { usePlanUsage } from '@riffy/hooks';
+import { PlanType } from '@riffy/types';
 
 interface FormInformationProps {
   isUpdating?: boolean;
@@ -39,6 +40,8 @@ const FormInformation = ({ isUpdating = false }: FormInformationProps) => {
   const handleCollapse = () => setIsCollapse(prev => !prev);
 
   const formValues = watch();
+
+  const isDisabledTickets = isUpdating || planUsage?.plan?.type !== PlanType.PREMIUM;
 
   return (
     <div className="bg-box-primary rounded-xl relative">
@@ -137,7 +140,7 @@ const FormInformation = ({ isUpdating = false }: FormInformationProps) => {
                     inputSize="md"
                     type="number"
                     value={formValues.totalTickets || ''}
-                    disabled={isUpdating}
+                    disabled={isDisabledTickets}
                     {...register('totalTickets')}
                     error={errors.totalTickets?.message}
                   />
