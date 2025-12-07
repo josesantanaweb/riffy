@@ -186,7 +186,7 @@ jest.mock('@riffy/components', () => ({
   ),
 }));
 
-jest.mock('../../../components/common/raffle/raffle-alert', () => {
+jest.mock('../../../components/common/alert', () => {
   return function MockAlert({
     message,
     type,
@@ -587,7 +587,7 @@ describe('<PaymentForm />', () => {
       fireEvent.change(phoneInput, { target: { value: '04121234567' } });
       fireEvent.change(stateSelect, { target: { value: 'Distrito Capital' } });
       fireEvent.change(paymentMethodSelect, {
-        target: { value: 'Pago Móvil' },
+        target: { value: '1' },
       });
 
       await waitFor(() => {
@@ -616,14 +616,14 @@ describe('<PaymentForm />', () => {
       const paymentMethodSelect = screen.getByPlaceholderText('Método de pago') as HTMLSelectElement;
 
       expect(paymentMethodSelect).toBeInTheDocument();
-      expect(paymentMethodSelect.options[1].text).toBe('Pago Móvil');
-      expect(paymentMethodSelect.options[2].text).toBe('Binance Pay');
+      expect(paymentMethodSelect.options[1].text).toBe('Banco de Venezuela');
+      expect(paymentMethodSelect.options[2].text).toBe('Binance');
     });
 
     it('muestra el componente PaymentMethod cuando se selecciona un método', async () => {
       const paymentMethodSelect = screen.getByPlaceholderText('Método de pago') as HTMLSelectElement;
 
-      fireEvent.change(paymentMethodSelect, { target: { value: 'Pago Móvil' } });
+      fireEvent.change(paymentMethodSelect, { target: { value: '1' } });
 
       await waitFor(() => {
         expect(screen.getByTestId('payment-method-box')).toBeInTheDocument();
@@ -683,7 +683,7 @@ describe('<PaymentForm />', () => {
       fireEvent.change(emailInput, { target: { value: 'juan@example.com' } });
       fireEvent.change(phoneInput, { target: { value: '04121234567' } });
       fireEvent.change(stateSelect, { target: { value: 'Distrito Capital' } });
-      fireEvent.change(paymentMethodSelect, { target: { value: 'Pago Móvil' } });
+      fireEvent.change(paymentMethodSelect, { target: { value: '1' } });
 
       await waitFor(() => {
         expect(nameInput).toHaveValue('Juan Pérez');

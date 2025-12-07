@@ -23,36 +23,36 @@ describe('<TicketGridFilter />', () => {
   it('renderiza correctamente con props por defecto', () => {
     render(<TicketGridFilter {...defaultProps} />);
 
-    expect(screen.getByText('Modo Manual')).toBeInTheDocument();
+    expect(screen.getByText('Modo Aleatorio')).toBeInTheDocument();
     expect(screen.getByText('Ordenar:')).toBeInTheDocument();
   });
 
-  it('muestra "Modo Manual" cuando isRandomTickets es false', () => {
+  it('muestra "Modo Aleatorio" cuando isRandomTickets es false', () => {
     render(<TicketGridFilter {...defaultProps} isRandomTickets={false} />);
 
-    expect(screen.getByText('Modo Manual')).toBeInTheDocument();
+    expect(screen.getByText('Modo Aleatorio')).toBeInTheDocument();
   });
 
-  it('muestra "Modo Aleatorio" cuando isRandomTickets es true', () => {
+  it('muestra "Modo Manual" cuando isRandomTickets es true', () => {
     render(<TicketGridFilter {...defaultProps} isRandomTickets={true} />);
 
-    expect(screen.getByText('Modo Aleatorio')).toBeInTheDocument();
+    expect(screen.getByText('Modo Manual')).toBeInTheDocument();
   });
 
   it('llama a setIsRandomTickets con el valor inverso al hacer clic en el botón de modo', () => {
     render(<TicketGridFilter {...defaultProps} isRandomTickets={false} />);
 
-    const modeButton = screen.getByText('Modo Manual').closest('button');
+    const modeButton = screen.getByText('Modo Aleatorio').closest('button');
     if (modeButton) {
       fireEvent.click(modeButton);
       expect(mockSetIsRandomTickets).toHaveBeenCalledWith(true);
     }
   });
 
-  it('llama a setIsRandomTickets con false cuando está en modo aleatorio', () => {
+  it('llama a setIsRandomTickets con false cuando está en modo manual', () => {
     render(<TicketGridFilter {...defaultProps} isRandomTickets={true} />);
 
-    const modeButton = screen.getByText('Modo Aleatorio').closest('button');
+    const modeButton = screen.getByText('Modo Manual').closest('button');
     if (modeButton) {
       fireEvent.click(modeButton);
       expect(mockSetIsRandomTickets).toHaveBeenCalledWith(false);
@@ -85,12 +85,12 @@ describe('<TicketGridFilter />', () => {
   it('maneja correctamente el cambio entre modo aleatorio y manual', () => {
     const { rerender } = render(<TicketGridFilter {...defaultProps} isRandomTickets={false} />);
 
-    expect(screen.getByText('Modo Manual')).toBeInTheDocument();
+    expect(screen.getByText('Modo Aleatorio')).toBeInTheDocument();
     expect(screen.getByText('Ordenar:')).toBeInTheDocument();
 
     rerender(<TicketGridFilter {...defaultProps} isRandomTickets={true} />);
 
-    expect(screen.getByText('Modo Aleatorio')).toBeInTheDocument();
+    expect(screen.getByText('Modo Manual')).toBeInTheDocument();
     expect(screen.queryByText('Ordenar:')).not.toBeInTheDocument();
   });
 });

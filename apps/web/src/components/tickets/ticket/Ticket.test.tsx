@@ -34,13 +34,6 @@ jest.mock('../../../store', () => ({
   }),
 }));
 
-jest.mock('@riffy/utils', () => ({
-  formatDate: (dateString?: string) => {
-    if (!dateString) return 'Fecha no disponible';
-    return new Date(dateString).toLocaleDateString('es-ES');
-  },
-  ...jest.requireActual('@riffy/utils'),
-}));
 
 describe('<Ticket />', () => {
   const mockRaffle: Raffle = {
@@ -97,7 +90,7 @@ describe('<Ticket />', () => {
 
     expect(screen.getByText('Juan Pérez')).toBeInTheDocument();
     expect(screen.getByText('12345678')).toBeInTheDocument();
-    expect(screen.getByText('10')).toBeInTheDocument();
+    expect(screen.getByText(/15 (ene|Ene)/i)).toBeInTheDocument();
   });
 
   it('muestra el estado "Disponible" cuando el ticket está disponible', () => {

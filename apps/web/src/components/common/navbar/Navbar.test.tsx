@@ -33,7 +33,7 @@ jest.mock('@riffy/components', () => ({
       src={src}
       alt="logo"
       className={className}
-      data-loading={loading}
+      data-loading={loading ? 'true' : 'false'}
       data-testid="logo"
     />
   ),
@@ -89,15 +89,17 @@ describe('<Navbar />', () => {
     });
   });
 
-  it('muestra estado de carga cuando loading es true', () => {
-    mockUseUserByDomain.mockReturnValueOnce({
+  it('muestra estado de carga cuando loading es true', async () => {
+    mockUseUserByDomain.mockReturnValue({
       data: null,
       loading: true,
     });
 
     render(<Navbar />);
 
-    const logoElement = screen.getByTestId('logo');
-    expect(logoElement).toHaveAttribute('data-loading', 'true');
+    await waitFor(() => {
+      const logoElement = screen.getByTestId('logo');
+      expect(logoElement).toHaveAttribute('data-loading', 'true');
+    });
   });
 });

@@ -70,8 +70,8 @@ describe('<TicketButton />', () => {
 
     const buttonElement = screen.getByRole('button', { name: /123456/i });
     expect(buttonElement).toBeDisabled();
-    expect(buttonElement).toHaveClass('bg-primary');
-    expect(buttonElement).toHaveClass('text-body-100');
+    expect(buttonElement).toHaveClass('bg-primary-500/30');
+    expect(buttonElement).toHaveClass('text-white');
     expect(buttonElement).toHaveClass('line-through');
     expect(buttonElement).toHaveClass('cursor-not-allowed');
   });

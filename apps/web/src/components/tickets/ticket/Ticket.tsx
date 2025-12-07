@@ -120,7 +120,7 @@ const Ticket = ({ ticket, raffle }: TicketProps): ReactElement => {
             <div className="flex flex-col gap-1">
               <p className="text-body-100 text-sm">Fecha de compra:</p>
               <h2 className="text-base font-medium text-title">
-                {formatDateTime(raffle?.drawDate)}
+                {formatDateTime(ticket.payment?.paymentDate)}
               </h2>
             </div>
             <div className="flex flex-col gap-1">

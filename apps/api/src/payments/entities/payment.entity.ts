@@ -1,7 +1,7 @@
 import { ObjectType, Field, ID, GraphQLISODateTime } from '@nestjs/graphql';
 import { PaymentStatus } from '@prisma/client';
-import { Ticket } from 'src/tickets/entities/ticket.entity';
-import { Raffle } from 'src/raffles/entities/raffle.entity';
+import { Ticket } from '../../tickets/entities/ticket.entity';
+import { Raffle } from '../../raffles/entities/raffle.entity';
 
 @ObjectType()
 export class Payment {
