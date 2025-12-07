@@ -29,6 +29,9 @@ export class User {
   brandColor?: string;
 
   @Field({ nullable: true })
+  isRoundedLogo?: boolean;
+
+  @Field({ nullable: true })
   whatsapp?: string;
 
   @Field({ nullable: true })

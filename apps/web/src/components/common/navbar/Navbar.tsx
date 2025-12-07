@@ -29,7 +29,12 @@ const Navbar = () => {
 
   return (
     <div className="w-full h-[70px] flex items-center justify-between px-5 bg-navbar-bg shrink-0">
-      <Logo className="w-12" src={user?.logo} loading={loading} />
+      <Logo
+        className="w-12"
+        src={user?.logo}
+        loading={loading}
+        isRounded={user?.isRoundedLogo}
+      />
       <div className="flex items-center gap-3">
         {user?.instagram && (
           <SocialLink
