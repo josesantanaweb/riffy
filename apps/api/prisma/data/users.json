@@ -5,8 +5,9 @@
     "email": "demo@riffy.com",
     "password": "12345678",
     "role": "OWNER",
-    "logo": "/images/logo.svg",
+    "logo": "/images/demo.svg",
     "brandColor": "#00d4ff",
+    "isRoundedLogo": true,
     "whatsapp": "4126475918",
     "tiktok": "demo",
     "instagram": "demo"
@@ -17,8 +18,9 @@
     "email": "admin@riffy.com",
     "password": "12345678",
     "role": "ADMIN",
-    "logo": "/images/logo.svg",
+    "logo": "/images/demo.svg",
     "brandColor": "#00d4ff",
+    "isRoundedLogo": true,
     "whatsapp": "4126475918",
     "tiktok": "admin",
     "instagram": "admin"

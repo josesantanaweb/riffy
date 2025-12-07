@@ -23,6 +23,7 @@ export interface User {
   tiktok?: string | null;
   instagram?: string | null;
   logo?: string | null;
+  isRoundedLogo?: boolean | null;
   role?: Role | null;
   status?: UserStatus | null;
   raffles?: Raffle[] | null;
@@ -41,6 +42,7 @@ export interface CreateUserInput {
   instagram?: string | null;
   tiktok?: string | null;
   logo?: string | null;
+  isRoundedLogo?: boolean | null;
   role?: Role | null;
   status?: UserStatus | null;
   planId?: string | null;

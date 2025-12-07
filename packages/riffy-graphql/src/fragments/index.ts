@@ -38,6 +38,7 @@ export const USERS_FRAGMENT = gql`
     tiktok
     logo
     brandColor
+    isRoundedLogo
     status
     role
     createdAt

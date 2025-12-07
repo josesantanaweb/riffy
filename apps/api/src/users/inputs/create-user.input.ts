@@ -1,5 +1,11 @@
 import { Role, UserStatus } from '@prisma/client';
-import { IsEmail, IsEnum, IsOptional, IsString } from 'class-validator';
+import {
+  IsEmail,
+  IsEnum,
+  IsOptional,
+  IsString,
+  IsBoolean,
+} from 'class-validator';
 import { InputType, Field } from '@nestjs/graphql';
 
 @InputType()
@@ -26,6 +32,11 @@ export class CreateUserInput {
   @IsOptional()
   @Field(() => String, { nullable: true })
   brandColor?: string;
+
+  @IsBoolean()
+  @IsOptional()
+  @Field(() => Boolean, { nullable: true })
+  isRoundedLogo?: boolean;
 
   @IsString()
   @Field(() => String)
