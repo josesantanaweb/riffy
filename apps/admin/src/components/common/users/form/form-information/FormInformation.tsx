@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useFormContext } from 'react-hook-form';
-import { Icon, Input, Select, ColorInput } from '@riffy/components';
+import { Icon, Input, Select, ColorInput, Switch } from '@riffy/components';
 import type { FormData } from '@/validations/ownerSchema';
 import { UserStatus } from '@riffy/types';
 import { usePlans } from '@riffy/hooks';
@@ -113,6 +113,7 @@ const FormInformation = ({ isProfileMode = false }: FormInformationProps) => {
                     placeholder="Ej: www.example.com"
                     inputSize="md"
                     value={formValues.domain || ''}
+                    disabled={isProfileMode}
                     {...register('domain')}
                     error={errors.domain?.message}
                   />
@@ -215,6 +216,20 @@ const FormInformation = ({ isProfileMode = false }: FormInformationProps) => {
                   </div>
                 </div>
               )}
+
+              <div className="flex gap-4 items-center w-full flex-wrap lg:flex-nowrap">
+                <div className="w-full lg:w-1/2">
+                  <Switch
+                    checked={formValues.isRoundedLogo ?? true}
+                    onChange={() =>
+                      setValue('isRoundedLogo', !formValues.isRoundedLogo, {
+                        shouldValidate: false,
+                      })
+                    }
+                    label="¿El logo de la marca es redondo?"
+                  />
+                </div>
+              </div>
             </div>
           </motion.div>
         )}

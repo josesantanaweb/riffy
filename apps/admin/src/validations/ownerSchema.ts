@@ -35,6 +35,7 @@ export const ownerSchema = z.object({
     emptyToUndefined,
     z.string().optional(),
   ),
+  isRoundedLogo: z.boolean().optional(),
   logoFile: z.instanceof(File).nullable().optional(),
   status: z
     .preprocess(emptyToUndefined, z.nativeEnum(UserStatus).optional()),

@@ -17,7 +17,7 @@ model User {
   role           Role            @default(OWNER)
   brandColor     String?         @default("#00D4FF")
   logo           String?
-  isRoundedLogo  Boolean?        @default(false)
+  isRoundedLogo  Boolean?        @default(true)
   status         UserStatus      @default(ACTIVE)
   instagram      String?
   tiktok         String?

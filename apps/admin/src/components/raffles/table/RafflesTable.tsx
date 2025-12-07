@@ -74,7 +74,6 @@ const RafflesTable = ({
     //     headerClassName: TABLE_CLASSES.header,
     //   },
     // },
-    createCurrencyColumn('award', 'Premio'),
     createCurrencyColumn('price', 'Precio'),
     {
       accessorKey: 'totalTickets',
