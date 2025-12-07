@@ -40,8 +40,8 @@ const RaffleBoxes = ({
           />
           {raffle.showDate && (
             <RaffleBox
-              title="Sorteo"
-              value={formatDate(raffle.drawDate)}
+              title="Disponibles"
+              value={raffle.available}
               loading={loading}
             />
           )}

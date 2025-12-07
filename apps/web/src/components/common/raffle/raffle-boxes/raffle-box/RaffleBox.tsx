@@ -4,7 +4,7 @@ import type { ReactElement } from 'react';
 
 interface RaffleBoxProps {
   title: string;
-  value: string;
+  value: string | number;
   loading: boolean;
 }
 

@@ -20,6 +20,7 @@ export const GET_TICKETS_BY_NATIONAL_ID = gql`
       title
       award
       banner
+      drawDate
     }
   }
   ${TICKETS_FRAGMENT}
