@@ -3,6 +3,12 @@ import { fireEvent, render, screen } from '@testing-library/react';
 
 import Button from './Button';
 
+jest.mock('@riffy/utils', () => ({
+  cn: jest.fn((...inputs: unknown[]) => {
+    return inputs.filter(Boolean).join(' ');
+  }),
+}));
+
 describe('<Button />', () => {
   it('renders the children correctly', () => {
     render(<Button>Click Me</Button>);
