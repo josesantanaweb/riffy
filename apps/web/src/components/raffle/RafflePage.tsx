@@ -12,9 +12,9 @@ import TotalBox from '@/components/payment/payment-total';
 import { useRaffle } from '@riffy/hooks';
 import { useStore } from '@/store';
 import { ROUTES } from '@/constants';
-import { RaffleStatus } from '@riffy/types';
+import { RaffleStatus, TicketStatus } from '@riffy/types';
 import RaffleBanner from '@/components/common/raffle/raffle-banner';
-import RaffleTitle from '@/components/common/raffle/raffle-title';
+import RaffleMain from '@/components/common/raffle/raffle-main';
 import TicketTitle from '@/components/common/tickets/ticket-title';
 import TicketPrize from '@/components/common/tickets/ticket-prize';
 import RaffleInfoBoxes from '@/components/common/raffle/raffle-boxes';
@@ -45,6 +45,10 @@ const RafflePage = (): ReactElement => {
 
   const handlePay = () => router.push(ROUTES.PAYMENT);
 
+  const ticketsPrized =
+    raffle?.tickets?.filter(ticket => ticket.status === TicketStatus.PREMIUM) ||
+    [];
+
   return (
     <div className={`w-full h-full flex flex-col ${isIPhone ? 'pb-16' : ''}`}>
       <RaffleBanner
@@ -53,11 +57,15 @@ const RafflePage = (): ReactElement => {
         loading={loading}
       />
       <div className="flex flex-col gap-5 p-5 bg-box-primary">
-        <RaffleTitle title={raffle?.title} loading={loading} />
+        <RaffleMain
+          title={raffle?.title}
+          description={raffle?.description}
+          loading={loading}
+        />
 
         <RaffleInfoBoxes raffle={raffle} loading={loading} />
 
-        <TicketPrize tickets={raffle?.tickets.slice(20, 23) || []} />
+        {ticketsPrized.length > 0 && <TicketPrize tickets={ticketsPrized} />}
 
         {raffle?.showProgress && <RaffleProgress raffle={raffle} />}
 
