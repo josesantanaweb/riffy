@@ -31,6 +31,7 @@ export const createRaffleSchema = z.object({
   bannerFile: z.instanceof(File).optional().nullable(),
 
   showDate: z.boolean().optional(),
+  description: z.string().optional(),
   showProgress: z.boolean().optional(),
   minTickets: z
     .string()

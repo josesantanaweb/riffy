@@ -56,6 +56,7 @@ type Ticket {
 type Raffle {
   id: ID!
   title: String!
+  description: String
   banner: String!
   totalTickets: Float!
   price: Float!
@@ -289,6 +290,7 @@ input LoginInput {
 
 input CreateRaffleInput {
   title: String!
+  description: String
   banner: String!
   totalTickets: Int!
   price: Int!
@@ -309,6 +311,7 @@ enum RaffleStatus {
 
 input UpdateRaffleInput {
   title: String
+  description: String
   banner: String
   totalTickets: Int
   price: Int

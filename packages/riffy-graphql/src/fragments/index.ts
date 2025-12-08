@@ -72,6 +72,7 @@ export const RAFFLES_FRAGMENT = gql`
     price
     award
     banner
+    description
     drawDate
     createdAt
     updatedAt

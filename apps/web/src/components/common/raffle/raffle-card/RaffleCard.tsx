@@ -3,13 +3,14 @@ import React from 'react';
 import type { ReactElement } from 'react';
 import { useRouter } from 'next/navigation';
 import { Button, Icon } from '@riffy/components';
-import { Raffle, RaffleStatus } from '@riffy/types';
+import { Raffle, RaffleStatus, TicketStatus } from '@riffy/types';
 import { ROUTES } from '@/constants/routes';
 
 import RaffleProgress from '@/components/common/raffle/raffle-progress';
 import RaffleBanner from '@/components/common/raffle/raffle-banner';
-import RaffleTitle from '@/components/common/raffle/raffle-title';
-import RaffleInfoBoxes from '@/components/common/raffle/raffle-boxes';
+import RaffleMain from '@/components/common/raffle/raffle-main';
+import RaffleBoxes from '@/components/common/raffle/raffle-boxes';
+import TicketPrize from '@/components/common/tickets/ticket-prize';
 
 interface RaffleCardProps {
   raffle: Raffle;
@@ -25,6 +26,10 @@ const RaffleCard = ({ raffle, loading }: RaffleCardProps): ReactElement => {
   const handleVerifyTicket = () =>
     router.push(ROUTES.RAFFLES.VERIFY_TICKET(raffle.id));
 
+  const ticketsPrized =
+    raffle?.tickets?.filter(ticket => ticket.status === TicketStatus.PREMIUM) ||
+    [];
+
   return (
     <div className="flex flex-col bg-box-primary">
       <RaffleBanner
@@ -34,9 +39,15 @@ const RaffleCard = ({ raffle, loading }: RaffleCardProps): ReactElement => {
       />
 
       <div className="flex flex-col gap-5 p-5 w-full">
-        <RaffleTitle title={raffle.title} loading={loading} />
+        <RaffleMain
+          title={raffle.title}
+          description={raffle.description}
+          loading={loading}
+        />
 
-        <RaffleInfoBoxes raffle={raffle} loading={loading} />
+        <RaffleBoxes raffle={raffle} loading={loading} />
+
+        {ticketsPrized.length > 0 && <TicketPrize tickets={ticketsPrized} />}
 
         {raffle.showProgress && <RaffleProgress raffle={raffle} />}
 

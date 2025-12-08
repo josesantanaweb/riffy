@@ -4,7 +4,7 @@ import type { ReactElement } from 'react';
 import { Logo } from '@riffy/components';
 import Image from 'next/image';
 import { useStore } from '@/store';
-import { formatDate } from '@riffy/utils';
+import { formatDateTime } from '@riffy/utils';
 import { Ticket as ITicket, Raffle } from '@riffy/types';
 
 interface TicketProps {
@@ -20,7 +20,7 @@ const Ticket = ({ ticket, raffle }: TicketProps): ReactElement => {
       case 'sold':
         return {
           text: 'Pendiente',
-          color: 'text-body-100',
+          color: 'text-warning-500',
           bgColor: 'bg-box-primary',
         };
       case 'winner':
@@ -72,13 +72,16 @@ const Ticket = ({ ticket, raffle }: TicketProps): ReactElement => {
       </div>
 
       <div className="p-6 h-[200px] flex items-center justify-center relative">
-        <div className="flex items-center justify-center absolute h-[25px] px-3 right-5 top-5 bg-box-secondary rounded-lg p-2">
-          <h4 className="text-title text-sm font-medium">#{ticket.number}</h4>
-        </div>
         <div className="flex items-center justify-center">
-          <Logo className="w-[90px]" src={user?.logo} />
+          <Logo
+            className="w-[90px]"
+            src={user?.logo}
+            isRounded={user?.isRoundedLogo}
+          />
         </div>
       </div>
+
+
 
       <div className="p-6 h-[310px] flex items-center flex-col">
         <div className="flex flex-col gap-6 w-full justify-start">
@@ -115,9 +118,9 @@ const Ticket = ({ ticket, raffle }: TicketProps): ReactElement => {
           </div>
           <div className="grid grid-cols-2 justify-between">
             <div className="flex flex-col gap-1">
-              <p className="text-body-100 text-sm">Precio:</p>
-              <h2 className="text-base font-medium text-title capitalize">
-                {ticket.payment?.amount}
+              <p className="text-body-100 text-sm">Fecha de compra:</p>
+              <h2 className="text-base font-medium text-title">
+                {formatDateTime(ticket.payment?.paymentDate)}
               </h2>
             </div>
             <div className="flex flex-col gap-1">
@@ -127,10 +130,9 @@ const Ticket = ({ ticket, raffle }: TicketProps): ReactElement => {
               </h2>
             </div>
           </div>
-          <div className="flex flex-col gap-1">
-            <p className="text-body-100 text-sm">Fecha de compra:</p>
-            <h2 className="text-base font-medium text-title">
-              {formatDate(ticket.payment?.paymentDate)}
+          <div className="bg-primary-500/10 flex items-center justify-center absolute bottom-0 left-0 right-0 w-full py-4">
+            <h2 className="text-2xl font-bold text-title text-center">
+              #{ticket.number}
             </h2>
           </div>
         </div>

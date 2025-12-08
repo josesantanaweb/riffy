@@ -1,7 +1,6 @@
 echo "🚀 Running pre-push checks..."
 
-# Ejecutar tests (solo antes de push)
 echo "🧪 Running tests..."
-# pnpm test
+pnpm test
 
 echo "✅ All pre-push checks passed!"

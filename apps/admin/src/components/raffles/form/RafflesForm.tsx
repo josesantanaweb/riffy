@@ -20,6 +20,7 @@ const DEFAULT_VALUES: FormData = {
   price: '',
   totalTickets: '',
   status: 'ACTIVE',
+  description: '',
   banner: '',
   bannerFile: null,
   showDate: true,
@@ -63,6 +64,7 @@ const RafflesForm = () => {
         : new Date(),
       price: String(raffleData.price ?? ''),
       totalTickets: String(raffleData.totalTickets ?? ''),
+      description: raffleData.description || '',
       status: raffleData.status || 'ACTIVE',
       banner: raffleData.banner || '',
       bannerFile: null,
@@ -77,6 +79,7 @@ const RafflesForm = () => {
   const onSubmit = async (data: FormData) => {
     const {
       title,
+      description,
       status,
       price,
       totalTickets,
@@ -119,6 +122,7 @@ const RafflesForm = () => {
 
       const raffleInput = {
         title: title,
+        description,
         price: Number(price),
         totalTickets: Number(totalTickets),
         drawDate: new Date(drawDate).toISOString(),

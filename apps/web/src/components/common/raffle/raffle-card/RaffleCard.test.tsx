@@ -9,12 +9,6 @@ jest.mock('next/navigation', () => ({
   useRouter: jest.fn(),
 }));
 
-jest.mock('../raffle-alert', () => {
-  return function MockRaffleAlert() {
-    return <div data-testid="raffle-alert">Mock Alert</div>;
-  };
-});
-
 jest.mock('../raffle-progress', () => {
   return function MockRaffleProgress() {
     return <div data-testid="raffle-progress">Mock Progress</div>;
@@ -27,9 +21,9 @@ jest.mock('../raffle-banner', () => {
   };
 });
 
-jest.mock('../raffle-title', () => {
-  return function MockRaffleTitle() {
-    return <h2 data-testid="raffle-title">Mock Title</h2>;
+jest.mock('../raffle-main', () => {
+  return function MockRaffleMain() {
+    return <div data-testid="raffle-main">Mock Main</div>;
   };
 });
 
@@ -47,7 +41,6 @@ describe('<RaffleCard />', () => {
   const mockRaffle: Raffle = {
     id: 'test-raffle-id',
     title: 'Test Raffle',
-    description: 'Test Description',
     banner: 'test-banner.jpg',
     totalTickets: 100,
     award: 1000,
@@ -76,7 +69,7 @@ describe('<RaffleCard />', () => {
   it('renderiza correctamente con props por defecto', () => {
     render(<RaffleCard raffle={mockRaffle} loading={false} />);
 
-    expect(screen.getByTestId('raffle-title')).toBeInTheDocument();
+    expect(screen.getByTestId('raffle-main')).toBeInTheDocument();
     expect(screen.getByTestId('raffle-banner')).toBeInTheDocument();
     expect(screen.getByText('Comprar boleto')).toBeInTheDocument();
     expect(screen.getByText('Verificar boleto')).toBeInTheDocument();
@@ -85,14 +78,8 @@ describe('<RaffleCard />', () => {
   it('maneja correctamente el estado de carga', () => {
     render(<RaffleCard raffle={mockRaffle} loading={true} />);
 
-    expect(screen.getByTestId('raffle-title')).toBeInTheDocument();
+    expect(screen.getByTestId('raffle-main')).toBeInTheDocument();
     expect(screen.getByTestId('raffle-banner')).toBeInTheDocument();
-  });
-
-  it('muestra el alert cuando showDate es true', () => {
-    render(<RaffleCard raffle={mockRaffle} loading={false} />);
-
-    expect(screen.getByTestId('raffle-alert')).toBeInTheDocument();
   });
 
   it('muestra el progreso cuando showProgress es true', () => {
@@ -126,13 +113,6 @@ describe('<RaffleCard />', () => {
     fireEvent.click(verifyButton);
 
     expect(mockPush).toHaveBeenCalledWith('/raffles/test-raffle-id/verify-ticket');
-  });
-
-  it('no muestra el alert de fecha cuando showDate es false', () => {
-    const raffleWithoutDate = { ...mockRaffle, showDate: false };
-    render(<RaffleCard raffle={raffleWithoutDate} loading={false} />);
-
-    expect(screen.queryByTestId('raffle-alert')).not.toBeInTheDocument();
   });
 
   it('no muestra el progreso cuando showProgress es false', () => {

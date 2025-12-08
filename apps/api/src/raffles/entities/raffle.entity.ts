@@ -11,6 +11,9 @@ export class Raffle {
   @Field()
   title: string;
 
+  @Field({ nullable: true })
+  description?: string;
+
   @Field()
   banner: string;
 
