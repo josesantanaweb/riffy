@@ -3,7 +3,7 @@ import React from 'react';
 import type { ReactElement } from 'react';
 import { useRouter } from 'next/navigation';
 import { Button, Icon } from '@riffy/components';
-import { Raffle, RaffleStatus } from '@riffy/types';
+import { Raffle, RaffleStatus, TicketStatus } from '@riffy/types';
 import { ROUTES } from '@/constants/routes';
 
 import RaffleProgress from '@/components/common/raffle/raffle-progress';
@@ -26,6 +26,10 @@ const RaffleCard = ({ raffle, loading }: RaffleCardProps): ReactElement => {
   const handleVerifyTicket = () =>
     router.push(ROUTES.RAFFLES.VERIFY_TICKET(raffle.id));
 
+  const ticketsPrized =
+    raffle?.tickets?.filter(ticket => ticket.status === TicketStatus.PREMIUM) ||
+    [];
+
   return (
     <div className="flex flex-col bg-box-primary">
       <RaffleBanner
@@ -43,7 +47,7 @@ const RaffleCard = ({ raffle, loading }: RaffleCardProps): ReactElement => {
 
         <RaffleBoxes raffle={raffle} loading={loading} />
 
-        <TicketPrize tickets={raffle?.tickets?.slice(20, 23) || []} />
+        {ticketsPrized.length > 0 && <TicketPrize tickets={ticketsPrized} />}
 
         {raffle.showProgress && <RaffleProgress raffle={raffle} />}
 
