@@ -39,7 +39,7 @@ const RaffleCard = ({ raffle, loading }: RaffleCardProps): ReactElement => {
 
         <RaffleBoxes raffle={raffle} loading={loading} />
 
-        <TicketPrize tickets={raffle?.tickets.slice(20, 23) || []} />
+        <TicketPrize tickets={raffle?.tickets?.slice(20, 23) || []} />
 
         {raffle.showProgress && <RaffleProgress raffle={raffle} />}
 
