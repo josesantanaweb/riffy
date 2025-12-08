@@ -8,7 +8,7 @@ import { ROUTES } from '@/constants/routes';
 
 import RaffleProgress from '@/components/common/raffle/raffle-progress';
 import RaffleBanner from '@/components/common/raffle/raffle-banner';
-import RaffleTitle from '@/components/common/raffle/raffle-title';
+import RaffleMain from '@/components/common/raffle/raffle-main';
 import RaffleBoxes from '@/components/common/raffle/raffle-boxes';
 import TicketPrize from '@/components/common/tickets/ticket-prize';
 
@@ -35,7 +35,11 @@ const RaffleCard = ({ raffle, loading }: RaffleCardProps): ReactElement => {
       />
 
       <div className="flex flex-col gap-5 p-5 w-full">
-        <RaffleTitle title={raffle.title} loading={loading} />
+        <RaffleMain
+          title={raffle.title}
+          description={raffle.description}
+          loading={loading}
+        />
 
         <RaffleBoxes raffle={raffle} loading={loading} />
 

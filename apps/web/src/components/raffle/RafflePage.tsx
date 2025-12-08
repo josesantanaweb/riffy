@@ -14,7 +14,7 @@ import { useStore } from '@/store';
 import { ROUTES } from '@/constants';
 import { RaffleStatus } from '@riffy/types';
 import RaffleBanner from '@/components/common/raffle/raffle-banner';
-import RaffleTitle from '@/components/common/raffle/raffle-title';
+import RaffleMain from '@/components/common/raffle/raffle-main';
 import TicketTitle from '@/components/common/tickets/ticket-title';
 import TicketPrize from '@/components/common/tickets/ticket-prize';
 import RaffleInfoBoxes from '@/components/common/raffle/raffle-boxes';
@@ -53,7 +53,11 @@ const RafflePage = (): ReactElement => {
         loading={loading}
       />
       <div className="flex flex-col gap-5 p-5 bg-box-primary">
-        <RaffleTitle title={raffle?.title} loading={loading} />
+        <RaffleMain
+          title={raffle?.title}
+          description={raffle?.description}
+          loading={loading}
+        />
 
         <RaffleInfoBoxes raffle={raffle} loading={loading} />
 

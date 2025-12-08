@@ -48,6 +48,7 @@ model Plan {
 model Raffle {
   id           String       @id @default(cuid())
   title        String
+  description  String?
   banner       String
   totalTickets Int          @default(100)
   price        Float

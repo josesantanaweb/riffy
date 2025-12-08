@@ -11,6 +11,7 @@ export enum RaffleStatus {
 export interface Raffle {
   id: string;
   title: string;
+  description?: string;
   banner: string;
   totalTickets: number;
   award: number;
@@ -31,6 +32,7 @@ export interface Raffle {
 
 export interface CreateRaffleInput {
   title: string;
+  description?: string;
   drawDate: string;
   price: number;
   award?: number;
