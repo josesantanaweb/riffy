@@ -57,6 +57,7 @@ const BASE_BUTTON_CLASSES = [
   'items-center',
   'justify-center',
   'whitespace-nowrap',
+  'cursor-pointer',
 ].join(' ');
 
 const DISABLED_CLASSES = 'opacity-50 cursor-not-allowed pointer-events-none';

@@ -42,10 +42,8 @@ const Tickets = () => {
   }, [raffles, selectedRaffleId]);
 
   const handleSelect = (ticket: Ticket) => {
-    if (ticket.status != TicketStatus.AVAILABLE ) {
-      setIsOpen(true);
-      setSelectedTicket(ticket);
-    }
+    setIsOpen(true);
+    setSelectedTicket(ticket);
   };
 
   return (

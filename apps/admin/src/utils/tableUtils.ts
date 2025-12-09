@@ -6,7 +6,7 @@ import {
   RaffleStatus,
   TicketStatus,
   UserStatus,
-  Currency
+  Currency,
 } from '@riffy/types';
 import { formatCurrency, formatDate } from '@riffy/utils';
 
@@ -94,6 +94,8 @@ export function mapPlanUsageStatusToLabel(status: string): string {
       return 'Activo';
     case PlanUsageStatus.EXHAUSTED:
       return 'Consumido';
+    case PlanUsageStatus.UNLIMITED:
+      return 'Ilimitado';
   }
 }
 
@@ -146,6 +148,8 @@ export function mapPlanUsageStatusToStatusType(
       return BadgeStatus.SUCCESS;
     case PlanUsageStatus.EXHAUSTED:
       return BadgeStatus.ERROR;
+    case PlanUsageStatus.UNLIMITED:
+      return BadgeStatus.INFO;
   }
 }
 
