@@ -60,9 +60,13 @@ export class UsersService {
    * @returns El usuario encontrado con sus rifas
    */
   async findOneByDomain(domain: string): Promise<User> {
-    const user = await this.prisma.user.findUnique({
+    const normalizedDomain = domain.toLowerCase().trim();
+
+    const user = await this.prisma.user.findFirst({
       where: {
-        domain,
+        domain: {
+          equals: normalizedDomain,
+        },
       },
       include: {
         raffles: {

@@ -57,7 +57,7 @@ const TicketsPage = (): ReactElement => {
             onClick={handleSearchNationalId}
             onChange={handleNationalIdChange}
           />
-          {searchTriggered && !loading && tickets.length > 0 && (
+          {searchTriggered && !loading && tickets?.length > 0 && (
             <p className="text-sm font-medium text-body-100 text-right">
               {tickets?.length} {tickets?.length === 1 ? 'boleto' : 'boletos'}{' '}
               encontrados
@@ -65,7 +65,7 @@ const TicketsPage = (): ReactElement => {
           )}
         </div>
 
-        {searchTriggered && !loading && tickets.length === 0 && (
+        {searchTriggered && !loading && tickets?.length === 0 && (
           <div className="text-gray-500 text-center p-4">
             No se encontraron boletos para esta cédula
           </div>
