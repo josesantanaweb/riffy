@@ -116,6 +116,7 @@ const OwnersForm = ({ isProfileMode = false }: OwnersFormProps) => {
         brandColor: rest.brandColor,
         whatsapp: rest.whatsapp,
         domain: rest.domain,
+        isRoundedLogo: rest.isRoundedLogo,
         instagram: rest.instagram,
         tiktok: rest.tiktok,
         logo: finalLogoUrl,
