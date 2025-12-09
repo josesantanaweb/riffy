@@ -30,7 +30,7 @@ const Navbar = () => {
   return (
     <div className="w-full h-[70px] flex items-center justify-between px-5 bg-navbar-bg shrink-0">
       <Logo
-        className="w-12"
+        className={user?.isRoundedLogo ? 'w-12' : 'w-[110px]'}
         src={user?.logo}
         loading={loading}
         isRounded={user?.isRoundedLogo}

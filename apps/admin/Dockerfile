@@ -1,5 +1,5 @@
 # Multi-stage build para optimizar el tamaño de la imagen
-FROM node:18-alpine AS base
+FROM node:20-alpine AS base
 
 # Instalar pnpm versión específica
 RUN npm install -g pnpm@9.15.3
@@ -26,6 +26,9 @@ COPY apps/admin/postcss.config.js ./apps/admin/
 # Instalar dependencias
 RUN pnpm install --frozen-lockfile
 
+# Compilar packages después de instalar dependencias
+RUN pnpm --filter @riffy/hooks build
+
 # Stage de build
 FROM base AS builder
 
@@ -34,12 +37,16 @@ COPY apps/admin/src ./apps/admin/src
 COPY apps/admin/public ./apps/admin/public
 COPY apps/admin/.env ./apps/admin/.env
 
+# Recompilar paquetes y actualizar enlaces del workspace
+WORKDIR /app
+RUN pnpm --filter @riffy/hooks build && pnpm install --frozen-lockfile
+
 # Build de la aplicación
 WORKDIR /app/apps/admin
 RUN pnpm build
 
 # Stage de producción
-FROM node:18-alpine AS runner
+FROM node:20-alpine AS runner
 
 # Instalar pnpm versión específica
 RUN npm install -g pnpm@9.15.3

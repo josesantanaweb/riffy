@@ -24,26 +24,30 @@ async function bootstrap(): Promise<void> {
 
   const isProduction = process.env.NODE_ENV === 'production';
 
+  const origins = [
+    'https://riffy.website',
+    'https://admin.riffy.website',
+    'https://rifasluxor.online',
+    'https://admin.rifasluxor.online',
+  ];
+
   app.enableCors({
     origin: isProduction
-      ? [
-          `http://${process.env.HOST}:3000`,
-          `http://${process.env.HOST}:3001`,
-          `http://${process.env.HOST}`,
-        ]
+      ? origins
       : (
           _origin: string | undefined,
           callback: (err: Error | null, allow?: boolean) => void,
         ): void => {
           callback(null, true);
         },
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     credentials: true,
     allowedHeaders: [
       'Content-Type',
       'Authorization',
       'On-behalf-of',
       'x-sg-elas-acl',
+      'X-Requested-With',
     ],
   });
 

@@ -1,5 +1,5 @@
 # Multi-stage build para optimizar el tamaño de la imagen
-FROM node:18-slim AS base
+FROM node:20-slim AS base
 
 # Instalar pnpm versión específica
 RUN npm install -g pnpm@9.15.3
@@ -39,7 +39,7 @@ RUN npx prisma generate
 RUN pnpm build
 
 # Stage de producción
-FROM node:18-slim AS runner
+FROM node:20-slim AS runner
 
 # Instalar dependencias del sistema necesarias para Prisma
 RUN apt-get update && apt-get install -y \
