@@ -1,16 +1,32 @@
 'use client';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import type { ReactElement } from 'react';
 import { useIsIPhone } from '@riffy/hooks';
 import { useStore } from '@/store';
 
 import RaffleCard from '../common/raffle/raffle-card';
 import RafflesEmpty from '../common/raffle/raffles-empty';
+import TermsModal from '../common/terms/TermsModal';
 import Skeleton from './Skeleton';
+
+const TERMS_ACCEPTED_KEY = 'riffy-terms-accepted';
 
 const RafflesPage = (): ReactElement => {
   const { user, loading } = useStore();
   const isIPhone = useIsIPhone();
+  const [isTermsModalOpen, setIsTermsModalOpen] = useState(false);
+
+  useEffect(() => {
+    const termsAccepted = localStorage.getItem(TERMS_ACCEPTED_KEY);
+    if (!termsAccepted) {
+      setIsTermsModalOpen(true);
+    }
+  }, []);
+
+  const handleCloseTermsModal = () => {
+    localStorage.setItem(TERMS_ACCEPTED_KEY, 'true');
+    setIsTermsModalOpen(false);
+  };
 
   return (
     <div
@@ -29,6 +45,8 @@ const RafflesPage = (): ReactElement => {
       {!loading && user && (!user.raffles || user.raffles.length === 0) && (
         <RafflesEmpty />
       )}
+
+      <TermsModal isOpen={isTermsModalOpen} onClose={handleCloseTermsModal} />
     </div>
   );
 };
