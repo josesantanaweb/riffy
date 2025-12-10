@@ -35,7 +35,7 @@ const TopBuyers = ({ topBuyers }: TopBuyersProps) => {
               <div className="flex flex-col gap-1">
                 <h6 className="text-sm text-title">
                   {buyer.totalTickets}{' '}
-                  {buyer.totalTickets === 1 ? 'Boleto' : 'Boletos'}
+                  {buyer.totalTickets === 1 ? 'Ticket' : 'Tickets'}
                 </h6>
                 <p className="text-xs text-primary-500">
                   {formatCurrency(buyer.totalSpent, 'VES')}

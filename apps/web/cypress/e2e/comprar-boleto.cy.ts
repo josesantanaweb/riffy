@@ -1,4 +1,4 @@
-describe('Comprar Boleto - API Real', () => {
+describe('Comprar Ticket - API Real', () => {
   beforeEach(() => {
     cy.visit('/raffles');
   });
@@ -8,7 +8,7 @@ describe('Comprar Boleto - API Real', () => {
 
     cy.get('.bg-box-primary', { timeout: 10000 }).first().should('exist');
 
-    cy.contains('button', 'Comprar boleto', { timeout: 10000 })
+    cy.contains('button', 'Comprar ticket', { timeout: 10000 })
       .first()
       .should('exist')
       .scrollIntoView()

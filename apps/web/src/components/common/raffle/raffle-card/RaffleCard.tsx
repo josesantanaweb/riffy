@@ -54,13 +54,13 @@ const RaffleCard = ({ raffle, loading }: RaffleCardProps): ReactElement => {
         <div className="flex flex-col gap-3 mt-4">
           {!isCompleted && (
             <Button variant="primary" onClick={handleBuyTicket}>
-              Comprar boleto
+              Comprar ticket
             </Button>
           )}
 
           <Button variant="default" onClick={handleVerifyTicket}>
             <Icon name="search" />
-            Verificar boleto
+            Verificar ticket
           </Button>
         </div>
       </div>

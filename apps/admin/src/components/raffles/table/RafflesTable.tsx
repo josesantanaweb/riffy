@@ -77,7 +77,7 @@ const RafflesTable = ({
     createCurrencyColumn('price', 'Precio'),
     {
       accessorKey: 'totalTickets',
-      header: 'Boletos',
+      header: 'Tickets',
       cell: info => {
         const totalTickets = info.getValue() as number;
         return <p>{totalTickets}</p>;
@@ -132,7 +132,7 @@ const RafflesTable = ({
     ...(onView
       ? [
           {
-            label: 'Ver Boletos',
+            label: 'Ver Tickets',
             icon: 'search',
             onClick: onView,
           },

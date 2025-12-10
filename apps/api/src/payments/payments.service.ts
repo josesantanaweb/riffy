@@ -282,7 +282,7 @@ export class PaymentsService {
       .map((ticket) => `#${ticket.number}`)
       .join(', ');
 
-    const description = `${payment.buyerName} compro el boleto ${ticketNumbers} de la ${raffle.title}`;
+    const description = `${payment.buyerName} compro el ticket ${ticketNumbers} de la ${raffle.title}`;
 
     await this.notificationsService.create(
       {

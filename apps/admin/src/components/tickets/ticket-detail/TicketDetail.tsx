@@ -89,7 +89,7 @@ const TicketDetail = ({
             >
               <div className="flex border-b border-line-100 px-6 py-4 items-center justify-between">
                 <h3 className="text-title font-semibold text-xl">
-                  Detalle del boleto
+                  Detalle del ticket
                 </h3>
                 <motion.button
                   onClick={handleClose}
@@ -149,7 +149,7 @@ const TicketDetail = ({
                     </div>
                     <div className="flex items-center justify-between w-full">
                       <div className="flex flex-col gap-1">
-                        <p className="text-body-100 text-sm">Boletos #</p>
+                        <p className="text-body-100 text-sm">Tickets #</p>
                         <h2 className="text-base font-medium text-title">
                           {ticket.number || 'N/A'}
                         </h2>

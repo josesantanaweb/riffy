@@ -99,7 +99,7 @@ const Notifications = (): ReactElement => {
               stiffness: 300,
               damping: 30,
             }}
-            className="flex flex-col gap-2 bg-notifications-bg shadow-lg rounded-xl absolute top-full -right-[110px] md:right-0 min-w-[360px] border-t-2 border-primary-500 z-10 mt-2"
+            className="flex flex-col gap-2 bg-notifications-bg shadow-lg rounded-xl absolute top-full -right-[160px] md:-right-[110px] min-w-[360px] border-t-2 border-primary-500 z-10 mt-2"
           >
             <div className="flex justify-between items-center border-b border-line-100 p-4">
               <p className="text-base text-title">Notificaciones</p>

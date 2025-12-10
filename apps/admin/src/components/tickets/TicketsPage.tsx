@@ -48,7 +48,7 @@ const Tickets = () => {
 
   return (
     <div className="p-6 flex-col flex gap-6">
-      <PageHeader title="Boletos" subtitle="Lista de Boletos" />
+      <PageHeader title="Tickets" subtitle="Lista de Tickets" />
       <div className="flex flex-col w-full bg-box-primary rounded-xl p-6 gap-5">
         <div className="flex justify-between items-end w-full flex-col md:flex-row gap-3 md:gap-0">
           <div className="w-full md:w-[25%]">
@@ -65,7 +65,7 @@ const Tickets = () => {
             <Input
               icon="search"
               iconPosition="left"
-              placeholder="Buscar boleto"
+              placeholder="Buscar ticket"
               inputSize="md"
               value={search}
               onChange={e => setSearch(e.target.value)}

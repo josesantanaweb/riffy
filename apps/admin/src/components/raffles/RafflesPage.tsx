@@ -47,7 +47,7 @@ const RafflesPage = () => {
         Título: raffle.title,
         Precio: formatCurrency(raffle.price, 'VES'),
         Premio: formatCurrency(raffle.award || 0, 'VES'),
-        'Total Boletos': raffle.totalTickets,
+        'Total Tickets': raffle.totalTickets,
         Vendidos: raffle.sold || 0,
         Disponibles: raffle.available || 0,
         Progreso: raffle.progress ? `${raffle.progress.toFixed(2)}%` : '0%',

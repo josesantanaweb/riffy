@@ -11,7 +11,7 @@ export const createRaffleSchema = z.object({
 
   price: z
     .string()
-    .min(1, 'El precio del boleto es requerido')
+    .min(1, 'El precio del ticket es requerido')
     .refine(
       val => !isNaN(Number(val)) && Number(val) > 0,
       'Debe ser un número mayor a 0',
@@ -19,7 +19,7 @@ export const createRaffleSchema = z.object({
 
   totalTickets: z
     .string()
-    .min(1, 'La cantidad de boletos es requerida')
+    .min(1, 'La cantidad de tickets es requerida')
     .refine(
       val => !isNaN(Number(val)) && Number(val) > 0,
       'Debe ser un número mayor a 0',
@@ -38,7 +38,7 @@ export const createRaffleSchema = z.object({
     .optional()
     .refine(
       val => !val || (!isNaN(Number(val)) && Number(val) >= 1 && Number(val) <= 3),
-      'El mínimo de boletos debe estar entre 1 y 3',
+      'El mínimo de tickets debe estar entre 1 y 3',
     ),
 });
 

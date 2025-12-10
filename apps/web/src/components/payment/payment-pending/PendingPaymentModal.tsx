@@ -121,7 +121,7 @@ const PendingPayment = ({
                     </div>
                   </div>
                   <div className="flex flex-col gap-1">
-                    <p className="text-body-100 text-sm">Boletos #:</p>
+                    <p className="text-body-100 text-sm">Tickets #:</p>
                     <h2 className="text-base font-medium text-title">
                       {data.tickets?.map(ticket => ticket.number).join(', ')}
                     </h2>

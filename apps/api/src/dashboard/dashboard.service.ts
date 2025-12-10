@@ -59,7 +59,7 @@ export class DashboardService {
   }
 
   /**
-   * Obtiene el total de boletos vendidos del usuario.
+   * Obtiene el total de tickets vendidos del usuario.
    */
   private async getSoldTickets(userId: string): Promise<number> {
     return this.prisma.ticket.count({
@@ -76,7 +76,7 @@ export class DashboardService {
   }
 
   /**
-   * Obtiene el total de boletos no vendidos del usuario.
+   * Obtiene el total de tickets no vendidos del usuario.
    */
   private async getUnsoldTickets(userId: string): Promise<number> {
     return this.prisma.ticket.count({
@@ -189,7 +189,7 @@ export class DashboardService {
   }
 
   /**
-   * Obtiene el top 3 de compradores con más boletos.
+   * Obtiene el top 3 de compradores con más tickets.
    */
   private async getTopBuyers(userId: string): Promise<TopBuyer[]> {
     const payments = await this.prisma.payment.findMany({

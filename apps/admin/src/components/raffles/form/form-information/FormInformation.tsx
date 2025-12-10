@@ -135,9 +135,9 @@ const FormInformation = ({ isUpdating = false }: FormInformationProps) => {
               <div className="flex gap-4 items-center w-full flex-wrap lg:flex-nowrap">
                 <div className="w-full lg:w-1/2">
                   <Input
-                    label="Precio del boleto"
+                    label="Precio del ticket"
                     isRequired
-                    placeholder="Ingresa el precio del boleto"
+                    placeholder="Ingresa el precio del ticket"
                     inputSize="md"
                     type="number"
                     value={formValues.price || ''}
@@ -147,9 +147,9 @@ const FormInformation = ({ isUpdating = false }: FormInformationProps) => {
                 </div>
                 <div className="w-full lg:w-1/2">
                   <Input
-                    label="Cantidad de boletos"
+                    label="Cantidad de tickets"
                     isRequired
-                    placeholder="Ingresa la cantidad de boletos"
+                    placeholder="Ingresa la cantidad de tickets"
                     inputSize="md"
                     type="number"
                     value={formValues.totalTickets || ''}
@@ -175,11 +175,11 @@ const FormInformation = ({ isUpdating = false }: FormInformationProps) => {
                 </div>
                 <div className="w-full lg:w-1/2">
                   <Input
-                    label="Minimo de boletos"
+                    label="Minimo de tickets"
                     isRequired
                     min={1}
                     max={3}
-                    placeholder="Ingresa el minimo de boletos"
+                    placeholder="Ingresa el minimo de tickets"
                     inputSize="md"
                     type="number"
                     value={formValues.minTickets || ''}

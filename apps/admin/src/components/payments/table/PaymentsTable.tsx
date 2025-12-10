@@ -47,7 +47,7 @@ const PaymentsTable = ({
     },
     {
       accessorKey: 'tickets',
-      header: 'Boleto N°',
+      header: 'Ticket N°',
       cell: info => {
         const tickets = info.getValue() as Ticket[];
         if (!tickets || tickets.length === 0) {

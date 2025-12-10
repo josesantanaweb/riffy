@@ -74,7 +74,7 @@ const DashboardPage = () => {
               <h2 className="text-2xl font-medium text-primary-500">
                 {formatCurrency(soldTickets, 'VES')}
               </h2>
-              <p className="text-sm text-title">Boletos Vendidos</p>
+              <p className="text-sm text-title">Tickets Vendidos</p>
             </div>
             <span className="flex items-center justify-center bg-primary-500 rounded-full w-12 h-12">
               <Icon name="ticket" className="text-white text-2xl" />
