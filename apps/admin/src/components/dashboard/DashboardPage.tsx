@@ -29,7 +29,7 @@ const DashboardPage = () => {
   const handleCreateRaffle = () => router.push(ROUTES.RAFFLES.CREATE);
 
   return (
-    <div className="p-6 flex-col flex gap-6">
+    <div className="py-6 px-3 lg:px-6 flex-col flex gap-6">
       <PageHeader title="Dashboard" subtitle="Dashboard" />
       <div className="flex flex-col gap-6 mt-4">
         <div className="flex justify-between items-center sm:items-center flex-col sm:flex-row gap-4 sm:gap-0">
@@ -74,7 +74,7 @@ const DashboardPage = () => {
               <h2 className="text-2xl font-medium text-primary-500">
                 {formatCurrency(soldTickets, 'VES')}
               </h2>
-              <p className="text-sm text-title">Boletos Vendidos</p>
+              <p className="text-sm text-title">Tickets Vendidos</p>
             </div>
             <span className="flex items-center justify-center bg-primary-500 rounded-full w-12 h-12">
               <Icon name="ticket" className="text-white text-2xl" />

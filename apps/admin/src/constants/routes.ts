@@ -58,7 +58,7 @@ export const MENU: MenuItem[] = [
     requiredRoles: [Role.ADMIN, Role.OWNER],
   },
   {
-    label: 'Boletos',
+    label: 'Tickets',
     icon: 'ticket',
     path: ROUTES.TICKETS.LIST,
     requiredRoles: [Role.ADMIN, Role.OWNER],

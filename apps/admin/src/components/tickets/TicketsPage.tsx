@@ -42,15 +42,13 @@ const Tickets = () => {
   }, [raffles, selectedRaffleId]);
 
   const handleSelect = (ticket: Ticket) => {
-    if (ticket.status != TicketStatus.AVAILABLE ) {
-      setIsOpen(true);
-      setSelectedTicket(ticket);
-    }
+    setIsOpen(true);
+    setSelectedTicket(ticket);
   };
 
   return (
-    <div className="p-6 flex-col flex gap-6">
-      <PageHeader title="Boletos" subtitle="Lista de Boletos" />
+    <div className="py-6 px-3 lg:px-6 flex-col flex gap-6">
+      <PageHeader title="Tickets" subtitle="Lista de Tickets" />
       <div className="flex flex-col w-full bg-box-primary rounded-xl p-6 gap-5">
         <div className="flex justify-between items-end w-full flex-col md:flex-row gap-3 md:gap-0">
           <div className="w-full md:w-[25%]">
@@ -67,7 +65,7 @@ const Tickets = () => {
             <Input
               icon="search"
               iconPosition="left"
-              placeholder="Buscar boleto"
+              placeholder="Buscar ticket"
               inputSize="md"
               value={search}
               onChange={e => setSearch(e.target.value)}

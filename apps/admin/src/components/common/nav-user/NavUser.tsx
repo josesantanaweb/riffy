@@ -44,7 +44,10 @@ const NavUser = ({ profile }: NavUserProps): ReactElement => {
     setIsOpen(false);
   };
 
-  const handleProfile = () => router.push(ROUTES.PROFILE);
+  const handleProfile = () => {
+    router.push(ROUTES.PROFILE)
+    setIsOpen(false);
+  };
 
   return (
     <div

@@ -111,8 +111,8 @@ const FormInformation = () => {
               <div className="flex gap-4 items-start w-full flex-wrap lg:flex-nowrap">
                 <div className="w-full lg:w-1/2">
                   <Input
-                    label="Cantidad de boletos"
-                    placeholder="Ingresa la cantidad de boletos"
+                    label="Cantidad de tickets"
+                    placeholder="Ingresa la cantidad de tickets"
                     inputSize="md"
                     type="number"
                     value={formValues.maxTickets || ''}

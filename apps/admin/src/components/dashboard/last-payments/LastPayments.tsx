@@ -24,7 +24,7 @@ const LastPayments = ({ payments }: LastPaymentsProps) => {
         <div className="flex flex-col">
           <div className="items-center bg-box-secondary rounded-md h-9 grid grid-cols-4 md:grid-cols-5">
             <p className="text-table-header-text text-sm flex items-center justify-center font-medium">
-              Boleto N°
+              Ticket N°
             </p>
             <p className="text-table-header-text text-sm flex items-center justify-center font-medium">
               Comprador

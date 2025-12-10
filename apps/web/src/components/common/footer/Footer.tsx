@@ -2,8 +2,11 @@
 
 import Image from 'next/image';
 import { ASSETS } from '@/constants';
+import { getVersion } from '@riffy/utils';
 
 const Footer = () => {
+  const version = getVersion();
+
   return (
     <footer className="w-full flex items-center flex-col justify-center gap-5 py-5">
       <div className="flex items-center gap-10 justify-between">
@@ -37,7 +40,7 @@ const Footer = () => {
       </div>
       <p className="text-body-100 text-xs text-center max-w-[300px]">
         © 2025 Riffy Para Gestion de Rifas Online. Todos los derechos
-        reservados
+        reservados v{version}
       </p>
     </footer>
   );

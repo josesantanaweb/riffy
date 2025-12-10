@@ -108,7 +108,7 @@ const PaymentMethodsForm = () => {
   return (
     <FormProvider {...methods}>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="p-6 flex-col flex gap-6">
+        <div className="py-6 px-3 lg:px-6 flex-col flex gap-6">
           <PageHeader
             title={isUpdating ? 'Editar Método de Pago' : 'Crear Método de Pago'}
             subtitle="Gestión de Métodos de Pago"

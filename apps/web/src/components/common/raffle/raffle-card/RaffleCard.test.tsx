@@ -71,8 +71,8 @@ describe('<RaffleCard />', () => {
 
     expect(screen.getByTestId('raffle-main')).toBeInTheDocument();
     expect(screen.getByTestId('raffle-banner')).toBeInTheDocument();
-    expect(screen.getByText('Comprar boleto')).toBeInTheDocument();
-    expect(screen.getByText('Verificar boleto')).toBeInTheDocument();
+    expect(screen.getByText('Comprar ticket')).toBeInTheDocument();
+    expect(screen.getByText('Verificar ticket')).toBeInTheDocument();
   });
 
   it('maneja correctamente el estado de carga', () => {
@@ -88,28 +88,28 @@ describe('<RaffleCard />', () => {
     expect(screen.getByTestId('raffle-progress')).toBeInTheDocument();
   });
 
-  it('no muestra el botón de comprar boleto cuando la rifa está completada', () => {
+  it('no muestra el botón de comprar ticket cuando la rifa está completada', () => {
     const completedRaffle = { ...mockRaffle, status: RaffleStatus.COMPLETED };
     render(<RaffleCard raffle={completedRaffle} loading={false} />);
 
-    expect(screen.queryByText('Comprar boleto')).not.toBeInTheDocument();
-    expect(screen.getByText('Verificar boleto')).toBeInTheDocument();
+    expect(screen.queryByText('Comprar ticket')).not.toBeInTheDocument();
+    expect(screen.getByText('Verificar ticket')).toBeInTheDocument();
   });
 
 
-  it('navega correctamente al hacer clic en "Comprar boleto"', () => {
+  it('navega correctamente al hacer clic en "Comprar ticket"', () => {
     render(<RaffleCard raffle={mockRaffle} loading={false} />);
 
-    const buyButton = screen.getByText('Comprar boleto');
+    const buyButton = screen.getByText('Comprar ticket');
     fireEvent.click(buyButton);
 
     expect(mockPush).toHaveBeenCalledWith('/raffles/test-raffle-id');
   });
 
-  it('navega correctamente al hacer clic en "Verificar boleto"', () => {
+  it('navega correctamente al hacer clic en "Verificar ticket"', () => {
     render(<RaffleCard raffle={mockRaffle} loading={false} />);
 
-    const verifyButton = screen.getByText('Verificar boleto');
+    const verifyButton = screen.getByText('Verificar ticket');
     fireEvent.click(verifyButton);
 
     expect(mockPush).toHaveBeenCalledWith('/raffles/test-raffle-id/verify-ticket');
