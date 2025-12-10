@@ -1,8 +1,9 @@
 'use client';
 import { useState } from 'react';
+import { useUpdatePaymentStatus } from '@riffy/hooks';
 import PaymentsTable from './table/PaymentsTable';
 import { usePayments, useRaffles } from '@riffy/hooks';
-import { useUpdatePaymentStatus } from '@riffy/hooks';
+import * as XLSX from 'xlsx';
 import PaymentDetail from './payment-detail/PaymentDetail';
 import { Payment, PaymentStatus } from '@riffy/types';
 import PageHeader from '@/components/common/page-header';
@@ -34,7 +35,44 @@ const PaymentsPage = () => {
   };
 
   const handleDownload = () => {
-    alert('Descargar datos');
+    if (!data || data.length === 0) {
+      toast.error('No hay datos para descargar');
+      return;
+    }
+
+    try {
+      const excelData = data.map((payment) => ({
+        ID: payment.id.slice(15, 25).toUpperCase(),
+      }));
+
+      const worksheet = XLSX.utils.json_to_sheet(excelData);
+      const workbook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(workbook, worksheet, 'Pagos');
+
+      const columnWidths = [
+        { wch: 12 },
+        { wch: 30 },
+        { wch: 15 },
+        { wch: 15 },
+        { wch: 12 },
+        { wch: 10 },
+        { wch: 12 },
+        { wch: 10 },
+        { wch: 12 },
+        { wch: 10 },
+        { wch: 15 },
+        { wch: 12 },
+        { wch: 20 },
+      ];
+      worksheet['!cols'] = columnWidths;
+
+      const fileName = `pagos_${new Date().toISOString().split('T')[0]}.xlsx`;
+      XLSX.writeFile(workbook, fileName);
+
+      toast.success('Archivo descargado exitosamente');
+    } catch {
+      toast.error('Error al descargar el archivo');
+    }
   };
 
   const handleUpdatePaymentStatus = async (

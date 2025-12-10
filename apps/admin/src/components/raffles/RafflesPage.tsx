@@ -80,7 +80,7 @@ const RafflesPage = () => {
 
       toast.success('Archivo descargado exitosamente');
     } catch {
-      toast.error('Error al descargar el archivo Excel');
+      toast.error('Error al descargar el archivo');
     }
   };
 
