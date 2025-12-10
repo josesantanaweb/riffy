@@ -102,7 +102,7 @@ const PlansForm = () => {
   return (
     <FormProvider {...methods}>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="p-6 flex-col flex gap-6 h-full">
+        <div className="py-6 px-3 lg:px-6 flex-col flex gap-6 h-full">
           <PageHeader
             title={isUpdating ? 'Editar Plan' : 'Crear Plan'}
             subtitle="Gestión de Planes"

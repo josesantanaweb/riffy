@@ -62,7 +62,7 @@ const PaymentDetail = ({
             onClick={handleClose}
           >
             <motion.div
-              className="relative w-[650px] bg-box-primary rounded-xl"
+              className="relative lg:w-[650px] w-full bg-box-primary rounded-xl"
               initial={{ scale: 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.8, opacity: 0 }}
@@ -92,7 +92,7 @@ const PaymentDetail = ({
               </div>
 
               <div className="flex flex-col p-6">
-                <div className="flex items-start justify-between gap-10">
+                <div className="flex items-start justify-between gap-10 lg:flex-row flex-col">
                   <div className="flex flex-col w-full gap-5">
                     <div className="flex items-center justify-between w-full">
                       <div className="flex flex-col gap-1">
@@ -159,7 +159,7 @@ const PaymentDetail = ({
                       </div>
                     </div>
                   </div>
-                  <div className="w-[250px] h-[440px] rounded-md overflow-hidden shrink-0">
+                  <div className="lg:w-[250px] w-full lg:h-[440px] h-full rounded-md overflow-hidden shrink-0">
                     <Image
                       src={payment?.proofUrl}
                       width={300}

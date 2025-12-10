@@ -47,7 +47,7 @@ const Tickets = () => {
   };
 
   return (
-    <div className="p-6 flex-col flex gap-6">
+    <div className="py-6 px-3 lg:px-6 flex-col flex gap-6">
       <PageHeader title="Tickets" subtitle="Lista de Tickets" />
       <div className="flex flex-col w-full bg-box-primary rounded-xl p-6 gap-5">
         <div className="flex justify-between items-end w-full flex-col md:flex-row gap-3 md:gap-0">

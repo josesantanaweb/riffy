@@ -30,7 +30,7 @@ const PlansPage = () => {
   const handleAdd = () => router.push(ROUTES.PLANS.CREATE);
 
   return (
-    <div className="p-6 flex-col flex gap-6">
+    <div className="py-6 px-3 lg:px-6 flex-col flex gap-6">
       <PageHeader title="Planes" subtitle="Lista de Planes" />
       <div className="flex flex-col w-full bg-box-primary rounded-xl p-6">
         <PlansTable

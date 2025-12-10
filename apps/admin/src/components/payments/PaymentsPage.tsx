@@ -93,7 +93,7 @@ const PaymentsPage = () => {
   };
 
   return (
-    <div className="p-6 flex-col flex gap-6">
+    <div className="py-6 px-3 lg:px-6 flex-col flex gap-6">
       <PageHeader title="Pagos" subtitle="Lista de Pagos" />
       <div className="flex flex-col w-full bg-box-primary rounded-xl p-6 gap-5">
         <div className="flex justify-between items-end w-full md:w-[380px]">
