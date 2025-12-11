@@ -48,8 +48,9 @@ RUN pnpm build
 # Stage de producción
 FROM node:20-alpine AS runner
 
-# Instalar pnpm versión específica
-RUN npm install -g pnpm@9.15.3
+# Instalar pnpm versión específica y curl para healthcheck
+RUN npm install -g pnpm@9.15.3 && \
+    apk add --no-cache curl
 
 # Crear usuario no-root
 RUN addgroup --system --gid 1001 nodejs

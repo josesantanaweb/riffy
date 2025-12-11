@@ -1,10 +1,10 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useRaffles, useTicketsByRaffle } from '@riffy/hooks';
 import { Input, Select } from '@riffy/components';
 import PageHeader from '@/components/common/page-header';
 import TicketDetail from './ticket-detail';
-import { Ticket, TicketStatus } from '@riffy/types';
+import { Ticket } from '@riffy/types';
 import TicketsGrid from './tickets-grid';
 import TicketsFooter from './tickets-footer';
 import { useTickets } from '@/hooks';
@@ -18,6 +18,15 @@ const Tickets = () => {
   const { data: raffles } = useRaffles();
   const { data: tickets, loading } = useTicketsByRaffle(selectedRaffleId);
 
+  const filteredTickets = useMemo(() => {
+    if (!tickets || tickets.length === 0) return [];
+    if (!search) return tickets;
+
+    return tickets.filter(ticket =>
+      ticket.number.toLowerCase().includes(search.toLowerCase()),
+    );
+  }, [tickets, search]);
+
   const {
     currentTickets,
     totalPages,
@@ -26,8 +35,8 @@ const Tickets = () => {
     prevPage,
     totalTickets,
   } = useTickets({
-    tickets,
-    ticketsPerPage: 50,
+    tickets: filteredTickets,
+    ticketsPerPage: 100,
   });
 
   const rafflesOptions = raffles?.map(raffle => ({
@@ -77,7 +86,6 @@ const Tickets = () => {
           tickets={currentTickets}
           loading={loading}
           onSelect={handleSelect}
-          search={search}
         />
 
         <TicketsFooter

@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { Ticket } from '@riffy/types';
 
 export interface UseTicketsProps {
@@ -11,6 +11,10 @@ export const useTickets = ({
   ticketsPerPage = 100,
 }: UseTicketsProps) => {
   const [currentPage, setCurrentPage] = useState(1);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [tickets]);
 
   const currentTickets = useMemo(() => {
     if (!tickets || tickets.length === 0) return [];
