@@ -137,6 +137,12 @@ export class RafflesService {
     const { totalTickets } = data;
     const ownerId = user.id;
 
+    if (totalTickets > 9999) {
+      throw new BadRequestException(
+        'El número máximo de tickets permitido es 9999',
+      );
+    }
+
     const raffleValidation =
       await this.planUsageService.canCreateRaffle(ownerId);
     if (!raffleValidation.canCreate) {
@@ -155,9 +161,8 @@ export class RafflesService {
       const raffleData = { ...data, ownerId };
       const newRaffle = await tx.raffle.create({ data: raffleData });
 
-      const maxLength = totalTickets.toString().length;
       const tickets = Array.from({ length: totalTickets }, (_, i) => ({
-        number: `${i + 1}`.padStart(maxLength, '0'),
+        number: `${i + 1}`.padStart(4, '0'),
         raffleId: newRaffle.id,
       }));
 
