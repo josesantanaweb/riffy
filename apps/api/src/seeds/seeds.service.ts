@@ -188,11 +188,9 @@ export class SeedsService {
           data: raffleData,
         });
 
-        const totalTicketsNumber = raffle.totalTickets;
-        const maxLength = totalTicketsNumber.toString().length;
-
+        const totalTicketsNumber = Math.min(raffle.totalTickets, 9999);
         const tickets = Array.from({ length: totalTicketsNumber }, (_, i) => ({
-          number: `${i + 1}`.padStart(maxLength, '0'),
+          number: `${i + 1}`.padStart(4, '0'),
           raffleId: createdRaffle.id,
         }));
 
