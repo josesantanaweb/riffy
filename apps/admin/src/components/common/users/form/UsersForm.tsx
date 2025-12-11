@@ -80,6 +80,7 @@ const OwnersForm = ({ isProfileMode = false }: OwnersFormProps) => {
       logoFile: null,
       status: finalOwnerData.status ?? UserStatus.ACTIVE,
       planId: finalOwnerData?.plan?.id ?? '',
+      terms: finalOwnerData.terms ?? '',
     });
   }, [finalOwnerData, reset]);
 
@@ -123,6 +124,7 @@ const OwnersForm = ({ isProfileMode = false }: OwnersFormProps) => {
         role: Role.OWNER,
         status: rest.status,
         planId: rest.planId,
+        terms: rest.terms,
       };
 
       if (isUpdating && finalOwnerData?.id) {

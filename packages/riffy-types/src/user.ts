@@ -1,7 +1,7 @@
-import { PaymentMethod } from "./payment";
-import { Raffle } from "./raffle";
-import { Plan } from "./plan";
-import { PlanUsage } from "./plan-usage";
+import { PaymentMethod } from './payment';
+import { Raffle } from './raffle';
+import { Plan } from './plan';
+import { PlanUsage } from './plan-usage';
 
 export enum Role {
   ADMIN = 'ADMIN',
@@ -19,6 +19,7 @@ export interface User {
   email: string;
   domain: string;
   brandColor?: string | null;
+  terms?: string | null;
   whatsapp?: string | null;
   tiktok?: string | null;
   instagram?: string | null;
@@ -37,6 +38,7 @@ export interface CreateUserInput {
   email: string;
   password: string;
   domain: string;
+  terms?: string | null;
   brandColor?: string | null;
   whatsapp?: string | null;
   instagram?: string | null;

@@ -25,6 +25,7 @@ export const ownerSchema = z.object({
       .regex(/^#?([0-9A-Fa-f]{3}){1,2}$/, 'Debe ser un color HEX válido')
       .optional(),
     ),
+  terms: z.preprocess(emptyToUndefined, z.string().optional()),
   whatsapp: z.preprocess(
     emptyToUndefined,
     z.string().min(1, 'Número inválido').optional(),

@@ -2,7 +2,14 @@
 import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useFormContext } from 'react-hook-form';
-import { Icon, Input, Select, ColorInput, Switch } from '@riffy/components';
+import {
+  Icon,
+  Input,
+  Select,
+  ColorInput,
+  Switch,
+  Editor,
+} from '@riffy/components';
 import type { FormData } from '@/validations/ownerSchema';
 import { UserStatus } from '@riffy/types';
 import { usePlans } from '@riffy/hooks';
@@ -22,6 +29,11 @@ const FormInformation = ({ isProfileMode = false }: FormInformationProps) => {
     setValue,
   } = useFormContext<FormData>();
 
+  useEffect(() => {
+    register('brandColor');
+  }, [register]);
+
+
   const statusOptions = [
     { value: 'ACTIVE', label: 'Activo' },
     { value: 'INACTIVE', label: 'Inactivo' },
@@ -36,9 +48,11 @@ const FormInformation = ({ isProfileMode = false }: FormInformationProps) => {
 
   const formValues = watch();
 
-  useEffect(() => {
-    register('brandColor');
-  }, [register]);
+  const termsValue = formValues.terms || '';
+
+  const handleTermsChange = (value: string) => {
+    setValue('terms', value, { shouldValidate: true });
+  };
 
   return (
     <div className="bg-box-primary rounded-xl relative">
@@ -184,6 +198,16 @@ const FormInformation = ({ isProfileMode = false }: FormInformationProps) => {
                     />
                   </div>
                 )}
+              </div>
+
+              <div className="flex gap-4 items-center w-full flex-wrap lg:flex-nowrap">
+                <div className="w-full">
+                  <Editor
+                    label="Términos y Condiciones"
+                    value={termsValue}
+                    setValue={handleTermsChange}
+                  />
+                </div>
               </div>
 
               {!isProfileMode && (

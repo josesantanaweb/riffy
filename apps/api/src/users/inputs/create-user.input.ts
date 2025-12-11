@@ -33,6 +33,11 @@ export class CreateUserInput {
   @Field(() => String, { nullable: true })
   brandColor?: string;
 
+  @IsString()
+  @IsOptional()
+  @Field(() => String, { nullable: true })
+  terms?: string;
+
   @IsBoolean()
   @IsOptional()
   @Field(() => Boolean, { nullable: true })
