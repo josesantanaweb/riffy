@@ -19,6 +19,7 @@ model User {
   logo           String?
   isRoundedLogo  Boolean?        @default(true)
   status         UserStatus      @default(ACTIVE)
+  terms          String?
   instagram      String?
   tiktok         String?
   whatsapp       String?

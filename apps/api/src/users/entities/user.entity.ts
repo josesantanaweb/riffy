@@ -29,6 +29,9 @@ export class User {
   brandColor?: string;
 
   @Field({ nullable: true })
+  terms?: string;
+
+  @Field({ nullable: true })
   isRoundedLogo?: boolean;
 
   @Field({ nullable: true })

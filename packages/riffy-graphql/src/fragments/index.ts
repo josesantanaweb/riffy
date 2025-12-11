@@ -44,6 +44,7 @@ export const USERS_FRAGMENT = gql`
     createdAt
     updatedAt
     domain
+    terms
     paymentMethods {
       ...PaymentMethodsFragment
     }

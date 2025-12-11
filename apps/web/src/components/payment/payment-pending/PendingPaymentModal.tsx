@@ -43,7 +43,7 @@ const PendingPayment = ({
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-50 flex items-end max-w-md w-full left-1/2 -translate-x-1/2">
+        <div className="fixed inset-0 z-50 flex items-end justify-center max-w w-full left-1/2 -translate-x-1/2">
           <motion.div
             className="absolute inset-0 bg-black/50"
             initial={{ opacity: 0 }}
@@ -53,7 +53,7 @@ const PendingPayment = ({
           />
 
           <motion.div
-            className={`relative w-full bg-box-primary rounded-t-3xl z-10 px-6 py-6 pb-8 ${isIPhone ? '80vh' : '75vh'}`}
+            className={`relative w-full max-w-md bg-box-primary rounded-t-3xl z-10 px-6 py-6 pb-8 ${isIPhone ? '80vh' : '75vh'}`}
             initial={{ y: '100%' }}
             animate={{ y: 0 }}
             exit={{ y: '100%' }}

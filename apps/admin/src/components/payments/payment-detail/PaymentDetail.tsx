@@ -62,7 +62,7 @@ const PaymentDetail = ({
             onClick={handleClose}
           >
             <motion.div
-              className="relative lg:w-[650px] w-full bg-box-primary rounded-xl"
+              className="relative lg:w-[650px] w-[90%] bg-box-primary rounded-xl"
               initial={{ scale: 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.8, opacity: 0 }}
@@ -91,8 +91,8 @@ const PaymentDetail = ({
                 </motion.button>
               </div>
 
-              <div className="flex flex-col p-6">
-                <div className="flex items-start justify-between gap-10 lg:flex-row flex-col">
+              <div className="flex flex-col p-6 overflow-y-auto max-h-[400px]">
+                <div className="flex items-center lg:items-start justify-between gap-10 lg:flex-row flex-col">
                   <div className="flex flex-col w-full gap-5">
                     <div className="flex items-center justify-between w-full">
                       <div className="flex flex-col gap-1">
@@ -144,7 +144,7 @@ const PaymentDetail = ({
                       <div className="flex flex-col gap-1 items-end">
                         <p className="text-body-100 text-sm">Monto:</p>
                         <h2 className="text-base font-medium text-title">
-                          {formatCurrency(payment?.amount)}
+                          {formatCurrency(payment?.amount, 'VES')}
                         </h2>
                       </div>
                     </div>

@@ -123,6 +123,7 @@ type User {
   email: String!
   logo: String
   brandColor: String
+  terms: String
   isRoundedLogo: Boolean
   whatsapp: String
   instagram: String
@@ -257,6 +258,7 @@ input CreateUserInput {
   email: String!
   logo: String
   brandColor: String
+  terms: String
   isRoundedLogo: Boolean
   password: String!
   whatsapp: String
@@ -273,6 +275,7 @@ input UpdateUserInput {
   email: String
   logo: String
   brandColor: String
+  terms: String
   isRoundedLogo: Boolean
   password: String
   whatsapp: String
