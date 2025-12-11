@@ -13,6 +13,8 @@ http:
         accessControlAllowOriginList:
           - "https://riffy.website"
           - "https://admin.riffy.website"
+          - "https://rifasluxor.online"
+          - "https://admin.rifasluxor.online"
         accessControlAllowHeaders:
           - "Content-Type"
           - "Authorization"
@@ -53,13 +55,15 @@ http:
         accessControlAllowOriginList:
           - "https://riffy.website"
           - "https://admin.riffy.website"
+          - "https://rifasluxor.online"
+          - "https://admin.rifasluxor.online"
         accessControlAllowHeaders:
           - "Content-Type"
           - "Authorization"
         accessControlAllowCredentials: true
 
   routers:
-    # Router para la aplicación web principal
+    # Router para la aplicación web principal (riffy.website)
     web-router:
       rule: "Host(`riffy.website`)"
       service: web-service
@@ -70,7 +74,18 @@ http:
       tls:
         certResolver: letsencrypt
 
-    # Router para el panel de administración
+    # Router para la aplicación web principal (rifasluxor.online)
+    web-router-luxor:
+      rule: "Host(`rifasluxor.online`)"
+      service: web-service
+      middlewares:
+        - compress
+        - security
+        - rate-limit
+      tls:
+        certResolver: letsencrypt
+
+    # Router para el panel de administración (riffy.website)
     admin-router:
       rule: "Host(`admin.riffy.website`)"
       service: admin-service
@@ -81,7 +96,18 @@ http:
       tls:
         certResolver: letsencrypt
 
-    # Router para la API GraphQL
+    # Router para el panel de administración (rifasluxor.online)
+    admin-router-luxor:
+      rule: "Host(`admin.rifasluxor.online`)"
+      service: admin-service
+      middlewares:
+        - compress
+        - security
+        - rate-limit
+      tls:
+        certResolver: letsencrypt
+
+    # Router para la API GraphQL (riffy.website)
     api-graphql-router:
       rule: "Host(`api.riffy.website`) && PathPrefix(`/graphql`)"
       service: api-service
@@ -91,9 +117,29 @@ http:
       tls:
         certResolver: letsencrypt
 
-    # Router para la API REST
+    # Router para la API GraphQL (rifasluxor.online)
+    api-graphql-router-luxor:
+      rule: "Host(`api.rifasluxor.online`) && PathPrefix(`/graphql`)"
+      service: api-service
+      middlewares:
+        - api-cors
+        - rate-limit
+      tls:
+        certResolver: letsencrypt
+
+    # Router para la API REST (riffy.website)
     api-rest-router:
       rule: "Host(`api.riffy.website`) && PathPrefix(`/api`)"
+      service: api-service
+      middlewares:
+        - api-cors
+        - rate-limit
+      tls:
+        certResolver: letsencrypt
+
+    # Router para la API REST (rifasluxor.online)
+    api-rest-router-luxor:
+      rule: "Host(`api.rifasluxor.online`) && PathPrefix(`/api`)"
       service: api-service
       middlewares:
         - api-cors
