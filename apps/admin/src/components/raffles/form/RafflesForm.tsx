@@ -20,6 +20,7 @@ const DEFAULT_VALUES: FormData = {
   price: '',
   totalTickets: '',
   status: 'ACTIVE',
+  drawMode: 'RANDOM',
   description: '',
   banner: '',
   bannerFile: null,
@@ -71,6 +72,7 @@ const RafflesForm = () => {
       showDate: raffleData.showDate ?? true,
       showProgress: raffleData.showProgress ?? true,
       minTickets: String(raffleData.minTickets ?? 1),
+      drawMode: raffleData.drawMode || 'RANDOM',
     });
   }, [raffleData, reset]);
 
@@ -88,6 +90,7 @@ const RafflesForm = () => {
       showDate,
       showProgress,
       minTickets,
+      drawMode,
     } = data;
 
     if (!isUpdating) {
@@ -131,6 +134,7 @@ const RafflesForm = () => {
         showDate: showDate ?? true,
         showProgress: showProgress ?? true,
         minTickets: minTickets ? Number(minTickets) : 2,
+        drawMode,
       };
 
       if (isUpdating && raffleData?.id) {

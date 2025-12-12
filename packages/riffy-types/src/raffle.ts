@@ -8,6 +8,12 @@ export enum RaffleStatus {
   COMPLETED = 'COMPLETED',
 }
 
+export enum DrawMode {
+  MANUAL = 'MANUAL',
+  RANDOM = 'RANDOM',
+  BOTH = 'BOTH',
+}
+
 export interface Raffle {
   id: string;
   title: string;
@@ -28,6 +34,7 @@ export interface Raffle {
   tickets?: Ticket[] | null;
   owner: User | null;
   status?: string;
+  drawMode?: DrawMode;
 }
 
 export interface CreateRaffleInput {
@@ -38,6 +45,7 @@ export interface CreateRaffleInput {
   award?: number;
   totalTickets: number;
   status?: string;
+  drawMode?: string;
   showDate?: boolean;
   showProgress?: boolean;
   minTickets?: number;

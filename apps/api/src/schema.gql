@@ -65,6 +65,7 @@ type Raffle {
   showDate: Boolean
   showProgress: Boolean
   minTickets: Float
+  drawMode: String
   available: Float
   sold: Float
   progress: Float
@@ -302,6 +303,7 @@ input CreateRaffleInput {
   minTickets: Int
   award: Int
   status: RaffleStatus
+  drawMode: DrawMode
   drawDate: DateTime!
 }
 
@@ -310,6 +312,12 @@ enum RaffleStatus {
   ACTIVE
   PENDING
   COMPLETED
+}
+
+enum DrawMode {
+  MANUAL
+  RANDOM
+  BOTH
 }
 
 input UpdateRaffleInput {
@@ -323,6 +331,7 @@ input UpdateRaffleInput {
   minTickets: Int
   award: Int
   status: RaffleStatus
+  drawMode: DrawMode
   drawDate: DateTime
 }
 

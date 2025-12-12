@@ -47,24 +47,25 @@ model Plan {
 }
 
 model Raffle {
-  id           String       @id @default(cuid())
-  title        String
-  description  String?
-  banner       String
-  totalTickets Int          @default(100)
-  price        Float
-  drawDate     DateTime     @default(dbgenerated("(now() + '15 days'::interval)"))
-  showDate     Boolean?     @default(true)
-  showProgress Boolean?     @default(true)
-  minTickets   Int?         @default(2)
-  createdAt    DateTime     @default(now())
-  updatedAt    DateTime     @updatedAt
-  ownerId      String
-  award        Float?
-  status       RaffleStatus @default(ACTIVE)
-  owner        User         @relation(fields: [ownerId], references: [id], onDelete: Cascade)
-  tickets      Ticket[]
-  payments     Payment[]
+  id              String       @id @default(cuid())
+  title           String
+  description     String?
+  banner          String
+  totalTickets    Int          @default(100)
+  price           Float
+  drawDate        DateTime     @default(dbgenerated("(now() + '15 days'::interval)"))
+  showDate        Boolean?     @default(true)
+  showProgress    Boolean?     @default(true)
+  minTickets      Int?         @default(2)
+  drawMode        DrawMode     @default(RANDOM)
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+  ownerId         String
+  award           Float?
+  status          RaffleStatus @default(ACTIVE)
+  owner           User         @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  tickets         Ticket[]
+  payments        Payment[]
 }
 
 model Ticket {
@@ -185,4 +186,10 @@ enum PlanUsageStatus {
   ACTIVE
   EXHAUSTED
   UNLIMITED
+}
+
+enum DrawMode {
+  MANUAL
+  RANDOM
+  BOTH
 }

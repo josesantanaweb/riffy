@@ -1,6 +1,6 @@
 import { IsDate, IsInt, IsOptional, IsString } from 'class-validator';
 import { InputType, Field, Int } from '@nestjs/graphql';
-import { RaffleStatus } from '@prisma/client';
+import { RaffleStatus, DrawMode } from '@prisma/client';
 
 @InputType()
 export class CreateRaffleInput {
@@ -44,6 +44,10 @@ export class CreateRaffleInput {
   @IsOptional()
   @Field(() => RaffleStatus, { nullable: true })
   status?: RaffleStatus;
+
+  @IsOptional()
+  @Field(() => DrawMode, { nullable: true })
+  drawMode?: DrawMode;
 
   @Field()
   @IsDate()

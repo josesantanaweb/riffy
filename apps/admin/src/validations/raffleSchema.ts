@@ -26,6 +26,7 @@ export const createRaffleSchema = z.object({
     ),
 
   status: z.string().optional(),
+  drawMode: z.string().optional(),
 
   banner: z.string().optional(),
   bannerFile: z.instanceof(File).optional().nullable(),
