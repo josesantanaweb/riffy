@@ -28,6 +28,7 @@ import './enums/payment-method-type.enum';
 import './enums/notification-status.enum';
 import './enums/plan-type.enum';
 import './enums/plan-usage-status.enum';
+import './enums/drawmode.enum';
 
 @Module({
   imports: [

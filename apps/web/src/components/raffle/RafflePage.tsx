@@ -12,7 +12,7 @@ import TotalBox from '@/components/payment/payment-total';
 import { useRaffle } from '@riffy/hooks';
 import { useStore } from '@/store';
 import { ROUTES } from '@/constants';
-import { RaffleStatus, TicketStatus } from '@riffy/types';
+import { RaffleStatus, TicketStatus, DrawMode } from '@riffy/types';
 import RaffleBanner from '@/components/common/raffle/raffle-banner';
 import RaffleMain from '@/components/common/raffle/raffle-main';
 import TicketTitle from '@/components/common/tickets/ticket-title';
@@ -26,7 +26,19 @@ const RafflePage = (): ReactElement => {
   const { setCart } = useStore();
   const { data: raffle, loading } = useRaffle(raffleId as string);
   const [selectedTickets, setSelectedTickets] = useState<string[]>([]);
-  const [isRandomTickets, setIsRandomTickets] = useState<boolean>(true);
+  const [isRandomTickets, setIsRandomTickets] = useState<boolean>(true); // Default inicial
+
+  useEffect(() => {
+    if (raffle?.drawMode) {
+      if (raffle.drawMode === DrawMode.MANUAL) {
+        setIsRandomTickets(false);
+      } else if (raffle.drawMode === DrawMode.RANDOM) {
+        setIsRandomTickets(true);
+      }
+    }
+  }, [raffle?.drawMode]);
+
+  const canToggleMode = raffle?.drawMode === DrawMode.BOTH || !raffle?.drawMode;
 
   useEffect(() => {
     setCart({
@@ -77,7 +89,7 @@ const RafflePage = (): ReactElement => {
           selectedTickets={selectedTickets}
           setSelectedTickets={setSelectedTickets}
           isRandomTickets={isRandomTickets}
-          setIsRandomTickets={setIsRandomTickets}
+          setIsRandomTickets={canToggleMode ? setIsRandomTickets : undefined}
           minTickets={raffle?.minTickets}
           maxTickets={raffle?.maxTickets}
         />

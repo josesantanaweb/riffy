@@ -17,7 +17,7 @@ interface TicketsProps {
   selectedTickets: string[];
   isRandomTickets: boolean;
   setSelectedTickets: React.Dispatch<React.SetStateAction<string[]>>;
-  setIsRandomTickets: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsRandomTickets?: React.Dispatch<React.SetStateAction<boolean>>;
   minTickets?: number;
   maxTickets?: number;
 }
@@ -70,6 +70,7 @@ const Tickets = ({
         onSort={handleSort}
         isRandomTickets={isRandomTickets}
         setIsRandomTickets={setIsRandomTickets}
+        canToggle={setIsRandomTickets !== undefined}
       />
 
       {!isRandomTickets && loading && <Skeleton />}

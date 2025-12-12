@@ -81,6 +81,7 @@ export const RAFFLES_FRAGMENT = gql`
     available
     status
     progress
+    drawMode
     tickets {
       id
       number

@@ -11,7 +11,7 @@ const TicketTitle = ({ isRandomTickets }: TicketTitleProps): ReactElement => {
   const subtitle = isRandomTickets ? 'Seleccione la cantidad de tickets' : 'Seleccione los números de la rifa';
 
   return (
-    <div className="flex flex-col gap-1 my-3">
+    <div className="flex flex-col gap-1">
       <h2 className="text-lg font-semibold text-title">
         {title}
       </h2>

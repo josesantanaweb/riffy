@@ -44,6 +44,12 @@ const FormInformation = ({ isUpdating = false }: FormInformationProps) => {
     { value: 'COMPLETED', label: 'Finalizada' },
   ];
 
+  const drawModeOptions = [
+    { value: 'RANDOM', label: 'Aleatorio' },
+    { value: 'MANUAL', label: 'Manual' },
+    { value: 'BOTH', label: 'Ambos' },
+  ];
+
   const handleCollapse = () => setIsCollapse(prev => !prev);
 
   const formValues = watch();
@@ -187,6 +193,22 @@ const FormInformation = ({ isUpdating = false }: FormInformationProps) => {
                     error={errors.minTickets?.message}
                   />
                 </div>
+              </div>
+
+              <div className="flex gap-4 items-center w-full flex-wrap lg:flex-nowrap">
+                <div className="w-full lg:w-1/2">
+                  <Select
+                    label="Modo de sorteo"
+                    placeholder="Selecciona el modo de sorteo"
+                    size="md"
+                    options={drawModeOptions}
+                    value={formValues.drawMode || ''}
+                    onChange={value =>
+                      setValue('drawMode', value, { shouldValidate: false })
+                    }
+                  />
+                </div>
+                <div className="w-full lg:w-1/2" />
               </div>
 
               <div className="flex gap-4 items-center w-full flex-wrap lg:flex-nowrap">
